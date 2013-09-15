@@ -1,0 +1,45 @@
+<?xml version="1.0" encoding="utf-8"?>
+<manifest xmlns:android="http://schemas.android.com/apk/res/android"
+    package="com.vmihalachi.turboeditor"
+    android:versionCode="1"
+    android:versionName="1.0" >
+
+    <uses-sdk
+        android:minSdkVersion="14"
+        android:targetSdkVersion="18" />
+
+    <uses-permission android:name="android.permission.WRITE_EXTERNAL_STORAGE"/>
+
+    <application
+        android:allowBackup="true"
+        android:icon="@drawable/ic_launcher"
+        android:label="@string/nome_app_turbo_editor">
+        <activity
+            android:name="com.vmihalachi.turboeditor.MainActivity"
+            android:configChanges="keyboardHidden|orientation|screenSize"
+            android:windowSoftInputMode="stateHidden|adjustResize"
+            android:hardwareAccelerated="false"
+            android:uiOptions="splitActionBarWhenNarrow"
+            android:theme="@style/FileEditorTheme">
+
+            <intent-filter>
+                <action android:name="android.intent.action.VIEW"/>
+                <action android:name="android.intent.action.EDIT"/>
+                <action android:name="android.intent.action.PICK"/>
+
+                <category android:name="android.intent.category.DEFAULT"/>
+                <category android:name="android.intent.category.BROWSABLE"/>
+
+                <data android:scheme="file"/>
+                <data android:mimeType="text/*"/>
+                <data android:pathPattern="*.txt"/>
+                <data android:pathPattern="*.html"/>
+                <data android:pathPattern="*.css"/>
+                <data android:pathPattern="*.js"/>
+                <data android:pathPattern="*.php"/>
+            </intent-filter>
+
+        </activity>
+    </application>
+
+</manifest>

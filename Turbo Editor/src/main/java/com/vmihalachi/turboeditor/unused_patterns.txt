@@ -1,0 +1,14 @@
+static final Pattern NO_html_tags = Pattern.compile(
+      "\\b(a|address|article|aside|audio|b|big|body|blink|canvas|cite|div|em|fieldset|figcaption|figure|footer|frame|"
+          + "frameset|h1|h2|h3|h4|h5|h6|head|header|hgroup|hr|html|i|img|keygen|label|link|mark|marquee|menu|meta|meter|"
+          + "nav|noframes|output|p|popcorn|progress|rp|rt|ruby|script|section|small|source|span|strike|strong|"
+          + "subtitle|svg|time|title|u|video)\\b");
+  static final Pattern NO_html_attributes = Pattern.compile(
+      "\\b(accept|accept-charset|accesskey|action|align|alt|async|autocomplete|autofocus|autoplay|bgcolor|border|"
+          + "buffered|challenge|charset|checked|cite|class|code|codebase|color|cols|colspan|content|contenteditable|"
+          + "contextmenu|controls|coords|data|data-custom|datetime|default|defer|dir|dirname|disabled|download|draggable|"
+          + "dropzone|enctype|for|form|headers|height|hidden|high|href|hreflang|http-equiv|icon|id|ismap|itemprop|"
+          + "keytype|kind|label|lang|language|list|loop|low|manifest|max|maxlenght|media|method|min|multiple|name|"
+          + "novalidate|open|optimum|pattern|ping|placeholder|poster|preload|pubdate|radiogrup|readonly|rel|required|"
+          + "reverser|rown|rowspan|sandbox|spellcheck|scope|scoped|seamless|selected|shape|size|sizes|span|src|srcdoc|"
+          + "srclang|start|step|style|summary|tabindex|target|title|type|usemap|value|width|wrap)\\b");
