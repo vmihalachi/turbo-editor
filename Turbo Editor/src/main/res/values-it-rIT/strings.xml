@@ -112,6 +112,6 @@
   <string name="open_source_license">Licenze Open Source</string>
   <string name="open_source_license_summary">Visualizza licenze open source</string>
   <string name="show_navigation_breadcrumb">Visualizza navigazione breadcrumb</string>
-  <string name="open_a_file">Apri come file</string>
+  <string name="open_a_file">Apri un file</string>
   <string name="open_this_time_only">Apri solo questa volta</string>
 </resources>
