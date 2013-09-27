@@ -1,0 +1,59 @@
+<?xml version="1.0" encoding="utf-8"?>
+<!--
+  ~ Copyright (C) 2013 Vlad Mihalachi
+  ~
+  ~ This file is part of Turbo Editor.
+  ~
+  ~ Turbo Editor is free software: you can redistribute it and/or modify
+  ~ it under the terms of the GNU General Public License as published by
+  ~ the Free Software Foundation, either version 3 of the License, or
+  ~ (at your option) any later version.
+  ~
+  ~ Turbo Editor is distributed in the hope that it will be useful,
+  ~ but WITHOUT ANY WARRANTY; without even the implied warranty of
+  ~ MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE. See the
+  ~ GNU General Public License for more details.
+  ~
+  ~ You should have received a copy of the GNU General Public License
+  ~ along with Turbo Editor. If not, see <http://www.gnu.org/licenses/>.
+  -->
+
+<menu xmlns:android="http://schemas.android.com/apk/res/android">
+    <item
+            android:id="@id/im_save"
+            android:showAsAction="always"
+            android:icon="@drawable/ic_action_tick"
+            android:title="@string/salva"/>
+    <item
+            android:id="@id/im_undo"
+            android:showAsAction="always"
+            android:icon="@drawable/ic_action_undo"
+            android:title="@string/testo_indietro"
+            />
+    <item
+            android:id="@id/im_redo"
+            android:showAsAction="always"
+            android:icon="@drawable/ic_action_redo"
+            android:title="@string/testo_rifai"
+            />
+    <item
+            android:title="@string/preferenze"
+            android:showAsAction="ifRoom|withText">
+        <menu>
+            <item
+                    android:id="@id/im_editor_encoding"
+                    android:showAsAction="ifRoom"
+                    android:title="@string/codifica"/>
+            <item
+                    android:id="@id/im_wrap_text"
+                    android:showAsAction="ifRoom"
+                    android:title="@string/wrap_the_text"
+                    android:checkable="true"/>
+            <item
+                    android:id="@id/im_syntax_highlight"
+                    android:showAsAction="ifRoom"
+                    android:title="@string/menu_syntax_highlight"
+                    android:checkable="true"/>
+        </menu>
+    </item>
+</menu>

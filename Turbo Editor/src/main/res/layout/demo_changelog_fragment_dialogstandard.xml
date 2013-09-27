@@ -1,0 +1,7 @@
+<?xml version="1.0" encoding="utf-8"?>
+<view xmlns:android="http://schemas.oiandroid.com/apk/res/android"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    class="it.gmariotti.changelibs.library.view.ChangeLogListView"
+    android:id="@+id/view"
+    android:layout_gravity="center" />

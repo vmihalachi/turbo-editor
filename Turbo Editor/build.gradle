@@ -1,0 +1,28 @@
+buildscript {
+    repositories {
+        mavenCentral()
+    }
+    dependencies {
+        classpath 'com.android.tools.build:gradle:0.5.+'
+    }
+}
+apply plugin: 'android'
+
+repositories {
+    mavenCentral()
+}
+
+android {
+    compileSdkVersion 18
+    buildToolsVersion "18.1.0"
+
+    defaultConfig {
+        minSdkVersion 14
+        targetSdkVersion 18
+    }
+}
+
+dependencies {
+    compile 'com.github.gabrielemariotti.changeloglib:library:1.2.0'
+    compile fileTree(dir: 'libs', include: '*.jar')
+}

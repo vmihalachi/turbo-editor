@@ -1,0 +1,38 @@
+<?xml version="1.0" encoding="utf-8"?>
+<!--
+  ~ Copyright (C) 2013 Vlad Mihalachi
+  ~
+  ~ This file is part of Turbo Editor.
+  ~
+  ~ Turbo Editor is free software: you can redistribute it and/or modify
+  ~ it under the terms of the GNU General Public License as published by
+  ~ the Free Software Foundation, either version 3 of the License, or
+  ~ (at your option) any later version.
+  ~
+  ~ Turbo Editor is distributed in the hope that it will be useful,
+  ~ but WITHOUT ANY WARRANTY; without even the implied warranty of
+  ~ MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE. See the
+  ~ GNU General Public License for more details.
+  ~
+  ~ You should have received a copy of the GNU General Public License
+  ~ along with Turbo Editor. If not, see <http://www.gnu.org/licenses/>.
+  -->
+<resources>
+    <!-- menu item ids -->
+    <item type="id" name="im_undo"/>
+    <item type="id" name="im_redo"/>
+    <item type="id" name="im_editor"/>
+    <item type="id" name="im_remove"/>
+    <item type="id" name="im_open"/>
+    <item type="id" name="im_info"/>
+    <item type="id" name="im_button"/>
+    <item type="id" name="im_save"/>
+    <item type="id" name="im_editor_encoding"/>
+    <item type="id" name="im_wrap_text"/>
+    <item type="id" name="im_syntax_highlight"/>
+    <!-- layout item ids -->
+    <item type="id" name="drawer_layout"/>
+    <item type="id" name="fragment_editor"/>
+    <item type="id" name="drawer_list"/>
+    <item type="id" name="editor"/>
+</resources>

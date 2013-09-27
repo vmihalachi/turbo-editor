@@ -1,0 +1,100 @@
+<!--
+  ~ Copyright (C) 2013 Vlad Mihalachi
+  ~
+  ~ This file is part of Turbo Editor.
+  ~
+  ~ Turbo Editor is free software: you can redistribute it and/or modify
+  ~ it under the terms of the GNU General Public License as published by
+  ~ the Free Software Foundation, either version 3 of the License, or
+  ~ (at your option) any later version.
+  ~
+  ~ Turbo Editor is distributed in the hope that it will be useful,
+  ~ but WITHOUT ANY WARRANTY; without even the implied warranty of
+  ~ MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE. See the
+  ~ GNU General Public License for more details.
+  ~
+  ~ You should have received a copy of the GNU General Public License
+  ~ along with Turbo Editor. If not, see <http://www.gnu.org/licenses/>.
+  -->
+
+<PreferenceScreen xmlns:android="http://schemas.android.com/apk/res/android">
+    <PreferenceCategory android:title="@string/aboutactivity_info_category">
+        <Preference
+            android:key="aboutactivity_author"
+            android:title="@string/aboutactivity_author"
+            android:summary="Vlad Mihalachi" />
+        <Preference
+            android:key="aboutactivity_authorsite"
+            android:title="@string/aboutactivity_authorsite"
+            android:summary="@string/aboutactivity_authorsite_summary">
+            <intent
+                android:action="android.intent.action.VIEW"
+                android:data="http://vmihalachi.com" />
+
+        </Preference>
+        <Preference
+            android:key="aboutactivity_authoremail"
+            android:title="@string/aboutactivity_authoremail"
+            android:summary="@string/aboutactivity_authoremail_summary" />
+        <Preference
+            android:key="aboutactivity_authorgoogleplus"
+            android:title="@string/aboutactivity_authorgoogleplus"
+            android:summary="@string/aboutactivity_authorgoogleplus_summary">
+            <intent
+                android:action="android.intent.action.VIEW"
+                android:data="https://plus.google.com/u/0/116753921964371818338" />
+
+        </Preference>
+        <Preference
+            android:key="aboutactivity_authortwitter"
+            android:title="@string/aboutactivity_authortwitter"
+            android:summary="@string/aboutactivity_authortwitter_summary">
+            <intent
+                android:action="android.intent.action.VIEW"
+                android:data="https://twitter.com/vmihalachi" />
+
+        </Preference>
+    </PreferenceCategory>
+    <PreferenceCategory android:title="@string/aboutactivity_app_category">
+        <Preference
+            android:key="aboutactivity_betatester"
+            android:title="@string/aboutactivity_betatester"
+            android:summary="@string/aboutactivity_betatester_summary">
+            <intent
+                android:action="android.intent.action.VIEW"
+                android:data="https://plus.google.com/u/0/communities/111974095419108178946" />
+
+        </Preference>
+        <Preference
+            android:key="aboutactivity_helptranslate"
+            android:title="@string/aboutactivity_helptranslate"
+            android:summary="@string/aboutactivity_helptranslate_summary">
+            <intent
+                android:action="android.intent.action.VIEW"
+                android:data="http://crowdin.net/project/turbo-client" />
+
+        </Preference>
+        <Preference
+            android:key="aboutactivity_changelog"
+            android:title="@string/aboutactivity_changelog"
+            android:summary="@string/aboutactivity_changelog_summary" />
+        <Preference
+            android:key="aboutactivity_faq"
+            android:title="@string/aboutactivity_faq"
+            android:summary="@string/aboutactivity_faq_summary">
+            <intent
+                android:action="android.intent.action.VIEW"
+                android:data="https://github.com/vmihalachi/TurboEditor/wiki/Faq" />
+        </Preference>
+        <Preference
+            android:key="aboutactivity_open_source_licenses"
+            android:title="@string/open_source_license"
+            android:summary="@string/open_source_license_summary" />
+        <Preference
+            android:key="aboutactivity_authormarket"
+            android:title="@string/aboutactivity_authormarket"
+            android:summary="@string/aboutactivity_authormarket_summary" />
+    </PreferenceCategory>
+
+
+</PreferenceScreen>

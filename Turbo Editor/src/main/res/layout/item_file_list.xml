@@ -1,0 +1,71 @@
+<?xml version="1.0" encoding="utf-8"?>
+<!--
+  ~ Copyright (C) 2013 Vlad Mihalachi
+  ~
+  ~ This file is part of Turbo Editor.
+  ~
+  ~ Turbo Editor is free software: you can redistribute it and/or modify
+  ~ it under the terms of the GNU General Public License as published by
+  ~ the Free Software Foundation, either version 3 of the License, or
+  ~ (at your option) any later version.
+  ~
+  ~ Turbo Editor is distributed in the hope that it will be useful,
+  ~ but WITHOUT ANY WARRANTY; without even the implied warranty of
+  ~ MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE. See the
+  ~ GNU General Public License for more details.
+  ~
+  ~ You should have received a copy of the GNU General Public License
+  ~ along with Turbo Editor. If not, see <http://www.gnu.org/licenses/>.
+  -->
+
+<RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    android:layout_width="match_parent"
+    android:layout_height="wrap_content"
+    android:gravity="center_vertical"
+    android:minHeight="@dimen/item_file_list_height">
+
+    <ImageView
+        android:id="@android:id/icon"
+        android:layout_width="@dimen/icon_dimension"
+        android:layout_height="@dimen/icon_dimension"
+        android:padding="@dimen/icon_padding"
+        android:layout_alignParentLeft="true" />
+
+    <TextView
+        android:id="@android:id/title"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_toRightOf="@android:id/icon"
+        android:maxLines="1"
+        android:textSize="@dimen/text_size_title"
+        android:ellipsize="end"
+        android:padding="@dimen/minimum_padding" />
+
+    <LinearLayout
+        android:layout_height="wrap_content"
+        android:layout_width="match_parent"
+        android:layout_toRightOf="@android:id/icon"
+        android:layout_below="@android:id/title"
+        android:padding="@dimen/minimum_padding">
+
+        <TextView
+            android:id="@android:id/text1"
+            android:layout_width="0dp"
+            android:layout_weight="1"
+            android:layout_height="wrap_content"
+            android:maxLines="1"
+            android:textSize="@dimen/text_size_subtitle"
+            android:enabled="false"
+            android:ellipsize="end"/>
+
+        <TextView
+            android:id="@android:id/text2"
+            android:layout_width="0dp"
+            android:layout_weight="2"
+            android:layout_height="wrap_content"
+            android:maxLines="1"
+            android:textSize="@dimen/text_size_subtitle"
+            android:enabled="false"
+            android:ellipsize="end"/>
+    </LinearLayout>
+</RelativeLayout>

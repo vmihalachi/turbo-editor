@@ -1,0 +1,47 @@
+<?xml version="1.0" encoding="utf-8"?>
+<!--
+  ~ Copyright (C) 2013 Vlad Mihalachi
+  ~
+  ~ This file is part of Turbo Editor.
+  ~
+  ~ Turbo Editor is free software: you can redistribute it and/or modify
+  ~ it under the terms of the GNU General Public License as published by
+  ~ the Free Software Foundation, either version 3 of the License, or
+  ~ (at your option) any later version.
+  ~
+  ~ Turbo Editor is distributed in the hope that it will be useful,
+  ~ but WITHOUT ANY WARRANTY; without even the implied warranty of
+  ~ MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE. See the
+  ~ GNU General Public License for more details.
+  ~
+  ~ You should have received a copy of the GNU General Public License
+  ~ along with Turbo Editor. If not, see <http://www.gnu.org/licenses/>.
+  -->
+<resources>
+    <style name="AppStyle"
+        parent="android:Theme.Holo">
+        <item name="android:windowBackground">@color/activity_background</item>
+        <item name="android:actionBarStyle">@style/ActionBarStyle</item>
+        <item name="android:textColor">@color/activity_text_color</item>
+    </style>
+
+    <style name="ActionBarStyle"
+        parent="android:Widget.Holo.Light.ActionBar.Solid.Inverse">
+        <item name="android:background">@color/actionbar_background</item>
+        <item name="android:backgroundStacked">@color/actionbar_background</item>
+        <item name="android:backgroundSplit">@color/actionbar_background</item>
+        <item name="android:titleTextStyle">@style/ActionBarStyle.Title.Inverse</item>
+        <item name="android:subtitleTextStyle">@style/ActionBarStyle.Subtitle</item>
+    </style>
+
+    <style name="ActionBarStyle.Title.Inverse"
+        parent="android:TextAppearance.Holo.Widget.ActionBar.Title">
+        <item name="android:textColor">@android:color/primary_text_dark_nodisable</item>
+    </style>
+
+    <style name="ActionBarStyle.Subtitle"
+        parent="android:TextAppearance.Holo.Widget.ActionBar.Subtitle">
+        <item name="android:textColor">@android:color/primary_text_dark_nodisable</item>
+    </style>
+
+</resources>
