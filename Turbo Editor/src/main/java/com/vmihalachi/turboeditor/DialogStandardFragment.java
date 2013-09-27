@@ -18,6 +18,9 @@ package com.vmihalachi.turboeditor;
 import android.app.AlertDialog;
 import android.app.Dialog;
 import android.app.DialogFragment;
+import android.app.Fragment;
+import android.app.FragmentManager;
+import android.app.FragmentTransaction;
 import android.content.Context;
 import android.content.DialogInterface;
 import android.content.Intent;
@@ -64,5 +67,16 @@ public class DialogStandardFragment extends DialogFragment {
                 })
                 .create();
 
+    }
+
+    public static final void showChangeLogDialog(FragmentManager fragmentManager){
+        DialogStandardFragment dialogStandardFragment = new DialogStandardFragment();
+        FragmentTransaction ft = fragmentManager.beginTransaction();
+        Fragment prev = fragmentManager.findFragmentByTag("changelogdemo_dialog");
+        if (prev != null) {
+            ft.remove(prev);
+        }
+        ft.addToBackStack(null);
+        dialogStandardFragment.show(ft, "changelogdemo_dialog");
     }
 }

@@ -21,7 +21,7 @@
 <manifest xmlns:android="http://schemas.android.com/apk/res/android"
     package="com.vmihalachi.turboeditor"
     android:versionCode="2"
-    android:versionName="0.2"
+    android:versionName="0.3"
     android:installLocation="auto">
 
     <uses-sdk
@@ -75,6 +75,11 @@
             android:name="com.vmihalachi.turboeditor.PreferenceAbout"
             android:configChanges="keyboardHidden|orientation|screenSize"
             android:label="@string/aboutactivity_info_category"/>
+
+        <activity
+            android:name="com.vmihalachi.turboeditor.LicensesActivity"
+            android:configChanges="keyboardHidden|orientation|screenSize"
+            android:label="@string/open_source_license"/>
 
         <activity
             android:name="com.vmihalachi.turboeditor.SelectFileActivity"

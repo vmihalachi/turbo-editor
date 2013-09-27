@@ -19,18 +19,13 @@
 
 package com.vmihalachi.turboeditor;
 
-import android.app.Fragment;
-import android.app.FragmentManager;
-import android.app.FragmentTransaction;
-import android.content.Context;
 import android.content.Intent;
-import android.content.pm.ApplicationInfo;
-import android.content.pm.PackageInfo;
-import android.content.pm.PackageManager;
 import android.net.Uri;
 import android.os.Bundle;
 import android.preference.Preference;
 import android.preference.PreferenceActivity;
+
+import com.vmihalachi.turboeditor.helper.AppInfoHelper;
 
 public class PreferenceAbout extends PreferenceActivity {
     @Override
@@ -52,7 +47,7 @@ public class PreferenceAbout extends PreferenceActivity {
                     Intent i = new Intent(Intent.ACTION_SEND);
                     i.setType("message/rfc822");
                     i.putExtra(Intent.EXTRA_EMAIL, new String[]{"app.feedback.mail@gmail.com"});
-                    i.putExtra(Intent.EXTRA_SUBJECT, getApplicationName(getBaseContext()) + " " + getCurrentVersion(getBaseContext()));
+                    i.putExtra(Intent.EXTRA_SUBJECT, AppInfoHelper.getApplicationName(getBaseContext()) + " " + AppInfoHelper.getCurrentVersion(getBaseContext()));
                     i.putExtra(Intent.EXTRA_TEXT, "");
                     try {
                         startActivity(Intent.createChooser(i, getString(R.string.aboutactivity_authoremail_summary)));
@@ -66,7 +61,7 @@ public class PreferenceAbout extends PreferenceActivity {
             changelog.setOnPreferenceClickListener(new Preference.OnPreferenceClickListener() {
                 @Override
                 public boolean onPreferenceClick(final Preference preference) {
-                    openDialogFragment(new DialogStandardFragment());
+                    DialogStandardFragment.showChangeLogDialog(getFragmentManager());
                     return false;
                 }
             });
@@ -92,35 +87,6 @@ public class PreferenceAbout extends PreferenceActivity {
                     return false;
                 }
             });
-        }
-    }
-
-    private void openDialogFragment(DialogStandardFragment dialogStandardFragment) {
-        if (dialogStandardFragment != null) {
-            FragmentManager fm = getFragmentManager();
-            FragmentTransaction ft = fm.beginTransaction();
-            Fragment prev = fm.findFragmentByTag("changelogdemo_dialog");
-            if (prev != null) {
-                ft.remove(prev);
-            }
-            ft.addToBackStack(null);
-
-            dialogStandardFragment.show(ft, "changelogdemo_dialog");
-        }
-    }
-
-    public static String getApplicationName(final Context context) {
-        final ApplicationInfo applicationInfo = context.getApplicationInfo();
-        return context.getString(applicationInfo.labelRes);
-    }
-
-    public static String getCurrentVersion(final Context context) {
-        try {
-            final PackageInfo packageInfo = context.getPackageManager().getPackageInfo(context.getPackageName(),
-                    0);
-            return packageInfo.versionName;
-        } catch (PackageManager.NameNotFoundException e) {
-            return "";
         }
     }
 }

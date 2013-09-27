@@ -23,9 +23,11 @@ import android.app.ActionBar;
 import android.app.Activity;
 import android.content.Context;
 import android.content.Intent;
+import android.content.SharedPreferences;
 import android.content.res.Configuration;
 import android.os.Bundle;
 import android.os.IBinder;
+import android.preference.PreferenceManager;
 import android.support.v4.app.ActionBarDrawerToggle;
 import android.support.v4.widget.DrawerLayout;
 import android.text.TextUtils;
@@ -40,6 +42,7 @@ import com.vmihalachi.turboeditor.event.ErrorOpeningFileEvent;
 import com.vmihalachi.turboeditor.event.FileSavedEvent;
 import com.vmihalachi.turboeditor.event.FileSelectedEvent;
 import com.vmihalachi.turboeditor.event.NewFileOpened;
+import com.vmihalachi.turboeditor.helper.AppInfoHelper;
 
 import de.greenrobot.event.EventBus;
 
@@ -85,6 +88,8 @@ public class HomeActivity extends Activity {
         }
         //
         receiveIntent();
+        //
+        showChangeLog();
     }
 
     /**
@@ -336,6 +341,19 @@ public class HomeActivity extends Activity {
                 && type != null) {
             // Post the NewFileOpened Event
             EventBus.getDefault().postSticky(new NewFileOpened(intent.getData().getPath()));
+        }
+    }
+
+    /**
+     *
+     */
+    private void showChangeLog(){
+        final String currentVersion = AppInfoHelper.getCurrentVersion(this);
+        final SharedPreferences preferences = PreferenceManager.getDefaultSharedPreferences(this);
+        final String lastVersion = preferences.getString("last_version", currentVersion);
+        preferences.edit().putString("last_version", currentVersion).commit();
+        if (!lastVersion.equals(currentVersion)) {
+            DialogStandardFragment.showChangeLogDialog(getFragmentManager());
         }
     }
 }

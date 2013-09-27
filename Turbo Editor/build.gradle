@@ -24,5 +24,7 @@ android {
 
 dependencies {
     compile 'com.github.gabrielemariotti.changeloglib:library:1.2.0'
+    compile 'com.android.support:support-v13:18.0.0'
+    compile "commons-io:commons-io:2.4"
     compile fileTree(dir: 'libs', include: '*.jar')
 }

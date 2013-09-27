@@ -1,0 +1,16 @@
+<?xml version="1.0" encoding="utf-8"?>
+<changelog bulletedList="true">
+
+    <changelogversion versionName="0.3" changeDate="Sep 27, 2013">
+        <changelogtext>Improved the about page</changelogtext>
+    </changelogversion>
+
+    <changelogversion versionName="0.2" changeDate="Sep 25, 2013">
+        <changelogtext>Keyboard now closes when you save a file</changelogtext>
+        <changelogtext>Fixed some issues when launching the app</changelogtext>
+    </changelogversion>
+
+    <changelogversion versionName="0.1" changeDate="Sep 24, 2013">
+        <changelogtext>First release</changelogtext>
+    </changelogversion>
+</changelog>

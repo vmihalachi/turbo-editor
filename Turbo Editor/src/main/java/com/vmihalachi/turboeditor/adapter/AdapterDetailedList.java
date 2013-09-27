@@ -30,8 +30,9 @@ import android.widget.ImageView;
 import android.widget.TextView;
 
 import com.vmihalachi.turboeditor.R;
-import com.vmihalachi.turboeditor.helper.FileHelper;
 import com.vmihalachi.turboeditor.util.MimeTypes;
+
+import org.apache.commons.io.FilenameUtils;
 
 import java.util.Arrays;
 import java.util.HashMap;
@@ -156,7 +157,7 @@ public class AdapterDetailedList extends
     private void setIcon(final ViewHolder viewHolder,
                          final FileDetail fileDetail) {
         final String fileName = fileDetail.getName();
-        final String ext = FileHelper.getExtension(fileName);
+        final String ext = FilenameUtils.getExtension(fileName);
         if (fileDetail.isFolder()) {
             viewHolder.icon
                     .setImageResource(R.color.file_folder);

@@ -1,0 +1,8 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+    <string-array name="open_source_libs">
+        <item>ChangeLog Library</item>
+        <item>EventBus</item>
+        <item>commons-io</item>
+    </string-array>
+</resources>
