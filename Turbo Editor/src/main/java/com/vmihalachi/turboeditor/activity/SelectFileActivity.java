@@ -46,9 +46,6 @@ import java.util.Comparator;
 import java.util.HashMap;
 import java.util.LinkedList;
 
-/**
- * Created by Vlad on 9/24/13.
- */
 public class SelectFileActivity extends Activity implements AdapterView.OnItemClickListener {
     private String currentFolder;
     private ListView listView;

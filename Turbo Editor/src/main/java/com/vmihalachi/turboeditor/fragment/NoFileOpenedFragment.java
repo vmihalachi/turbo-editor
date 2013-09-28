@@ -27,9 +27,6 @@ import android.view.ViewGroup;
 
 import com.vmihalachi.turboeditor.R;
 
-/**
- * Created by Vlad on 9/23/13.
- */
 public class NoFileOpenedFragment extends Fragment {
 
     /**
