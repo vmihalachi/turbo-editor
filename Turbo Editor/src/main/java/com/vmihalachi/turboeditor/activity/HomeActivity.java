@@ -66,6 +66,7 @@ public class HomeActivity extends Activity {
     */
     protected DrawerLayout mDrawerLayout;
 
+
     /**
      * {@inheritDoc}
      */
@@ -78,7 +79,7 @@ public class HomeActivity extends Activity {
         // Replace fragment
         getFragmentManager()
                 .beginTransaction()
-                .replace(R.id.fragment_editor,  new NoFileOpenedFragment())
+                .replace(R.id.fragment_editor, new NoFileOpenedFragment())
                 .commit();
         /* First Time we open this activity */
         if (savedInstanceState == null) {
@@ -102,6 +103,7 @@ public class HomeActivity extends Activity {
         mDrawerToggle.syncState();
     }
 
+
     /**
      * {@inheritDoc}
      */
@@ -112,6 +114,7 @@ public class HomeActivity extends Activity {
         EventBus.getDefault().register(this);
     }
 
+
     /**
      * {@inheritDoc}
      */
@@ -121,6 +124,7 @@ public class HomeActivity extends Activity {
         // Unregister the Event Bus
         EventBus.getDefault().unregister(this);
     }
+
 
     /**
      * {@inheritDoc}
@@ -135,6 +139,7 @@ public class HomeActivity extends Activity {
         super.onDestroy();
     }
 
+
     /**
      * {@inheritDoc}
      */
@@ -143,6 +148,7 @@ public class HomeActivity extends Activity {
         super.onConfigurationChanged(newConfig);
         mDrawerToggle.onConfigurationChanged(newConfig);
     }
+
 
     /**
      * {@inheritDoc}
@@ -153,6 +159,7 @@ public class HomeActivity extends Activity {
         return super.onCreateOptionsMenu(menu);
     }
 
+
     /**
      * {@inheritDoc}
      */
@@ -161,7 +168,7 @@ public class HomeActivity extends Activity {
         /* If we clicked on the Navigation Drawer Menu item */
         if (mDrawerToggle.onOptionsItemSelected(item)) {
             return true;
-        } else switch (item.getItemId()){
+        } else switch (item.getItemId()) {
             case R.id.im_open:
                 startActivityForResult(new Intent(HomeActivity.this, SelectFileActivity.class)
                         .putExtra("path", "")
@@ -176,6 +183,7 @@ public class HomeActivity extends Activity {
         }
     }
 
+
     /**
      * {@inheritDoc}
      */
@@ -183,13 +191,16 @@ public class HomeActivity extends Activity {
     protected void onActivityResult(int requestCode, int resultCode, Intent data) {
         super.onActivityResult(requestCode, resultCode, data);
         if (resultCode == RESULT_OK && requestCode == SELECT_FILE_CODE) {
-                String path = data.getStringExtra("path");
-                if(!TextUtils.isEmpty(path)){
-                    EventBus.getDefault().postSticky(new NewFileOpened(path));
+            String path = data.getStringExtra("path");
+            if (!TextUtils.isEmpty(path)) {
+                EventBus.getDefault().postSticky(new NewFileOpened(path));
             }
         }
     }
 
+    /**
+     * {@inheritDoc}
+     */
     @Override
     protected void onNewIntent(Intent intent) {
         super.onNewIntent(intent);
@@ -197,25 +208,25 @@ public class HomeActivity extends Activity {
     }
 
     /**
-     *
      * @param event
      */
-    public void onEvent(FileSelectedEvent event){
+    public void onEvent(FileSelectedEvent event) {
         // Close the drawer
         mDrawerLayout.closeDrawer(Gravity.LEFT);
         // Replace fragment
         getFragmentManager()
                 .beginTransaction()
-                .replace(R.id.fragment_editor,  EditorFragment.newInstance(event.getPath()))
+                .replace(R.id.fragment_editor, EditorFragment.newInstance(event.getPath()))
                 .commit();
     }
 
     /**
      * When a file is saved
      * Invoked by the EditorFragment
+     *
      * @param event The event called
      */
-    public void onEvent(FileSavedEvent event){
+    public void onEvent(FileSavedEvent event) {
         try {
             closeKeyBoard();
         } catch (NullPointerException e) {
@@ -244,7 +255,7 @@ public class HomeActivity extends Activity {
             // Replace fragment
             getFragmentManager()
                     .beginTransaction()
-                    .replace(R.id.fragment_editor,  new NoFileOpenedFragment())
+                    .replace(R.id.fragment_editor, new NoFileOpenedFragment())
                     .commit();
         }
     }
@@ -252,9 +263,10 @@ public class HomeActivity extends Activity {
     /**
      * When a file can't be opened
      * Invoked by the EditorFragment
+     *
      * @param event The event called
      */
-    public void onEvent(ErrorOpeningFileEvent event){
+    public void onEvent(ErrorOpeningFileEvent event) {
         //
         mDrawerLayout.openDrawer(Gravity.LEFT);
         //
@@ -262,7 +274,7 @@ public class HomeActivity extends Activity {
         // Replace fragment
         getFragmentManager()
                 .beginTransaction()
-                .replace(R.id.fragment_editor,  new NoFileOpenedFragment())
+                .replace(R.id.fragment_editor, new NoFileOpenedFragment())
                 .commit();
     }
 
@@ -284,7 +296,7 @@ public class HomeActivity extends Activity {
     /**
      * Setup the navigation drawer
      */
-    private void setupNavigationDrawer(){
+    private void setupNavigationDrawer() {
         mDrawerLayout = (DrawerLayout) findViewById(R.id.drawer_layout);
         /* Action Bar */
         final ActionBar ab = getActionBar();
@@ -299,11 +311,17 @@ public class HomeActivity extends Activity {
                         R.string.nome_app_turbo_editor,
                         R.string.nome_app_turbo_editor) {
 
+                    /**
+                     * {@inheritDoc}
+                     */
                     @Override
                     public void onDrawerClosed(View view) {
                         invalidateOptionsMenu();
                     }
 
+                    /**
+                     * {@inheritDoc}
+                     */
                     @Override
                     public void onDrawerOpened(View drawerView) {
                         invalidateOptionsMenu();
@@ -316,7 +334,7 @@ public class HomeActivity extends Activity {
     /**
      * Show a dialog with the changelog
      */
-    private void showChangeLog(){
+    private void showChangeLog() {
         final String currentVersion = AppInfoHelper.getCurrentVersion(this);
         final SharedPreferences preferences = PreferenceManager.getDefaultSharedPreferences(this);
         final String lastVersion = preferences.getString("last_version", currentVersion);
@@ -329,7 +347,7 @@ public class HomeActivity extends Activity {
     /**
      * Parses the intent
      */
-    private void parseIntent(Intent intent){
+    private void parseIntent(Intent intent) {
         final String action = intent.getAction();
         final String type = intent.getType();
 

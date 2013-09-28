@@ -12,7 +12,8 @@ import android.widget.TextView;
 
 import com.vmihalachi.turboeditor.R;
 
-public class LicensesActivity extends Activity implements AdapterView.OnItemClickListener{
+public class LicensesActivity extends Activity implements AdapterView.OnItemClickListener {
+
 
     /**
      * {@inheritDoc}
@@ -27,6 +28,7 @@ public class LicensesActivity extends Activity implements AdapterView.OnItemClic
         listView.setAdapter(adapter);
     }
 
+
     /**
      * {@inheritDoc}
      */
@@ -34,14 +36,14 @@ public class LicensesActivity extends Activity implements AdapterView.OnItemClic
     public void onItemClick(AdapterView<?> parent, View view, int position, long id) {
         String openSourceLib = ((TextView) view.findViewById(android.R.id.text1)).getText().toString();
         Intent browserIntent = null;
-        if(openSourceLib.equals("ChangeLog Library")){
+        if (openSourceLib.equals("ChangeLog Library")) {
             browserIntent = new Intent(Intent.ACTION_VIEW, Uri.parse("https://github.com/gabrielemariotti/changeloglib?source=c#license"));
-        } else if(openSourceLib.equals("EventBus")){
+        } else if (openSourceLib.equals("EventBus")) {
             browserIntent = new Intent(Intent.ACTION_VIEW, Uri.parse("https://github.com/greenrobot/EventBus?source=c#license"));
-        } else if(openSourceLib.equals("commons-io")){
+        } else if (openSourceLib.equals("commons-io")) {
             browserIntent = new Intent(Intent.ACTION_VIEW, Uri.parse("http://commons.apache.org/proper/commons-io/"));
         }
-        if(browserIntent != null){
+        if (browserIntent != null) {
             startActivity(browserIntent);
         }
     }

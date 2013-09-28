@@ -30,6 +30,9 @@ import com.vmihalachi.turboeditor.fragment.ChangelogDialogFragment;
 import com.vmihalachi.turboeditor.helper.AppInfoHelper;
 
 public class PreferenceAbout extends PreferenceActivity {
+    /**
+     * {@inheritDoc}
+     */
     @Override
     public void onCreate(final Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -44,6 +47,9 @@ public class PreferenceAbout extends PreferenceActivity {
                 market = findPreference("aboutactivity_authormarket");
         if (email != null) {
             email.setOnPreferenceClickListener(new Preference.OnPreferenceClickListener() {
+                /**
+                 * {@inheritDoc}
+                 */
                 @Override
                 public boolean onPreferenceClick(final Preference preference) {
                     Intent i = new Intent(Intent.ACTION_SEND);
@@ -61,6 +67,9 @@ public class PreferenceAbout extends PreferenceActivity {
         }
         if (changelog != null) {
             changelog.setOnPreferenceClickListener(new Preference.OnPreferenceClickListener() {
+                /**
+                 * {@inheritDoc}
+                 */
                 @Override
                 public boolean onPreferenceClick(final Preference preference) {
                     ChangelogDialogFragment.showChangeLogDialog(getFragmentManager());
@@ -70,6 +79,9 @@ public class PreferenceAbout extends PreferenceActivity {
         }
         if (open_source_licenses != null) {
             open_source_licenses.setOnPreferenceClickListener(new Preference.OnPreferenceClickListener() {
+                /**
+                 * {@inheritDoc}
+                 */
                 @Override
                 public boolean onPreferenceClick(final Preference preference) {
                     startActivity(new Intent(PreferenceAbout.this, LicensesActivity.class));
@@ -79,6 +91,9 @@ public class PreferenceAbout extends PreferenceActivity {
         }
         if (market != null) {
             market.setOnPreferenceClickListener(new Preference.OnPreferenceClickListener() {
+                /**
+                 * {@inheritDoc}
+                 */
                 @Override
                 public boolean onPreferenceClick(final Preference preference) {
                     try {

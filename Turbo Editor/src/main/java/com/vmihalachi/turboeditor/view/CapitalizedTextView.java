@@ -37,6 +37,9 @@ public class CapitalizedTextView extends TextView {
         super(context, attrs, defStyle);
     }
 
+    /**
+     * {@inheritDoc}
+     */
     @Override
     public void setText(final CharSequence text, final BufferType type) {
         super.setText(text.toString().toUpperCase(), type);

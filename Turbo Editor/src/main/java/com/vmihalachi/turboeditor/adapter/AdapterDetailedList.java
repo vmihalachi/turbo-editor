@@ -73,6 +73,9 @@ public class AdapterDetailedList extends
         }
     }
 
+    /**
+     * {@inheritDoc}
+     */
     @Override
     public View getView(final int position,
                         View convertView, final ViewGroup parent) {
@@ -109,29 +112,22 @@ public class AdapterDetailedList extends
         final String ext = FilenameUtils.getExtension(fileName);
         if (fileDetail.isFolder()) {
             viewHolder.icon.setImageResource(R.color.file_folder);
-        }
-        else if (Arrays.asList(MimeTypes.MIME_HTML).contains(ext) || ext.endsWith("html")) {
+        } else if (Arrays.asList(MimeTypes.MIME_HTML).contains(ext) || ext.endsWith("html")) {
             viewHolder.icon.setImageResource(R.color.file_html);
-        }
-        else if (Arrays.asList(MimeTypes.MIME_CODE).contains(ext)
+        } else if (Arrays.asList(MimeTypes.MIME_CODE).contains(ext)
                 || fileName.endsWith("css")
                 || fileName.endsWith("js")) {
             viewHolder.icon.setImageResource(R.color.file_code);
-        }
-        else if (Arrays.asList(MimeTypes.MIME_ARCHIVE).contains(ext)) {
+        } else if (Arrays.asList(MimeTypes.MIME_ARCHIVE).contains(ext)) {
             viewHolder.icon.setImageResource(R.color.file_archive);
-        }
-        else if (Arrays.asList(MimeTypes.MIME_MUSIC)
+        } else if (Arrays.asList(MimeTypes.MIME_MUSIC)
                 .contains(ext)) {
             viewHolder.icon.setImageResource(R.color.file_media_music);
-        }
-        else if (Arrays.asList(MimeTypes.MIME_PICTURE).contains(ext)) {
+        } else if (Arrays.asList(MimeTypes.MIME_PICTURE).contains(ext)) {
             viewHolder.icon.setImageResource(R.color.file_media_picture);
-        }
-        else if (Arrays.asList(MimeTypes.MIME_VIDEO).contains(ext)) {
+        } else if (Arrays.asList(MimeTypes.MIME_VIDEO).contains(ext)) {
             viewHolder.icon.setImageResource(R.color.file_media_video);
-        }
-        else {
+        } else {
             viewHolder.icon.setImageResource(R.color.file_text);
         }
     }

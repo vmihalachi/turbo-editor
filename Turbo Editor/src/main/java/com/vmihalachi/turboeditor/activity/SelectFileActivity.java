@@ -57,6 +57,9 @@ public class SelectFileActivity extends Activity implements AdapterView.OnItemCl
                     .getAbsolutePath();
 
 
+    /**
+     * {@inheritDoc}
+     */
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -85,6 +88,9 @@ public class SelectFileActivity extends Activity implements AdapterView.OnItemCl
         finish();
     }
 
+    /**
+     * {@inheritDoc}
+     */
     @Override
     public void onItemClick(AdapterView<?> parent,
                             View view, int position, long id) {
@@ -106,6 +112,9 @@ public class SelectFileActivity extends Activity implements AdapterView.OnItemCl
         }
     }
 
+    /**
+     * {@inheritDoc}
+     */
     @Override
     public boolean onCreateOptionsMenu(Menu menu) {
         getMenuInflater().inflate(R.menu.activity_select_file, menu);
@@ -114,6 +123,9 @@ public class SelectFileActivity extends Activity implements AdapterView.OnItemCl
         return super.onCreateOptionsMenu(menu);
     }
 
+    /**
+     * {@inheritDoc}
+     */
     @Override
     public boolean onOptionsItemSelected(MenuItem item) {
         int i = item.getItemId();
@@ -145,6 +157,9 @@ public class SelectFileActivity extends Activity implements AdapterView.OnItemCl
     private class UpdateList extends
             AsyncTask<String, Void, LinkedList<AdapterDetailedList.FileDetail>> {
 
+        /**
+         * {@inheritDoc}
+         */
         @Override
         protected LinkedList<AdapterDetailedList.FileDetail> doInBackground(final String... params) {
             try {
@@ -196,6 +211,9 @@ public class SelectFileActivity extends Activity implements AdapterView.OnItemCl
             }
         }
 
+        /**
+         * {@inheritDoc}
+         */
         @Override
         protected void onPostExecute(final LinkedList<AdapterDetailedList.FileDetail> names) {
             boolean isRoot = currentFolder.equals("/");
@@ -207,6 +225,9 @@ public class SelectFileActivity extends Activity implements AdapterView.OnItemCl
 
         public final Comparator<File> getFileNameComparator() {
             return new AlphanumComparator() {
+                /**
+                 * {@inheritDoc}
+                 */
                 @Override
                 public String getTheString(Object obj) {
                     return ((File) obj).getName()

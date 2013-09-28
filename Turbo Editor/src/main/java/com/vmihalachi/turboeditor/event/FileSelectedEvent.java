@@ -23,7 +23,7 @@ public class FileSelectedEvent {
 
     private String path;
 
-    public FileSelectedEvent(String path){
+    public FileSelectedEvent(String path) {
         this.path = path;
     }
 

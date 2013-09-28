@@ -37,6 +37,9 @@ public class ChangelogDialogFragment extends DialogFragment {
     public ChangelogDialogFragment() {
     }
 
+    /**
+     * {@inheritDoc}
+     */
     @Override
     public Dialog onCreateDialog(Bundle savedInstanceState) {
 
@@ -54,6 +57,9 @@ public class ChangelogDialogFragment extends DialogFragment {
                         }
                 )
                 .setPositiveButton(R.string.vota, new DialogInterface.OnClickListener() {
+                    /**
+                     * {@inheritDoc}
+                     */
                     @Override
                     public void onClick(final DialogInterface dialog, final int which) {
                         try {
@@ -66,7 +72,7 @@ public class ChangelogDialogFragment extends DialogFragment {
 
     }
 
-    public static final void showChangeLogDialog(FragmentManager fragmentManager){
+    public static final void showChangeLogDialog(FragmentManager fragmentManager) {
         ChangelogDialogFragment changelogDialogFragment = new ChangelogDialogFragment();
         FragmentTransaction ft = fragmentManager.beginTransaction();
         Fragment prev = fragmentManager.findFragmentByTag("changelogdemo_dialog");

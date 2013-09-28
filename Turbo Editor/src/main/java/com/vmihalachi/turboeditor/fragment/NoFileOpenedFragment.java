@@ -29,6 +29,7 @@ import com.vmihalachi.turboeditor.R;
 
 public class NoFileOpenedFragment extends Fragment {
 
+
     /**
      * {@inheritDoc}
      */

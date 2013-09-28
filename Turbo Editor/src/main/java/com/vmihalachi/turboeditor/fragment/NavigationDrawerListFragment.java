@@ -51,6 +51,7 @@ public class NavigationDrawerListFragment extends ListFragment implements AbsLis
     private List<String> fileNames;
     private ArrayAdapter<String> arrayAdapter;
 
+
     /**
      * {@inheritDoc}
      */
@@ -61,6 +62,7 @@ public class NavigationDrawerListFragment extends ListFragment implements AbsLis
         return rootView;
     }
 
+
     /**
      * {@inheritDoc}
      */
@@ -69,6 +71,7 @@ public class NavigationDrawerListFragment extends ListFragment implements AbsLis
         super.onViewCreated(view, savedInstanceState);
         getListView().setMultiChoiceModeListener(this);
     }
+
 
     /**
      * {@inheritDoc}
@@ -82,6 +85,7 @@ public class NavigationDrawerListFragment extends ListFragment implements AbsLis
         refreshList();
     }
 
+
     /**
      * {@inheritDoc}
      */
@@ -91,6 +95,7 @@ public class NavigationDrawerListFragment extends ListFragment implements AbsLis
         // Unregister the Event Bus
         EventBus.getDefault().unregister(this);
     }
+
 
     /**
      * {@inheritDoc}
@@ -106,12 +111,14 @@ public class NavigationDrawerListFragment extends ListFragment implements AbsLis
         EventBus.getDefault().post(new FileSelectedEvent(filePath));
     }
 
+
     /**
      * {@inheritDoc}
      */
     @Override
     public void onItemCheckedStateChanged(ActionMode actionMode, int position, long l, boolean isChecked) {
     }
+
 
     /**
      * {@inheritDoc}
@@ -123,6 +130,7 @@ public class NavigationDrawerListFragment extends ListFragment implements AbsLis
         return true;
     }
 
+
     /**
      * {@inheritDoc}
      */
@@ -130,6 +138,7 @@ public class NavigationDrawerListFragment extends ListFragment implements AbsLis
     public boolean onPrepareActionMode(ActionMode actionMode, Menu menu) {
         return false;
     }
+
 
     /**
      * {@inheritDoc}
@@ -144,7 +153,7 @@ public class NavigationDrawerListFragment extends ListFragment implements AbsLis
                 SparseBooleanArray checkedItems = getListView().getCheckedItemPositions();
                 // If we have some checked positions
                 if (checkedItems != null) {
-                    for (int i=0; i<checkedItems.size(); i++) {
+                    for (int i = 0; i < checkedItems.size(); i++) {
                         // check if the value is checked
                         if (checkedItems.valueAt(i)) {
                             // remove the checked path, but don't refresh the list
@@ -162,6 +171,7 @@ public class NavigationDrawerListFragment extends ListFragment implements AbsLis
         }
     }
 
+
     /**
      * {@inheritDoc}
      */
@@ -174,15 +184,16 @@ public class NavigationDrawerListFragment extends ListFragment implements AbsLis
     /**
      * When a new file is opened
      * Invoked by the main activity which receive the intent
+     *
      * @param event The event called
      */
-    public void onEvent(NewFileOpened event){
+    public void onEvent(NewFileOpened event) {
         EventBus.getDefault().removeStickyEvent(event);
         // File paths saved in preferences
         String[] savedPaths = PreferenceHelper.getSavedPaths(getActivity());
-        for(int i = 0; i < savedPaths.length; i++){
+        for (int i = 0; i < savedPaths.length; i++) {
             // We don't need to save the file path twice
-            if(savedPaths[i].equals(event.getFilePath())){
+            if (savedPaths[i].equals(event.getFilePath())) {
                 // Send the event that a file was selected
                 EventBus.getDefault().post(new FileSelectedEvent(event.getFilePath()));
                 return;
@@ -194,12 +205,12 @@ public class NavigationDrawerListFragment extends ListFragment implements AbsLis
         EventBus.getDefault().post(new FileSelectedEvent(event.getFilePath()));
     }
 
-    private void addPath(String path){
+    private void addPath(String path) {
         // Add a path and refresh the list
         addPath(path, true);
     }
 
-    private void addPath(String path, boolean refreshTheList){
+    private void addPath(String path, boolean refreshTheList) {
         // File paths saved in preferences
         String[] savedPaths = PreferenceHelper.getSavedPaths(getActivity());
         // StringBuilder
@@ -213,35 +224,35 @@ public class NavigationDrawerListFragment extends ListFragment implements AbsLis
         // Put the string and commit
         PreferenceHelper.setSavedPaths(getActivity(), sb);
         // Update list
-        if(refreshTheList){
+        if (refreshTheList) {
             refreshList();
         }
     }
 
-    private void removePath(String path){
+    private void removePath(String path) {
         // Remove the path and refresh the list
         removePath(path, true);
     }
 
-    private void removePath(String path, boolean refresh){
+    private void removePath(String path, boolean refresh) {
         // File paths saved in preferences
         String[] savedPaths = PreferenceHelper.getSavedPaths(getActivity());
         // StringBuilder
         StringBuilder sb = new StringBuilder();
         // for cycle
         for (int count = 0; count < savedPaths.length; count++) {
-            if(path.equals(savedPaths[count])) continue;
+            if (path.equals(savedPaths[count])) continue;
             sb.append(savedPaths[count]).append(",");
         }
         // Put the string and commit
         PreferenceHelper.setSavedPaths(getActivity(), sb);
         // Update list
-        if(refresh){
+        if (refresh) {
             refreshList();
         }
     }
 
-    private  void refreshList(){
+    private void refreshList() {
         // File paths saved in preferences
         String[] savedPaths = PreferenceHelper.getSavedPaths(getActivity());
         // File names for the list
@@ -249,10 +260,10 @@ public class NavigationDrawerListFragment extends ListFragment implements AbsLis
         // StringBuilder that will contain the file paths
         StringBuilder sb = new StringBuilder();
         // for cycle to convert paths to names
-        for(String path : savedPaths){
+        for (String path : savedPaths) {
             File file = new File(path);
             // Check that the file exist
-            if(file.exists()){
+            if (file.exists()) {
                 fileNames.add(FilenameUtils.getName(path));
                 sb.append(path).append(",");
             }

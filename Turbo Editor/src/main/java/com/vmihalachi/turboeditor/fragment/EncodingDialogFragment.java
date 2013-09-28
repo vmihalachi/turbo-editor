@@ -48,6 +48,9 @@ public class EncodingDialogFragment extends DialogFragment implements TextView.O
         return f;
     }
 
+    /**
+     * {@inheritDoc}
+     */
     @Override
     public View onCreateView(final LayoutInflater inflater, final ViewGroup container,
                              final Bundle savedInstanceState) {
@@ -68,6 +71,9 @@ public class EncodingDialogFragment extends DialogFragment implements TextView.O
 
         final Button button = (Button) view.findViewById(android.R.id.button1);
         button.setOnClickListener(new View.OnClickListener() {
+            /**
+             * {@inheritDoc}
+             */
             @Override
             public void onClick(final View v) {
                 returnData();
@@ -86,6 +92,9 @@ public class EncodingDialogFragment extends DialogFragment implements TextView.O
         this.dismiss();
     }
 
+    /**
+     * {@inheritDoc}
+     */
     @Override
     public boolean onEditorAction(final TextView v, final int actionId, final KeyEvent event) {
         if (EditorInfo.IME_ACTION_DONE == actionId) {

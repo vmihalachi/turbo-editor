@@ -89,6 +89,7 @@ public class EditorFragment extends Fragment implements EncodingDialogFragment.E
         return frag;
     }
 
+
     /**
      * {@inheritDoc}
      */
@@ -97,6 +98,7 @@ public class EditorFragment extends Fragment implements EncodingDialogFragment.E
         super.onCreate(savedInstanceState);
         setHasOptionsMenu(true);
     }
+
 
     /**
      * {@inheritDoc}
@@ -109,6 +111,7 @@ public class EditorFragment extends Fragment implements EncodingDialogFragment.E
         mEditor = (Editor) rootView.findViewById(R.id.editor);
         return rootView;
     }
+
 
     /**
      * {@inheritDoc}
@@ -151,6 +154,7 @@ public class EditorFragment extends Fragment implements EncodingDialogFragment.E
         super.onCreateOptionsMenu(menu, inflater);
     }
 
+
     /**
      * {@inheritDoc}
      */
@@ -184,6 +188,7 @@ public class EditorFragment extends Fragment implements EncodingDialogFragment.E
         dialogFrag.setTargetFragment(this, 0);
         dialogFrag.show(getFragmentManager().beginTransaction(), "encodingDialog");
     }
+
 
     /**
      * {@inheritDoc}
@@ -224,7 +229,7 @@ public class EditorFragment extends Fragment implements EncodingDialogFragment.E
         }
     }
 
-    private void configureEditText(){
+    private void configureEditText() {
         this.mEditor.setHorizontallyScrolling(!this.sWrapText);
         if (!this.sWrapText) {
             int paddingLeft = (int) PixelDipConverter.convertDpToPixel(25, getActivity());
@@ -237,6 +242,9 @@ public class EditorFragment extends Fragment implements EncodingDialogFragment.E
 
     class SaveFile extends AsyncTask<Void, Void, Void> {
 
+        /**
+         * {@inheritDoc}
+         */
         @Override
         protected Void doInBackground(final Void... voids) {
             try {
@@ -249,6 +257,9 @@ public class EditorFragment extends Fragment implements EncodingDialogFragment.E
             return null;
         }
 
+        /**
+         * {@inheritDoc}
+         */
         @Override
         protected void onPostExecute(final Void aVoid) {
             super.onPostExecute(aVoid);
@@ -257,11 +268,10 @@ public class EditorFragment extends Fragment implements EncodingDialogFragment.E
     }
 
 
-
     public static class Editor extends EditText {
 
         protected static final int
-                ID_SELECT_ALL =android. R.id.selectAll,
+                ID_SELECT_ALL = android.R.id.selectAll,
                 ID_CUT = android.R.id.cut,
                 ID_COPY = android.R.id.copy,
                 ID_PASTE = android.R.id.paste,
@@ -300,6 +310,9 @@ public class EditorFragment extends Fragment implements EncodingDialogFragment.E
 
         private final Runnable updateRunnable =
                 new Runnable() {
+                    /**
+                     * {@inheritDoc}
+                     */
                     @Override
                     public void run() {
                         replaceTextKeepCursor(getText());
@@ -332,6 +345,9 @@ public class EditorFragment extends Fragment implements EncodingDialogFragment.E
             // Syntax editor
             setFilters(new InputFilter[]{
                     new InputFilter() {
+                        /**
+                         * {@inheritDoc}
+                         */
                         @Override
                         public CharSequence filter(
                                 CharSequence source,
@@ -355,6 +371,9 @@ public class EditorFragment extends Fragment implements EncodingDialogFragment.E
                     }});
         }
 
+        /**
+         * {@inheritDoc}
+         */
         @Override
         public boolean onKeyShortcut(
                 final int keyCode, final KeyEvent event) {
@@ -383,6 +402,9 @@ public class EditorFragment extends Fragment implements EncodingDialogFragment.E
             return super.onKeyShortcut(keyCode, event);
         }
 
+        /**
+         * {@inheritDoc}
+         */
         @Override
         public boolean onTextContextMenuItem(
                 final int id) {
@@ -397,6 +419,9 @@ public class EditorFragment extends Fragment implements EncodingDialogFragment.E
             }
         }
 
+        /**
+         * {@inheritDoc}
+         */
         @Override
         public void onDraw(final Canvas canvas) {
             if (!EditorFragment.sWrapText) {
