@@ -1,5 +1,5 @@
 # Turbo Editor
-Simple, powerful and Open Source file editor for Android.
+Simple, powerful and Open Source file editor for Android licensed under the GPLv3 license.
 
 ### Contribute
 You can contribute to this project in many ways:
