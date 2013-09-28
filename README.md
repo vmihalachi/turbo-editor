@@ -1,5 +1,5 @@
 # Turbo Editor
-Simple and powerful File Editor for Android.
+Simple, powerful and Open Source File Editor for Android.
 
 ### Contribute
 You can contribute to this project in many ways:
