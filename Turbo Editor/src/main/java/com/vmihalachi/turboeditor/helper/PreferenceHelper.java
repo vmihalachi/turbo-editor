@@ -28,9 +28,8 @@ public final class PreferenceHelper {
     private PreferenceHelper() {
     }
 
-    /**
-     * Getter Methods
-     */
+    // Getter Methods
+
     public static SharedPreferences getPrefs(Context context) {
         return PreferenceManager.getDefaultSharedPreferences(context);
     }
@@ -50,9 +49,12 @@ public final class PreferenceHelper {
     public static String getEncoding(Context context) {
         return getPrefs(context).getString("editor_encoding", "UTF-8");
     }
-    /**
-     * Setter Methods
-     */
+
+    public static String[] getSavedPaths(Context context) {
+        return getPrefs(context).getString("savedPaths", "").split(",");
+    }
+
+    // Setter methods
 
     public static void setWrapText(Context context, boolean value) {
         getEditor(context).putBoolean("editor_wrap_text", value).commit();
@@ -64,5 +66,9 @@ public final class PreferenceHelper {
 
     public static void setEncoding(Context context, String value) {
         getEditor(context).putString("editor_encoding", value).commit();
+    }
+
+    public static void setSavedPaths(Context context, StringBuilder stringBuilder) {
+        getEditor(context).putString("savedPaths", stringBuilder.toString()).commit();
     }
 }

@@ -31,7 +31,7 @@
 
     <fragment android:layout_width="@dimen/navigation_drawer_width"
               android:layout_height="match_parent"
-              android:name="com.vmihalachi.turboeditor.NavigationDrawerListFragment"
+              android:name="com.vmihalachi.turboeditor.fragment.NavigationDrawerListFragment"
               android:id="@id/drawer_list"
               android:layout_gravity="left"/>
 

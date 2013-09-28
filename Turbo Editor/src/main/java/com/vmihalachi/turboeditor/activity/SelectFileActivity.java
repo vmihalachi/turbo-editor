@@ -17,7 +17,7 @@
  * along with Turbo Editor. If not, see <http://www.gnu.org/licenses/>.
  */
 
-package com.vmihalachi.turboeditor;
+package com.vmihalachi.turboeditor.activity;
 
 import android.app.Activity;
 import android.content.Intent;
@@ -32,6 +32,7 @@ import android.widget.AdapterView;
 import android.widget.ListView;
 import android.widget.TextView;
 
+import com.vmihalachi.turboeditor.R;
 import com.vmihalachi.turboeditor.adapter.AdapterDetailedList;
 import com.vmihalachi.turboeditor.util.AlphanumComparator;
 

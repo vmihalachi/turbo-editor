@@ -25,7 +25,7 @@
         android:fillViewport="true">
 
         <view
-            class="com.vmihalachi.turboeditor.EditorFragment$Editor"
+            class="com.vmihalachi.turboeditor.fragment.EditorFragment$Editor"
             android:id="@id/editor"
             android:layout_width="match_parent"
             android:layout_height="match_parent"

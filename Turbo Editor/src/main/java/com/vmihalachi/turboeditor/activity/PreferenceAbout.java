@@ -17,7 +17,7 @@
  * along with Turbo Editor. If not, see <http://www.gnu.org/licenses/>.
  */
 
-package com.vmihalachi.turboeditor;
+package com.vmihalachi.turboeditor.activity;
 
 import android.content.Intent;
 import android.net.Uri;
@@ -25,6 +25,8 @@ import android.os.Bundle;
 import android.preference.Preference;
 import android.preference.PreferenceActivity;
 
+import com.vmihalachi.turboeditor.R;
+import com.vmihalachi.turboeditor.fragment.ChangelogDialogFragment;
 import com.vmihalachi.turboeditor.helper.AppInfoHelper;
 
 public class PreferenceAbout extends PreferenceActivity {
@@ -61,7 +63,7 @@ public class PreferenceAbout extends PreferenceActivity {
             changelog.setOnPreferenceClickListener(new Preference.OnPreferenceClickListener() {
                 @Override
                 public boolean onPreferenceClick(final Preference preference) {
-                    DialogStandardFragment.showChangeLogDialog(getFragmentManager());
+                    ChangelogDialogFragment.showChangeLogDialog(getFragmentManager());
                     return false;
                 }
             });

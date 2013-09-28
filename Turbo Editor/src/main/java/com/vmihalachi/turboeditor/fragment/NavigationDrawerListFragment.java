@@ -17,12 +17,10 @@
  * along with Turbo Editor. If not, see <http://www.gnu.org/licenses/>.
  */
 
-package com.vmihalachi.turboeditor;
+package com.vmihalachi.turboeditor.fragment;
 
 import android.app.ListFragment;
-import android.content.SharedPreferences;
 import android.os.Bundle;
-import android.preference.PreferenceManager;
 import android.util.SparseBooleanArray;
 import android.view.ActionMode;
 import android.view.LayoutInflater;
@@ -35,8 +33,10 @@ import android.widget.AbsListView;
 import android.widget.ArrayAdapter;
 import android.widget.ListView;
 
+import com.vmihalachi.turboeditor.R;
 import com.vmihalachi.turboeditor.event.FileSelectedEvent;
 import com.vmihalachi.turboeditor.event.NewFileOpened;
+import com.vmihalachi.turboeditor.helper.PreferenceHelper;
 
 import org.apache.commons.io.FilenameUtils;
 
@@ -48,15 +48,15 @@ import de.greenrobot.event.EventBus;
 
 public class NavigationDrawerListFragment extends ListFragment implements AbsListView.MultiChoiceModeListener {
 
-    List<String> fileNames;
-    ArrayAdapter<String> arrayAdapter;
+    private List<String> fileNames;
+    private ArrayAdapter<String> arrayAdapter;
 
     /**
      * {@inheritDoc}
      */
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container, Bundle savedInstanceState) {
-        // Out custom layout
+        // Our custom layout
         View rootView = inflater.inflate(R.layout.fragment_navigation_drawer, container, false);
         return rootView;
     }
@@ -78,7 +78,7 @@ public class NavigationDrawerListFragment extends ListFragment implements AbsLis
         super.onResume();
         // Register the Event Bus for events
         EventBus.getDefault().registerSticky(this);
-        //
+        // Refresh the list view
         refreshList();
     }
 
@@ -98,14 +98,8 @@ public class NavigationDrawerListFragment extends ListFragment implements AbsLis
     @Override
     public void onListItemClick(ListView l, View v, int position, long id) {
         super.onListItemClick(l, v, position, id);
-        // don't open the same file twice
-        //if(this.mCurrentCheckedPosition == position) return;
-        // set current checked position
-        //this.mCurrentCheckedPosition = position;
-        // Shared Preferences
-        SharedPreferences sharedPreferences = PreferenceManager.getDefaultSharedPreferences(getActivity());
         // File paths saved in preferences
-        String[] savedPaths = sharedPreferences.getString("savedPaths", "").split(",");
+        String[] savedPaths = PreferenceHelper.getSavedPaths(getActivity());
         // Path of the file selected
         String filePath = savedPaths[position];
         // Send the event that a file was selected
@@ -144,21 +138,23 @@ public class NavigationDrawerListFragment extends ListFragment implements AbsLis
     public boolean onActionItemClicked(ActionMode actionMode, MenuItem menuItem) {
         switch (menuItem.getItemId()) {
             case R.id.im_remove:
-                // Shared Preferences
-                SharedPreferences sharedPreferences = PreferenceManager.getDefaultSharedPreferences(getActivity());
                 // File paths saved in preferences
-                String[] savedPaths = sharedPreferences.getString("savedPaths", "").split(",");
-                //
+                String[] savedPaths = PreferenceHelper.getSavedPaths(getActivity());
+                // We get the checked positions
                 SparseBooleanArray checkedItems = getListView().getCheckedItemPositions();
-                //
+                // If we have some checked positions
                 if (checkedItems != null) {
                     for (int i=0; i<checkedItems.size(); i++) {
+                        // check if the value is checked
                         if (checkedItems.valueAt(i)) {
+                            // remove the checked path, but don't refresh the list
                             removePath(savedPaths[checkedItems.keyAt(i)], false);
                         }
                     }
+                    // In the end refresh the list
                     refreshList();
                 }
+                // Close the action mode
                 actionMode.finish();
                 return true;
             default:
@@ -182,66 +178,54 @@ public class NavigationDrawerListFragment extends ListFragment implements AbsLis
      */
     public void onEvent(NewFileOpened event){
         EventBus.getDefault().removeStickyEvent(event);
-        // Shared Preferences
-        SharedPreferences sharedPreferences = PreferenceManager.getDefaultSharedPreferences(getActivity());
         // File paths saved in preferences
-        String[] savedPaths = sharedPreferences.getString("savedPaths", "").split(",");
-
+        String[] savedPaths = PreferenceHelper.getSavedPaths(getActivity());
         for(int i = 0; i < savedPaths.length; i++){
+            // We don't need to save the file path twice
             if(savedPaths[i].equals(event.getFilePath())){
                 // Send the event that a file was selected
                 EventBus.getDefault().post(new FileSelectedEvent(event.getFilePath()));
                 return;
             }
         }
-
+        // Add the path if it wasn't added before
         addPath(event.getFilePath());
         // Send the event that a file was selected
         EventBus.getDefault().post(new FileSelectedEvent(event.getFilePath()));
     }
 
     private void addPath(String path){
+        // Add a path and refresh the list
         addPath(path, true);
     }
 
-    private void addPath(String path, boolean refresh){
-        // Shared Preferences
-        SharedPreferences sharedPreferences = PreferenceManager.getDefaultSharedPreferences(getActivity());
-        // Editor
-        SharedPreferences.Editor editor = sharedPreferences.edit();
+    private void addPath(String path, boolean refreshTheList){
         // File paths saved in preferences
-        String[] savedPaths = sharedPreferences.getString("savedPaths", "").split(",");
+        String[] savedPaths = PreferenceHelper.getSavedPaths(getActivity());
         // StringBuilder
         StringBuilder sb = new StringBuilder();
-        // for cycle
         for (int count = 0; count < savedPaths.length; count++) {
+            // Append the file path and a comma
             sb.append(savedPaths[count]).append(",");
         }
         // Append new path
         sb.append(path);
-        // Put the string
-        editor.putString("savedPaths", sb.toString());
-        // Commit
-        editor.commit();
+        // Put the string and commit
+        PreferenceHelper.setSavedPaths(getActivity(), sb);
         // Update list
-        //arrayAdapter.add(FilenameUtils.getName(path));
-        //arrayAdapter.notifyDataSetChanged();
-        if(refresh){
+        if(refreshTheList){
             refreshList();
         }
     }
 
     private void removePath(String path){
+        // Remove the path and refresh the list
         removePath(path, true);
     }
 
     private void removePath(String path, boolean refresh){
-        // Shared Preferences
-        SharedPreferences sharedPreferences = PreferenceManager.getDefaultSharedPreferences(getActivity());
-        // Editor
-        SharedPreferences.Editor editor = sharedPreferences.edit();
         // File paths saved in preferences
-        String[] savedPaths = sharedPreferences.getString("savedPaths", "").split(",");
+        String[] savedPaths = PreferenceHelper.getSavedPaths(getActivity());
         // StringBuilder
         StringBuilder sb = new StringBuilder();
         // for cycle
@@ -249,40 +233,32 @@ public class NavigationDrawerListFragment extends ListFragment implements AbsLis
             if(path.equals(savedPaths[count])) continue;
             sb.append(savedPaths[count]).append(",");
         }
-        // Put the string
-        editor.putString("savedPaths", sb.toString());
-        // Commit
-        editor.commit();
+        // Put the string and commit
+        PreferenceHelper.setSavedPaths(getActivity(), sb);
         // Update list
-        //arrayAdapter.remove(FilenameUtils.getName(path));
-        //arrayAdapter.notifyDataSetChanged();
         if(refresh){
             refreshList();
         }
     }
 
-    /* package */ void refreshList(){
-        // Shared Preferences
-        SharedPreferences sharedPreferences = PreferenceManager.getDefaultSharedPreferences(getActivity());
+    private  void refreshList(){
         // File paths saved in preferences
-        String[] savedPaths = sharedPreferences.getString("savedPaths", "").split(",");
+        String[] savedPaths = PreferenceHelper.getSavedPaths(getActivity());
         // File names for the list
         fileNames = new ArrayList<String>(savedPaths.length);
-        //
+        // StringBuilder that will contain the file paths
         StringBuilder sb = new StringBuilder();
         // for cycle to convert paths to names
         for(String path : savedPaths){
-
-            if(!path.isEmpty()){
-                File file = new File(path);
-                if(file.exists()){
-                    fileNames.add(FilenameUtils.getName(path));
-                    sb.append(path).append(",");
-                }
+            File file = new File(path);
+            // Check that the file exist
+            if(file.exists()){
+                fileNames.add(FilenameUtils.getName(path));
+                sb.append(path).append(",");
             }
         }
         // save list without empty or non existed files
-        sharedPreferences.edit().putString("savedPaths", sb.toString()).commit();
+        PreferenceHelper.setSavedPaths(getActivity(), sb);
         // Adapter
         arrayAdapter = new ArrayAdapter<String>(getActivity(), R.layout.item_drawer_list, fileNames);
         // Set adapter

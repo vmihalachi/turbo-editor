@@ -17,7 +17,7 @@
  * along with Turbo Editor. If not, see <http://www.gnu.org/licenses/>.
  */
 
-package com.vmihalachi.turboeditor;
+package com.vmihalachi.turboeditor.fragment;
 
 import android.app.Fragment;
 import android.content.Context;
@@ -47,6 +47,7 @@ import android.view.ViewGroup;
 import android.widget.EditText;
 import android.widget.Toast;
 
+import com.vmihalachi.turboeditor.R;
 import com.vmihalachi.turboeditor.event.ErrorOpeningFileEvent;
 import com.vmihalachi.turboeditor.event.FileSavedEvent;
 import com.vmihalachi.turboeditor.helper.PixelDipConverter;
@@ -67,7 +68,7 @@ import java.util.regex.Pattern;
 
 import de.greenrobot.event.EventBus;
 
-public class EditorFragment extends Fragment implements EditTextDialog.EditDialogListener{
+public class EditorFragment extends Fragment implements EncodingDialogFragment.EditDialogListener {
 
     private static final String TAG = "A0A";
     private Editor mEditor;
@@ -179,7 +180,7 @@ public class EditorFragment extends Fragment implements EditTextDialog.EditDialo
     }
 
     private void showEncodingDialog() {
-        EditTextDialog dialogFrag = EditTextDialog.newInstance(this.mCurrentEncoding);
+        EncodingDialogFragment dialogFrag = EncodingDialogFragment.newInstance(this.mCurrentEncoding);
         dialogFrag.setTargetFragment(this, 0);
         dialogFrag.show(getFragmentManager().beginTransaction(), "encodingDialog");
     }
@@ -188,7 +189,7 @@ public class EditorFragment extends Fragment implements EditTextDialog.EditDialo
      * {@inheritDoc}
      */
     @Override
-    public void onFinishEditDialog(final String inputText, final EditTextDialog.Actions action, final String hint) {
+    public void onFinishEditDialog(final String inputText, final String hint) {
         PreferenceHelper.setEncoding(getActivity(), inputText);
         updateTextEditor();
     }

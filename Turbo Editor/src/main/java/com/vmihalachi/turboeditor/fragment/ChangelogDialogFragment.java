@@ -13,7 +13,7 @@
  * See the License for the specific language governing permissions and
  * limitations under the License.
  ******************************************************************************/
-package com.vmihalachi.turboeditor;
+package com.vmihalachi.turboeditor.fragment;
 
 import android.app.AlertDialog;
 import android.app.Dialog;
@@ -28,16 +28,13 @@ import android.net.Uri;
 import android.os.Bundle;
 import android.view.LayoutInflater;
 
+import com.vmihalachi.turboeditor.R;
+
 import it.gmariotti.changelibs.library.view.ChangeLogListView;
 
-/**
- * Example with Dialog
- *
- * @author Gabriele Mariotti (gabri.mariotti@gmail.com)
- */
-public class DialogStandardFragment extends DialogFragment {
+public class ChangelogDialogFragment extends DialogFragment {
 
-    public DialogStandardFragment() {
+    public ChangelogDialogFragment() {
     }
 
     @Override
@@ -70,13 +67,13 @@ public class DialogStandardFragment extends DialogFragment {
     }
 
     public static final void showChangeLogDialog(FragmentManager fragmentManager){
-        DialogStandardFragment dialogStandardFragment = new DialogStandardFragment();
+        ChangelogDialogFragment changelogDialogFragment = new ChangelogDialogFragment();
         FragmentTransaction ft = fragmentManager.beginTransaction();
         Fragment prev = fragmentManager.findFragmentByTag("changelogdemo_dialog");
         if (prev != null) {
             ft.remove(prev);
         }
         ft.addToBackStack(null);
-        dialogStandardFragment.show(ft, "changelogdemo_dialog");
+        changelogDialogFragment.show(ft, "changelogdemo_dialog");
     }
 }

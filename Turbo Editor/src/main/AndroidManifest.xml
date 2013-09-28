@@ -39,7 +39,7 @@
         android:theme="@style/AppStyle">
 
         <activity
-            android:name=".HomeActivity"
+            android:name=".activity.HomeActivity"
             android:configChanges="keyboardHidden|orientation|screenSize"
             android:windowSoftInputMode="stateHidden|adjustResize"
             android:hardwareAccelerated="false"
@@ -72,17 +72,17 @@
         </activity>
 
         <activity
-            android:name="com.vmihalachi.turboeditor.PreferenceAbout"
+            android:name=".activity.PreferenceAbout"
             android:configChanges="keyboardHidden|orientation|screenSize"
             android:label="@string/aboutactivity_info_category"/>
 
         <activity
-            android:name="com.vmihalachi.turboeditor.LicensesActivity"
+            android:name=".activity.LicensesActivity"
             android:configChanges="keyboardHidden|orientation|screenSize"
             android:label="@string/open_source_license"/>
 
         <activity
-            android:name="com.vmihalachi.turboeditor.SelectFileActivity"
+            android:name=".activity.SelectFileActivity"
             android:configChanges="keyboardHidden|orientation|screenSize"
             android:label="@string/open_a_file"/>
 

@@ -20,7 +20,6 @@
 package com.vmihalachi.turboeditor.adapter;
 
 import android.content.Context;
-import android.graphics.Typeface;
 import android.text.TextUtils;
 import android.view.LayoutInflater;
 import android.view.View;
@@ -35,63 +34,42 @@ import com.vmihalachi.turboeditor.util.MimeTypes;
 import org.apache.commons.io.FilenameUtils;
 
 import java.util.Arrays;
-import java.util.HashMap;
 import java.util.LinkedList;
-import java.util.Set;
 
 public class AdapterDetailedList extends
         ArrayAdapter<AdapterDetailedList.FileDetail> {
 
     // Layout Inflater
-    final LayoutInflater inflater;
+    private final LayoutInflater inflater;
 
-    // The Context to get drawables from resources
-    private final Context context;
-
-    // The list of names
-    final LinkedList<FileDetail> fileDetails;
-
-    // Change HashMap<Integer, Boolean>  to SparseBooleanArray
-    private HashMap<String, Boolean> mSelection =
-            new HashMap<String, Boolean>();
-
-    private final int default_text_color;
-    private final int highlight_text_color;
+    // List of file details
+    private final LinkedList<FileDetail> fileDetails;
 
     public static class ViewHolder {
 
-        // Text view with the name of the file
-        public TextView label;
+        // Name of the file
+        public TextView nameLabel;
 
-        // Text view with the name of the file
+        // Size of the file
         public TextView sizeLabel;
 
+        // Date of the file
         public TextView dateLabel;
 
-        // The icon of the file
+        // Icon of the file
         public ImageView icon;
     }
 
     public AdapterDetailedList(final Context context,
                                final LinkedList<FileDetail> fileDetails,
                                final boolean isRoot) {
-        // super
-        super(context,
-                R.layout.item_file_list,
-                fileDetails);
-        this.context = context;
+        super(context, R.layout.item_file_list, fileDetails);
         this.fileDetails = fileDetails;
-        // Cache the LayoutInflate to avoid asking for a new one each time.
         this.inflater = LayoutInflater.from(context);
-        this.default_text_color = context.getResources().getColor(android.R.color.primary_text_dark);
-        this.highlight_text_color = context.getResources().getColor(android.R.color.holo_blue_dark);
         if (!isRoot) {
-            this.fileDetails.addFirst(new FileDetail("..",
-                    context.getString(R.string.folder), ""));
+            this.fileDetails.addFirst(new FileDetail("..", context.getString(R.string.folder), ""));
         } else {
-            this.fileDetails.addFirst(new FileDetail(context.getString(R.string.home),
-                    context.getString(R.string.folder),
-                    ""));
+            this.fileDetails.addFirst(new FileDetail(context.getString(R.string.home), context.getString(R.string.folder), ""));
         }
     }
 
@@ -103,7 +81,7 @@ public class AdapterDetailedList extends
                     .inflate(R.layout.item_file_list,
                             null);
             final ViewHolder hold = new ViewHolder();
-            hold.label = (TextView) convertView.findViewById(android.R.id.title);
+            hold.nameLabel = (TextView) convertView.findViewById(android.R.id.title);
             hold.sizeLabel = (TextView) convertView.findViewById(android.R.id.text1);
             hold.dateLabel = (TextView) convertView.findViewById(android.R.id.text2);
             hold.icon = (ImageView) convertView.findViewById(android.R.id.icon);
@@ -111,117 +89,51 @@ public class AdapterDetailedList extends
             final FileDetail fileDetail = fileDetails.get(position);
             final String fileName = fileDetail.getName();
             setIcon(hold, fileDetail);
-            hold.label
-                    .setText(fileName);
-            hold.sizeLabel
-                    .setText(fileDetail.getSize());
-            hold.dateLabel
-                    .setText(fileDetail.getDateModified());
-            if (isPositionChecked(fileName)) {
-                hold.label
-                        .setTextColor(this.highlight_text_color);
-                hold.label
-                        .setTypeface(null, Typeface.ITALIC);
-            } else {
-                hold.label
-                        .setTextColor(this.default_text_color);
-                hold.label
-                        .setTypeface(null, Typeface.NORMAL);
-            }
+            hold.nameLabel.setText(fileName);
+            hold.sizeLabel.setText(fileDetail.getSize());
+            hold.dateLabel.setText(fileDetail.getDateModified());
         } else {
             final ViewHolder hold = ((ViewHolder) convertView.getTag());
             final FileDetail fileDetail = fileDetails.get(position);
             final String fileName = fileDetail.getName();
             setIcon(hold, fileDetail);
-            hold.label
-                    .setText(fileName);
-            hold.sizeLabel
-                    .setText(fileDetail.getSize());
-            hold.dateLabel
-                    .setText(fileDetail.getDateModified());
-            if (isPositionChecked(fileName)) {
-                hold.label
-                        .setTextColor(this.highlight_text_color);
-                hold.label
-                        .setTypeface(null, Typeface.ITALIC);
-            } else {
-                hold.label
-                        .setTextColor(this.default_text_color);
-                hold.label
-                        .setTypeface(null, Typeface.NORMAL);
-            }
+            hold.nameLabel.setText(fileName);
+            hold.sizeLabel.setText(fileDetail.getSize());
+            hold.dateLabel.setText(fileDetail.getDateModified());
         }
         return convertView;
     }
 
-    private void setIcon(final ViewHolder viewHolder,
-                         final FileDetail fileDetail) {
+    private void setIcon(final ViewHolder viewHolder, final FileDetail fileDetail) {
         final String fileName = fileDetail.getName();
         final String ext = FilenameUtils.getExtension(fileName);
         if (fileDetail.isFolder()) {
-            viewHolder.icon
-                    .setImageResource(R.color.file_folder);
-        } else if (Arrays.asList(MimeTypes.MIME_HTML)
-                .contains(ext) || ext.endsWith("html")) {
-            viewHolder.icon
-                    .setImageResource(R.color.file_html);
-        } else if (Arrays.asList(MimeTypes.MIME_CODE)
-                .contains(ext)
+            viewHolder.icon.setImageResource(R.color.file_folder);
+        }
+        else if (Arrays.asList(MimeTypes.MIME_HTML).contains(ext) || ext.endsWith("html")) {
+            viewHolder.icon.setImageResource(R.color.file_html);
+        }
+        else if (Arrays.asList(MimeTypes.MIME_CODE).contains(ext)
                 || fileName.endsWith("css")
                 || fileName.endsWith("js")) {
-            viewHolder.icon
-                    .setImageResource(R.color.file_code);
-        } else if (Arrays.asList(MimeTypes.MIME_ARCHIVE).contains(ext)) {
-            viewHolder.icon
-                    .setImageResource(R.color.file_archive);
-        } else if (Arrays.asList(MimeTypes.MIME_MUSIC)
-                .contains(ext)) {
-            viewHolder.icon
-                    .setImageResource(R.color.file_media_music);
-        } else if (Arrays.asList(MimeTypes.MIME_PICTURE).contains(ext)) {
-            viewHolder.icon
-                    .setImageResource(R.color.file_media_picture);
-        } else if (Arrays.asList(MimeTypes.MIME_VIDEO)
-                .contains(ext)) {
-            viewHolder.icon
-                    .setImageResource(R.color.file_media_video);
-        } else {
-            viewHolder.icon
-                    .setImageResource(R.color.file_text);
+            viewHolder.icon.setImageResource(R.color.file_code);
         }
-    }
-
-    public void checkPosition(final String name) {
-        if (isPositionChecked(name)) {
-            removeSelection(name);
-        } else {
-            setNewSelection(name, true);
+        else if (Arrays.asList(MimeTypes.MIME_ARCHIVE).contains(ext)) {
+            viewHolder.icon.setImageResource(R.color.file_archive);
         }
-    }
-
-    void setNewSelection(final String name,
-                         final boolean value) {
-        this.mSelection.put(name, value);
-        notifyDataSetChanged();
-    }
-
-    boolean isPositionChecked(final String name) {
-        final Boolean result = this.mSelection.get(name);
-        return (result == null) ? false : result;
-    }
-
-    public Set<String> getCurrentCheckedPosition() {
-        return this.mSelection.keySet();
-    }
-
-    private void removeSelection(final String name) {
-        this.mSelection.remove(name);
-        notifyDataSetChanged();
-    }
-
-    public void clearSelection() {
-        this.mSelection = new HashMap<String, Boolean>();
-        notifyDataSetChanged();
+        else if (Arrays.asList(MimeTypes.MIME_MUSIC)
+                .contains(ext)) {
+            viewHolder.icon.setImageResource(R.color.file_media_music);
+        }
+        else if (Arrays.asList(MimeTypes.MIME_PICTURE).contains(ext)) {
+            viewHolder.icon.setImageResource(R.color.file_media_picture);
+        }
+        else if (Arrays.asList(MimeTypes.MIME_VIDEO).contains(ext)) {
+            viewHolder.icon.setImageResource(R.color.file_media_video);
+        }
+        else {
+            viewHolder.icon.setImageResource(R.color.file_text);
+        }
     }
 
     public static class FileDetail {

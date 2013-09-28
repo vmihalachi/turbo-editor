@@ -17,13 +17,15 @@
  * along with Turbo Editor. If not, see <http://www.gnu.org/licenses/>.
  */
 
-package com.vmihalachi.turboeditor;
+package com.vmihalachi.turboeditor.fragment;
 
 import android.app.Fragment;
 import android.os.Bundle;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
+
+import com.vmihalachi.turboeditor.R;
 
 /**
  * Created by Vlad on 9/23/13.

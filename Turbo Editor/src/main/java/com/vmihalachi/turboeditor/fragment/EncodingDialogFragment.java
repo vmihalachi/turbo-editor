@@ -17,7 +17,7 @@
  * along with Turbo Editor. If not, see <http://www.gnu.org/licenses/>.
  */
 
-package com.vmihalachi.turboeditor;
+package com.vmihalachi.turboeditor.fragment;
 
 import android.app.Dialog;
 import android.app.DialogFragment;
@@ -32,14 +32,15 @@ import android.widget.Button;
 import android.widget.EditText;
 import android.widget.TextView;
 
+import com.vmihalachi.turboeditor.R;
+
 // ...
-public class EditTextDialog extends DialogFragment implements TextView.OnEditorActionListener {
+public class EncodingDialogFragment extends DialogFragment implements TextView.OnEditorActionListener {
 
     private EditText mEditText;
 
-    public static EditTextDialog newInstance(final String hint) {
-        final EditTextDialog f = new EditTextDialog();
-
+    public static EncodingDialogFragment newInstance(final String hint) {
+        final EncodingDialogFragment f = new EncodingDialogFragment();
         // Supply num input as an argument.
         final Bundle args = new Bundle();
         args.putString("hint", hint);
@@ -81,8 +82,7 @@ public class EditTextDialog extends DialogFragment implements TextView.OnEditorA
         if (target == null) {
             target = (EditDialogListener) getActivity();
         }
-        target.onFinishEditDialog(this.mEditText.getText().toString(),
-                (Actions) getArguments().getSerializable("action"), getArguments().getString("hint"));
+        target.onFinishEditDialog(this.mEditText.getText().toString(), getArguments().getString("hint"));
         this.dismiss();
     }
 
@@ -95,12 +95,8 @@ public class EditTextDialog extends DialogFragment implements TextView.OnEditorA
         return false;
     }
 
-    public enum Actions {
-        NewRemoteFolder, NewRemoteFile, NewLocalFolder, Rename, Move, EditEncoding
-    }
-
     public interface EditDialogListener {
-        void onFinishEditDialog(String inputText, Actions action, String hint);
+        void onFinishEditDialog(String inputText, String hint);
     }
 }
 

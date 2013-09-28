@@ -17,7 +17,7 @@
  * along with Turbo Editor. If not, see <http://www.gnu.org/licenses/>.
  */
 
-package com.vmihalachi.turboeditor;
+package com.vmihalachi.turboeditor.activity;
 
 import android.app.ActionBar;
 import android.app.Activity;
@@ -38,10 +38,14 @@ import android.view.MenuItem;
 import android.view.View;
 import android.view.inputmethod.InputMethodManager;
 
+import com.vmihalachi.turboeditor.R;
 import com.vmihalachi.turboeditor.event.ErrorOpeningFileEvent;
 import com.vmihalachi.turboeditor.event.FileSavedEvent;
 import com.vmihalachi.turboeditor.event.FileSelectedEvent;
 import com.vmihalachi.turboeditor.event.NewFileOpened;
+import com.vmihalachi.turboeditor.fragment.ChangelogDialogFragment;
+import com.vmihalachi.turboeditor.fragment.EditorFragment;
+import com.vmihalachi.turboeditor.fragment.NoFileOpenedFragment;
 import com.vmihalachi.turboeditor.helper.AppInfoHelper;
 
 import de.greenrobot.event.EventBus;
@@ -68,12 +72,9 @@ public class HomeActivity extends Activity {
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
-        //
-        checkTaskRoot();
-        //
         setContentView(R.layout.activity_home);
-        //
-        setupDrawerLayout();
+        // setup the navigation drawer
+        setupNavigationDrawer();
         // Replace fragment
         getFragmentManager()
                 .beginTransaction()
@@ -86,9 +87,9 @@ public class HomeActivity extends Activity {
             // Set the default title
             getActionBar().setTitle(getString(R.string.nome_app_turbo_editor));
         }
-        //
-        receiveIntent();
-        //
+        // parse the intent
+        parseIntent(getIntent());
+        // show a dialog with the changelog
         showChangeLog();
     }
 
@@ -189,6 +190,12 @@ public class HomeActivity extends Activity {
         }
     }
 
+    @Override
+    protected void onNewIntent(Intent intent) {
+        super.onNewIntent(intent);
+        parseIntent(intent);
+    }
+
     /**
      *
      * @param event
@@ -243,7 +250,9 @@ public class HomeActivity extends Activity {
     }
 
     /**
-     *
+     * When a file can't be opened
+     * Invoked by the EditorFragment
+     * @param event The event called
      */
     public void onEvent(ErrorOpeningFileEvent event){
         //
@@ -273,16 +282,9 @@ public class HomeActivity extends Activity {
     }
 
     /**
-     *
+     * Setup the navigation drawer
      */
-    private void checkTaskRoot(){
-    }
-
-    /**
-     *
-     */
-    private void setupDrawerLayout(){
-        final String defaultTitle = getString(R.string.nome_app_turbo_editor);
+    private void setupNavigationDrawer(){
         mDrawerLayout = (DrawerLayout) findViewById(R.id.drawer_layout);
         /* Action Bar */
         final ActionBar ab = getActionBar();
@@ -311,41 +313,8 @@ public class HomeActivity extends Activity {
         mDrawerLayout.setDrawerListener(mDrawerToggle);
     }
 
-    @Override
-    protected void onNewIntent(Intent intent) {
-        super.onNewIntent(intent);
-        final String action = intent.getAction();
-        final String type = intent.getType();
-
-        if (Intent.ACTION_VIEW.equals(action)
-                || Intent.ACTION_EDIT.equals(action)
-                || Intent.ACTION_PICK.equals(action)
-                && type != null) {
-            // Post the NewFileOpened Event
-            EventBus.getDefault().postSticky(new NewFileOpened(intent.getData().getPath()));
-        }
-    }
-
     /**
-     *
-     */
-    private void receiveIntent(){
-        // Get intent, action and MIME type
-        final Intent intent = getIntent();
-        final String action = intent.getAction();
-        final String type = intent.getType();
-
-        if (Intent.ACTION_VIEW.equals(action)
-                || Intent.ACTION_EDIT.equals(action)
-                || Intent.ACTION_PICK.equals(action)
-                && type != null) {
-            // Post the NewFileOpened Event
-            EventBus.getDefault().postSticky(new NewFileOpened(intent.getData().getPath()));
-        }
-    }
-
-    /**
-     *
+     * Show a dialog with the changelog
      */
     private void showChangeLog(){
         final String currentVersion = AppInfoHelper.getCurrentVersion(this);
@@ -353,7 +322,23 @@ public class HomeActivity extends Activity {
         final String lastVersion = preferences.getString("last_version", currentVersion);
         preferences.edit().putString("last_version", currentVersion).commit();
         if (!lastVersion.equals(currentVersion)) {
-            DialogStandardFragment.showChangeLogDialog(getFragmentManager());
+            ChangelogDialogFragment.showChangeLogDialog(getFragmentManager());
+        }
+    }
+
+    /**
+     * Parses the intent
+     */
+    private void parseIntent(Intent intent){
+        final String action = intent.getAction();
+        final String type = intent.getType();
+
+        if (Intent.ACTION_VIEW.equals(action)
+                || Intent.ACTION_EDIT.equals(action)
+                || Intent.ACTION_PICK.equals(action)
+                && type != null) {
+            // Post the NewFileOpened Event
+            EventBus.getDefault().postSticky(new NewFileOpened(intent.getData().getPath()));
         }
     }
 }
