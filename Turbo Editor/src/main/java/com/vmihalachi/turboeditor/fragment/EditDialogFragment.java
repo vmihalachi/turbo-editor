@@ -35,28 +35,44 @@ import android.widget.TextView;
 import com.vmihalachi.turboeditor.R;
 
 // ...
-public class EncodingDialogFragment extends DialogFragment implements TextView.OnEditorActionListener {
+public class EditDialogFragment extends DialogFragment implements TextView.OnEditorActionListener {
 
-    private EditText mEditText;
+    EditText mEditText;
 
-    public static EncodingDialogFragment newInstance(final String hint) {
-        final EncodingDialogFragment f = new EncodingDialogFragment();
+    public static EditDialogFragment newInstance(final Actions action) {
+        return EditDialogFragment.newInstance(action, "");
+    }
+
+    public static EditDialogFragment newInstance(final Actions action, final String hint) {
+        final EditDialogFragment f = new EditDialogFragment();
+
         // Supply num input as an argument.
         final Bundle args = new Bundle();
+        args.putSerializable("action", action);
         args.putString("hint", hint);
         f.setArguments(args);
+
         return f;
     }
 
-    /**
-     * {@inheritDoc}
-     */
     @Override
     public View onCreateView(final LayoutInflater inflater, final ViewGroup container,
                              final Bundle savedInstanceState) {
 
         final Dialog dialog = getDialog();
-        final String title = getString(R.string.codifica);
+        final Actions action = (Actions) getArguments().getSerializable("action");
+        final String title;
+        switch (action) {
+            case Encoding:
+                title = getString(R.string.codifica);
+                break;
+            case NewLocalFile:
+                title = getString(R.string.new_local_file);
+                break;
+            default:
+                title = null;
+                break;
+        }
         dialog.setTitle(title);
 
         final View view = inflater.inflate(R.layout.dialog_fragment_edittext, container);
@@ -65,15 +81,11 @@ public class EncodingDialogFragment extends DialogFragment implements TextView.O
         // Show soft keyboard automatically
         this.mEditText.setText(getArguments().getString("hint"));
         this.mEditText.requestFocus();
-        dialog.getWindow().setSoftInputMode(
-                WindowManager.LayoutParams.SOFT_INPUT_STATE_VISIBLE);
+        dialog.getWindow().setSoftInputMode(WindowManager.LayoutParams.SOFT_INPUT_STATE_VISIBLE);
         this.mEditText.setOnEditorActionListener(this);
 
         final Button button = (Button) view.findViewById(android.R.id.button1);
         button.setOnClickListener(new View.OnClickListener() {
-            /**
-             * {@inheritDoc}
-             */
             @Override
             public void onClick(final View v) {
                 returnData();
@@ -88,13 +100,11 @@ public class EncodingDialogFragment extends DialogFragment implements TextView.O
         if (target == null) {
             target = (EditDialogListener) getActivity();
         }
-        target.onFinishEditDialog(this.mEditText.getText().toString(), getArguments().getString("hint"));
+        target.onFinishEditDialog(this.mEditText.getText().toString(), getArguments().getString("hint"),
+                (Actions) getArguments().getSerializable("action"));
         this.dismiss();
     }
 
-    /**
-     * {@inheritDoc}
-     */
     @Override
     public boolean onEditorAction(final TextView v, final int actionId, final KeyEvent event) {
         if (EditorInfo.IME_ACTION_DONE == actionId) {
@@ -104,9 +114,11 @@ public class EncodingDialogFragment extends DialogFragment implements TextView.O
         return false;
     }
 
+    public enum Actions {
+        Encoding, NewLocalFile
+    }
+
     public interface EditDialogListener {
-        void onFinishEditDialog(String inputText, String hint);
+        void onFinishEditDialog(String inputText, String hint, Actions action);
     }
 }
-
-

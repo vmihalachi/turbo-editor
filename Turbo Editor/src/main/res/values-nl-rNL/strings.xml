@@ -114,4 +114,9 @@
   <string name="show_navigation_breadcrumb">Toon navigatie breadcrumb</string>
   <string name="open_a_file">Open een bestand</string>
   <string name="open_this_time_only">Alleen deze keer openen</string>
+  <string name="advise_editor_title">Waar is Turbo Editor?</string>
+  <string name="advise_editor_subtitle">De beste gratis en open source file editor!</string>
+  <string name="change_list_type">Wijzig het type lijst</string>
+  <string name="use_monospace">Use monospace</string>
+  <string name="recent_files">Recent files</string>
 </resources>

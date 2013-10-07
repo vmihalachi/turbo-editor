@@ -114,4 +114,9 @@
   <string name="show_navigation_breadcrumb">Show navigation breadcrumb</string>
   <string name="open_a_file">Datei öffnen</string>
   <string name="open_this_time_only">Nur dieses Mal öffnen</string>
+  <string name="advise_editor_title">Are you missing Turbo Editor?</string>
+  <string name="advise_editor_subtitle">Der beste freie und Open Source Dateieditor!</string>
+  <string name="change_list_type">Change the list type</string>
+  <string name="use_monospace">Use monospace</string>
+  <string name="recent_files">Recent files</string>
 </resources>

@@ -54,6 +54,11 @@
                     android:showAsAction="ifRoom"
                     android:title="@string/menu_syntax_highlight"
                     android:checkable="true"/>
+            <item
+                android:id="@id/im_use_monospace"
+                android:showAsAction="ifRoom"
+                android:title="@string/use_monospace"
+                android:checkable="true"/>
         </menu>
     </item>
 </menu>

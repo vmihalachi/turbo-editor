@@ -21,9 +21,12 @@ package com.vmihalachi.turboeditor.helper;
 
 import android.content.Context;
 import android.content.SharedPreferences;
+import android.os.Environment;
 import android.preference.PreferenceManager;
 
 public final class PreferenceHelper {
+
+    private static final String SD_CARD_ROOT = Environment.getExternalStorageDirectory().getAbsolutePath();
 
     private PreferenceHelper() {
     }
@@ -38,6 +41,10 @@ public final class PreferenceHelper {
         return getPrefs(context).edit();
     }
 
+    public static boolean getUseMonospace(Context context) {
+        return getPrefs(context).getBoolean("use_monospace", false);
+    }
+
     public static boolean getWrapText(Context context) {
         return getPrefs(context).getBoolean("editor_wrap_text", true);
     }
@@ -50,11 +57,19 @@ public final class PreferenceHelper {
         return getPrefs(context).getString("editor_encoding", "UTF-8");
     }
 
+    public static String getLastNavigatedFolder(Context context) {
+        return getPrefs(context).getString("last_navigated_folder", SD_CARD_ROOT);
+    }
+
     public static String[] getSavedPaths(Context context) {
         return getPrefs(context).getString("savedPaths", "").split(",");
     }
 
     // Setter methods
+
+    public static void setUseMonospace(Context context, boolean value) {
+        getEditor(context).putBoolean("use_monospace", value).commit();
+    }
 
     public static void setWrapText(Context context, boolean value) {
         getEditor(context).putBoolean("editor_wrap_text", value).commit();
@@ -66,6 +81,10 @@ public final class PreferenceHelper {
 
     public static void setEncoding(Context context, String value) {
         getEditor(context).putString("editor_encoding", value).commit();
+    }
+
+    public static void setLastNavigatedFolder(Context context, String value) {
+        getEditor(context).putString("last_navigated_folder", value).commit();
     }
 
     public static void setSavedPaths(Context context, StringBuilder stringBuilder) {

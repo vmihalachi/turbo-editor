@@ -20,6 +20,10 @@
 
 <menu xmlns:android="http://schemas.android.com/apk/res/android">
     <item
+        android:id="@id/im_new_file"
+        android:title="@string/new_local_file"
+        android:showAsAction="ifRoom|withText"/>
+    <item
         android:id="@id/im_button"
         android:showAsAction="ifRoom|withText"/>
 </menu>

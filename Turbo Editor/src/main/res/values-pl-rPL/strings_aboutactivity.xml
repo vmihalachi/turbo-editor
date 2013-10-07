@@ -19,7 +19,7 @@
   <string name="aboutactivity_helptranslate">Tłumaczenie aplikacji</string>
   <string name="aboutactivity_helptranslate_summary">Popraw pewne błędy lub dodaj nowe tłumaczenie</string>
   <string name="aboutactivity_readme">Read Me</string>
-  <string name="aboutactivity_readme_summary">Read the reference</string>
+  <string name="aboutactivity_readme_summary">Przeczytaj opinie</string>
   <string name="aboutactivity_faq">FAQ</string>
   <string name="aboutactivity_faq_summary">Pokaż FAQ aplikacji</string>
   <string name="aboutactivity_changelog">Lista zmian</string>

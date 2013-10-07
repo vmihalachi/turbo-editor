@@ -1,7 +1,13 @@
 <?xml version="1.0" encoding="utf-8"?>
 <changelog bulletedList="true">
 
-    <changelogversion versionName="0.3" changeDate="Sep 27, 2013">
+    <changelogversion versionName="1.1" changeDate="Oct 6, 2013">
+        <changelogtext>Now you can create new files (open -> create new file)</changelogtext>
+        <changelogtext>Added the monospace font (choose it in the preferences)</changelogtext>
+    </changelogversion>
+
+    <changelogversion versionName="1.0" changeDate="Sep 28, 2013">
+        <changelogtext>Released on the Play Store</changelogtext>
         <changelogtext>Improved the about page</changelogtext>
     </changelogversion>
 

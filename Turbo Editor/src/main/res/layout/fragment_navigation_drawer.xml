@@ -33,6 +33,13 @@
         android:choiceMode="multipleChoiceModal"
         android:cacheColorHint="@android:color/transparent"/>
 
-    <include android:id="@android:id/empty"
-        layout="@layout/fragment_no_file_open"/>
+    <TextView
+        android:id="@android:id/empty"
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        android:gravity="center"
+        android:textSize="@dimen/text_size_mega_title"
+        android:fontFamily="sans-serif-light"
+        android:text="@string/recent_files"
+        android:textColor="@android:color/secondary_text_dark"/>
 </LinearLayout>

@@ -23,8 +23,8 @@ import android.app.Activity;
 import android.content.Intent;
 import android.os.AsyncTask;
 import android.os.Bundle;
-import android.os.Environment;
 import android.text.TextUtils;
+import android.util.Log;
 import android.view.Menu;
 import android.view.MenuItem;
 import android.view.View;
@@ -34,11 +34,14 @@ import android.widget.TextView;
 
 import com.vmihalachi.turboeditor.R;
 import com.vmihalachi.turboeditor.adapter.AdapterDetailedList;
+import com.vmihalachi.turboeditor.fragment.EditDialogFragment;
+import com.vmihalachi.turboeditor.helper.PreferenceHelper;
 import com.vmihalachi.turboeditor.util.AlphanumComparator;
 
 import org.apache.commons.io.FileUtils;
 
 import java.io.File;
+import java.io.IOException;
 import java.text.SimpleDateFormat;
 import java.util.AbstractMap;
 import java.util.Arrays;
@@ -46,15 +49,11 @@ import java.util.Comparator;
 import java.util.HashMap;
 import java.util.LinkedList;
 
-public class SelectFileActivity extends Activity implements AdapterView.OnItemClickListener {
+public class SelectFileActivity extends Activity implements AdapterView.OnItemClickListener, EditDialogFragment.EditDialogListener {
+    private static final String TAG = "A0A";
     private String currentFolder;
     private ListView listView;
     private boolean wantAFile, wantAFolder;
-
-    // The android SD card root path
-    public static final String SD_CARD_ROOT =
-            Environment.getExternalStorageDirectory()
-                    .getAbsolutePath();
 
 
     /**
@@ -74,13 +73,16 @@ public class SelectFileActivity extends Activity implements AdapterView.OnItemCl
 
         String path = getIntent().getExtras().getString("path");
         if (TextUtils.isEmpty(path)) {
-            new UpdateList().execute(SD_CARD_ROOT);
+            new UpdateList().execute(PreferenceHelper.getLastNavigatedFolder(this));
         } else {
             new UpdateList().execute(path);
         }
     }
 
     void returnData(String path) {
+        if(!TextUtils.isEmpty(path)){
+            PreferenceHelper.setLastNavigatedFolder(this, path);
+        }
         final Intent returnIntent = new Intent();
         returnIntent.putExtra("path", path);
         setResult(RESULT_OK, returnIntent);
@@ -96,10 +98,21 @@ public class SelectFileActivity extends Activity implements AdapterView.OnItemCl
                             View view, int position, long id) {
         final String name = ((TextView) view.findViewById(android.R.id.title)).getText().toString();
         if (name.equals("..")) {
-            vaiIndietro();
+            if (currentFolder.equals("/")) {
+                new UpdateList().execute(PreferenceHelper.getLastNavigatedFolder(this));
+            } else {
+                File tempFile = new File(currentFolder);
+                if (tempFile.isFile()) {
+                    tempFile = tempFile.getParentFile()
+                            .getParentFile();
+                } else {
+                    tempFile = tempFile.getParentFile();
+                }
+                new UpdateList().execute(tempFile.getAbsolutePath());
+            }
             return;
         } else if (name.equals(getString(R.string.home))) {
-            new UpdateList().execute(SD_CARD_ROOT);
+            new UpdateList().execute(PreferenceHelper.getLastNavigatedFolder(this));
             return;
         }
 
@@ -135,27 +148,30 @@ public class SelectFileActivity extends Activity implements AdapterView.OnItemCl
             } else if (wantAFile) {
                 returnData("");
             }
+        } else if (i == R.id.im_new_file) {
+            final EditDialogFragment dialogFrag = EditDialogFragment.newInstance(EditDialogFragment.Actions.NewLocalFile);
+            dialogFrag.show(getFragmentManager().beginTransaction(), "dialog");
         }
         return super.onOptionsItemSelected(item);
     }
 
-    void vaiIndietro() {
-        if (currentFolder.equals("/")) {
-            new UpdateList().execute(SD_CARD_ROOT);
-        } else {
-            File tempFile = new File(currentFolder);
-            if (tempFile.isFile()) {
-                tempFile = tempFile.getParentFile()
-                        .getParentFile();
-            } else {
-                tempFile = tempFile.getParentFile();
+    /**
+     * {@inheritDoc}
+     */
+    @Override
+    public void onFinishEditDialog(final String inputText, final String hint, final EditDialogFragment.Actions actions) {
+        if(actions == EditDialogFragment.Actions.NewLocalFile){
+            File file = new File(currentFolder, inputText);
+            try {
+                file.createNewFile();
+            } catch (IOException e) {
+                Log.e(TAG, e.getMessage(), e);
             }
-            new UpdateList().execute(tempFile.getAbsolutePath());
+            returnData(file.getAbsolutePath());
         }
     }
 
-    private class UpdateList extends
-            AsyncTask<String, Void, LinkedList<AdapterDetailedList.FileDetail>> {
+    private class UpdateList extends AsyncTask<String, Void, LinkedList<AdapterDetailedList.FileDetail>> {
 
         /**
          * {@inheritDoc}

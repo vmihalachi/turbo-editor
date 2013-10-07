@@ -23,6 +23,7 @@ import android.app.Fragment;
 import android.content.Context;
 import android.content.SharedPreferences;
 import android.graphics.Canvas;
+import android.graphics.Typeface;
 import android.os.AsyncTask;
 import android.os.Bundle;
 import android.os.Handler;
@@ -68,7 +69,7 @@ import java.util.regex.Pattern;
 
 import de.greenrobot.event.EventBus;
 
-public class EditorFragment extends Fragment implements EncodingDialogFragment.EditDialogListener {
+public class EditorFragment extends Fragment implements EditDialogFragment.EditDialogListener {
 
     private static final String TAG = "A0A";
     private Editor mEditor;
@@ -77,6 +78,7 @@ public class EditorFragment extends Fragment implements EncodingDialogFragment.E
     static boolean sWrapText;
     static boolean sColorSyntax;
     //
+    private boolean mUseMonospace;
     private String mCurrentEncoding;
     private static String sFilePath;
 
@@ -122,6 +124,7 @@ public class EditorFragment extends Fragment implements EncodingDialogFragment.E
         //
         this.sFilePath = getArguments().getString("filePath");
         this.mCurrentEncoding = PreferenceHelper.getEncoding(getActivity());
+        this.mUseMonospace = PreferenceHelper.getUseMonospace(getActivity());
         this.sColorSyntax = PreferenceHelper.getSyntaxHiglight(getActivity());
         this.sWrapText = PreferenceHelper.getWrapText(getActivity());
         String fileName = FilenameUtils.getName(getArguments().getString("filePath"));
@@ -151,6 +154,7 @@ public class EditorFragment extends Fragment implements EncodingDialogFragment.E
         inflater.inflate(R.menu.fragment_editor, menu);
         menu.findItem(R.id.im_wrap_text).setChecked(this.sWrapText);
         menu.findItem(R.id.im_syntax_highlight).setChecked(this.sColorSyntax);
+        menu.findItem(R.id.im_use_monospace).setChecked(this.mUseMonospace);
         super.onCreateOptionsMenu(menu, inflater);
     }
 
@@ -179,12 +183,16 @@ public class EditorFragment extends Fragment implements EncodingDialogFragment.E
             item.setChecked(!item.isChecked());
             PreferenceHelper.setWrapText(getActivity(), item.isChecked());
             updateTextEditor();
+        } else if (i == R.id.im_use_monospace) {
+            item.setChecked(!item.isChecked());
+            PreferenceHelper.setUseMonospace(getActivity(), item.isChecked());
+            updateTextEditor();
         }
         return super.onOptionsItemSelected(item);
     }
 
     private void showEncodingDialog() {
-        EncodingDialogFragment dialogFrag = EncodingDialogFragment.newInstance(this.mCurrentEncoding);
+        EditDialogFragment dialogFrag = EditDialogFragment.newInstance(EditDialogFragment.Actions.Encoding, this.mCurrentEncoding);
         dialogFrag.setTargetFragment(this, 0);
         dialogFrag.show(getFragmentManager().beginTransaction(), "encodingDialog");
     }
@@ -194,14 +202,17 @@ public class EditorFragment extends Fragment implements EncodingDialogFragment.E
      * {@inheritDoc}
      */
     @Override
-    public void onFinishEditDialog(final String inputText, final String hint) {
-        PreferenceHelper.setEncoding(getActivity(), inputText);
-        updateTextEditor();
+    public void onFinishEditDialog(final String inputText, final String hint, final EditDialogFragment.Actions actions) {
+        if(actions == EditDialogFragment.Actions.Encoding){
+            PreferenceHelper.setEncoding(getActivity(), inputText);
+            updateTextEditor();
+        }
     }
 
     private void updateTextEditor() {
         final boolean countLines = PreferenceHelper.getWrapText(getActivity());
         final boolean syntaxHighlight = PreferenceHelper.getSyntaxHiglight(getActivity());
+        final boolean useMonospace = PreferenceHelper.getUseMonospace(getActivity());
         final String encoding = PreferenceHelper.getEncoding(getActivity());
 
         if (this.sWrapText != countLines) {
@@ -217,6 +228,14 @@ public class EditorFragment extends Fragment implements EncodingDialogFragment.E
             final String s = this.mEditor.getText().toString();
             //inflateOfWrapText();
             this.mEditor.setText(s);
+        }
+
+        if (this.mUseMonospace != useMonospace) {
+            this.mUseMonospace = useMonospace;
+            this.mEditor.setTypeface(Typeface.MONOSPACE);
+            //final String s = this.mEditor.getText().toString();
+            //inflateOfWrapText();
+            //this.mEditor.setText(s);
         }
 
         if (!this.mCurrentEncoding.equals(encoding)) {
@@ -237,6 +256,9 @@ public class EditorFragment extends Fragment implements EncodingDialogFragment.E
         } else {
             int paddingLeft = (int) PixelDipConverter.convertDpToPixel(5, getActivity());
             mEditor.setPadding(paddingLeft, 0, 0, 0);
+        }
+        if(this.mUseMonospace){
+            this.mEditor.setTypeface(Typeface.MONOSPACE);
         }
     }
 

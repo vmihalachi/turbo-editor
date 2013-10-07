@@ -30,6 +30,9 @@ proguard/
 
 # Android Studio
 .gradle
+*.gradle
+*.jks
 /local.properties
 /.idea/workspace.xml
 .DS_Store
+/Turbo Editor/build/

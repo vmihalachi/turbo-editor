@@ -114,4 +114,9 @@
   <string name="show_navigation_breadcrumb">Εμφάνιση βοηθού πλοήγησης</string>
   <string name="open_a_file">Άνοιγμα αρχείου</string>
   <string name="open_this_time_only">Open this time only</string>
+  <string name="advise_editor_title">Are you missing Turbo Editor?</string>
+  <string name="advise_editor_subtitle">The best free and open source file editor!</string>
+  <string name="change_list_type">Change the list type</string>
+  <string name="use_monospace">Use monospace</string>
+  <string name="recent_files">Recent files</string>
 </resources>

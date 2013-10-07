@@ -25,4 +25,4 @@
     android:textSize="@dimen/text_size_mega_title"
     android:fontFamily="sans-serif-light"
     android:text="@string/open_a_file"
-    android:clickable="true" />
+    android:textColor="@android:color/secondary_text_dark"/>
