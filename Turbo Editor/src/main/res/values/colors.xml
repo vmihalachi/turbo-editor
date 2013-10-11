@@ -21,9 +21,7 @@
     <!-- action bar background color -->
     <color name="actionbar_background">#111111</color>
     <!-- activity background color -->
-    <color name="activity_background">#202020</color>
-    <!-- activity text color -->
-    <color name="activity_text_color">#fff7f7f9</color>
+    <color name="activity_background">#ff191919</color>
     <!-- navigation drawer background color -->
     <color name="navigation_drawer_background">#1d1d1d</color>
     <!-- colors used as file icons -->

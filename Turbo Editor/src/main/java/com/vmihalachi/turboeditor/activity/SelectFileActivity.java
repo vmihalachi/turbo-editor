@@ -232,8 +232,8 @@ public class SelectFileActivity extends Activity implements AdapterView.OnItemCl
          */
         @Override
         protected void onPostExecute(final LinkedList<AdapterDetailedList.FileDetail> names) {
-            boolean isRoot = currentFolder.equals("/");
             if (names != null) {
+                boolean isRoot = currentFolder.equals("/");
                 listView.setAdapter(new AdapterDetailedList(getBaseContext(), names, isRoot));
             }
             super.onPostExecute(names);

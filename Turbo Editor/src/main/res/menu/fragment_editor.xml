@@ -41,10 +41,6 @@
             android:showAsAction="ifRoom|withText">
         <menu>
             <item
-                    android:id="@id/im_editor_encoding"
-                    android:showAsAction="ifRoom"
-                    android:title="@string/codifica"/>
-            <item
                     android:id="@id/im_wrap_text"
                     android:showAsAction="ifRoom"
                     android:title="@string/wrap_the_text"
@@ -59,6 +55,14 @@
                 android:showAsAction="ifRoom"
                 android:title="@string/use_monospace"
                 android:checkable="true"/>
+            <item
+                android:id="@id/im_editor_encoding"
+                android:showAsAction="ifRoom"
+                android:title="@string/codifica"/>
+            <item
+                android:id="@id/im_text_size"
+                android:showAsAction="ifRoom"
+                android:title="@string/text_size"/>
         </menu>
     </item>
 </menu>

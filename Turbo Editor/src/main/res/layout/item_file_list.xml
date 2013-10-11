@@ -39,7 +39,8 @@
         android:maxLines="1"
         android:textSize="@dimen/text_size_title"
         android:ellipsize="end"
-        android:padding="@dimen/minimum_padding" />
+        android:padding="@dimen/minimum_padding"
+        android:textColor="@android:color/primary_text_dark_nodisable"/>
 
     <LinearLayout
         android:layout_height="wrap_content"

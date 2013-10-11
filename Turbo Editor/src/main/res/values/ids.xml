@@ -32,6 +32,7 @@
     <item type="id" name="im_syntax_highlight"/>
     <item type="id" name="im_use_monospace"/>
     <item type="id" name="im_new_file"/>
+    <item type="id" name="im_text_size"/>
     <!-- layout item ids -->
     <item type="id" name="drawer_layout"/>
     <item type="id" name="fragment_editor"/>

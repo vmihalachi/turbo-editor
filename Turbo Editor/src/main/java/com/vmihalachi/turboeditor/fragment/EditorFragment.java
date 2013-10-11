@@ -69,7 +69,7 @@ import java.util.regex.Pattern;
 
 import de.greenrobot.event.EventBus;
 
-public class EditorFragment extends Fragment implements EditDialogFragment.EditDialogListener {
+public class EditorFragment extends Fragment implements EditDialogFragment.EditDialogListener, SeekbarDialogFragment.onSeekbarDialogDismissed {
 
     private static final String TAG = "A0A";
     private Editor mEditor;
@@ -77,6 +77,7 @@ public class EditorFragment extends Fragment implements EditDialogFragment.EditD
     // Editor Variables
     static boolean sWrapText;
     static boolean sColorSyntax;
+    static int sFontSize;
     //
     private boolean mUseMonospace;
     private String mCurrentEncoding;
@@ -99,6 +100,12 @@ public class EditorFragment extends Fragment implements EditDialogFragment.EditD
     public void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setHasOptionsMenu(true);
+        this.sFilePath = getArguments().getString("filePath");
+        this.mCurrentEncoding = PreferenceHelper.getEncoding(getActivity());
+        this.mUseMonospace = PreferenceHelper.getUseMonospace(getActivity());
+        this.sColorSyntax = PreferenceHelper.getSyntaxHiglight(getActivity());
+        this.sWrapText = PreferenceHelper.getWrapText(getActivity());
+        this.sFontSize = PreferenceHelper.getFontSize(getActivity());
     }
 
 
@@ -107,10 +114,20 @@ public class EditorFragment extends Fragment implements EditDialogFragment.EditD
      */
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container, Bundle savedInstanceState) {
-        // Out custom layout
         View rootView = inflater.inflate(R.layout.fragment_editor, container, false);
-        //
         mEditor = (Editor) rootView.findViewById(R.id.editor);
+        mEditor.setHorizontallyScrolling(!this.sWrapText);
+        if (!this.sWrapText) {
+            int paddingLeft = (int) PixelDipConverter.convertDpToPixel(sFontSize * 1.5f, getActivity());
+            mEditor.setPadding(paddingLeft, 0, 0, 0);
+        } else {
+            int paddingLeft = (int) PixelDipConverter.convertDpToPixel(5, getActivity());
+            mEditor.setPadding(paddingLeft, 0, 0, 0);
+        }
+        if(this.mUseMonospace){
+            mEditor.setTypeface(Typeface.MONOSPACE);
+        }
+        mEditor.setTextSize(sFontSize);
         return rootView;
     }
 
@@ -121,18 +138,8 @@ public class EditorFragment extends Fragment implements EditDialogFragment.EditD
     @Override
     public void onActivityCreated(Bundle savedInstanceState) {
         super.onActivityCreated(savedInstanceState);
-        //
-        this.sFilePath = getArguments().getString("filePath");
-        this.mCurrentEncoding = PreferenceHelper.getEncoding(getActivity());
-        this.mUseMonospace = PreferenceHelper.getUseMonospace(getActivity());
-        this.sColorSyntax = PreferenceHelper.getSyntaxHiglight(getActivity());
-        this.sWrapText = PreferenceHelper.getWrapText(getActivity());
         String fileName = FilenameUtils.getName(getArguments().getString("filePath"));
-        //
         getActivity().getActionBar().setTitle(fileName);
-        //
-        configureEditText();
-        //
         try {
             final FileInputStream inputStream =
                     new FileInputStream(
@@ -174,7 +181,16 @@ public class EditorFragment extends Fragment implements EditDialogFragment.EditD
             this.mEditor.onKeyShortcut(KeyEvent.KEYCODE_Y, new KeyEvent(KeyEvent.ACTION_DOWN,
                     KeyEvent.KEYCODE_Y));
         } else if (i == R.id.im_editor_encoding) {
-            showEncodingDialog();
+            EditDialogFragment dialogFrag = EditDialogFragment.newInstance(EditDialogFragment.Actions.Encoding, this.mCurrentEncoding);
+            dialogFrag.setTargetFragment(this, 0);
+            dialogFrag.show(getFragmentManager().beginTransaction(), "dialog");
+        } else if (i == R.id.im_text_size) {
+            int fontMax = 36;
+            float scaledDensity = getResources().getDisplayMetrics().scaledDensity;
+            int fontCurrent = (int) (mEditor.getTextSize() / scaledDensity);
+            SeekbarDialogFragment dialogFrag = SeekbarDialogFragment.newInstance(SeekbarDialogFragment.Actions.FileSize, fontCurrent, fontMax);
+            dialogFrag.setTargetFragment(this, 0);
+            dialogFrag.show(getFragmentManager().beginTransaction(), "dialog");
         } else if (i == R.id.im_syntax_highlight) {
             item.setChecked(!item.isChecked());
             PreferenceHelper.setSyntaxHiglight(getActivity(), item.isChecked());
@@ -191,13 +207,6 @@ public class EditorFragment extends Fragment implements EditDialogFragment.EditD
         return super.onOptionsItemSelected(item);
     }
 
-    private void showEncodingDialog() {
-        EditDialogFragment dialogFrag = EditDialogFragment.newInstance(EditDialogFragment.Actions.Encoding, this.mCurrentEncoding);
-        dialogFrag.setTargetFragment(this, 0);
-        dialogFrag.show(getFragmentManager().beginTransaction(), "encodingDialog");
-    }
-
-
     /**
      * {@inheritDoc}
      */
@@ -209,33 +218,50 @@ public class EditorFragment extends Fragment implements EditDialogFragment.EditD
         }
     }
 
+    /**
+     * {@inheritDoc}
+     */
+    @Override
+    public void onSeekbarDialogDismissed(SeekbarDialogFragment.Actions action, int value) {
+        PreferenceHelper.setFontSize(getActivity(), value);
+        updateTextEditor();
+    }
+
     private void updateTextEditor() {
-        final boolean countLines = PreferenceHelper.getWrapText(getActivity());
+        final boolean wrapText = PreferenceHelper.getWrapText(getActivity());
         final boolean syntaxHighlight = PreferenceHelper.getSyntaxHiglight(getActivity());
         final boolean useMonospace = PreferenceHelper.getUseMonospace(getActivity());
         final String encoding = PreferenceHelper.getEncoding(getActivity());
+        final int fontSize = PreferenceHelper.getFontSize(getActivity());
 
-        if (this.sWrapText != countLines) {
-            this.sWrapText = countLines;
-            final String s = this.mEditor.getText().toString();
-            //inflateOfWrapText();
-            this.mEditor.setText(s);
-            configureEditText();
+        if (this.sWrapText != wrapText) {
+            this.sWrapText = wrapText;
+            this.mEditor.setText(this.mEditor.getText().toString());
+            this.mEditor.setHorizontallyScrolling(!this.sWrapText);
+            if (!this.sWrapText) {
+                int paddingLeft = (int) PixelDipConverter.convertDpToPixel(sFontSize * 1.5f, getActivity());
+                mEditor.setPadding(paddingLeft, 0, 0, 0);
+            } else {
+                int paddingLeft = (int) PixelDipConverter.convertDpToPixel(5, getActivity());
+                mEditor.setPadding(paddingLeft, 0, 0, 0);
+            }
         }
 
         if (this.sColorSyntax != syntaxHighlight) {
             this.sColorSyntax = syntaxHighlight;
-            final String s = this.mEditor.getText().toString();
-            //inflateOfWrapText();
-            this.mEditor.setText(s);
+            this.mEditor.setText(this.mEditor.getText().toString());
         }
 
         if (this.mUseMonospace != useMonospace) {
             this.mUseMonospace = useMonospace;
             this.mEditor.setTypeface(Typeface.MONOSPACE);
-            //final String s = this.mEditor.getText().toString();
-            //inflateOfWrapText();
-            //this.mEditor.setText(s);
+        }
+
+        if (this.sFontSize != fontSize) {
+            this.sFontSize = fontSize;
+            int paddingLeft = (int) PixelDipConverter.convertDpToPixel(fontSize * 1.5f, getActivity());
+            mEditor.setPadding(paddingLeft, 0, 0, 0);
+            this.mEditor.setTextSize(fontSize);
         }
 
         if (!this.mCurrentEncoding.equals(encoding)) {
@@ -245,20 +271,6 @@ public class EditorFragment extends Fragment implements EditDialogFragment.EditD
                 this.mCurrentEncoding = encoding;
             } catch (UnsupportedEncodingException ignored) {
             }
-        }
-    }
-
-    private void configureEditText() {
-        this.mEditor.setHorizontallyScrolling(!this.sWrapText);
-        if (!this.sWrapText) {
-            int paddingLeft = (int) PixelDipConverter.convertDpToPixel(25, getActivity());
-            mEditor.setPadding(paddingLeft, 0, 0, 0);
-        } else {
-            int paddingLeft = (int) PixelDipConverter.convertDpToPixel(5, getActivity());
-            mEditor.setPadding(paddingLeft, 0, 0, 0);
-        }
-        if(this.mUseMonospace){
-            this.mEditor.setTypeface(Typeface.MONOSPACE);
         }
     }
 
@@ -301,7 +313,6 @@ public class EditorFragment extends Fragment implements EditDialogFragment.EditD
                 ID_REDO = R.id.im_redo;
         private static final int SYNTAX_DELAY_MILLIS =
                 0;
-        private static final float textSize = 16;
         private final Handler updateHandler =
                 new Handler();
         private final TextPaint mPaintNumbers =
@@ -346,11 +357,11 @@ public class EditorFragment extends Fragment implements EditDialogFragment.EditD
             super(context, attrs);
             this.mScale = context.getResources()
                     .getDisplayMetrics().density;
-            init(context);
+            init();
         }
 
         // Init the class
-        private void init(final Context context) {
+        private void init() {
             mEditHistory = new EditHistory();
             mChangeListener =
                     new EditTextChangeListener();
@@ -361,7 +372,7 @@ public class EditorFragment extends Fragment implements EditDialogFragment.EditD
                             getTextColors().getDefaultColor());
             this.mPaintNumbers
                     .setTextSize(
-                            textSize * this.mScale * 0.8f);
+                           sFontSize);
             this.mPaintNumbers.setAntiAlias(true);
 
             // Syntax editor
@@ -391,6 +402,12 @@ public class EditorFragment extends Fragment implements EditDialogFragment.EditD
                             return source;
                         }
                     }});
+        }
+
+        @Override
+        public void setTextSize(float size) {
+            super.setTextSize(size);
+            this.mPaintNumbers.setTextSize(sFontSize);
         }
 
         /**

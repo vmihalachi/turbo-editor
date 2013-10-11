@@ -22,7 +22,6 @@
         parent="android:Theme.Holo">
         <item name="android:windowBackground">@color/activity_background</item>
         <item name="android:actionBarStyle">@style/ActionBarStyle</item>
-        <item name="android:textColor">@color/activity_text_color</item>
     </style>
 
     <style name="ActionBarStyle"

@@ -34,5 +34,4 @@
     <dimen name="text_size_mega_title">25sp</dimen>
     <dimen name="text_size_title">16sp</dimen>
     <dimen name="text_size_subtitle">14sp</dimen>
-    <dimen name="text_size_editor">16sp</dimen>
 </resources>

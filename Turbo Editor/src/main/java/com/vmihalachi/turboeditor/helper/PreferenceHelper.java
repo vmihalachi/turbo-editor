@@ -57,6 +57,10 @@ public final class PreferenceHelper {
         return getPrefs(context).getString("editor_encoding", "UTF-8");
     }
 
+    public static int getFontSize(Context context) {
+        return getPrefs(context).getInt("font_size", 18);
+    }
+
     public static String getLastNavigatedFolder(Context context) {
         return getPrefs(context).getString("last_navigated_folder", SD_CARD_ROOT);
     }
@@ -81,6 +85,10 @@ public final class PreferenceHelper {
 
     public static void setEncoding(Context context, String value) {
         getEditor(context).putString("editor_encoding", value).commit();
+    }
+
+    public static void setFontSize(Context context, int value) {
+        getEditor(context).putInt("font_size", value).commit();
     }
 
     public static void setLastNavigatedFolder(Context context, String value) {

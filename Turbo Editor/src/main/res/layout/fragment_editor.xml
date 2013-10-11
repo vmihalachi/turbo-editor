@@ -36,7 +36,6 @@
             android:inputType="textMultiLine|textImeMultiLine|textNoSuggestions"
             android:maxLength="@integer/editor_max_file_size"
             android:singleLine="false"
-            android:text="@null"
-            android:textSize="@dimen/text_size_editor" />
+            android:text="@null" />
     </ScrollView>
 

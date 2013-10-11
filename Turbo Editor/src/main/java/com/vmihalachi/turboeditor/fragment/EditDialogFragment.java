@@ -45,13 +45,10 @@ public class EditDialogFragment extends DialogFragment implements TextView.OnEdi
 
     public static EditDialogFragment newInstance(final Actions action, final String hint) {
         final EditDialogFragment f = new EditDialogFragment();
-
-        // Supply num input as an argument.
         final Bundle args = new Bundle();
         args.putSerializable("action", action);
         args.putString("hint", hint);
         f.setArguments(args);
-
         return f;
     }
 

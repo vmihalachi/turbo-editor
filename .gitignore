@@ -30,7 +30,6 @@ proguard/
 
 # Android Studio
 .gradle
-*.gradle
 *.jks
 /local.properties
 /.idea/workspace.xml

@@ -116,7 +116,8 @@
     <string name="open_this_time_only">Open this time only</string>
     <string name="advise_editor_title">Are you missing Turbo Editor?</string>
     <string name="advise_editor_subtitle">The best free and open source file editor!</string>
-    <string name="change_list_type">Change the list type</string>
-    <string name="use_monospace">Use monospace</string>
-    <string name="recent_files">Recent files</string>
+    <string name="change_list_type">Change The List Type</string>
+    <string name="use_monospace">Use Monospace</string>
+    <string name="recent_files">Recent Files</string>
+    <string name="text_size">Text Size</string>
 </resources>
