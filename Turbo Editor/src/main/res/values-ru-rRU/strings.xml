@@ -56,7 +56,6 @@
   <string name="upload">Закачка</string>
   <string name="upload_completato">Загрузка завершена</string>
   <string name="what_to_do">What do you want todo?</string>
-  <string name="wrap_the_text">Перенос строк</string>
   <string name="menu_syntax_highlight">Подсветка синтаксиса</string>
   <string name="testo_indietro">Отменить</string>
   <string name="testo_rifai">Повторить</string>
@@ -95,7 +94,6 @@
   <string name="open">открыть</string>
   <string name="file_modified">Файл %1$s был изменен, загрузить на сервер?</string>
   <string name="file_saved_with_success">Файл %1$s успешно сохранен!</string>
-  <string name="number_of_things_selected">%1$d выделено</string>
   <string name="crea_file_remoto">Новый файл на сервере</string>
   <string name="new_local_file">Новый локальный файл</string>
   <string name="create_new_account">Создать новый аккаунт</string>
@@ -111,7 +109,6 @@
   <string name="unit_measurement_for_file_size">Единица измерения размера файла</string>
   <string name="open_source_license">Open Source licenses</string>
   <string name="open_source_license_summary">Show open source licenses</string>
-  <string name="show_navigation_breadcrumb">Показывать цепочку навигации</string>
   <string name="open_a_file">Открыть файл</string>
   <string name="open_this_time_only">Open this time only</string>
   <string name="advise_editor_title">Are you missing Turbo Editor?</string>
@@ -119,4 +116,7 @@
   <string name="change_list_type">Внешний вид списка</string>
   <string name="use_monospace">Use monospace</string>
   <string name="recent_files">Recent files</string>
+  <string name="font_size">Font size</string>
+  <string name="connection_name">Connection Name</string>
+  <string name="line_numbers">Line Numbers</string>
 </resources>

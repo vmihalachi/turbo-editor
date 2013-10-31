@@ -57,7 +57,7 @@ public class SeekbarDialogFragment extends DialogFragment {
         final String title;
         switch (action) {
             case FileSize:
-                title = getString(R.string.text_size);
+                title = getString(R.string.font_size);
                 break;
             default:
                 title = null;

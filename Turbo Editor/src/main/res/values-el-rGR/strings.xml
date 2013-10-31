@@ -56,7 +56,6 @@
   <string name="upload">Αποστολή</string>
   <string name="upload_completato">Το ανέβασμα ολοκληρώθηκε</string>
   <string name="what_to_do">Τι θέλετε να κάνετε;</string>
-  <string name="wrap_the_text">Αναδίπλωση κειμένου</string>
   <string name="menu_syntax_highlight">Επισήμανση σύνταξης</string>
   <string name="testo_indietro">Αναίρεση</string>
   <string name="testo_rifai">Ακύρωση αναίρεσης</string>
@@ -95,7 +94,6 @@
   <string name="open">Άνοιγμα</string>
   <string name="file_modified">Το αρχείο %1$s τροποποιήθηκε, θέλετε να το ανεβάσετε;</string>
   <string name="file_saved_with_success">Το αρχείο %1$s αποθηκεύτηκε με επιτυχία!</string>
-  <string name="number_of_things_selected">%1$d επιλέχθηκε</string>
   <string name="crea_file_remoto">Νέα απομακρυσμένο αρχείο</string>
   <string name="new_local_file">Νέο τοπικό αρχείο</string>
   <string name="create_new_account">Δημιουργία νέου λογαριασμού</string>
@@ -111,7 +109,6 @@
   <string name="unit_measurement_for_file_size">Μονάδα μέτρησης για το μέγεθος του αρχείου</string>
   <string name="open_source_license">Άδειες χρήσης ανοιχτού κώδικα</string>
   <string name="open_source_license_summary">Προβολή αδειών χρήσης ανοιχτού κώδικα</string>
-  <string name="show_navigation_breadcrumb">Εμφάνιση βοηθού πλοήγησης</string>
   <string name="open_a_file">Άνοιγμα αρχείου</string>
   <string name="open_this_time_only">Open this time only</string>
   <string name="advise_editor_title">Are you missing Turbo Editor?</string>
@@ -119,4 +116,7 @@
   <string name="change_list_type">Change the list type</string>
   <string name="use_monospace">Use monospace</string>
   <string name="recent_files">Recent files</string>
+  <string name="font_size">Font size</string>
+  <string name="connection_name">Connection Name</string>
+  <string name="line_numbers">Line Numbers</string>
 </resources>

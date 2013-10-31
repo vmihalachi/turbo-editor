@@ -34,7 +34,7 @@
   <string name="passiva">Passiver Modus</string>
   <string name="passphrase">Passphrase</string>
   <string name="password">Kennwort</string>
-  <string name="password_summary">Leave it empty to prompt for it every session</string>
+  <string name="password_summary">Leer lassen, um die Eingabe für jede Sitzung zu veranlassen</string>
   <string name="porta">Port</string>
   <string name="preferenze">Einstellungen</string>
   <string name="remoto">Remote</string>
@@ -46,7 +46,7 @@
   <string name="seleziona">Auswählen</string>
   <string name="seleziona_account">Benutzerkonto auswählen</string>
   <string name="sicuro">Sind sie sicher?</string>
-  <string name="something_failed">Something failed</string>
+  <string name="something_failed">Ups. Etwas ist schief gelaufen</string>
   <string name="skip_same_file">Dieselbe Datei nicht übertragen</string>
   <string name="tema_app">Design</string>
   <string name="tipo_connessione">Verbindungsart</string>
@@ -56,7 +56,6 @@
   <string name="upload">Hochladen</string>
   <string name="upload_completato">Hochladen abgeschlossen</string>
   <string name="what_to_do">Was möchten Sie tun?</string>
-  <string name="wrap_the_text">Zeilenumbruch</string>
   <string name="menu_syntax_highlight">Syntax Hervorhebung</string>
   <string name="testo_indietro">Ungeschehen machen</string>
   <string name="testo_rifai">Rückgängig machen</string>
@@ -76,9 +75,9 @@
   <string name="inapp_unlock_features">Premium Funktionen freischalten</string>
   <string name="inapp_seconditem_description">Ich mag diese App!</string>
   <string name="inapp_thirditem_description">Ich liebe diese App!</string>
-  <string name="backup_accounts">Backup the accounts</string>
+  <string name="backup_accounts">Konten sichern</string>
   <string name="restore_accounts">Accounts wiederherstellen</string>
-  <string name="share_accounts">Backup and share the accounts</string>
+  <string name="share_accounts">Sichern Sie und teilen Sie die Konten</string>
   <string name="importing_accounts">Konten werden importiert...</string>
   <string name="exporting_accounts">Konten werden exportiert...</string>
   <string name="backup_not_found">Keine Sicherungen gefunden</string>
@@ -95,8 +94,7 @@
   <string name="open">Öffnen</string>
   <string name="file_modified">Die Datei %1$s wurde geändert? Möchten Sie sie hochladen?</string>
   <string name="file_saved_with_success">Die Datei %1$s wurde erfolgreich gespeichert!</string>
-  <string name="number_of_things_selected">%1$d ausgewählt</string>
-  <string name="crea_file_remoto">New remote file</string>
+  <string name="crea_file_remoto">Neue Remote-Datei</string>
   <string name="new_local_file">Neue lokale Datei</string>
   <string name="create_new_account">Erstelle ein neues Benutzerkonto</string>
   <string name="create_new_account_to_start">Erstellen Sie ein neues Konto um zu starten.</string>
@@ -111,12 +109,14 @@
   <string name="unit_measurement_for_file_size">Maßeinheit für Dateigröße</string>
   <string name="open_source_license">Open Source Lizenzen</string>
   <string name="open_source_license_summary">Open-Source-Lizenzen anzeigen</string>
-  <string name="show_navigation_breadcrumb">Show navigation breadcrumb</string>
   <string name="open_a_file">Datei öffnen</string>
   <string name="open_this_time_only">Nur dieses Mal öffnen</string>
-  <string name="advise_editor_title">Are you missing Turbo Editor?</string>
+  <string name="advise_editor_title">Fehlt Turbo-Editor?</string>
   <string name="advise_editor_subtitle">Der beste freie und Open Source Dateieditor!</string>
-  <string name="change_list_type">Change the list type</string>
-  <string name="use_monospace">Use monospace</string>
-  <string name="recent_files">Recent files</string>
+  <string name="change_list_type">Ändern Sie den Typ der Liste</string>
+  <string name="use_monospace">Verwenden Sie Monospace</string>
+  <string name="recent_files">Zuletzt geöffnete Dateien</string>
+  <string name="font_size">Schriftgröße</string>
+  <string name="connection_name">Connection Name</string>
+  <string name="line_numbers">Line Numbers</string>
 </resources>

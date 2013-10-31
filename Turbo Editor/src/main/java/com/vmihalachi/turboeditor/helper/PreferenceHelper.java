@@ -45,8 +45,8 @@ public final class PreferenceHelper {
         return getPrefs(context).getBoolean("use_monospace", false);
     }
 
-    public static boolean getWrapText(Context context) {
-        return getPrefs(context).getBoolean("editor_wrap_text", true);
+    public static boolean getLineNumbers(Context context) {
+        return getPrefs(context).getBoolean("editor_line_numbers", true);
     }
 
     public static boolean getSyntaxHiglight(Context context) {
@@ -75,8 +75,8 @@ public final class PreferenceHelper {
         getEditor(context).putBoolean("use_monospace", value).commit();
     }
 
-    public static void setWrapText(Context context, boolean value) {
-        getEditor(context).putBoolean("editor_wrap_text", value).commit();
+    public static void setLineNumbers(Context context, boolean value) {
+        getEditor(context).putBoolean("editor_line_numbers", value).commit();
     }
 
     public static void setSyntaxHiglight(Context context, boolean value) {

@@ -24,18 +24,22 @@
         android:scrollbars="vertical"
         android:fillViewport="true">
 
+    <HorizontalScrollView
+        android:layout_height="wrap_content"
+        android:layout_width="match_parent"
+        android:scrollbars="horizontal"
+        android:fillViewport="true">
+
         <view
             class="com.vmihalachi.turboeditor.fragment.EditorFragment$Editor"
             android:id="@id/editor"
-            android:layout_width="match_parent"
+            android:layout_width="wrap_content"
             android:layout_height="match_parent"
             android:background="@null"
             android:bufferType="normal"
             android:gravity="top|left"
-            android:imeOptions="actionDone|flagNoFullscreen"
-            android:inputType="textMultiLine|textImeMultiLine|textNoSuggestions"
-            android:maxLength="@integer/editor_max_file_size"
+            android:inputType="textMultiLine|textNoSuggestions|textImeMultiLine"
             android:singleLine="false"
             android:text="@null" />
-    </ScrollView>
-
+    </HorizontalScrollView>
+</ScrollView>

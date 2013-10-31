@@ -56,7 +56,6 @@
   <string name="upload">Prześlij</string>
   <string name="upload_completato">Przesyłanie zakończone</string>
   <string name="what_to_do">Co chcesz zrobić?</string>
-  <string name="wrap_the_text">Zawijanie wyrazów</string>
   <string name="menu_syntax_highlight">Podświetlenie składni</string>
   <string name="testo_indietro">Cofnij</string>
   <string name="testo_rifai">Powtórz</string>
@@ -95,7 +94,6 @@
   <string name="open">Otwórz</string>
   <string name="file_modified">Plik %1$s został zmodyfikowany, czy chcesz go wysłać?</string>
   <string name="file_saved_with_success">Plik %1$s został pomyślnie zapisany!</string>
-  <string name="number_of_things_selected">%1$d wybranych</string>
   <string name="crea_file_remoto">Nowy plik zdalny</string>
   <string name="new_local_file">Nowy plik lokalny</string>
   <string name="create_new_account">Utwórz nowe konto</string>
@@ -111,12 +109,14 @@
   <string name="unit_measurement_for_file_size">Jednostka rozmiaru dla pliku</string>
   <string name="open_source_license">Licencje Open Source</string>
   <string name="open_source_license_summary">Pokaż licencje open source</string>
-  <string name="show_navigation_breadcrumb">Pokaż ścieżkę folderu nadrzędnego</string>
   <string name="open_a_file">Otwórz plik</string>
   <string name="open_this_time_only">Otwórz tylko tym razem</string>
   <string name="advise_editor_title">Brakuje ci Turbo Editor?</string>
   <string name="advise_editor_subtitle">Najlepszy, darmowy edytor plików na bazie open source!</string>
   <string name="change_list_type">Zmień typ listy</string>
-  <string name="use_monospace">Use monospace</string>
-  <string name="recent_files">Recent files</string>
+  <string name="use_monospace">Użyj stałej szerokości</string>
+  <string name="recent_files">Najnowsze pliki</string>
+  <string name="font_size">Rozmiar czcionki</string>
+  <string name="connection_name">Connection Name</string>
+  <string name="line_numbers">Line Numbers</string>
 </resources>

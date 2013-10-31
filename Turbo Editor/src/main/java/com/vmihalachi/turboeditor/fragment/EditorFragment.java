@@ -75,7 +75,7 @@ public class EditorFragment extends Fragment implements EditDialogFragment.EditD
     private Editor mEditor;
 
     // Editor Variables
-    static boolean sWrapText;
+    static boolean sLineNumbers;
     static boolean sColorSyntax;
     static int sFontSize;
     //
@@ -104,7 +104,7 @@ public class EditorFragment extends Fragment implements EditDialogFragment.EditD
         this.mCurrentEncoding = PreferenceHelper.getEncoding(getActivity());
         this.mUseMonospace = PreferenceHelper.getUseMonospace(getActivity());
         this.sColorSyntax = PreferenceHelper.getSyntaxHiglight(getActivity());
-        this.sWrapText = PreferenceHelper.getWrapText(getActivity());
+        this.sLineNumbers = PreferenceHelper.getLineNumbers(getActivity());
         this.sFontSize = PreferenceHelper.getFontSize(getActivity());
     }
 
@@ -116,8 +116,7 @@ public class EditorFragment extends Fragment implements EditDialogFragment.EditD
     public View onCreateView(LayoutInflater inflater, ViewGroup container, Bundle savedInstanceState) {
         View rootView = inflater.inflate(R.layout.fragment_editor, container, false);
         mEditor = (Editor) rootView.findViewById(R.id.editor);
-        mEditor.setHorizontallyScrolling(!this.sWrapText);
-        if (!this.sWrapText) {
+        if (this.sLineNumbers) {
             int paddingLeft = (int) PixelDipConverter.convertDpToPixel(sFontSize * 1.5f, getActivity());
             mEditor.setPadding(paddingLeft, 0, 0, 0);
         } else {
@@ -159,7 +158,7 @@ public class EditorFragment extends Fragment implements EditDialogFragment.EditD
     @Override
     public void onCreateOptionsMenu(Menu menu, MenuInflater inflater) {
         inflater.inflate(R.menu.fragment_editor, menu);
-        menu.findItem(R.id.im_wrap_text).setChecked(this.sWrapText);
+        menu.findItem(R.id.im_line_numbers).setChecked(this.sLineNumbers);
         menu.findItem(R.id.im_syntax_highlight).setChecked(this.sColorSyntax);
         menu.findItem(R.id.im_use_monospace).setChecked(this.mUseMonospace);
         super.onCreateOptionsMenu(menu, inflater);
@@ -195,9 +194,9 @@ public class EditorFragment extends Fragment implements EditDialogFragment.EditD
             item.setChecked(!item.isChecked());
             PreferenceHelper.setSyntaxHiglight(getActivity(), item.isChecked());
             updateTextEditor();
-        } else if (i == R.id.im_wrap_text) {
+        } else if (i == R.id.im_line_numbers) {
             item.setChecked(!item.isChecked());
-            PreferenceHelper.setWrapText(getActivity(), item.isChecked());
+            PreferenceHelper.setLineNumbers(getActivity(), item.isChecked());
             updateTextEditor();
         } else if (i == R.id.im_use_monospace) {
             item.setChecked(!item.isChecked());
@@ -228,17 +227,16 @@ public class EditorFragment extends Fragment implements EditDialogFragment.EditD
     }
 
     private void updateTextEditor() {
-        final boolean wrapText = PreferenceHelper.getWrapText(getActivity());
+        final boolean wrapText = PreferenceHelper.getLineNumbers(getActivity());
         final boolean syntaxHighlight = PreferenceHelper.getSyntaxHiglight(getActivity());
         final boolean useMonospace = PreferenceHelper.getUseMonospace(getActivity());
         final String encoding = PreferenceHelper.getEncoding(getActivity());
         final int fontSize = PreferenceHelper.getFontSize(getActivity());
 
-        if (this.sWrapText != wrapText) {
-            this.sWrapText = wrapText;
+        if (this.sLineNumbers != wrapText) {
+            this.sLineNumbers = wrapText;
             this.mEditor.setText(this.mEditor.getText().toString());
-            this.mEditor.setHorizontallyScrolling(!this.sWrapText);
-            if (!this.sWrapText) {
+            if (this.sLineNumbers) {
                 int paddingLeft = (int) PixelDipConverter.convertDpToPixel(sFontSize * 1.5f, getActivity());
                 mEditor.setPadding(paddingLeft, 0, 0, 0);
             } else {
@@ -311,15 +309,11 @@ public class EditorFragment extends Fragment implements EditDialogFragment.EditD
                 ID_PASTE = android.R.id.paste,
                 ID_UNDO = R.id.im_undo,
                 ID_REDO = R.id.im_redo;
-        private static final int SYNTAX_DELAY_MILLIS =
-                0;
-        private final Handler updateHandler =
-                new Handler();
-        private final TextPaint mPaintNumbers =
-                new TextPaint();
-        //private final Rect mLineBounds = new Rect();
-        private final float mScale;
+        private static final int SYNTAX_DELAY_MILLIS = 800;
+        private final Handler updateHandler = new Handler();
+        private final TextPaint mPaintNumbers = new TextPaint();
         private boolean modified = true;
+        private boolean firstTimeColoring = true;
 
         /**
          * Is undo/redo being performed? This member
@@ -348,31 +342,23 @@ public class EditorFragment extends Fragment implements EditDialogFragment.EditD
                      */
                     @Override
                     public void run() {
-                        replaceTextKeepCursor(getText());
+                            replaceTextKeepCursor(getText());
                     }
                 };
 
         public Editor(Context context,
                       AttributeSet attrs) {
             super(context, attrs);
-            this.mScale = context.getResources()
-                    .getDisplayMetrics().density;
             init();
         }
 
         // Init the class
         private void init() {
             mEditHistory = new EditHistory();
-            mChangeListener =
-                    new EditTextChangeListener();
+            mChangeListener = new EditTextChangeListener();
             addTextChangedListener(mChangeListener);
 
-            this.mPaintNumbers
-                    .setColor(
-                            getTextColors().getDefaultColor());
-            this.mPaintNumbers
-                    .setTextSize(
-                           sFontSize);
+            this.mPaintNumbers.setColor(getTextColors().getDefaultColor());
             this.mPaintNumbers.setAntiAlias(true);
 
             // Syntax editor
@@ -407,7 +393,8 @@ public class EditorFragment extends Fragment implements EditDialogFragment.EditD
         @Override
         public void setTextSize(float size) {
             super.setTextSize(size);
-            this.mPaintNumbers.setTextSize(sFontSize);
+            final float scale = getContext().getResources().getDisplayMetrics().density;
+            this.mPaintNumbers.setTextSize((int) (size * scale * 0.5f));
         }
 
         /**
@@ -463,7 +450,7 @@ public class EditorFragment extends Fragment implements EditDialogFragment.EditD
          */
         @Override
         public void onDraw(final Canvas canvas) {
-            if (!EditorFragment.sWrapText) {
+            if (EditorFragment.sLineNumbers) {
                 final int max = getLineCount();
                 final TextPaint paint = mPaintNumbers;
                 for (int min = 0; min < max; min++) {
@@ -559,20 +546,17 @@ public class EditorFragment extends Fragment implements EditDialogFragment.EditD
         private void replaceTextKeepCursor(
                 Editable e) {
             int p = getSelectionStart();
+            disconnect();
+            modified = false;
 
-            replaceText(e);
+            setText(highlight(e));
+
+            modified = true;
+            addTextChangedListener(mChangeListener);
 
             if (p > -1) {
                 setSelection(p);
             }
-        }
-
-        private void replaceText(Editable e) {
-            disconnect();
-            modified = false;
-            setText(highlight(e));
-            modified = true;
-            addTextChangedListener(mChangeListener);
         }
 
         private CharSequence highlight(Editable editable) {
@@ -596,6 +580,13 @@ public class EditorFragment extends Fragment implements EditDialogFragment.EditD
                 color(Patterns.CSS_ATTR_VALUE, editable);
                 color(Patterns.GENERAL_COMMENTS, editable);
             } else if (fileExtension.equals("js")) {
+                color(Patterns.GENERAL_KEYWORDS, editable);
+                color(Patterns.NUMBERS, editable);
+                color(Patterns.GENERAL_COMMENTS, editable);
+            } else if (fileExtension.equals("php")){
+                color(Patterns.HTML_OPEN_TAGS, editable);
+                color(Patterns.HTML_CLOSE_TAGS, editable);
+                color(Patterns.HTML_ATTRS, editable);
                 color(Patterns.GENERAL_KEYWORDS, editable);
                 color(Patterns.NUMBERS, editable);
                 color(Patterns.GENERAL_COMMENTS, editable);
@@ -1035,10 +1026,13 @@ public class EditorFragment extends Fragment implements EditDialogFragment.EditD
                 if (!EditorFragment.sColorSyntax || !modified) {
                     return;
                 }
-
-                updateHandler.postDelayed(
-                        updateRunnable,
-                        SYNTAX_DELAY_MILLIS);
+                if(firstTimeColoring){
+                    firstTimeColoring = false;
+                    updateHandler.post(updateRunnable);
+                } else {
+                    updateHandler.removeCallbacks(updateRunnable);
+                    updateHandler.postDelayed(updateRunnable, SYNTAX_DELAY_MILLIS);
+                }
             }
         }
     }

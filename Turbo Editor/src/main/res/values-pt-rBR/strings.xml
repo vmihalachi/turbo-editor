@@ -56,7 +56,6 @@
   <string name="upload">Upload</string>
   <string name="upload_completato">Upload concluído</string>
   <string name="what_to_do">What do you want todo?</string>
-  <string name="wrap_the_text">Quebra de linha</string>
   <string name="menu_syntax_highlight">Syntax highlight</string>
   <string name="testo_indietro">Desfazer</string>
   <string name="testo_rifai">Refazer</string>
@@ -95,7 +94,6 @@
   <string name="open">Open</string>
   <string name="file_modified">The file %1$s was modified, do you want to upload it?</string>
   <string name="file_saved_with_success">The file %1$s was saved with success!</string>
-  <string name="number_of_things_selected">%1$d selected</string>
   <string name="crea_file_remoto">New remote file</string>
   <string name="new_local_file">New local file</string>
   <string name="create_new_account">Create a new account</string>
@@ -111,7 +109,6 @@
   <string name="unit_measurement_for_file_size">Unit of measurement for file size</string>
   <string name="open_source_license">Open Source licenses</string>
   <string name="open_source_license_summary">Show open source licenses</string>
-  <string name="show_navigation_breadcrumb">Show navigation breadcrumb</string>
   <string name="open_a_file">Open a file</string>
   <string name="open_this_time_only">Open this time only</string>
   <string name="advise_editor_title">Are you missing Turbo Editor?</string>
@@ -119,4 +116,7 @@
   <string name="change_list_type">Change the list type</string>
   <string name="use_monospace">Use monospace</string>
   <string name="recent_files">Recent files</string>
+  <string name="font_size">Font size</string>
+  <string name="connection_name">Connection Name</string>
+  <string name="line_numbers">Line Numbers</string>
 </resources>

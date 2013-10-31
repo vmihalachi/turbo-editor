@@ -41,9 +41,9 @@
             android:showAsAction="ifRoom|withText">
         <menu>
             <item
-                    android:id="@id/im_wrap_text"
+                    android:id="@id/im_line_numbers"
                     android:showAsAction="ifRoom"
-                    android:title="@string/wrap_the_text"
+                    android:title="@string/line_numbers"
                     android:checkable="true"/>
             <item
                     android:id="@id/im_syntax_highlight"
@@ -62,7 +62,7 @@
             <item
                 android:id="@id/im_text_size"
                 android:showAsAction="ifRoom"
-                android:title="@string/text_size"/>
+                android:title="@string/font_size"/>
         </menu>
     </item>
 </menu>

@@ -56,7 +56,6 @@
   <string name="upload">Uploaden</string>
   <string name="upload_completato">Uploaden voltooid</string>
   <string name="what_to_do">Wat wil je doen?</string>
-  <string name="wrap_the_text">Comprimeer de tekst</string>
   <string name="menu_syntax_highlight">Gekleurde code</string>
   <string name="testo_indietro">Ongedaan maken</string>
   <string name="testo_rifai">Opnieuw uitvoeren</string>
@@ -95,7 +94,6 @@
   <string name="open">Openen</string>
   <string name="file_modified">Het bestand %1$s is aangepast, wilt u het uploaden?</string>
   <string name="file_saved_with_success">Het bestand %1$s is met succes opgeslagen!</string>
-  <string name="number_of_things_selected">%1$d geselecteerd</string>
   <string name="crea_file_remoto">Nieuw extern bestand</string>
   <string name="new_local_file">Nieuw lokaal bestand</string>
   <string name="create_new_account">Nieuwe account toevoegen</string>
@@ -111,12 +109,14 @@
   <string name="unit_measurement_for_file_size">Maateenheid voor bestandsgrootte</string>
   <string name="open_source_license">Open Source-licenties</string>
   <string name="open_source_license_summary">Toon open source-licenties</string>
-  <string name="show_navigation_breadcrumb">Toon navigatie breadcrumb</string>
   <string name="open_a_file">Open een bestand</string>
   <string name="open_this_time_only">Alleen deze keer openen</string>
   <string name="advise_editor_title">Waar is Turbo Editor?</string>
   <string name="advise_editor_subtitle">De beste gratis en open source file editor!</string>
   <string name="change_list_type">Wijzig het type lijst</string>
-  <string name="use_monospace">Use monospace</string>
-  <string name="recent_files">Recent files</string>
+  <string name="use_monospace">Gebruik monospace</string>
+  <string name="recent_files">Recente bestanden</string>
+  <string name="font_size">Font size</string>
+  <string name="connection_name">Connection Name</string>
+  <string name="line_numbers">Line Numbers</string>
 </resources>

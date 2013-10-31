@@ -28,7 +28,7 @@
     <item type="id" name="im_button"/>
     <item type="id" name="im_save"/>
     <item type="id" name="im_editor_encoding"/>
-    <item type="id" name="im_wrap_text"/>
+    <item type="id" name="im_line_numbers"/>
     <item type="id" name="im_syntax_highlight"/>
     <item type="id" name="im_use_monospace"/>
     <item type="id" name="im_new_file"/>
