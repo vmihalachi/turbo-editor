@@ -62,6 +62,7 @@
                 <data android:scheme="file"/>
                 <data android:mimeType="text/*"/>
                 <data android:pathPattern="*.txt"/>
+                <data android:pathPattern="*.md"/>
                 <data android:pathPattern="*.html"/>
                 <data android:pathPattern="*.css"/>
                 <data android:pathPattern="*.js"/>
