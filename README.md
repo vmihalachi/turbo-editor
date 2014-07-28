@@ -55,7 +55,7 @@ See the [LICENSE][license] file that accompanies this distribution for the full 
 [donate]: https://github.com/vmihalachi/turbo-editor#donate
 [donate paypal]: https://www.paypal.com/cgi-bin/webscr?cmd=_s-xclick&hosted_button_id=PUQXSX6MTXHZ2
 [community googleplus]: https://plus.google.com/u/0/communities/111974095419108178946
-[download playstore]: https://play.google.com/store/apps/details?id=com.vmihalachi.turboeditor
+[download playstore]: https://play.google.com/store/apps/details?id=com.maskyn.fileeditor
 [crowdin]: https://crowdin.net/project/turbo-client
 [developer site]: http://vmihalachi.com/
 [crowdin]: https://crowdin.net/project/turbo-client
