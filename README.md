@@ -1,4 +1,6 @@
 # Turbo Editor
+[![Crowdin](https://d322cqt584bo4o.cloudfront.net/turbo-client/localized.png)](https://crowdin.com/project/turbo-client)
+
 Simple, powerful and Open Source file editor for Android licensed under the GPLv3 license.
 
 ### Contribute
