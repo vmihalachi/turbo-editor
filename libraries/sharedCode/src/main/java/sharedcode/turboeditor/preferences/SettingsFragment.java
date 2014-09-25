@@ -106,7 +106,7 @@ public class SettingsFragment extends Fragment implements EncodingDialogFragment
         switchSuggestionsActive.setChecked(sSuggestionsActive);
         switchAutoSave.setChecked(sAutoSave);
         switchReadOnly.setChecked(sReadOnly);
-
+        switchSendErrorReports.setChecked(sReadOnly);
 
         TextView encodingView, fontSizeView, goProView;
         encodingView = (TextView) rootView.findViewById(R.id.drawer_button_encoding);
