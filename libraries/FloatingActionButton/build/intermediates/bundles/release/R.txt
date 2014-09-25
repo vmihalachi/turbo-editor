@@ -1,0 +1,13 @@
+int attr color 0x7f010001
+int attr drawable 0x7f010000
+int attr shadowColor 0x7f010005
+int attr shadowDx 0x7f010003
+int attr shadowDy 0x7f010004
+int attr shadowRadius 0x7f010002
+int[] styleable FloatingActionButton { 0x7f010000, 0x7f010001, 0x7f010002, 0x7f010003, 0x7f010004, 0x7f010005 }
+int styleable FloatingActionButton_color 1
+int styleable FloatingActionButton_drawable 0
+int styleable FloatingActionButton_shadowColor 5
+int styleable FloatingActionButton_shadowDx 3
+int styleable FloatingActionButton_shadowDy 4
+int styleable FloatingActionButton_shadowRadius 2

@@ -1,0 +1,148 @@
+<?xml version="1.0" encoding="utf-8"?>
+<!--
+  ~ Copyright (C) 2014 Vlad Mihalachi
+  ~
+  ~ This file is part of Turbo Editor.
+  ~
+  ~ Turbo Editor is free software: you can redistribute it and/or modify
+  ~ it under the terms of the GNU General Public License as published by
+  ~ the Free Software Foundation, either version 3 of the License, or
+  ~ (at your option) any later version.
+  ~
+  ~ Turbo Editor is distributed in the hope that it will be useful,
+  ~ but WITHOUT ANY WARRANTY; without even the implied warranty of
+  ~ MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE. See the
+  ~ GNU General Public License for more details.
+  ~
+  ~ You should have received a copy of the GNU General Public License
+  ~ along with this program.  If not, see <http://www.gnu.org/licenses/>.
+  -->
+
+<LinearLayout
+    xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:orientation="vertical"
+    android:layout_width="fill_parent"
+    android:layout_height="fill_parent"
+    android:gravity="center"
+    tools:context=".activity.PreferenceAbout">
+
+    <ImageView
+        android:layout_width="100dp"
+        android:layout_height="100dp"
+        android:id="@+id/imageView"
+        android:src="@drawable/ic_launcher"
+        android:layout_marginTop="10dp" />
+
+    <TextView
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:text="@string/nome_app_turbo_editor"
+        android:textSize="22sp"
+        android:textStyle="bold"
+        android:layout_marginTop="10dp"
+        android:padding="10dp"/>
+
+    <TextView
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:id="@+id/changelog_text"
+        android:textSize="14sp"
+        android:textStyle="bold"/>
+
+    <TextView
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:text="@string/send_feedback"
+        android:textSize="18sp"
+        android:textAllCaps="true"
+        android:padding="15dp"
+        android:textColor="@color/indigo"
+        android:textStyle="bold"
+        android:layout_marginTop="20dp"
+        android:onClick="SendFeedback"
+        android:clickable="true"
+        android:background="?android:attr/selectableItemBackground"
+        android:gravity="center"
+        android:minWidth="200dp" />
+
+    <TextView
+    android:layout_width="wrap_content"
+    android:layout_height="wrap_content"
+    android:text="@string/translate_the_app"
+    android:id="@+id/textView4"
+    android:textSize="18sp"
+    android:textAllCaps="true"
+    android:padding="15dp"
+    android:textColor="@color/indigo"
+    android:textStyle="bold"
+    android:onClick="OpenTranslatePage"
+    android:clickable="true"
+    android:background="?android:attr/selectableItemBackground"
+    android:gravity="center"
+    android:minWidth="200dp" />
+
+    <TextView
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:text="@string/pro_version"
+        android:id="@+id/pro_version_text"
+        android:textSize="18sp"
+        android:textAllCaps="true"
+        android:padding="15dp"
+        android:textColor="@color/indigo"
+        android:textStyle="bold"
+        android:onClick="GoToProVersion"
+        android:clickable="true"
+        android:background="?android:attr/selectableItemBackground"
+        android:gravity="center"
+        android:minWidth="200dp" />
+
+    <LinearLayout
+        android:orientation="horizontal"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:padding="10dp"
+        android:layout_marginTop="15dp"
+        >
+
+        <ImageView
+            android:layout_width="45dp"
+            android:layout_height="45dp"
+            android:id="@+id/imageView5"
+            android:src="@drawable/ic_action_mail"
+            android:onClick="SendMail"
+            android:background="?android:attr/selectableItemBackground"
+            android:scaleType="centerCrop" />
+
+        <ImageView
+            android:layout_width="45dp"
+            android:layout_height="45dp"
+            android:id="@+id/imageView8"
+            android:layout_marginStart="15dp"
+            android:layout_marginEnd="15dp"
+            android:src="@drawable/ic_action_google_play"
+            android:onClick="OpenPlayStore"
+            android:background="?android:attr/selectableItemBackground"
+            android:scaleType="centerCrop" />
+
+        <ImageView
+            android:layout_width="45dp"
+            android:layout_height="45dp"
+            android:id="@+id/imageView4"
+            android:layout_marginEnd="15dp"
+            android:src="@drawable/ic_action_gplus"
+            android:onClick="OpenGooglePlusCommunity"
+            android:background="?android:attr/selectableItemBackground"
+            android:scaleType="centerCrop" />
+
+        <ImageView
+            android:layout_width="45dp"
+            android:layout_height="45dp"
+            android:id="@+id/imageView6"
+            android:src="@drawable/ic_action_github"
+            android:onClick="OpenGithub"
+            android:background="?android:attr/selectableItemBackground"
+            android:scaleType="fitCenter" />
+    </LinearLayout>
+</LinearLayout>

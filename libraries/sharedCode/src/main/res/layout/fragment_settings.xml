@@ -1,0 +1,292 @@
+<?xml version="1.0" encoding="utf-8"?>
+
+<!--
+  ~ Copyright (C) 2014 Vlad Mihalachi
+  ~
+  ~ This file is part of Turbo Editor.
+  ~
+  ~ Turbo Editor is free software: you can redistribute it and/or modify
+  ~ it under the terms of the GNU General Public License as published by
+  ~ the Free Software Foundation, either version 3 of the License, or
+  ~ (at your option) any later version.
+  ~
+  ~ Turbo Editor is distributed in the hope that it will be useful,
+  ~ but WITHOUT ANY WARRANTY; without even the implied warranty of
+  ~ MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE. See the
+  ~ GNU General Public License for more details.
+  ~
+  ~ You should have received a copy of the GNU General Public License
+  ~ along with this program.  If not, see <http://www.gnu.org/licenses/>.
+  -->
+
+<ScrollView
+    android:layout_height="match_parent"
+    android:layout_width="match_parent"
+    xmlns:android="http://schemas.android.com/apk/res/android"
+    android:background="@color/navigation_drawer_background_inverted">
+<LinearLayout
+    android:layout_width="match_parent"
+    android:layout_height="wrap_content"
+    android:id="@id/drawer_buttons"
+    android:orientation="vertical"
+    >
+
+    <View
+        android:background="@color/divider_inverted"
+        android:layout_width="match_parent"
+        android:layout_height="@dimen/line_dimension"/>
+
+    <TextView
+        android:id="@id/drawer_button_go_pro"
+        android:layout_width="match_parent"
+        android:layout_height="72dp"
+        android:text="@string/pro_version"
+        android:paddingStart="20dp"
+        android:paddingEnd="20dp"
+        android:paddingLeft="20dp"
+        android:paddingRight="20dp"
+        android:gravity="center_vertical"
+        android:textSize="12sp"
+        android:textAllCaps="true"
+        android:clickable="true"
+        android:background="@drawable/item_background_holo_dark"
+        android:textColor="@color/indigo"/>
+
+    <View
+        android:background="@color/divider_inverted"
+        android:layout_width="match_parent"
+        android:layout_height="@dimen/line_dimension"/>
+
+        <CheckBox         android:button="@null"         android:drawableRight="?android:attr/listChoiceIndicatorMultiple"
+            android:gravity="center_vertical"
+            android:checkMark="?android:attr/listChoiceIndicatorMultiple"
+            android:layout_width="match_parent"
+            android:layout_height="56dp"
+            android:text="@string/line_numbers"
+            android:textAllCaps="true"
+            android:textSize="12sp"
+            android:id="@id/switch_line_numbers"
+            android:layout_gravity="center_horizontal"
+            android:paddingEnd="16dp"
+            android:paddingStart="16dp"
+            android:paddingLeft="16dp"
+            android:paddingRight="16dp"
+            android:textColor="@color/navigation_drawer_button_text_color_inverted"
+            />
+
+    <View
+        android:background="@color/divider_inverted"
+        android:layout_width="match_parent"
+        android:layout_height="@dimen/line_dimension"/>
+
+    <CheckBox         android:button="@null"         android:drawableRight="?android:attr/listChoiceIndicatorMultiple"
+        android:gravity="center_vertical"
+        android:checkMark="?android:attr/listChoiceIndicatorMultiple"
+        android:layout_width="match_parent"
+        android:layout_height="56dp"
+        android:text="@string/menu_syntax_highlight"
+        android:textAllCaps="true"
+        android:textSize="12sp"
+        android:id="@id/switch_syntax"
+        android:layout_gravity="center_horizontal"
+        android:paddingEnd="16dp"
+        android:paddingStart="16dp"
+        android:paddingLeft="16dp"
+        android:paddingRight="16dp"
+        android:textColor="@color/navigation_drawer_button_text_color_inverted"/>
+
+    <View
+        android:background="@color/divider_inverted"
+        android:layout_width="match_parent"
+        android:layout_height="@dimen/line_dimension"/>
+
+    <CheckBox         android:button="@null"         android:drawableRight="?android:attr/listChoiceIndicatorMultiple"
+        android:gravity="center_vertical"
+        android:checkMark="?android:attr/listChoiceIndicatorMultiple"
+        android:layout_width="match_parent"
+        android:layout_height="56dp"
+        android:text="@string/wrap_content"
+        android:textAllCaps="true"
+        android:textSize="12sp"
+        android:id="@id/switch_wrap_content"
+        android:layout_gravity="center_horizontal"
+        android:paddingEnd="16dp"
+        android:paddingStart="16dp"
+        android:paddingLeft="16dp"
+        android:paddingRight="16dp"
+        android:textColor="@color/navigation_drawer_button_text_color_inverted"/>
+
+
+    <View
+        android:background="@color/divider_inverted"
+        android:layout_width="match_parent"
+        android:layout_height="@dimen/line_dimension"/>
+
+    <CheckBox         android:button="@null"         android:drawableRight="?android:attr/listChoiceIndicatorMultiple"
+        android:gravity="center_vertical"
+        android:checkMark="?android:attr/listChoiceIndicatorMultiple"
+        android:layout_width="match_parent"
+        android:layout_height="56dp"
+        android:text="@string/use_monospace"
+        android:textAllCaps="true"
+        android:textSize="12sp"
+        android:id="@id/switch_monospace"
+        android:layout_gravity="center_horizontal"
+        android:paddingEnd="16dp"
+        android:paddingStart="16dp"
+        android:paddingLeft="16dp"
+        android:paddingRight="16dp"
+        android:textColor="@color/navigation_drawer_button_text_color_inverted"/>
+
+    <View
+        android:background="@color/divider_inverted"
+        android:layout_width="match_parent"
+        android:layout_height="@dimen/line_dimension"/>
+
+    <CheckBox
+        android:button="@null"
+        android:drawableRight="?android:attr/listChoiceIndicatorMultiple"
+        android:gravity="center_vertical"
+        android:checkMark="?android:attr/listChoiceIndicatorMultiple"
+        android:layout_width="match_parent"
+        android:layout_height="56dp"
+        android:text="@string/light_theme"
+        android:textAllCaps="true"
+        android:textSize="12sp"
+        android:id="@id/switch_light_theme"
+        android:layout_gravity="center_horizontal"
+        android:paddingEnd="16dp"
+        android:paddingStart="16dp"
+        android:paddingLeft="16dp"
+        android:paddingRight="16dp"
+        android:textColor="@color/navigation_drawer_button_text_color_inverted"/>
+
+    <View
+        android:background="@color/divider_inverted"
+        android:layout_width="match_parent"
+        android:layout_height="@dimen/line_dimension"/>
+
+    <CheckBox         android:button="@null"         android:drawableRight="?android:attr/listChoiceIndicatorMultiple"
+        android:gravity="center_vertical"
+        android:checkMark="?android:attr/listChoiceIndicatorMultiple"
+        android:layout_width="match_parent"
+        android:layout_height="56dp"
+        android:text="@string/keyboard_suggestions_and_swipe"
+        android:textAllCaps="true"
+        android:textSize="12sp"
+        android:id="@id/switch_suggestions_active"
+        android:layout_gravity="center_horizontal"
+        android:paddingEnd="16dp"
+        android:paddingStart="16dp"
+        android:paddingLeft="16dp"
+        android:paddingRight="16dp"
+        android:textColor="@color/navigation_drawer_button_text_color_inverted"/>
+
+    <View
+        android:background="@color/divider_inverted"
+        android:layout_width="match_parent"
+        android:layout_height="@dimen/line_dimension"/>
+
+    <CheckBox         android:button="@null"         android:drawableRight="?android:attr/listChoiceIndicatorMultiple"
+        android:gravity="center_vertical"
+        android:checkMark="?android:attr/listChoiceIndicatorMultiple"
+        android:layout_width="match_parent"
+        android:layout_height="56dp"
+        android:text="@string/auto_save"
+        android:textAllCaps="true"
+        android:textSize="12sp"
+        android:id="@id/switch_auto_save"
+        android:layout_gravity="center_horizontal"
+        android:paddingEnd="16dp"
+        android:paddingStart="16dp"
+        android:paddingLeft="16dp"
+        android:paddingRight="16dp"
+        android:textColor="@color/navigation_drawer_button_text_color_inverted"/>
+
+    <View
+        android:background="@color/divider_inverted"
+        android:layout_width="match_parent"
+        android:layout_height="@dimen/line_dimension"/>
+
+    <CheckBox         android:button="@null"         android:drawableRight="?android:attr/listChoiceIndicatorMultiple"
+        android:gravity="center_vertical"
+        android:checkMark="?android:attr/listChoiceIndicatorMultiple"
+        android:layout_width="match_parent"
+        android:layout_height="56dp"
+        android:text="@string/read_only"
+        android:textAllCaps="true"
+        android:textSize="12sp"
+        android:id="@id/switch_read_only"
+        android:layout_gravity="center_horizontal"
+        android:paddingEnd="16dp"
+        android:paddingStart="16dp"
+        android:paddingLeft="16dp"
+        android:paddingRight="16dp"
+        android:textColor="@color/navigation_drawer_button_text_color_inverted"/>
+
+    <CheckBox
+        android:button="@null"
+        android:drawableRight="?android:attr/listChoiceIndicatorMultiple"
+        android:gravity="center_vertical"
+        android:checkMark="?android:attr/listChoiceIndicatorMultiple"
+        android:layout_width="match_parent"
+        android:layout_height="56dp"
+        android:text="@string/send_error_reports"
+        android:textAllCaps="true"
+        android:textSize="12sp"
+        android:id="@id/switch_send_error_reports"
+        android:paddingEnd="16dp"
+        android:paddingStart="16dp"
+        android:paddingLeft="16dp"
+        android:paddingRight="16dp"
+        android:textColor="@color/navigation_drawer_button_text_color_inverted" />
+
+    <View
+        android:background="@color/divider_inverted"
+        android:layout_width="match_parent"
+        android:layout_height="@dimen/line_dimension"/>
+
+    <TextView
+        android:id="@id/drawer_button_encoding"
+        android:layout_width="match_parent"
+        android:layout_height="56dp"
+        android:text="@string/codifica"
+        android:paddingStart="20dp"
+        android:paddingEnd="20dp"
+        android:paddingLeft="20dp"
+        android:paddingRight="20dp"
+        android:gravity="center_vertical"
+        android:textSize="12sp"
+        android:textAllCaps="true"
+        android:clickable="true"
+        android:background="@drawable/item_background_holo_dark"
+        android:textColor="@color/navigation_drawer_button_text_color_inverted"/>
+
+    <View
+        android:background="@color/divider_inverted"
+        android:layout_width="match_parent"
+        android:layout_height="@dimen/line_dimension"/>
+
+        <TextView
+        android:id="@id/drawer_button_font_size"
+        android:layout_width="match_parent"
+        android:layout_height="56dp"
+        android:text="@string/font_size"
+        android:paddingStart="20dp"
+        android:paddingEnd="20dp"
+            android:paddingLeft="20dp"
+            android:paddingRight="20dp"
+        android:gravity="center_vertical"
+        android:textSize="12sp"
+        android:textAllCaps="true"
+        android:clickable="true"
+        android:background="@drawable/item_background_holo_dark"
+        android:textColor="@color/navigation_drawer_button_text_color_inverted"/>
+
+    <View
+        android:background="@color/divider_inverted"
+        android:layout_width="match_parent"
+        android:layout_height="@dimen/line_dimension"/>
+
+</LinearLayout>
+    </ScrollView>

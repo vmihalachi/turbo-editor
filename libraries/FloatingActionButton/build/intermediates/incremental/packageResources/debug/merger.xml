@@ -1,0 +1,38 @@
+<?xml version="1.0" encoding="utf-8"?>
+<merger version="2" >
+
+    <dataSet config="main" >
+        <source path="C:\Users\Vlad\Documents\AndroidStudioProjects\turbo-editor\libraries\FloatingActionButton\res" >
+            <file
+                path="C:\Users\Vlad\Documents\AndroidStudioProjects\turbo-editor\libraries\FloatingActionButton\res\values\attrs.xml"
+                qualifiers="" >
+                <declare-styleable name="FloatingActionButton" >
+                    <attr
+                        name="drawable"
+                        format="integer" />
+                    <attr
+                        name="color"
+                        format="color" />
+                    <attr
+                        name="shadowRadius"
+                        format="float" />
+                    <attr
+                        name="shadowDx"
+                        format="float" />
+                    <attr
+                        name="shadowDy"
+                        format="float" />
+                    <attr
+                        name="shadowColor"
+                        format="integer" />
+                </declare-styleable>
+            </file>
+        </source>
+        <source path="C:\Users\Vlad\Documents\AndroidStudioProjects\turbo-editor\libraries\FloatingActionButton\build\generated\res\rs\debug" />
+        <source path="C:\Users\Vlad\Documents\AndroidStudioProjects\turbo-editor\libraries\FloatingActionButton\build\generated\res\generated\debug" />
+    </dataSet>
+    <dataSet config="debug" >
+        <source path="C:\Users\Vlad\Documents\AndroidStudioProjects\turbo-editor\libraries\FloatingActionButton\src\debug\res" />
+    </dataSet>
+
+</merger>

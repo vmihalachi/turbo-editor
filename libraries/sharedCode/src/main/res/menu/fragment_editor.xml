@@ -1,0 +1,94 @@
+<?xml version="1.0" encoding="utf-8"?>
+<!--
+  ~ Copyright (C) 2014 Vlad Mihalachi
+  ~
+  ~ This file is part of Turbo Editor.
+  ~
+  ~ Turbo Editor is free software: you can redistribute it and/or modify
+  ~ it under the terms of the GNU General Public License as published by
+  ~ the Free Software Foundation, either version 3 of the License, or
+  ~ (at your option) any later version.
+  ~
+  ~ Turbo Editor is distributed in the hope that it will be useful,
+  ~ but WITHOUT ANY WARRANTY; without even the implied warranty of
+  ~ MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE. See the
+  ~ GNU General Public License for more details.
+  ~
+  ~ You should have received a copy of the GNU General Public License
+  ~ along with this program.  If not, see <http://www.gnu.org/licenses/>.
+  -->
+
+<menu xmlns:android="http://schemas.android.com/apk/res/android">
+    <item
+            android:id="@id/im_save"
+            android:showAsAction="ifRoom"
+            android:icon="@drawable/ic_action_save"
+            android:title="@string/salva"/>
+    <item
+            android:id="@id/im_undo"
+            android:showAsAction="ifRoom"
+            android:icon="@drawable/ic_action_undo"
+            android:title="@string/testo_indietro"
+            />
+    <item
+            android:id="@id/im_redo"
+            android:showAsAction="ifRoom"
+            android:icon="@drawable/ic_action_redo"
+            android:title="@string/testo_rifai"
+            />
+    <item
+        android:id="@id/im_search"
+        android:showAsAction="never"
+        android:title="@string/find"
+        />
+    <item
+        android:id="@id/im_goto_line"
+        android:showAsAction="never"
+        android:title="@string/goto_line"
+        />
+    <item
+        android:id="@id/im_view_it_on_browser"
+        android:showAsAction="never"
+        android:title="@string/view_it_on_the_web"
+        />
+    <item
+        android:id="@id/im_share"
+        android:showAsAction="never"
+        android:title="@string/share"
+        />
+
+   <!-- <item
+        android:id="@id/im_goto_line"
+        android:showAsAction="never"
+        android:title="@string/goto_line"
+        />-->
+    <!--<item
+            android:title="@string/preferenze"
+            android:showAsAction="ifRoom|withText">
+        <menu>
+            <item
+                    android:id="@id/im_line_numbers"
+                    android:showAsAction="ifRoom"
+                    android:title="@string/line_numbers"
+                    android:checkable="true"/>
+            <item
+                    android:id="@id/im_syntax_highlight"
+                    android:showAsAction="ifRoom"
+                    android:title="@string/menu_syntax_highlight"
+                    android:checkable="true"/>
+            <item
+                android:id="@id/im_use_monospace"
+                android:showAsAction="ifRoom"
+                android:title="@string/use_monospace"
+                android:checkable="true"/>
+            <item
+                android:id="@id/im_editor_encoding"
+                android:showAsAction="ifRoom"
+                android:title="@string/codifica"/>
+            <item
+                android:id="@id/im_text_size"
+                android:showAsAction="ifRoom"
+                android:title="@string/font_size"/>
+        </menu>
+    </item>-->
+</menu>

@@ -1,0 +1,99 @@
+<!--
+  ~ Copyright (C) 2014 Vlad Mihalachi
+  ~
+  ~ This file is part of Turbo Editor.
+  ~
+  ~ Turbo Editor is free software: you can redistribute it and/or modify
+  ~ it under the terms of the GNU General Public License as published by
+  ~ the Free Software Foundation, either version 3 of the License, or
+  ~ (at your option) any later version.
+  ~
+  ~ Turbo Editor is distributed in the hope that it will be useful,
+  ~ but WITHOUT ANY WARRANTY; without even the implied warranty of
+  ~ MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE. See the
+  ~ GNU General Public License for more details.
+  ~
+  ~ You should have received a copy of the GNU General Public License
+  ~ along with this program.  If not, see <http://www.gnu.org/licenses/>.
+  -->
+
+<resources>
+
+    <!-- Base application theme. -->
+    <style name="AppTheme" parent="android:Theme.Holo">
+
+    </style>
+
+    <style name="AppTheme.Light.Editor" parent="android:Theme.Holo.Light.DarkActionBar">
+        <!-- Customize your theme here. -->
+        <item name="android:windowBackground">@null</item>
+        <item name="android:actionBarStyle">@style/ActionBar.Dark</item>
+        <item name="android:actionOverflowButtonStyle">@style/OverFlow</item>
+    </style>
+
+    <style name="AppTheme.Light" parent="android:Theme.Holo.Light.DarkActionBar">
+        <!-- Customize your theme here. -->
+        <item name="android:windowBackground">@color/window_background_light</item>
+        <item name="android:actionBarStyle">@style/ActionBar.Dark</item>
+    </style>
+
+    <style name="AppTheme.Dark" parent="android:Theme.Holo">
+        <!-- Customize your theme here. -->
+        <item name="android:windowBackground">@color/window_background</item>
+        <item name="android:actionBarStyle">@style/ActionBar.Dark</item>
+
+    </style>
+
+    <style name="ActionBar.Light" parent="android:Widget.Holo.Light.ActionBar.Solid">
+        <item name="android:background">@color/window_background_light</item>
+        <item name="android:icon">@android:color/transparent</item>
+        <item name="android:titleTextStyle">
+            @style/ActionBar.TitleLight
+        </item>
+        <item name="android:subtitleTextStyle">
+            @style/ActionBar.SubtitleLight
+        </item>
+        <item name="android:actionOverflowButtonStyle">@style/OverFlow</item>
+    </style>
+
+    <style name="ActionBar.Dark" parent="android:Widget.Holo.ActionBar.Solid">
+        <item name="android:background">@color/window_background</item>
+        <item name="android:icon">@android:color/transparent</item>
+        <item name="android:titleTextStyle">
+            @style/ActionBar.TitleDark
+        </item>
+        <item name="android:subtitleTextStyle">
+            @style/ActionBar.SubtitleDark
+        </item>
+        <item name="android:actionOverflowButtonStyle">@style/OverFlow</item>
+    </style>
+
+    <style name="ActionBar.TitleDark" parent="android:TextAppearance.Holo.Widget.ActionBar.Title">
+        <item name="android:textColor">
+            @color/textColor
+        </item>
+    </style>
+
+    <style name="ActionBar.SubtitleDark" parent="android:TextAppearance.Holo.Widget.ActionBar.Subtitle">
+        <item name="android:textColor">
+            @color/textColor
+        </item>
+    </style>
+
+    <style name="ActionBar.TitleLight" parent="android:TextAppearance.Holo.Widget.ActionBar.Title">
+        <item name="android:textColor">
+            @color/textColorInverted
+        </item>
+    </style>
+
+    <style name="ActionBar.SubtitleLight" parent="android:TextAppearance.Holo.Widget.ActionBar.Subtitle">
+        <item name="android:textColor">
+            @color/textColorInverted
+        </item>
+    </style>
+
+    <style name="OverFlow" parent="@android:style/Widget.Holo.ActionButton.Overflow">
+        <item name="android:src">@drawable/ic_action_overflow</item>
+    </style>
+
+</resources>

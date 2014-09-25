@@ -1,0 +1,11 @@
+<?xml version="1.0" encoding="utf-8"?>
+<merger version="2" >
+
+    <dataSet config="main" >
+        <source path="C:\Users\Vlad\Documents\AndroidStudioProjects\turbo-editor\libraries\FloatingActionButton\assets" />
+    </dataSet>
+    <dataSet config="release" >
+        <source path="C:\Users\Vlad\Documents\AndroidStudioProjects\turbo-editor\libraries\FloatingActionButton\src\release\assets" />
+    </dataSet>
+
+</merger>

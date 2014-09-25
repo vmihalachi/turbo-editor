@@ -1,0 +1,49 @@
+<?xml version="1.0" encoding="utf-8"?>
+<!--
+  ~ Copyright (C) 2014 Vlad Mihalachi
+  ~
+  ~ This file is part of Turbo Editor.
+  ~
+  ~ Turbo Editor is free software: you can redistribute it and/or modify
+  ~ it under the terms of the GNU General Public License as published by
+  ~ the Free Software Foundation, either version 3 of the License, or
+  ~ (at your option) any later version.
+  ~
+  ~ Turbo Editor is distributed in the hope that it will be useful,
+  ~ but WITHOUT ANY WARRANTY; without even the implied warranty of
+  ~ MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE. See the
+  ~ GNU General Public License for more details.
+  ~
+  ~ You should have received a copy of the GNU General Public License
+  ~ along with this program.  If not, see <http://www.gnu.org/licenses/>.
+  -->
+
+<sharedcode.turboeditor.views.CustomDrawerLayout
+    xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:id="@id/drawer_layout"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent">
+
+    <FrameLayout
+        android:id="@id/fragment_editor"
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"/>
+
+    <fragment android:layout_width="@dimen/navigation_drawer_width"
+              android:layout_height="match_parent"
+              android:name="sharedcode.turboeditor.fragment.NavigationDrawerListFragment"
+              android:id="@id/drawer_files"
+              android:layout_gravity="start"
+               tools:layout="@layout/fragment_navigation_drawer"
+        />
+
+    <fragment android:layout_width="@dimen/navigation_drawer_width"
+        android:layout_height="match_parent"
+        android:name="sharedcode.turboeditor.preferences.SettingsFragment"
+        android:id="@id/drawer_settings"
+        android:layout_gravity="end"
+        tools:layout="@layout/fragment_navigation_drawer"/>
+
+
+</sharedcode.turboeditor.views.CustomDrawerLayout>

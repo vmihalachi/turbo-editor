@@ -1,0 +1,78 @@
+<?xml version="1.0" encoding="utf-8"?>
+<!--
+  ~ Copyright (C) 2014 Vlad Mihalachi
+  ~
+  ~ This file is part of Turbo Editor.
+  ~
+  ~ Turbo Editor is free software: you can redistribute it and/or modify
+  ~ it under the terms of the GNU General Public License as published by
+  ~ the Free Software Foundation, either version 3 of the License, or
+  ~ (at your option) any later version.
+  ~
+  ~ Turbo Editor is distributed in the hope that it will be useful,
+  ~ but WITHOUT ANY WARRANTY; without even the implied warranty of
+  ~ MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE. See the
+  ~ GNU General Public License for more details.
+  ~
+  ~ You should have received a copy of the GNU General Public License
+  ~ along with this program.  If not, see <http://www.gnu.org/licenses/>.
+  -->
+
+    <FrameLayout
+    xmlns:android="http://schemas.android.com/apk/res/android"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent">
+
+<sharedcode.turboeditor.views.GoodScrollView
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        android:scrollbars="vertical"
+        android:fillViewport="true"
+    android:id="@id/vertical_scroll"
+    android:background="@null">
+
+    <HorizontalScrollView
+        android:layout_height="wrap_content"
+        android:layout_width="match_parent"
+        android:scrollbars="horizontal"
+        android:fillViewport="true"
+        android:id="@id/horizontal_scroll"
+        android:background="@null">
+
+        <view
+            class="sharedcode.turboeditor.fragment.EditorFragment$Editor"
+            android:id="@id/editor"
+            android:layout_width="match_parent"
+            android:layout_height="match_parent"
+            android:bufferType="spannable"
+            android:textCursorDrawable="@null"
+            android:cursorVisible="true"
+            android:gravity="top|start"
+            android:singleLine="false"
+            android:background="@null"
+            android:text=""
+            android:textIsSelectable="true" />
+    </HorizontalScrollView>
+</sharedcode.turboeditor.views.GoodScrollView>
+
+<com.faizmalkani.floatingactionbutton.FloatingActionButton
+android:id="@+id/fabNext"
+android:layout_width="72dp"
+android:layout_height="72dp"
+android:layout_gravity="bottom|right"
+android:layout_marginBottom="16dp"
+android:layout_marginRight="16dp"
+android:layout_marginEnd="16dp"
+    android:visibility="invisible"/>
+
+<com.faizmalkani.floatingactionbutton.FloatingActionButton
+android:id="@+id/fabPrev"
+android:layout_width="72dp"
+android:layout_height="72dp"
+android:layout_gravity="bottom|right"
+android:layout_marginBottom="16dp"
+android:layout_marginRight="100dp"
+android:layout_marginEnd="90dp"
+    android:visibility="invisible"/>
+
+</FrameLayout>
