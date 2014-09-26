@@ -6,7 +6,7 @@ Simple, powerful and Open Source text editor for Android licensed under the GPLv
 ### Download
 [![Play Store](http://developer.android.com/images/brand/en_generic_rgb_wo_60.png)](http://play.google.com/store/apps/details?id=com.maskyn.fileeditorpro) 
 
-[![F-Droid](https://lh5.googleusercontent.com/-zezQqsBye0c/VCUpPVjcKEI/AAAAAAAAAIQ/HbcG5f1qMIw/w129-h45-no/getitonfdroid.png)](https://f-droid.org/repository/browse/?fdid=https://f-droid.org/repository/browse/?fdid=com.maskyn.fileeditorpro) 
+[![F-Droid](https://lh5.googleusercontent.com/-zezQqsBye0c/VCUpPVjcKEI/AAAAAAAAAIQ/HbcG5f1qMIw/w129-h45-no/getitonfdroid.png)](https://f-droid.org/repository/browse/?fdid=com.maskyn.fileeditorpro) 
 
 ### Contribute
 You can contribute to this project in many ways:
