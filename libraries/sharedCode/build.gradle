@@ -51,6 +51,7 @@ dependencies {
     compile fileTree(dir: 'libs', include: ['*.jar'])
     compile project(':libraries:RootCommands')
     compile project(':libraries:FloatingActionButton')
+    compile 'com.googlecode.juniversalchardet:juniversalchardet:1.0.3'
     compile "com.android.support:support-v4:19.0.+"
     compile('de.greenrobot:eventbus:2.2.1') {
         exclude module: 'support-v4'
