@@ -21,7 +21,7 @@ You can contribute to this project in many ways:
 ###Donate
 [![Paypal](https://www.paypalobjects.com/en_US/i/btn/btn_donate_SM.gif)](https://www.paypal.com/cgi-bin/webscr?cmd=_s-xclick&hosted_button_id=26VWS2TSAMUJA) 
 
-[![Flattr this git repo](http://api.flattr.com/button/flattr-badge-large.png)](https://flattr.com/submit/auto?user_id=vmihalachi&url=https://raw.github.com/vmihalachi/turbo-editor&title=Turbo Editor&language=&tags=github&category=software) 
+[![Flattr this git repo](http://api.flattr.com/button/flattr-badge-large.png)](https://flattr.com/submit/auto?user_id=vmihalachi&url=https://github.com/vmihalachi/turbo-editor&title=Turbo Editor&language=java&tags=github&category=software)
 
 ------
 
