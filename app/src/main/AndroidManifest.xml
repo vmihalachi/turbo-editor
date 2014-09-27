@@ -52,7 +52,7 @@
             android:name=".HomeActivity"
             android:configChanges="fontScale|keyboard|keyboardHidden|locale|mnc|mcc|navigation|orientation|screenLayout|screenSize|smallestScreenSize|uiMode|touchscreen"
             android:launchMode="singleTop"
-            android:windowSoftInputMode="stateUnspecified|adjustPan"
+            android:windowSoftInputMode="stateUnspecified|adjustResize"
             android:theme="@style/AppTheme.Light.Editor">
             <intent-filter>
                 <action android:name="android.intent.action.MAIN" />

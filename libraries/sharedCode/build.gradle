@@ -24,13 +24,13 @@ android {
         disable 'MissingTranslation', 'ExtraTranslation'
     }
 
-    compileSdkVersion 20
-    buildToolsVersion "20.0.0"
+    compileSdkVersion 19
+    buildToolsVersion "19.1.0"
 
     defaultConfig {
         applicationId "sharedcode.turboeditor"
         minSdkVersion 14
-        targetSdkVersion 20
+        targetSdkVersion 19
         versionCode 1
         versionName "1.0"
     }
@@ -51,12 +51,12 @@ dependencies {
     compile fileTree(dir: 'libs', include: ['*.jar'])
     compile project(':libraries:RootCommands')
     compile project(':libraries:FloatingActionButton')
-    compile 'com.googlecode.juniversalchardet:juniversalchardet:1.0.3'
-    compile "com.android.support:support-v4:19.0.+"
+    compile 'com.android.support:support-v4:19.+'
     compile('de.greenrobot:eventbus:2.2.1') {
         exclude module: 'support-v4'
     }
+//    compile 'com.googlecode.juniversalchardet:juniversalchardet:1.0.3'
     compile 'com.github.gabrielemariotti.changeloglib:library:1.5.1'
     compile 'commons-io:commons-io:2.4'
-
+    compile files('libs/juniversalchardet-1.0.3.jar')
 }
