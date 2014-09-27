@@ -79,7 +79,7 @@ public class SettingsFragment extends Fragment implements EncodingDialogFragment
         SettingsFragment.sLightTheme = PreferenceHelper.getLightTheme(getActivity());
         SettingsFragment.sAutoSave = PreferenceHelper.getAutoSave(getActivity());
         SettingsFragment.sReadOnly = PreferenceHelper.getReadOnly(getActivity());
-        SettingsFragment.sSendErrorReports = PreferenceHelper.getReadOnly(getActivity());
+        SettingsFragment.sSendErrorReports = PreferenceHelper.getSendErrorReports(getActivity());
     }
 
     @Override
@@ -106,7 +106,7 @@ public class SettingsFragment extends Fragment implements EncodingDialogFragment
         switchSuggestionsActive.setChecked(sSuggestionsActive);
         switchAutoSave.setChecked(sAutoSave);
         switchReadOnly.setChecked(sReadOnly);
-        switchSendErrorReports.setChecked(sReadOnly);
+        switchSendErrorReports.setChecked(sSendErrorReports);
 
         TextView encodingView, fontSizeView, goProView;
         encodingView = (TextView) rootView.findViewById(R.id.drawer_button_encoding);

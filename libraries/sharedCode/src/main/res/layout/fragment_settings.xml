@@ -224,6 +224,11 @@
         android:paddingRight="16dp"
         android:textColor="@color/navigation_drawer_button_text_color_inverted"/>
 
+    <View
+        android:background="@color/divider_inverted"
+        android:layout_width="match_parent"
+        android:layout_height="@dimen/line_dimension"/>
+
     <CheckBox
         android:button="@null"
         android:drawableRight="?android:attr/listChoiceIndicatorMultiple"
