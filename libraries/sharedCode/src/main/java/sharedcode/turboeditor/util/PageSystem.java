@@ -24,16 +24,9 @@ import java.util.List;
 
 public class PageSystem {
 
-    public interface PageSystemInterface {
-        void onPageChanged(int page);
-    }
-
     private List<String> pages;
-
     private int[] startingLines;
-
     private int currentPage = 0;
-
     private PageSystemInterface pageSystemInterface;
 
     public PageSystem(PageSystemInterface pageSystemInterface, String text) {
@@ -46,7 +39,7 @@ public class PageSystem {
         int to;
         int indexOfReturn;
         int textLenght = text.length();
-        if(textLenght > maxLenghtInOnePage) {
+        if (textLenght > maxLenghtInOnePage) {
             while (i < textLenght) {
                 to = i + charForPage;
                 indexOfReturn = text.indexOf("\n", to);
@@ -78,8 +71,8 @@ public class PageSystem {
     public String getTextOfNextPages(boolean includeCurrent, int nOfPages) {
         StringBuilder stringBuilder = new StringBuilder();
         int i;
-        for(i = includeCurrent ? 0 : 1; i < nOfPages; i++){
-            if(pages.size() > (currentPage + i)) {
+        for (i = includeCurrent ? 0 : 1; i < nOfPages; i++) {
+            if (pages.size() > (currentPage + i)) {
                 stringBuilder.append(pages.get(currentPage + 1));
             }
         }
@@ -92,25 +85,25 @@ public class PageSystem {
     }
 
     public void nextPage() {
-        if(!canReadNextPage()) return;
+        if (!canReadNextPage()) return;
         goToPage(currentPage + 1);
     }
 
     public void prevPage() {
-        if(!canReadPrevPage()) return;
+        if (!canReadPrevPage()) return;
         goToPage(currentPage - 1);
     }
 
     public void goToPage(int page) {
-        if(page >= pages.size()) page = pages.size() - 1;
-        if(page < 0) page = 0;
+        if (page >= pages.size()) page = pages.size() - 1;
+        if (page < 0) page = 0;
         boolean shouldUpdateLines = page > currentPage && canReadNextPage();
-        if(shouldUpdateLines) {
+        if (shouldUpdateLines) {
             String text = getCurrentPageText();
             int nOfNewLineNow = (text.length() - text.replace("\n", "").length()) + 1; // normally the last line is not counted so we have to add 1
-            int nOfNewLineBefore = startingLines[currentPage+1] - startingLines[currentPage];
-            int difference =  nOfNewLineNow - nOfNewLineBefore;
-            updateStartingLines(currentPage+1, difference);
+            int nOfNewLineBefore = startingLines[currentPage + 1] - startingLines[currentPage];
+            int difference = nOfNewLineNow - nOfNewLineBefore;
+            updateStartingLines(currentPage + 1, difference);
         }
         currentPage = page;
         pageSystemInterface.onPageChanged(page);
@@ -122,8 +115,8 @@ public class PageSystem {
         int nOfNewLines;
         String text;
         startingLines[0] = 0;
-        for(i = 1; i < pages.size(); i++) {
-            text = pages.get(i-1);
+        for (i = 1; i < pages.size(); i++) {
+            text = pages.get(i - 1);
             nOfNewLines = text.length() - text.replace("\n", "").length() + 1;
             startingLine = startingLines[i - 1] + nOfNewLines;
             startingLines[i] = startingLine;
@@ -131,11 +124,11 @@ public class PageSystem {
     }
 
     public void updateStartingLines(int fromPage, int difference) {
-        if(difference == 0)
+        if (difference == 0)
             return;
         int i;
-        if(fromPage < 1) fromPage = 1;
-        for(i = fromPage; i < pages.size(); i++) {
+        if (fromPage < 1) fromPage = 1;
+        for (i = fromPage; i < pages.size(); i++) {
             startingLines[i] += difference;
         }
     }
@@ -144,13 +137,15 @@ public class PageSystem {
         return pages.size() - 1;
     }
 
-    public int getCurrentPage() { return  currentPage; }
+    public int getCurrentPage() {
+        return currentPage;
+    }
 
     public String getAllText(String currentPageText) {
         pages.set(currentPage, currentPageText);
         int i;
         StringBuilder allText = new StringBuilder();
-        for(i = 0; i < pages.size(); i++) {
+        for (i = 0; i < pages.size(); i++) {
             allText.append(pages.get(i)).append("\n");
         }
         return allText.toString();
@@ -162,5 +157,9 @@ public class PageSystem {
 
     public boolean canReadPrevPage() {
         return currentPage >= 1;
+    }
+
+    public interface PageSystemInterface {
+        void onPageChanged(int page);
     }
 }

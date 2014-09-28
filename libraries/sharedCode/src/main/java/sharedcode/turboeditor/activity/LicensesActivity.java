@@ -37,13 +37,14 @@ public class LicensesActivity extends Activity implements AdapterView.OnItemClic
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
-        super.onCreate(savedInstanceState);
         boolean light = PreferenceHelper.getLightTheme(this);
         if (light) {
             setTheme(R.style.AppTheme_Light);
         } else {
             setTheme(R.style.AppTheme_Dark);
         }
+        super.onCreate(savedInstanceState);
+
         setContentView(R.layout.activity_licenses);
         ListView listView = (ListView) findViewById(android.R.id.list);
         listView.setOnItemClickListener(this);

@@ -86,7 +86,7 @@
             android:theme="@style/AppTheme.Dark">
             <meta-data
                 android:name="android.support.PARENT_ACTIVITY"
-                android:value="com.maskyn.fileeditor.activity.HomeActivity" />
+                android:value=".HomeActivity" />
         </activity>
         <activity
             android:name="sharedcode.turboeditor.activity.LicensesActivity"
@@ -96,7 +96,7 @@
             android:theme="@style/AppTheme.Light">
             <meta-data
                 android:name="android.support.PARENT_ACTIVITY"
-                android:value="com.maskyn.fileeditor.activity.PreferenceAbout" />
+                android:value=".PreferenceAbout" />
         </activity>
         <activity
             android:name="sharedcode.turboeditor.activity.SelectFileActivity"
@@ -106,7 +106,16 @@
             android:theme="@style/AppTheme.Light">
             <meta-data
                 android:name="android.support.PARENT_ACTIVITY"
-                android:value="com.maskyn.fileeditor.activity.HomeActivity" />
+                android:value=".HomeActivity" />
+        </activity>
+
+        <activity
+            android:name="sharedcode.turboeditor.preferences.ExtraSettingsActivity"
+            android:label="@string/extra_options"
+            android:parentActivityName=".HomeActivity">
+            <meta-data
+                android:name="android.support.PARENT_ACTIVITY"
+                android:value=".HomeActivity" />
         </activity>
 
         <meta-data

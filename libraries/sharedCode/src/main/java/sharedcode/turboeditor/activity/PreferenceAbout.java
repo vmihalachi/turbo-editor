@@ -20,14 +20,10 @@
 package sharedcode.turboeditor.activity;
 
 import android.app.Activity;
-import android.app.AlertDialog;
-import android.content.DialogInterface;
 import android.content.Intent;
 import android.content.pm.PackageManager;
 import android.net.Uri;
 import android.os.Bundle;
-import android.view.Menu;
-import android.view.MenuItem;
 import android.view.View;
 import android.widget.TextView;
 
@@ -79,8 +75,8 @@ public class PreferenceAbout extends Activity {
 
     public void GoToProVersion(View view) {
         try {
-                startActivity(new Intent(Intent.ACTION_VIEW, Uri.parse("market://details?id=com.maskyn.fileeditorpro"))
-                        .setFlags(Intent.FLAG_ACTIVITY_NEW_TASK));
+            startActivity(new Intent(Intent.ACTION_VIEW, Uri.parse("market://details?id=com.maskyn.fileeditorpro"))
+                    .setFlags(Intent.FLAG_ACTIVITY_NEW_TASK));
         } catch (Exception e) {
         }
     }

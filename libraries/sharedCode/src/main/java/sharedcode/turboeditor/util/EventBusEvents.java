@@ -20,6 +20,7 @@
 package sharedcode.turboeditor.util;
 
 import java.io.File;
+import java.util.List;
 
 public class EventBusEvents {
     public static class CannotOpenAFile {
@@ -65,21 +66,28 @@ public class EventBusEvents {
 
     public static class APreferenceValueWasChanged {
         private Type type;
+        private List<Type> types;
 
         public APreferenceValueWasChanged(Type type) {
             this.type = type;
         }
 
-        public Type getType() {
-            return type;
+        public APreferenceValueWasChanged(List<Type> types) {
+            this.types = types;
         }
 
-        public void setType(Type type) {
-            this.type = type;
+        public boolean hasType(Type value) {
+
+            if (type != null) {
+                return value == type;
+            } else {
+                return types.contains(value);
+            }
+
         }
 
         public enum Type {
-            FONT_SIZE, ENCODING, SYNTAX, WRAP_CONTENT, MONOSPACE, LINE_NUMERS, THEME_CHANGE, TEXT_SUGGESTIONS, AUTO_SAVE, READ_ONLY
+            FONT_SIZE, ENCODING, SYNTAX, WRAP_CONTENT, MONOSPACE, LINE_NUMERS, THEME_CHANGE, TEXT_SUGGESTIONS, READ_ONLY
         }
     }
 

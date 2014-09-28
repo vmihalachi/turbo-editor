@@ -29,13 +29,13 @@ import android.widget.Filter;
 import android.widget.ImageView;
 import android.widget.TextView;
 
-import sharedcode.turboeditor.R;
-import sharedcode.turboeditor.util.MimeTypes;
-
 import org.apache.commons.io.FilenameUtils;
 
 import java.util.Arrays;
 import java.util.LinkedList;
+
+import sharedcode.turboeditor.R;
+import sharedcode.turboeditor.util.MimeTypes;
 
 public class AdapterDetailedList extends
         ArrayAdapter<AdapterDetailedList.FileDetail> {

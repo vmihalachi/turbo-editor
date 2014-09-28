@@ -24,17 +24,13 @@ import android.app.Dialog;
 import android.app.DialogFragment;
 import android.content.DialogInterface;
 import android.os.Bundle;
-import android.view.KeyEvent;
 import android.view.View;
 import android.view.WindowManager;
-import android.view.inputmethod.EditorInfo;
 import android.widget.EditText;
-import android.widget.TextView;
 
 import java.io.File;
 
 import sharedcode.turboeditor.R;
-import sharedcode.turboeditor.activity.PreferenceAbout;
 import sharedcode.turboeditor.preferences.PreferenceHelper;
 import sharedcode.turboeditor.util.SaveFileTask;
 
@@ -72,7 +68,7 @@ public class NewFileDetailsDialogFragment extends DialogFragment {
                         new DialogInterface.OnClickListener() {
                             @Override
                             public void onClick(DialogInterface dialog, int which) {
-                                if(!mName.getText().toString().isEmpty() && !mFolder.getText().toString().isEmpty()) {
+                                if (!mName.getText().toString().isEmpty() && !mFolder.getText().toString().isEmpty()) {
                                     File file = new File(mFolder.getText().toString(), mName.getText().toString());
                                     new SaveFileTask(getActivity(), file.getPath(), getArguments().getString("fileText"), getArguments().getString("fileEncoding")).execute();
                                 }

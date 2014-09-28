@@ -29,10 +29,10 @@ import android.widget.ArrayAdapter;
 import android.widget.ImageView;
 import android.widget.TextView;
 
-import sharedcode.turboeditor.R;
-
 import java.io.File;
 import java.util.ArrayList;
+
+import sharedcode.turboeditor.R;
 
 public class AdapterDrawer extends
         ArrayAdapter<File> {
@@ -111,6 +111,7 @@ public class AdapterDrawer extends
 
     public interface Callbacks {
         void CancelItem(int position, boolean andCloseOpenedFile);
+
         void ItemSelected(String path);
     }
 

@@ -31,9 +31,8 @@ import android.net.Uri;
 import android.os.Bundle;
 import android.view.LayoutInflater;
 
-import sharedcode.turboeditor.R;
-
 import it.gmariotti.changelibs.library.view.ChangeLogListView;
+import sharedcode.turboeditor.R;
 import sharedcode.turboeditor.util.Constants;
 
 public class ChangelogDialogFragment extends DialogFragment {

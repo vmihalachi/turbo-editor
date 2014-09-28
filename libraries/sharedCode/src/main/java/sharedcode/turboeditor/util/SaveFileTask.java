@@ -23,8 +23,6 @@ import android.content.Context;
 import android.os.AsyncTask;
 import android.widget.Toast;
 
-import sharedcode.turboeditor.R;
-
 import org.sufficientlysecure.rootcommands.Shell;
 import org.sufficientlysecure.rootcommands.Toolbox;
 
@@ -33,6 +31,7 @@ import java.io.IOException;
 import java.util.concurrent.TimeoutException;
 
 import de.greenrobot.event.EventBus;
+import sharedcode.turboeditor.R;
 
 public class SaveFileTask extends AsyncTask<Void, Void, Void> {
 
@@ -100,7 +99,7 @@ public class SaveFileTask extends AsyncTask<Void, Void, Void> {
     protected void onPostExecute(final Void aVoid) {
         super.onPostExecute(aVoid);
         Toast.makeText(context, message, Toast.LENGTH_LONG).show();
-        if(message.equals(positiveMessage))
+        if (message.equals(positiveMessage))
             EventBus.getDefault().post(new EventBusEvents.SavedAFile(filePath));
     }
 }

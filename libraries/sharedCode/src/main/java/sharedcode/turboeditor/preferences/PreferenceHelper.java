@@ -105,6 +105,10 @@ public final class PreferenceHelper {
         return getPrefs(context).getBoolean("read_only", false);
     }
 
+    public static boolean getIgnoreBackButton(Context context) {
+        return getPrefs(context).getBoolean("ignore_back_button", false);
+    }
+
     // Setter methods
 
     public static void setUseMonospace(Context context, boolean value) {
@@ -123,28 +127,12 @@ public final class PreferenceHelper {
         getEditor(context).putBoolean("editor_wrap_content", value).commit();
     }
 
-    public static void setLightTheme(Context context, boolean value) {
-        getEditor(context).putBoolean("light_theme", value).commit();
-    }
-
-    public static void setSuggestionActive(Context context, boolean value) {
-        getEditor(context).putBoolean("suggestion_active", value).commit();
-    }
-
     public static void setAutoencoding(Context context, boolean value) {
         getEditor(context).putBoolean("autoencoding", value).commit();
     }
 
-    public static void setSendErrorReports(Context context, boolean value) {
-        getEditor(context).putBoolean("send_error_reports", value).commit();
-    }
-
     public static void setLastDayAdShowed(Context context, int value) {
         getEditor(context).putInt("last_day_ad_showed", value).commit();
-    }
-
-    public static void setEncoding(Context context, String value) {
-        getEditor(context).putString("editor_encoding", value).commit();
     }
 
     public static void setFontSize(Context context, int value) {
@@ -161,10 +149,6 @@ public final class PreferenceHelper {
 
     public static void setPageSystemButtonsPopupShown(Context context, boolean value) {
         getEditor(context).putBoolean("page_system_button_popup_shown", value).commit();
-    }
-
-    public static void setAutoSave(Context context, boolean value) {
-        getEditor(context).putBoolean("auto_save", value).commit();
     }
 
     public static void setReadOnly(Context context, boolean value) {

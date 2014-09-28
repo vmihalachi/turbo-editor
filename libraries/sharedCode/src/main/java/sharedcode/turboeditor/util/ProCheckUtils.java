@@ -26,9 +26,9 @@ public class ProCheckUtils {
 
         String packageName = context.getPackageName();
 
-        if(Constants.FOR_AMAZON)
+        if (Constants.FOR_AMAZON)
             return true;
-        else if(packageName.equals("com.maskyn.fileeditorpro"))
+        else if (packageName.equals("com.maskyn.fileeditorpro"))
             return true;
         else
             return false;

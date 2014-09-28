@@ -32,13 +32,12 @@ import android.widget.CompoundButton;
 import android.widget.EditText;
 import android.widget.Toast;
 
-import sharedcode.turboeditor.R;
-
-import sharedcode.turboeditor.util.SearchResult;
-
 import java.util.LinkedList;
 import java.util.regex.Matcher;
 import java.util.regex.Pattern;
+
+import sharedcode.turboeditor.R;
+import sharedcode.turboeditor.util.SearchResult;
 
 // ...
 public class FindTextDialogFragment extends DialogFragment {
@@ -91,30 +90,24 @@ public class FindTextDialogFragment extends DialogFragment {
     }
 
     @Override
-    public void onStart()
-    {
+    public void onStart() {
         super.onStart();    //super.onStart() is where dialog.show() is actually called on the underlying dialog, so we have to do it after this point
-        AlertDialog d = (AlertDialog)getDialog();
-        if(d != null)
-        {
+        AlertDialog d = (AlertDialog) getDialog();
+        if (d != null) {
             Button positiveButton = (Button) d.getButton(Dialog.BUTTON_POSITIVE);
             positiveButton.setText(getString(R.string.find));
-            positiveButton.setOnClickListener(new View.OnClickListener()
-            {
+            positiveButton.setOnClickListener(new View.OnClickListener() {
                 @Override
-                public void onClick(View v)
-                {
+                public void onClick(View v) {
                     returnData();
                 }
             });
 
             Button negativeButton = (Button) d.getButton(Dialog.BUTTON_NEGATIVE);
             negativeButton.setText(getString(android.R.string.cancel));
-            negativeButton.setOnClickListener(new View.OnClickListener()
-            {
+            negativeButton.setOnClickListener(new View.OnClickListener() {
                 @Override
-                public void onClick(View v)
-                {
+                public void onClick(View v) {
                     dismiss();
                 }
             });
@@ -122,7 +115,7 @@ public class FindTextDialogFragment extends DialogFragment {
     }
 
     void returnData() {
-        if(textToFind.getText().toString().isEmpty()) {
+        if (textToFind.getText().toString().isEmpty()) {
             this.dismiss();
         } else {
             // we disable the okButton while we search
@@ -130,7 +123,11 @@ public class FindTextDialogFragment extends DialogFragment {
         }
     }
 
-    private class SearchTask extends AsyncTask<Void, Void, Void>{
+    public interface SearchDialogInterface {
+        void onSearchDone(SearchResult searchResult);
+    }
+
+    private class SearchTask extends AsyncTask<Void, Void, Void> {
 
         LinkedList<Integer> foundIndex;
         boolean foundSomething;
@@ -145,9 +142,9 @@ public class FindTextDialogFragment extends DialogFragment {
             Matcher matcher = null;
             foundSomething = false;
 
-            if(isRegex) {
+            if (isRegex) {
                 try {
-                    if(caseSensitive)
+                    if (caseSensitive)
                         matcher = Pattern.compile(whatToSearch, Pattern.MULTILINE).matcher(allText);
                     else
                         matcher = Pattern.compile(whatToSearch, Pattern.CASE_INSENSITIVE | Pattern.MULTILINE).matcher(allText);
@@ -156,14 +153,14 @@ public class FindTextDialogFragment extends DialogFragment {
                 }
             }
 
-            if(isRegex) {
+            if (isRegex) {
                 while (matcher.find()) {
                     foundSomething = true;
 
                     foundIndex.add(matcher.start());
                 }
             } else {
-                if(caseSensitive == false) { // by default is case sensitive
+                if (caseSensitive == false) { // by default is case sensitive
                     whatToSearch = whatToSearch.toLowerCase();
                     allText = allText.toLowerCase();
                 }
@@ -183,15 +180,15 @@ public class FindTextDialogFragment extends DialogFragment {
         @Override
         protected void onPostExecute(Void aVoid) {
             super.onPostExecute(aVoid);
-            if(foundSomething) {
+            if (foundSomething) {
                 // the class that called this Dialog should implement the SearchDialogIterface
                 SearchDialogInterface searchDialogInterface;
-                searchDialogInterface =  ((SearchDialogInterface) getTargetFragment());
-                if(searchDialogInterface == null)
+                searchDialogInterface = ((SearchDialogInterface) getTargetFragment());
+                if (searchDialogInterface == null)
                     searchDialogInterface = ((SearchDialogInterface) getActivity());
 
                 // if who called this has not implemented the interface we return nothing
-                if(searchDialogInterface == null)
+                if (searchDialogInterface == null)
                     return;
                     // else we return positions and other things
                 else {
@@ -205,9 +202,5 @@ public class FindTextDialogFragment extends DialogFragment {
             // dismiss the dialog
             FindTextDialogFragment.this.dismiss();
         }
-    }
-
-    public interface SearchDialogInterface {
-        void onSearchDone(SearchResult searchResult);
     }
 }

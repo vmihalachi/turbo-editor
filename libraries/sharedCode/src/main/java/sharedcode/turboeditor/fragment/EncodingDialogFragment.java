@@ -22,23 +22,18 @@ package sharedcode.turboeditor.fragment;
 import android.app.AlertDialog;
 import android.app.Dialog;
 import android.app.DialogFragment;
-import android.content.DialogInterface;
 import android.os.Bundle;
-import android.view.LayoutInflater;
 import android.view.View;
-import android.view.ViewGroup;
 import android.widget.AdapterView;
 import android.widget.ArrayAdapter;
 import android.widget.CompoundButton;
 import android.widget.ListView;
 import android.widget.Switch;
 
+import org.mozilla.universalchardet.Constants;
+
 import sharedcode.turboeditor.R;
 import sharedcode.turboeditor.preferences.PreferenceHelper;
-import sharedcode.turboeditor.preferences.SettingsFragment;
-import sharedcode.turboeditor.util.SaveFileTask;
-
-import org.mozilla.universalchardet.Constants;
 
 public class EncodingDialogFragment extends DialogFragment implements AdapterView.OnItemClickListener {
 

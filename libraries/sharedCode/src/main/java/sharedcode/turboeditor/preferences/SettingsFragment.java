@@ -27,59 +27,39 @@ import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.CheckBox;
-import android.widget.CheckedTextView;
 import android.widget.CompoundButton;
-import android.widget.Switch;
 import android.widget.TextView;
 
-import sharedcode.turboeditor.R;
-import sharedcode.turboeditor.fragment.EncodingDialogFragment;
-import sharedcode.turboeditor.fragment.SeekbarDialogFragment;
-
 import de.greenrobot.event.EventBus;
+import sharedcode.turboeditor.R;
+import sharedcode.turboeditor.fragment.SeekbarDialogFragment;
 import sharedcode.turboeditor.util.ProCheckUtils;
 
 import static sharedcode.turboeditor.util.EventBusEvents.APreferenceValueWasChanged;
-import static sharedcode.turboeditor.util.EventBusEvents.APreferenceValueWasChanged.Type.AUTO_SAVE;
-import static sharedcode.turboeditor.util.EventBusEvents.APreferenceValueWasChanged.Type.ENCODING;
 import static sharedcode.turboeditor.util.EventBusEvents.APreferenceValueWasChanged.Type.FONT_SIZE;
 import static sharedcode.turboeditor.util.EventBusEvents.APreferenceValueWasChanged.Type.LINE_NUMERS;
 import static sharedcode.turboeditor.util.EventBusEvents.APreferenceValueWasChanged.Type.MONOSPACE;
 import static sharedcode.turboeditor.util.EventBusEvents.APreferenceValueWasChanged.Type.READ_ONLY;
 import static sharedcode.turboeditor.util.EventBusEvents.APreferenceValueWasChanged.Type.SYNTAX;
-import static sharedcode.turboeditor.util.EventBusEvents.APreferenceValueWasChanged.Type.TEXT_SUGGESTIONS;
-import static sharedcode.turboeditor.util.EventBusEvents.APreferenceValueWasChanged.Type.THEME_CHANGE;
 import static sharedcode.turboeditor.util.EventBusEvents.APreferenceValueWasChanged.Type.WRAP_CONTENT;
 
-public class SettingsFragment extends Fragment implements EncodingDialogFragment.DialogListener, SeekbarDialogFragment.onSeekbarDialogDismissed {
+public class SettingsFragment extends Fragment implements SeekbarDialogFragment.onSeekbarDialogDismissed {
 
-    public static String sCurrentEncoding;
     // Editor Variables
-    public static boolean sLineNumbers;
-    public static boolean sColorSyntax;
-    public static boolean sWrapContent;
-    public static int sFontSize;
-    public static boolean sUseMonospace;
-    public static boolean sLightTheme;
-    public static boolean sSuggestionsActive;
-    public static boolean sAutoSave;
-    public static boolean sReadOnly;
-    public static boolean sSendErrorReports;
+    private boolean sLineNumbers;
+    private boolean sColorSyntax;
+    private boolean sWrapContent;
+    private boolean sUseMonospace;
+    private boolean sReadOnly;
 
     @Override
     public void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
-        SettingsFragment.sCurrentEncoding = PreferenceHelper.getEncoding(getActivity());
-        SettingsFragment.sUseMonospace = PreferenceHelper.getUseMonospace(getActivity());
-        SettingsFragment.sColorSyntax = PreferenceHelper.getSyntaxHiglight(getActivity());
-        SettingsFragment.sWrapContent = PreferenceHelper.getWrapContent(getActivity());
-        SettingsFragment.sLineNumbers = PreferenceHelper.getLineNumbers(getActivity());
-        SettingsFragment.sFontSize = PreferenceHelper.getFontSize(getActivity());
-        SettingsFragment.sSuggestionsActive = PreferenceHelper.getSuggestionActive(getActivity());
-        SettingsFragment.sLightTheme = PreferenceHelper.getLightTheme(getActivity());
-        SettingsFragment.sAutoSave = PreferenceHelper.getAutoSave(getActivity());
-        SettingsFragment.sReadOnly = PreferenceHelper.getReadOnly(getActivity());
-        SettingsFragment.sSendErrorReports = PreferenceHelper.getSendErrorReports(getActivity());
+        sUseMonospace = PreferenceHelper.getUseMonospace(getActivity());
+        sColorSyntax = PreferenceHelper.getSyntaxHiglight(getActivity());
+        sWrapContent = PreferenceHelper.getWrapContent(getActivity());
+        sLineNumbers = PreferenceHelper.getLineNumbers(getActivity());
+        sReadOnly = PreferenceHelper.getReadOnly(getActivity());
     }
 
     @Override
@@ -92,25 +72,17 @@ public class SettingsFragment extends Fragment implements EncodingDialogFragment
         switchSyntax = (CheckBox) rootView.findViewById(R.id.switch_syntax);
         switchWrapContent = (CheckBox) rootView.findViewById(R.id.switch_wrap_content);
         switchMonospace = (CheckBox) rootView.findViewById(R.id.switch_monospace);
-        switchLightTheme = (CheckBox) rootView.findViewById(R.id.switch_light_theme);
-        switchSuggestionsActive = (CheckBox) rootView.findViewById(R.id.switch_suggestions_active);
-        switchAutoSave = (CheckBox) rootView.findViewById(R.id.switch_auto_save);
         switchReadOnly = (CheckBox) rootView.findViewById(R.id.switch_read_only);
-        switchSendErrorReports = (CheckBox) rootView.findViewById(R.id.switch_send_error_reports);
 
         switchLineNumbers.setChecked(sLineNumbers);
         switchSyntax.setChecked(sColorSyntax);
         switchWrapContent.setChecked(sWrapContent);
         switchMonospace.setChecked(sUseMonospace);
-        switchLightTheme.setChecked(sLightTheme);
-        switchSuggestionsActive.setChecked(sSuggestionsActive);
-        switchAutoSave.setChecked(sAutoSave);
         switchReadOnly.setChecked(sReadOnly);
-        switchSendErrorReports.setChecked(sSendErrorReports);
 
-        TextView encodingView, fontSizeView, goProView;
-        encodingView = (TextView) rootView.findViewById(R.id.drawer_button_encoding);
+        TextView fontSizeView, goProView, extraOptionsView;
         fontSizeView = (TextView) rootView.findViewById(R.id.drawer_button_font_size);
+        extraOptionsView = (TextView) rootView.findViewById(R.id.drawer_button_extra_options);
         goProView = (TextView) rootView.findViewById(R.id.drawer_button_go_pro);
 
         switchLineNumbers.setOnCheckedChangeListener(new CompoundButton.OnCheckedChangeListener() {
@@ -151,56 +123,12 @@ public class SettingsFragment extends Fragment implements EncodingDialogFragment
             }
         });
 
-        switchLightTheme.setOnCheckedChangeListener(new CompoundButton.OnCheckedChangeListener() {
-            @Override
-            public void onCheckedChanged(CompoundButton buttonView, boolean isChecked) {
-                sLightTheme = isChecked;
-                PreferenceHelper.setLightTheme(getActivity(), isChecked);
-                EventBus.getDefault().post(new APreferenceValueWasChanged(THEME_CHANGE));
-            }
-        });
-
-        switchSuggestionsActive.setOnCheckedChangeListener(new CompoundButton.OnCheckedChangeListener() {
-            @Override
-            public void onCheckedChanged(CompoundButton buttonView, boolean isChecked) {
-                sSuggestionsActive = isChecked;
-                PreferenceHelper.setSuggestionActive(getActivity(), isChecked);
-                EventBus.getDefault().post(new APreferenceValueWasChanged(TEXT_SUGGESTIONS));
-            }
-        });
-
-        switchAutoSave.setOnCheckedChangeListener(new CompoundButton.OnCheckedChangeListener() {
-            @Override
-            public void onCheckedChanged(CompoundButton buttonView, boolean isChecked) {
-                sAutoSave = isChecked;
-                PreferenceHelper.setAutoSave(getActivity(), isChecked);
-                EventBus.getDefault().post(new APreferenceValueWasChanged(AUTO_SAVE));
-            }
-        });
-
         switchReadOnly.setOnCheckedChangeListener(new CompoundButton.OnCheckedChangeListener() {
             @Override
             public void onCheckedChanged(CompoundButton buttonView, boolean isChecked) {
                 sReadOnly = isChecked;
                 PreferenceHelper.setReadOnly(getActivity(), isChecked);
                 EventBus.getDefault().post(new APreferenceValueWasChanged(READ_ONLY));
-            }
-        });
-
-        switchSendErrorReports.setOnCheckedChangeListener(new CompoundButton.OnCheckedChangeListener() {
-            @Override
-            public void onCheckedChanged(CompoundButton buttonView, boolean isChecked) {
-                sSendErrorReports = isChecked;
-                PreferenceHelper.setSendErrorReports(getActivity(), isChecked);
-            }
-        });
-
-        encodingView.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View v) {
-                EncodingDialogFragment dialogFrag = EncodingDialogFragment.newInstance();
-                dialogFrag.setTargetFragment(SettingsFragment.this, 0);
-                dialogFrag.show(getFragmentManager().beginTransaction(), "dialog");
             }
         });
 
@@ -214,6 +142,13 @@ public class SettingsFragment extends Fragment implements EncodingDialogFragment
                 SeekbarDialogFragment dialogFrag = SeekbarDialogFragment.newInstance(SeekbarDialogFragment.Actions.FileSize, 1, fontCurrent, fontMax);
                 dialogFrag.setTargetFragment(SettingsFragment.this, 0);
                 dialogFrag.show(getFragmentManager().beginTransaction(), "dialog");
+            }
+        });
+
+        extraOptionsView.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                startActivity(new Intent(getActivity(), ExtraSettingsActivity.class));
             }
         });
 
@@ -232,33 +167,10 @@ public class SettingsFragment extends Fragment implements EncodingDialogFragment
         return rootView;
     }
 
-
-    @Override
-    public void onEncodingSelected(String value) {
-        PreferenceHelper.setEncoding(getActivity(), value);
-        EventBus.getDefault().post(new APreferenceValueWasChanged(ENCODING));
-    }
-
     @Override
     public void onSeekbarDialogDismissed(SeekbarDialogFragment.Actions action, int value) {
-        sFontSize = value;
         PreferenceHelper.setFontSize(getActivity(), value);
         EventBus.getDefault().post(new APreferenceValueWasChanged(FONT_SIZE));
 
-    }
-
-    /**
-     * This interface must be implemented by activities that contain this
-     * fragment to allow an interaction in this fragment to be communicated
-     * to the activity and potentially other fragments contained in that
-     * activity.
-     * <p/>
-     * See the Android Training lesson <a href=
-     * "http://developer.android.com/training/basics/fragments/communicating.html"
-     * >Communicating with Other Fragments</a> for more information.
-     */
-    public interface OnFragmentInteractionListener {
-        // TODO: Update argument type and name
-        public void onFragmentInteraction(Uri uri);
     }
 }

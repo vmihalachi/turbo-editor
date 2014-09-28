@@ -24,21 +24,20 @@ import android.os.Handler;
 import android.view.View;
 
 import com.faizmalkani.floatingactionbutton.FloatingActionButton;
+
 import sharedcode.turboeditor.R;
 
 public class PageSystemButtons {
 
     private static final int TIME_TO_SHOW_FABS = 2000;
-
-    public interface PageButtonsInterface {
-        public void nextPageClicked();
-        public void prevPageClicked();
-        public void pageSystemButtonLongClicked();
-
-        public boolean canReadNextPage();
-        public boolean canReadPrevPage();
-    }
-
+    final Handler handler = new Handler();
+    final Runnable runnable = new Runnable() {
+        @Override
+        public void run() {
+            PageSystemButtons.this.next.setVisibility(View.GONE);
+            PageSystemButtons.this.prev.setVisibility(View.GONE);
+        }
+    };
     FloatingActionButton prev, next;
     PageButtonsInterface pageButtonsInterface;
 
@@ -53,10 +52,10 @@ public class PageSystemButtons {
         this.prev.setColor(context.getResources().getColor(R.color.fab_light));
         this.prev.setDrawable(context.getResources().getDrawable(R.drawable.ic_keyboard_arrow_left));
 
-        if(pageButtonsInterface.canReadNextPage())
+        if (pageButtonsInterface.canReadNextPage())
             next.setVisibility(View.VISIBLE);
 
-        if(pageButtonsInterface.canReadPrevPage())
+        if (pageButtonsInterface.canReadPrevPage())
             prev.setVisibility(View.VISIBLE);
 
         this.next.setOnClickListener(new View.OnClickListener() {
@@ -90,23 +89,14 @@ public class PageSystemButtons {
         });
     }
 
-    final Handler handler = new Handler();
-    final Runnable runnable = new Runnable() {
-        @Override
-        public void run() {
-            PageSystemButtons.this.next.setVisibility(View.GONE);
-            PageSystemButtons.this.prev.setVisibility(View.GONE);
-        }
-    };
-
     public void updateVisibility(boolean autoHide) {
 
-        if(pageButtonsInterface.canReadNextPage())
+        if (pageButtonsInterface.canReadNextPage())
             PageSystemButtons.this.next.setVisibility(View.VISIBLE);
         else
             PageSystemButtons.this.next.setVisibility(View.GONE);
 
-        if(pageButtonsInterface.canReadPrevPage())
+        if (pageButtonsInterface.canReadPrevPage())
             PageSystemButtons.this.prev.setVisibility(View.VISIBLE);
         else
             PageSystemButtons.this.prev.setVisibility(View.GONE);
@@ -121,12 +111,24 @@ public class PageSystemButtons {
         else
             prev.hideFab();*/
 
-        if(autoHide) {
+        if (autoHide) {
             handler.removeCallbacks(runnable);
             handler.postDelayed(runnable, TIME_TO_SHOW_FABS);
         } else {
             handler.removeCallbacks(runnable);
         }
+    }
+
+    public interface PageButtonsInterface {
+        public void nextPageClicked();
+
+        public void prevPageClicked();
+
+        public void pageSystemButtonLongClicked();
+
+        public boolean canReadNextPage();
+
+        public boolean canReadPrevPage();
     }
 
 }

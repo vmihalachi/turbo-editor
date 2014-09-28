@@ -35,13 +35,6 @@ import android.widget.TextView;
 import android.widget.Toast;
 
 import com.faizmalkani.floatingactionbutton.FloatingActionButton;
-import sharedcode.turboeditor.R;
-import sharedcode.turboeditor.adapter.AdapterDetailedList;
-import sharedcode.turboeditor.fragment.EditDialogFragment;
-import sharedcode.turboeditor.util.AlphanumComparator;
-import sharedcode.turboeditor.util.Constants;
-import sharedcode.turboeditor.preferences.PreferenceHelper;
-import sharedcode.turboeditor.util.RootUtils;
 
 import org.apache.commons.io.FileUtils;
 import org.apache.commons.io.FilenameUtils;
@@ -56,6 +49,14 @@ import java.util.Collections;
 import java.util.Comparator;
 import java.util.LinkedList;
 import java.util.concurrent.TimeoutException;
+
+import sharedcode.turboeditor.R;
+import sharedcode.turboeditor.adapter.AdapterDetailedList;
+import sharedcode.turboeditor.fragment.EditDialogFragment;
+import sharedcode.turboeditor.preferences.PreferenceHelper;
+import sharedcode.turboeditor.util.AlphanumComparator;
+import sharedcode.turboeditor.util.Constants;
+import sharedcode.turboeditor.util.RootUtils;
 
 public class SelectFileActivity extends Activity implements SearchView.OnQueryTextListener, AdapterView.OnItemClickListener, EditDialogFragment.EditDialogListener {
     private String currentFolder;
@@ -87,7 +88,7 @@ public class SelectFileActivity extends Activity implements SearchView.OnQueryTe
         listView.setOnItemClickListener(this);
         listView.setTextFilterEnabled(true);
 
-        FloatingActionButton mFab = (FloatingActionButton)findViewById(R.id.fabbutton);
+        FloatingActionButton mFab = (FloatingActionButton) findViewById(R.id.fabbutton);
         mFab.setColor(getResources().getColor(R.color.fab_light));
         mFab.setDrawable(getResources().getDrawable(R.drawable.ic_fab_add));
 
@@ -218,15 +219,15 @@ public class SelectFileActivity extends Activity implements SearchView.OnQueryTe
         MenuItem imSetAsWorkingFolder = menu.findItem(R.id.im_set_as_working_folder);
         MenuItem imIsWorkingFolder = menu.findItem(R.id.im_is_working_folder);
         MenuItem imSelectFolder = menu.findItem(R.id.im_select_folder);
-        if(imSetAsWorkingFolder != null){
+        if (imSetAsWorkingFolder != null) {
             // set the imSetAsWorkingFolder visible only if the two folder dont concide
             imSetAsWorkingFolder.setVisible(!currentFolder.equals(PreferenceHelper.getWorkingFolder(SelectFileActivity.this)));
         }
-        if(imIsWorkingFolder != null) {
+        if (imIsWorkingFolder != null) {
             // set visible is the other is invisible
             imIsWorkingFolder.setVisible(!imSetAsWorkingFolder.isVisible());
         }
-        if(imSelectFolder != null) {
+        if (imSelectFolder != null) {
             imSelectFolder.setVisible(!wantAFile);
         }
         return super.onPrepareOptionsMenu(menu);
@@ -329,8 +330,8 @@ public class SelectFileActivity extends Activity implements SearchView.OnQueryTe
                                     getString(R.string.folder),
                                     ""));
                         } else if (f.isFile()
-                                &&  !FilenameUtils.isExtension(f.getName().toLowerCase(), unopenableExtensions)
-                                &&  FileUtils.sizeOf(f) <= Constants.MAX_FILE_SIZE * FileUtils.ONE_KB) {
+                                && !FilenameUtils.isExtension(f.getName().toLowerCase(), unopenableExtensions)
+                                && FileUtils.sizeOf(f) <= Constants.MAX_FILE_SIZE * FileUtils.ONE_KB) {
                             final long fileSize = f.length();
                             SimpleDateFormat format = new SimpleDateFormat("MMM dd, yyyy  hh:mm a");
                             String date = format.format(f.lastModified());

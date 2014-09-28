@@ -143,71 +143,6 @@
         android:layout_width="match_parent"
         android:layout_height="@dimen/line_dimension"/>
 
-    <CheckBox
-        android:button="@null"
-        android:drawableRight="?android:attr/listChoiceIndicatorMultiple"
-        android:gravity="center_vertical"
-        android:checkMark="?android:attr/listChoiceIndicatorMultiple"
-        android:layout_width="match_parent"
-        android:layout_height="56dp"
-        android:text="@string/light_theme"
-        android:textAllCaps="true"
-        android:textSize="12sp"
-        android:id="@id/switch_light_theme"
-        android:layout_gravity="center_horizontal"
-        android:paddingEnd="16dp"
-        android:paddingStart="16dp"
-        android:paddingLeft="16dp"
-        android:paddingRight="16dp"
-        android:textColor="@color/navigation_drawer_button_text_color_inverted"/>
-
-    <View
-        android:background="@color/divider_inverted"
-        android:layout_width="match_parent"
-        android:layout_height="@dimen/line_dimension"/>
-
-    <CheckBox         android:button="@null"         android:drawableRight="?android:attr/listChoiceIndicatorMultiple"
-        android:gravity="center_vertical"
-        android:checkMark="?android:attr/listChoiceIndicatorMultiple"
-        android:layout_width="match_parent"
-        android:layout_height="56dp"
-        android:text="@string/keyboard_suggestions_and_swipe"
-        android:textAllCaps="true"
-        android:textSize="12sp"
-        android:id="@id/switch_suggestions_active"
-        android:layout_gravity="center_horizontal"
-        android:paddingEnd="16dp"
-        android:paddingStart="16dp"
-        android:paddingLeft="16dp"
-        android:paddingRight="16dp"
-        android:textColor="@color/navigation_drawer_button_text_color_inverted"/>
-
-    <View
-        android:background="@color/divider_inverted"
-        android:layout_width="match_parent"
-        android:layout_height="@dimen/line_dimension"/>
-
-    <CheckBox         android:button="@null"         android:drawableRight="?android:attr/listChoiceIndicatorMultiple"
-        android:gravity="center_vertical"
-        android:checkMark="?android:attr/listChoiceIndicatorMultiple"
-        android:layout_width="match_parent"
-        android:layout_height="56dp"
-        android:text="@string/auto_save"
-        android:textAllCaps="true"
-        android:textSize="12sp"
-        android:id="@id/switch_auto_save"
-        android:layout_gravity="center_horizontal"
-        android:paddingEnd="16dp"
-        android:paddingStart="16dp"
-        android:paddingLeft="16dp"
-        android:paddingRight="16dp"
-        android:textColor="@color/navigation_drawer_button_text_color_inverted"/>
-
-    <View
-        android:background="@color/divider_inverted"
-        android:layout_width="match_parent"
-        android:layout_height="@dimen/line_dimension"/>
-
     <CheckBox         android:button="@null"         android:drawableRight="?android:attr/listChoiceIndicatorMultiple"
         android:gravity="center_vertical"
         android:checkMark="?android:attr/listChoiceIndicatorMultiple"
@@ -224,48 +159,8 @@
         android:paddingRight="16dp"
         android:textColor="@color/navigation_drawer_button_text_color_inverted"/>
 
-    <View
-        android:background="@color/divider_inverted"
-        android:layout_width="match_parent"
-        android:layout_height="@dimen/line_dimension"/>
 
-    <CheckBox
-        android:button="@null"
-        android:drawableRight="?android:attr/listChoiceIndicatorMultiple"
-        android:gravity="center_vertical"
-        android:checkMark="?android:attr/listChoiceIndicatorMultiple"
-        android:layout_width="match_parent"
-        android:layout_height="56dp"
-        android:text="@string/send_error_reports"
-        android:textAllCaps="true"
-        android:textSize="12sp"
-        android:id="@id/switch_send_error_reports"
-        android:paddingEnd="16dp"
-        android:paddingStart="16dp"
-        android:paddingLeft="16dp"
-        android:paddingRight="16dp"
-        android:textColor="@color/navigation_drawer_button_text_color_inverted" />
 
-    <View
-        android:background="@color/divider_inverted"
-        android:layout_width="match_parent"
-        android:layout_height="@dimen/line_dimension"/>
-
-    <TextView
-        android:id="@id/drawer_button_encoding"
-        android:layout_width="match_parent"
-        android:layout_height="56dp"
-        android:text="@string/codifica"
-        android:paddingStart="20dp"
-        android:paddingEnd="20dp"
-        android:paddingLeft="20dp"
-        android:paddingRight="20dp"
-        android:gravity="center_vertical"
-        android:textSize="12sp"
-        android:textAllCaps="true"
-        android:clickable="true"
-        android:background="@drawable/item_background_holo_dark"
-        android:textColor="@color/navigation_drawer_button_text_color_inverted"/>
 
     <View
         android:background="@color/divider_inverted"
@@ -281,6 +176,27 @@
         android:paddingEnd="20dp"
             android:paddingLeft="20dp"
             android:paddingRight="20dp"
+        android:gravity="center_vertical"
+        android:textSize="12sp"
+        android:textAllCaps="true"
+        android:clickable="true"
+        android:background="@drawable/item_background_holo_dark"
+        android:textColor="@color/navigation_drawer_button_text_color_inverted"/>
+
+    <View
+        android:background="@color/divider_inverted"
+        android:layout_width="match_parent"
+        android:layout_height="@dimen/line_dimension"/>
+
+    <TextView
+        android:id="@id/drawer_button_extra_options"
+        android:layout_width="match_parent"
+        android:layout_height="56dp"
+        android:text="@string/extra_options"
+        android:paddingStart="20dp"
+        android:paddingEnd="20dp"
+        android:paddingLeft="20dp"
+        android:paddingRight="20dp"
         android:gravity="center_vertical"
         android:textSize="12sp"
         android:textAllCaps="true"

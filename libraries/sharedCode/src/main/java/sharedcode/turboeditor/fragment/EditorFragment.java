@@ -63,8 +63,8 @@ import sharedcode.turboeditor.preferences.SettingsFragment;
 import sharedcode.turboeditor.util.EditorInterface;
 import sharedcode.turboeditor.util.EdittextPadding;
 import sharedcode.turboeditor.util.EventBusEvents;
-import sharedcode.turboeditor.views.GoodScrollView;
 import sharedcode.turboeditor.util.LineUtils;
+import sharedcode.turboeditor.views.GoodScrollView;
 import sharedcode.turboeditor.util.MimeTypes;
 import sharedcode.turboeditor.util.PageSystem;
 import sharedcode.turboeditor.util.PageSystemButtons;
@@ -105,6 +105,7 @@ public class EditorFragment extends Fragment implements FindTextDialogFragment.S
     private SearchResult searchResult;
     private PageSystem pageSystem;
     private PageSystemButtons pageSystemButtons;
+    private String currentEncoding;
 
     private static final int SYNTAX_DELAY_MILLIS_SHORT = 250;
     private static final int SYNTAX_DELAY_MILLIS_LONG = 1500;
@@ -115,7 +116,7 @@ public class EditorFragment extends Fragment implements FindTextDialogFragment.S
     static final int ID_PASTE = android.R.id.paste;
     private static final int ID_UNDO = R.id.im_undo;
     private static final int ID_REDO = R.id.im_redo;
-    private static final int CHARS_TO_COLOR = 2000;
+    private static final int CHARS_TO_COLOR = 2500;
 
     private final Handler updateHandler = new Handler();
     private final Runnable colorRunnable_duringEditing =
@@ -134,11 +135,12 @@ public class EditorFragment extends Fragment implements FindTextDialogFragment.S
             };
     //endregion
 
-    public static EditorFragment newInstance(String filePath, String fileText) {
+    public static EditorFragment newInstance(String filePath, String fileText, String encoding) {
         EditorFragment frag = new EditorFragment();
         Bundle args = new Bundle();
         args.putString("filePath", filePath);
         args.putString("fileText", fileText);
+        args.putString("encoding", encoding);
         frag.setArguments(args);
         return frag;
     }
@@ -151,6 +153,7 @@ public class EditorFragment extends Fragment implements FindTextDialogFragment.S
         setHasOptionsMenu(true);
         sFilePath = getArguments().getString("filePath");
         pageSystem = new PageSystem(this, getArguments().getString("fileText"));
+        currentEncoding = getArguments().getString("encoding");
         getArguments().remove("fileText");
     }
 
@@ -164,49 +167,49 @@ public class EditorFragment extends Fragment implements FindTextDialogFragment.S
 
         mEditor.setEditorInterface(this);
 
-        if (SettingsFragment.sWrapContent) {
+        if (PreferenceHelper.getWrapContent(getActivity())) {
             horizontalScroll.removeView(mEditor);
             verticalScroll.removeView(horizontalScroll);
             verticalScroll.addView(mEditor);
         } else {
             // else show what is in the xml file fragment_editor.xml-
         }
-        if (SettingsFragment.sLightTheme) {
+        if (PreferenceHelper.getLightTheme(getActivity())) {
             mEditor.setTextColor(getResources().getColor(R.color.textColorInverted));
         } else {
             mEditor.setTextColor(getResources().getColor(R.color.textColor));
         }
-        if (SettingsFragment.sLineNumbers) {
-            mEditor.setPadding(EdittextPadding.getPaddingWithLineNumbers(getActivity(), SettingsFragment.sFontSize), EdittextPadding.getPaddingTop(getActivity()), 0, 0);
+        if (PreferenceHelper.getLineNumbers(getActivity())) {
+            mEditor.setPadding(EdittextPadding.getPaddingWithLineNumbers(getActivity(), PreferenceHelper.getFontSize(getActivity())), EdittextPadding.getPaddingTop(getActivity()), 0, 0);
         } else {
             mEditor.setPadding(EdittextPadding.getPaddingWithoutLineNumbers(getActivity()), EdittextPadding.getPaddingTop(getActivity()), 0, 0);
         }
 
-        if(SettingsFragment.sReadOnly) {
+        if(PreferenceHelper.getReadOnly(getActivity())) {
             getActivity().getWindow().setSoftInputMode(WindowManager.LayoutParams.SOFT_INPUT_STATE_ALWAYS_HIDDEN);
             mEditor.setReadOnly(true);
         }  else {
             getActivity().getWindow().setSoftInputMode(WindowManager.LayoutParams.SOFT_INPUT_STATE_UNSPECIFIED);
             mEditor.setReadOnly(false);
-            if (SettingsFragment.sSuggestionsActive) {
+            if (PreferenceHelper.getSuggestionActive(getActivity())) {
                 mEditor.setInputType(InputType.TYPE_CLASS_TEXT | InputType.TYPE_TEXT_FLAG_MULTI_LINE | InputType.TYPE_TEXT_FLAG_IME_MULTI_LINE);
             } else {
                 mEditor.setInputType(InputType.TYPE_CLASS_TEXT | InputType.TYPE_TEXT_FLAG_MULTI_LINE | InputType.TYPE_TEXT_FLAG_NO_SUGGESTIONS | InputType.TYPE_TEXT_VARIATION_VISIBLE_PASSWORD | InputType.TYPE_TEXT_FLAG_IME_MULTI_LINE);
             }
         }
 
-        if (SettingsFragment.sUseMonospace) {
+        if (PreferenceHelper.getUseMonospace(getActivity())) {
             mEditor.setTypeface(Typeface.MONOSPACE);
         } else {
             mEditor.setTypeface(Typeface.DEFAULT);
         }
-        mEditor.setTextSize(SettingsFragment.sFontSize);
+        mEditor.setTextSize(PreferenceHelper.getFontSize(getActivity()));
 
         mEditor.setFocusable(true);
         mEditor.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                if(!SettingsFragment.sReadOnly) {
+                if(!PreferenceHelper.getReadOnly(getActivity())) {
                     ((InputMethodManager) getActivity().getSystemService(Context.INPUT_METHOD_SERVICE))
                             .showSoftInput(mEditor, InputMethodManager.SHOW_IMPLICIT);
                 }
@@ -216,7 +219,7 @@ public class EditorFragment extends Fragment implements FindTextDialogFragment.S
         mEditor.setOnFocusChangeListener(new View.OnFocusChangeListener() {
             @Override
             public void onFocusChange(View v, boolean hasFocus) {
-                if(hasFocus && !SettingsFragment.sReadOnly) {
+                if(hasFocus && !PreferenceHelper.getReadOnly(getActivity())) {
                     ((InputMethodManager) getActivity().getSystemService(Context.INPUT_METHOD_SERVICE))
                             .showSoftInput(mEditor, InputMethodManager.SHOW_IMPLICIT);
                 }
@@ -249,7 +252,7 @@ public class EditorFragment extends Fragment implements FindTextDialogFragment.S
         // Unregister the Event Bus
         EventBus.getDefault().unregister(this);
 
-        if(SettingsFragment.sAutoSave && mEditor.canSaveFile()) {
+        if(PreferenceHelper.getAutoSave(getActivity()) && mEditor.canSaveFile()) {
             onEvent(new EventBusEvents.SaveAFile());
             mEditor.fileSaved(); // so it doesn't ask to save in onDetach
         }
@@ -260,7 +263,7 @@ public class EditorFragment extends Fragment implements FindTextDialogFragment.S
         super.onDetach();
 
         if (!getActivity().isFinishing() && mEditor.canSaveFile())
-            SaveFileDialogFragment.newInstance(sFilePath, pageSystem.getAllText(mEditor.getText().toString())).show(getFragmentManager(), "dialog");
+            SaveFileDialogFragment.newInstance(sFilePath, pageSystem.getAllText(mEditor.getText().toString()), currentEncoding).show(getFragmentManager(), "dialog");
     }
 
     //endregion
@@ -286,8 +289,8 @@ public class EditorFragment extends Fragment implements FindTextDialogFragment.S
 
         if (searchingText) {
             MenuItem imReplace = menu.findItem(R.id.im_replace);
-                if (imReplace != null)
-                    imReplace.setVisible(searchResult.isReplace);
+            if (imReplace != null)
+                imReplace.setVisible(searchResult.isReplace);
 
         } else {
             MenuItem imSave = menu.findItem(R.id.im_save);
@@ -387,7 +390,7 @@ public class EditorFragment extends Fragment implements FindTextDialogFragment.S
 
     @Override
     public void updateTextSyntax() {
-        if (!SettingsFragment.sColorSyntax || mEditor.hasSelection() || updateHandler == null || colorRunnable_duringEditing == null)
+        if (!PreferenceHelper.getSyntaxHiglight(getActivity()) || mEditor.hasSelection() || updateHandler == null || colorRunnable_duringEditing == null)
             return;
 
         updateHandler.removeCallbacks(colorRunnable_duringEditing);
@@ -492,7 +495,7 @@ public class EditorFragment extends Fragment implements FindTextDialogFragment.S
     public void onScrollChanged(int l, int t, int oldl, int oldt) {
         pageSystemButtons.updateVisibility(Math.abs(t) > 10);
 
-        if (!SettingsFragment.sColorSyntax || (mEditor.hasSelection() && !searchingText) || updateHandler == null || colorRunnable_duringScroll == null)
+        if (!PreferenceHelper.getSyntaxHiglight(getActivity()) || (mEditor.hasSelection() && !searchingText) || updateHandler == null || colorRunnable_duringScroll == null)
             return;
 
         updateHandler.removeCallbacks(colorRunnable_duringEditing);
@@ -592,8 +595,8 @@ public class EditorFragment extends Fragment implements FindTextDialogFragment.S
     //region Eventbus
     public void onEvent(EventBusEvents.APreferenceValueWasChanged event) {
 
-        if (event.getType() == WRAP_CONTENT) {
-            if (SettingsFragment.sWrapContent) {
+        if (event.hasType(WRAP_CONTENT)) {
+            if (PreferenceHelper.getWrapContent(getActivity())) {
                 horizontalScroll.removeView(mEditor);
                 verticalScroll.removeView(horizontalScroll);
                 verticalScroll.addView(mEditor);
@@ -602,65 +605,65 @@ public class EditorFragment extends Fragment implements FindTextDialogFragment.S
                 verticalScroll.addView(horizontalScroll);
                 horizontalScroll.addView(mEditor);
             }
-        } else if (event.getType() == LINE_NUMERS) {
+        } else if (event.hasType(LINE_NUMERS)) {
             mEditor.disableTextChangedListener();
             mEditor.replaceTextKeepCursor(null, true);
             mEditor.enableTextChangedListener();
-            if (SettingsFragment.sLineNumbers) {
-                mEditor.setPadding(EdittextPadding.getPaddingWithLineNumbers(getActivity(), SettingsFragment.sFontSize), EdittextPadding.getPaddingTop(getActivity()), 0, 0);
+            if (PreferenceHelper.getLineNumbers(getActivity())) {
+                mEditor.setPadding(EdittextPadding.getPaddingWithLineNumbers(getActivity(), PreferenceHelper.getFontSize(getActivity())), EdittextPadding.getPaddingTop(getActivity()), 0, 0);
             } else {
                 mEditor.setPadding(EdittextPadding.getPaddingWithoutLineNumbers(getActivity()), EdittextPadding.getPaddingTop(getActivity()), 0, 0);
             }
-        } else if (event.getType() == SYNTAX) {
+        } else if (event.hasType(SYNTAX)) {
             mEditor.disableTextChangedListener();
             mEditor.replaceTextKeepCursor(null, true);
             mEditor.enableTextChangedListener();
-        } else if (event.getType() == MONOSPACE) {
-            if (SettingsFragment.sUseMonospace)
+        } else if (event.hasType(MONOSPACE)) {
+            if (PreferenceHelper.getUseMonospace(getActivity()))
                 this.mEditor.setTypeface(Typeface.MONOSPACE);
             else
                 this.mEditor.setTypeface(Typeface.DEFAULT);
-        } else if (event.getType() == THEME_CHANGE) {
-            if (SettingsFragment.sLightTheme) {
+        } else if (event.hasType(THEME_CHANGE)) {
+            if (PreferenceHelper.getLightTheme(getActivity())) {
                 mEditor.setTextColor(getResources().getColor(R.color.textColorInverted));
             } else {
                 mEditor.setTextColor(getResources().getColor(R.color.textColor));
             }
-        } else if (event.getType() == TEXT_SUGGESTIONS || event.getType() == READ_ONLY) {
-            if(SettingsFragment.sReadOnly) {
+        } else if (event.hasType(TEXT_SUGGESTIONS) || event.hasType(READ_ONLY)) {
+            if(PreferenceHelper.getReadOnly(getActivity())) {
                 getActivity().getWindow().setSoftInputMode(WindowManager.LayoutParams.SOFT_INPUT_STATE_ALWAYS_HIDDEN);
                 mEditor.setReadOnly(true);
             }  else {
                 getActivity().getWindow().setSoftInputMode(WindowManager.LayoutParams.SOFT_INPUT_STATE_UNSPECIFIED);
                 mEditor.setReadOnly(false);
-                if (SettingsFragment.sSuggestionsActive) {
+                if (PreferenceHelper.getSuggestionActive(getActivity())) {
                     mEditor.setInputType(InputType.TYPE_CLASS_TEXT | InputType.TYPE_TEXT_FLAG_MULTI_LINE | InputType.TYPE_TEXT_FLAG_IME_MULTI_LINE);
                 } else {
                     mEditor.setInputType(InputType.TYPE_CLASS_TEXT | InputType.TYPE_TEXT_FLAG_MULTI_LINE | InputType.TYPE_TEXT_FLAG_NO_SUGGESTIONS | InputType.TYPE_TEXT_VARIATION_VISIBLE_PASSWORD | InputType.TYPE_TEXT_FLAG_IME_MULTI_LINE);
                 }
             }
             // sometimes it becomes monospace after setting the input type
-            if (SettingsFragment.sUseMonospace)
+            if (PreferenceHelper.getUseMonospace(getActivity()))
                 this.mEditor.setTypeface(Typeface.MONOSPACE);
             else
                 this.mEditor.setTypeface(Typeface.DEFAULT);
-        } else if (event.getType() == FONT_SIZE) {
-            if (SettingsFragment.sLineNumbers) {
-                mEditor.setPadding(EdittextPadding.getPaddingWithLineNumbers(getActivity(), SettingsFragment.sFontSize), EdittextPadding.getPaddingTop(getActivity()), 0, 0);
+        } else if (event.hasType(FONT_SIZE)) {
+            if (PreferenceHelper.getLineNumbers(getActivity())) {
+                mEditor.setPadding(EdittextPadding.getPaddingWithLineNumbers(getActivity(), PreferenceHelper.getFontSize(getActivity())), EdittextPadding.getPaddingTop(getActivity()), 0, 0);
             } else {
                 mEditor.setPadding(EdittextPadding.getPaddingWithoutLineNumbers(getActivity()), EdittextPadding.getPaddingTop(getActivity()), 0, 0);
             }
-            this.mEditor.setTextSize(SettingsFragment.sFontSize);
-        } else if (event.getType() == ENCODING) {
+            this.mEditor.setTextSize(PreferenceHelper.getFontSize(getActivity()));
+        } else if (event.hasType(ENCODING)) {
             String oldEncoding, newEncoding;
-            oldEncoding = SettingsFragment.sCurrentEncoding;
+            oldEncoding = currentEncoding;
             newEncoding = PreferenceHelper.getEncoding(getActivity());
             try {
                 final byte[] oldText = this.mEditor.getText().toString().getBytes(oldEncoding);
                 mEditor.disableTextChangedListener();
                 mEditor.replaceTextKeepCursor(new String(oldText, newEncoding), true);
                 mEditor.enableTextChangedListener();
-                SettingsFragment.sCurrentEncoding = newEncoding;
+                currentEncoding = newEncoding;
             } catch (UnsupportedEncodingException ignored) {
                 try {
                     final byte[] oldText = this.mEditor.getText().toString().getBytes(oldEncoding);
@@ -676,9 +679,9 @@ public class EditorFragment extends Fragment implements FindTextDialogFragment.S
     public void onEvent(EventBusEvents.SaveAFile event) {
         File file = new File(sFilePath);
         if(!file.getName().isEmpty())
-            new SaveFileTask(getActivity(), sFilePath, pageSystem.getAllText(mEditor.getText().toString()), SettingsFragment.sCurrentEncoding).execute();
+            new SaveFileTask(getActivity(), sFilePath, pageSystem.getAllText(mEditor.getText().toString()), currentEncoding).execute();
         else {
-            NewFileDetailsDialogFragment dialogFrag = NewFileDetailsDialogFragment.newInstance(pageSystem.getAllText(mEditor.getText().toString()), SettingsFragment.sCurrentEncoding);
+            NewFileDetailsDialogFragment dialogFrag = NewFileDetailsDialogFragment.newInstance(pageSystem.getAllText(mEditor.getText().toString()), currentEncoding);
             dialogFrag.show(getFragmentManager().beginTransaction(), "dialog");
         }
     }
@@ -724,6 +727,7 @@ public class EditorFragment extends Fragment implements FindTextDialogFragment.S
         private boolean canSaveFile = false;
         private KeyListener keyListener;
         private int firstVisibleIndex = 0, firstColoredIndex = 0;
+        private int deviceHeight;
         //endregion
 
         //region CONSTRUCTOR
@@ -732,6 +736,7 @@ public class EditorFragment extends Fragment implements FindTextDialogFragment.S
             mEditHistory = new EditHistory();
             mChangeListener = new EditTextChangeListener();
             lineUtils = new LineUtils();
+            deviceHeight = getResources().getDisplayMetrics().heightPixels;
 
             this.mPaintNumbers.setAntiAlias(true);
             this.mPaintNumbers.setDither(false);
@@ -846,21 +851,23 @@ public class EditorFragment extends Fragment implements FindTextDialogFragment.S
         @Override
         public void onDraw(final Canvas canvas) {
 
-            if (SettingsFragment.sLineNumbers) {
+            if (PreferenceHelper.getLineNumbers(getContext())) {
                 if (lineCount != getLineCount()) {
                     lineCount = getLineCount();
 
                     lineUtils.updateHasNewLineArray(editorInterface.getPageSystem().getStartingLine(), lineCount, getLayout(), getText().toString());
                 }
 
-                int i = lineUtils.getFirstVisibleLine(editorInterface.getVerticalScrollView(), lineCount);
-                int lastLine = lineUtils.getLastVisibleLine(i, lineCount);
+                int editorHeight = getHeight();
+                int i = lineUtils.getFirstVisibleLine(editorInterface.getVerticalScrollView(), editorHeight, lineCount);
+                int lastLine = lineUtils.getLastVisibleLine(editorInterface.getVerticalScrollView(), editorHeight, lineCount, deviceHeight);
                 boolean[] hasNewLineArray = lineUtils.getToCountLinesArray();
                 int[] realLines = lineUtils.getRealLines();
+                boolean wrapContent = PreferenceHelper.getWrapContent(getContext());
 
                 while (i < lastLine) {
                     // if last line we count it anyway
-                    if (!SettingsFragment.sWrapContent
+                    if (!wrapContent
                             || hasNewLineArray[i]
                             || i == lastLine - 1) {
                         if (i == lastLine - 1)
@@ -994,7 +1001,7 @@ public class EditorFragment extends Fragment implements FindTextDialogFragment.S
 
 
 
-            if(SettingsFragment.sColorSyntax)
+            if(PreferenceHelper.getSyntaxHiglight(getContext()))
                 setText(highlight(textToUpdate == null ? getEditableText() : Editable.Factory.getInstance().newEditable(textToUpdate)));
             else
                 setText(textToUpdate == null ? getText().toString() : textToUpdate);
@@ -1022,12 +1029,18 @@ public class EditorFragment extends Fragment implements FindTextDialogFragment.S
             }
 
             firstVisibleIndex = 0;
-            if(getHeight() > 0)
-                firstVisibleIndex = getLayout().getLineStart(getLineUtils().getFirstVisibleLine(editorInterface.getVerticalScrollView(), getHeight(), getLineCount()));
+            int end = CHARS_TO_COLOR;
+            int height = getHeight();
+
+            if(height > 0) {
+                firstVisibleIndex = getLayout().getLineStart(getLineUtils().getFirstVisibleLine(editorInterface.getVerticalScrollView(), height, getLineCount()));
+                end = getLayout().getLineStart(getLineUtils().getLastVisibleLine(editorInterface.getVerticalScrollView(), height, lineCount, deviceHeight));
+                //int end = firstColoredIndex + CHARS_TO_COLOR;
+            }
+
             firstColoredIndex = firstVisibleIndex - (CHARS_TO_COLOR / 5);
             if (firstColoredIndex < 0)
                 firstColoredIndex = 0;
-            int end = firstColoredIndex + CHARS_TO_COLOR;
             if (end > editable.length())
                 end = editable.length();
 

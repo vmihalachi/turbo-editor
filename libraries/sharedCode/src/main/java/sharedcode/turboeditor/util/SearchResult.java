@@ -38,7 +38,7 @@ public class SearchResult {
     public void doneReplace() {
         foundIndex.remove(index);
         int i;
-        for(i = index; i < foundIndex.size(); i++) {
+        for (i = index; i < foundIndex.size(); i++) {
             foundIndex.set(i, foundIndex.get(i) + textToReplace.length() - textLength);
         }
         index--; // an element was removed so we decrease the index

@@ -25,21 +25,21 @@ import android.app.DialogFragment;
 import android.content.DialogInterface;
 import android.os.Bundle;
 
-import sharedcode.turboeditor.R;
-import sharedcode.turboeditor.preferences.SettingsFragment;
-import sharedcode.turboeditor.util.SaveFileTask;
-
 import org.apache.commons.io.FilenameUtils;
 
 import java.io.File;
 
+import sharedcode.turboeditor.R;
+import sharedcode.turboeditor.util.SaveFileTask;
+
 public class SaveFileDialogFragment extends DialogFragment {
 
-    public static SaveFileDialogFragment newInstance(String filePath, String text) {
+    public static SaveFileDialogFragment newInstance(String filePath, String text, String encoding) {
         SaveFileDialogFragment frag = new SaveFileDialogFragment();
         Bundle args = new Bundle();
         args.putString("filePath", filePath);
         args.putString("text", text);
+        args.putString("encoding", encoding);
         frag.setArguments(args);
         return frag;
     }
@@ -48,6 +48,7 @@ public class SaveFileDialogFragment extends DialogFragment {
     public Dialog onCreateDialog(Bundle savedInstanceState) {
         final String filePath = getArguments().getString("filePath");
         final String text = getArguments().getString("text");
+        final String encoding = getArguments().getString("encoding");
         final String fileName = FilenameUtils.getName(filePath);
         final File file = new File(filePath);
 
@@ -57,10 +58,10 @@ public class SaveFileDialogFragment extends DialogFragment {
                         new DialogInterface.OnClickListener() {
                             @Override
                             public void onClick(DialogInterface dialog, int which) {
-                                if(!fileName.isEmpty())
-                                    new SaveFileTask(getActivity(), filePath, text, SettingsFragment.sCurrentEncoding).execute();
+                                if (!fileName.isEmpty())
+                                    new SaveFileTask(getActivity(), filePath, text, encoding).execute();
                                 else {
-                                    NewFileDetailsDialogFragment dialogFrag = NewFileDetailsDialogFragment.newInstance(text, SettingsFragment.sCurrentEncoding);
+                                    NewFileDetailsDialogFragment dialogFrag = NewFileDetailsDialogFragment.newInstance(text, encoding);
                                     dialogFrag.show(getFragmentManager().beginTransaction(), "dialog");
                                 }
                             }

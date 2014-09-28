@@ -48,9 +48,8 @@ public class LineUtils {
         return line;
     }
 
-    public int getLastVisibleLine(int firstVisibleLine, int lineCount) {
-        int line;
-        line = firstVisibleLine + 150;
+    public int getLastVisibleLine(ScrollView scrollView, int childHeight, int lineCount, int deviceHeight) {
+        int line = ((scrollView.getScrollY() + deviceHeight) * lineCount) / childHeight;
         if (line > lineCount) line = lineCount;
         return line;
     }

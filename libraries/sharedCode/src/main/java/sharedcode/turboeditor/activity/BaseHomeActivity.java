@@ -33,8 +33,6 @@ import android.os.IBinder;
 import android.preference.PreferenceManager;
 import android.support.v4.app.ActionBarDrawerToggle;
 import android.support.v4.app.ActivityOptionsCompat;
-import android.text.TextUtils;
-import android.util.Log;
 import android.view.Gravity;
 import android.view.KeyEvent;
 import android.view.MenuItem;
@@ -43,19 +41,6 @@ import android.view.inputmethod.InputMethodManager;
 import android.widget.EditText;
 import android.widget.Toast;
 
-import sharedcode.turboeditor.R;
-import sharedcode.turboeditor.fragment.ChangelogDialogFragment;
-import sharedcode.turboeditor.fragment.EditorFragment;
-import sharedcode.turboeditor.fragment.NoFileOpenedFragment;
-import sharedcode.turboeditor.preferences.SettingsFragment;
-import sharedcode.turboeditor.util.AppInfoHelper;
-import sharedcode.turboeditor.util.Constants;
-import sharedcode.turboeditor.util.ProCheckUtils;
-import sharedcode.turboeditor.views.CustomDrawerLayout;
-import sharedcode.turboeditor.util.EventBusEvents;
-import sharedcode.turboeditor.preferences.PreferenceHelper;
-import sharedcode.turboeditor.util.ThemeHelper;
-
 import org.apache.commons.io.FilenameUtils;
 import org.sufficientlysecure.rootcommands.Shell;
 import org.sufficientlysecure.rootcommands.Toolbox;
@@ -63,6 +48,16 @@ import org.sufficientlysecure.rootcommands.Toolbox;
 import java.io.File;
 
 import de.greenrobot.event.EventBus;
+import sharedcode.turboeditor.R;
+import sharedcode.turboeditor.fragment.ChangelogDialogFragment;
+import sharedcode.turboeditor.fragment.EditorFragment;
+import sharedcode.turboeditor.fragment.NoFileOpenedFragment;
+import sharedcode.turboeditor.preferences.PreferenceHelper;
+import sharedcode.turboeditor.util.AppInfoHelper;
+import sharedcode.turboeditor.util.EventBusEvents;
+import sharedcode.turboeditor.util.ProCheckUtils;
+import sharedcode.turboeditor.util.ThemeHelper;
+import sharedcode.turboeditor.views.CustomDrawerLayout;
 
 public abstract class BaseHomeActivity extends Activity {
 
@@ -145,7 +140,18 @@ public abstract class BaseHomeActivity extends Activity {
 
     @Override
     public void onBackPressed() {
-        if (getFragmentManager().findFragmentById(R.id.fragment_editor) instanceof EditorFragment) {
+
+        // if we should ignore the back button
+        if(PreferenceHelper.getIgnoreBackButton(this))
+            return;
+
+
+        boolean fileOpened = getFragmentManager().findFragmentById(R.id.fragment_editor) instanceof EditorFragment;
+        if (mDrawerLayout.isDrawerOpen(Gravity.START) && fileOpened) {
+            mDrawerLayout.closeDrawer(Gravity.START);
+        } else if (mDrawerLayout.isDrawerOpen(Gravity.END) && fileOpened) {
+            mDrawerLayout.closeDrawer(Gravity.END);
+        } else if (fileOpened) {
 
             // remove editor fragment
             getFragmentManager()
@@ -178,12 +184,12 @@ public abstract class BaseHomeActivity extends Activity {
         // this will happen on first key pressed on hard-keyboard only. Once myInputField
         // gets the focus again, it will automatically receive further key presses.
 
-        try{
+        try {
             if (editor != null && !editor.hasFocus()) {
                 editor.requestFocus();
                 editor.onKeyDown(keyCode, event);
             }
-        } catch (NullPointerException ex){
+        } catch (NullPointerException ex) {
 
         }
 
@@ -204,7 +210,7 @@ public abstract class BaseHomeActivity extends Activity {
             File file = new File(path);
             if (file.isFile() && file.exists()) {
                 EventBus.getDefault().postSticky(new EventBusEvents.NewFileToOpen(new File(path)));
-            } else if(file.isDirectory()) {
+            } else if (file.isDirectory()) {
 
             }
         }
@@ -234,7 +240,7 @@ public abstract class BaseHomeActivity extends Activity {
         subActivity.putExtra("action", SelectFileActivity.Actions.SelectFile);
         Bundle scaleBundle = ActivityOptionsCompat.makeScaleUpAnimation(
                 view, 0, 0, view.getWidth(), view.getHeight()).toBundle();
-        if(Build.VERSION.SDK_INT >= Build.VERSION_CODES.JELLY_BEAN)
+        if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.JELLY_BEAN)
             startActivityForResult(subActivity, SELECT_FILE_CODE, scaleBundle);
         else
             startActivityForResult(subActivity, SELECT_FILE_CODE);
@@ -249,7 +255,7 @@ public abstract class BaseHomeActivity extends Activity {
         Intent subActivity = new Intent(BaseHomeActivity.this, PreferenceAbout.class);
         Bundle scaleBundle = ActivityOptionsCompat.makeScaleUpAnimation(
                 view, 0, 0, view.getWidth(), view.getHeight()).toBundle();
-        if(Build.VERSION.SDK_INT >= Build.VERSION_CODES.JELLY_BEAN)
+        if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.JELLY_BEAN)
             startActivity(subActivity, scaleBundle);
         else
             startActivity(subActivity);
@@ -269,6 +275,7 @@ public abstract class BaseHomeActivity extends Activity {
             File file;
             String message;
             String fileText;
+            String encoding;
             ProgressDialog progressDialog;
 
             @Override
@@ -312,20 +319,17 @@ public abstract class BaseHomeActivity extends Activity {
                     }
 
                     boolean autoencoding = PreferenceHelper.getAutoEncoding(BaseHomeActivity.this);
-
                     if (autoencoding) {
 
-                        String encoding = sharedcode.turboeditor.util.FileUtils.getDetectedEncoding(file);
-                        if (!TextUtils.isEmpty(encoding)) {
-                            encoding = SettingsFragment.sCurrentEncoding;
-                        } else {
-                            SettingsFragment.sCurrentEncoding = encoding;
+                        encoding = sharedcode.turboeditor.util.FileUtils.getDetectedEncoding(file);
+                        if (encoding.isEmpty()) {
+                            encoding = PreferenceHelper.getEncoding(BaseHomeActivity.this);
                         }
-
-                        fileText = org.apache.commons.io.FileUtils.readFileToString(file, encoding);
                     } else {
-                        fileText = org.apache.commons.io.FileUtils.readFileToString(file, SettingsFragment.sCurrentEncoding);
+                        encoding = PreferenceHelper.getEncoding(BaseHomeActivity.this);
                     }
+
+                    fileText = org.apache.commons.io.FileUtils.readFileToString(file, encoding);
                 } catch (Exception e) {
                     message = e.getMessage();
                     fileText = "";
@@ -351,7 +355,7 @@ public abstract class BaseHomeActivity extends Activity {
                 } else {
                     getFragmentManager()
                             .beginTransaction()
-                            .replace(R.id.fragment_editor, EditorFragment.newInstance(event.getFile().getAbsolutePath(), fileText))
+                            .replace(R.id.fragment_editor, EditorFragment.newInstance(event.getFile().getAbsolutePath(), fileText, encoding))
                             .commit();
 
                 }
@@ -386,9 +390,9 @@ public abstract class BaseHomeActivity extends Activity {
             displayInterstitial();
     }
 
-    public void onEvent(EventBusEvents.AFileIsSelected event){
+    public void onEvent(EventBusEvents.AFileIsSelected event) {
         String name = FilenameUtils.getName(event.getPath());
-        if(name.isEmpty())
+        if (name.isEmpty())
             getActionBar().setTitle(R.string.nome_app_turbo_editor);
         else
             getActionBar().setTitle(name);
@@ -414,7 +418,7 @@ public abstract class BaseHomeActivity extends Activity {
 
     public void onEvent(EventBusEvents.APreferenceValueWasChanged event) {
 
-        if (event.getType() == EventBusEvents.APreferenceValueWasChanged.Type.THEME_CHANGE) {
+        if (event.hasType(EventBusEvents.APreferenceValueWasChanged.Type.THEME_CHANGE)) {
             ThemeHelper.setWindowsBackground(this);
         }
     }
@@ -506,8 +510,7 @@ public abstract class BaseHomeActivity extends Activity {
                 && type != null) {
             // Post event
             EventBus.getDefault().postSticky(new EventBusEvents.NewFileToOpen(new File(intent.getData().getPath())));
-        }
-        else if (Intent.ACTION_SEND.equals(action) && type != null) {
+        } else if (Intent.ACTION_SEND.equals(action) && type != null) {
             if ("text/plain".equals(type)) {
                 onEvent(new EventBusEvents.NewFileToOpen(intent.getStringExtra(Intent.EXTRA_TEXT)));
                 onEvent(new EventBusEvents.AFileIsSelected("")); // simulate click on the list

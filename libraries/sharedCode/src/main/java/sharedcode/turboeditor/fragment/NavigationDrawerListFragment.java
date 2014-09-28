@@ -27,15 +27,14 @@ import android.view.ViewGroup;
 import android.widget.AdapterView;
 import android.widget.ListView;
 
-import sharedcode.turboeditor.R;
-import sharedcode.turboeditor.adapter.AdapterDrawer;
-import sharedcode.turboeditor.util.EventBusEvents;
-import sharedcode.turboeditor.preferences.PreferenceHelper;
-
 import java.io.File;
 import java.util.ArrayList;
 
 import de.greenrobot.event.EventBus;
+import sharedcode.turboeditor.R;
+import sharedcode.turboeditor.adapter.AdapterDrawer;
+import sharedcode.turboeditor.preferences.PreferenceHelper;
+import sharedcode.turboeditor.util.EventBusEvents;
 
 
 public class NavigationDrawerListFragment extends Fragment implements AdapterView.OnItemClickListener, AdapterDrawer.Callbacks {

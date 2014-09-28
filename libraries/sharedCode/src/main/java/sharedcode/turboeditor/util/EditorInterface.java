@@ -19,13 +19,14 @@
 
 package sharedcode.turboeditor.util;
 
-import android.widget.ScrollView;
-
 import sharedcode.turboeditor.views.GoodScrollView;
 
 public interface EditorInterface {
-        public GoodScrollView getVerticalScrollView();
-        public String getFilePath();
-        public PageSystem getPageSystem();
-        public void updateTextSyntax();
-    }
+    public GoodScrollView getVerticalScrollView();
+
+    public String getFilePath();
+
+    public PageSystem getPageSystem();
+
+    public void updateTextSyntax();
+}
