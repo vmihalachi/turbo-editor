@@ -20,6 +20,8 @@
 package com.maskyn.fileeditor;
 
 import android.app.Activity;
+import android.preference.PreferenceManager;
+
 import com.google.android.gms.ads.AdRequest;
 import com.google.android.gms.ads.InterstitialAd;
 
@@ -33,24 +35,24 @@ public class AdsHelper {
 
     public AdsHelper(Activity activity) {
         this.activity = activity;
-        int today = Calendar.getInstance().get(Calendar.DAY_OF_MONTH);
-        int lastDayAdShowed = PreferenceHelper.getLastDayAdShowed(activity);
-        boolean showAd = today != lastDayAdShowed;
-        if (showAd) {
 
-            interstitial = new InterstitialAd(activity);
-            interstitial.setAdUnitId("ca-app-pub-5679083452234719/7178038180");
+        interstitial = new InterstitialAd(activity);
+        interstitial.setAdUnitId("ca-app-pub-5679083452234719/7178038180");
 
-            // Create ad request.
-            AdRequest adRequest = new AdRequest.Builder().build();
+        // Create ad request.
+        AdRequest adRequest = new AdRequest.Builder().build();
 
-            // Begin loading your interstitial.
-            interstitial.loadAd(adRequest);
-        }
+        // Begin loading your interstitial.
+        interstitial.loadAd(adRequest);
     }
 
     public void displayInterstitial() {
-        if (interstitial != null && interstitial.isLoaded()) {
+
+        int numberOfAdsRequested = PreferenceHelper.getNumberOfAdsRequested(activity);
+        numberOfAdsRequested++;
+        PreferenceHelper.setNumberOfAdsRequested(activity, numberOfAdsRequested);
+
+        if (numberOfAdsRequested % 3 == 0 && interstitial != null && interstitial.isLoaded()) {
             interstitial.show();
             int today = Calendar.getInstance().get(Calendar.DAY_OF_MONTH);
             PreferenceHelper.setLastDayAdShowed(activity, today);

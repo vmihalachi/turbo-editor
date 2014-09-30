@@ -25,6 +25,7 @@ import android.content.ActivityNotFoundException;
 import android.content.Context;
 import android.content.Intent;
 import android.content.SharedPreferences;
+import android.content.res.Configuration;
 import android.graphics.Canvas;
 import android.graphics.Typeface;
 import android.net.Uri;
@@ -152,7 +153,7 @@ public class EditorFragment extends Fragment implements FindTextDialogFragment.S
         super.onCreate(savedInstanceState);
         setHasOptionsMenu(true);
         sFilePath = getArguments().getString("filePath");
-        pageSystem = new PageSystem(this, getArguments().getString("fileText"));
+        pageSystem = new PageSystem(getActivity(), this, getArguments().getString("fileText"));
         currentEncoding = getArguments().getString("encoding");
         getArguments().remove("fileText");
     }
@@ -736,6 +737,7 @@ public class EditorFragment extends Fragment implements FindTextDialogFragment.S
             mEditHistory = new EditHistory();
             mChangeListener = new EditTextChangeListener();
             lineUtils = new LineUtils();
+
             deviceHeight = getResources().getDisplayMetrics().heightPixels;
 
             this.mPaintNumbers.setAntiAlias(true);

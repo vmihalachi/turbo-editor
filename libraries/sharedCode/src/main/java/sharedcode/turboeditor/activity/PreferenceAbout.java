@@ -49,7 +49,7 @@ public class PreferenceAbout extends Activity {
             e.printStackTrace();
         }
 
-        proVersionText.setVisibility(ProCheckUtils.isPro(getBaseContext()) ? View.GONE : View.VISIBLE);
+        proVersionText.setText(ProCheckUtils.isPro(getBaseContext()) ? getString(R.string.donate) : getString(R.string.pro_version));
 
     }
 
@@ -75,8 +75,14 @@ public class PreferenceAbout extends Activity {
 
     public void GoToProVersion(View view) {
         try {
-            startActivity(new Intent(Intent.ACTION_VIEW, Uri.parse("market://details?id=com.maskyn.fileeditorpro"))
-                    .setFlags(Intent.FLAG_ACTIVITY_NEW_TASK));
+            if(ProCheckUtils.isPro(getBaseContext())) {
+                startActivity(new Intent(Intent.ACTION_VIEW, Uri.parse("https://www.paypal.com/cgi-bin/webscr?cmd=_s-xclick&hosted_button_id=26VWS2TSAMUJA"))
+                        .setFlags(Intent.FLAG_ACTIVITY_NEW_TASK));
+            } else {
+                startActivity(new Intent(Intent.ACTION_VIEW, Uri.parse("market://details?id=com.maskyn.fileeditorpro"))
+                        .setFlags(Intent.FLAG_ACTIVITY_NEW_TASK));
+            }
+
         } catch (Exception e) {
         }
     }

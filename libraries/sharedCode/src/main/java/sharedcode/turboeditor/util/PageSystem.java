@@ -19,8 +19,12 @@
 
 package sharedcode.turboeditor.util;
 
+import android.content.Context;
+
 import java.util.LinkedList;
 import java.util.List;
+
+import sharedcode.turboeditor.preferences.PreferenceHelper;
 
 public class PageSystem {
 
@@ -29,7 +33,7 @@ public class PageSystem {
     private int currentPage = 0;
     private PageSystemInterface pageSystemInterface;
 
-    public PageSystem(PageSystemInterface pageSystemInterface, String text) {
+    public PageSystem(Context context, PageSystemInterface pageSystemInterface, String text) {
         this.pageSystemInterface = pageSystemInterface;
         pages = new LinkedList<>();
 
@@ -39,8 +43,9 @@ public class PageSystem {
         int to;
         int indexOfReturn;
         int textLenght = text.length();
-        if (textLenght > maxLenghtInOnePage) {
-            while (i < textLenght) {
+        boolean pageSystemEnabled = PreferenceHelper.getPageSystemEnabled(context);
+        if (pageSystemEnabled && textLenght > maxLenghtInOnePage) {
+            while (i < textLenght && pageSystemEnabled) {
                 to = i + charForPage;
                 indexOfReturn = text.indexOf("\n", to);
                 if (indexOfReturn > to) to = indexOfReturn;

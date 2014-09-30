@@ -54,14 +54,12 @@
     <CheckBoxPreference
         android:key="ignore_back_button"
         android:title="@string/ignore_back_button"
-        android:defaultValue="false"
-        android:enabled="true"/>
+        android:defaultValue="false"/>
 
     <CheckBoxPreference
         android:key="page_system_active"
         android:title="@string/split_text_if_too_long"
-        android:defaultValue="true"
-        android:enabled="false"/>
+        android:defaultValue="true"/>
 
     <CheckBoxPreference
         android:key="send_error_reports"

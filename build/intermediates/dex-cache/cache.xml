@@ -8,11 +8,11 @@
         revision="20.0.0"
         sha1="a18ff12a9ab5ae52fd30d42f134517997568231e"/>
     <item
-        dex="C:\Users\Vlad\Documents\AndroidStudioProjects\TurboMaterialEditor\app-pro\build\intermediates\pre-dexed\debug\juniversalchardet-1.0.3-24b647622164ce26bc5d0be361e05056efc68e13.jar"
-        jar="C:\Users\Vlad\Documents\AndroidStudioProjects\TurboMaterialEditor\app-pro\build\intermediates\exploded-aar\TurboMaterialEditor.libraries\sharedCode\unspecified\libs\juniversalchardet-1.0.3.jar"
+        dex="C:\Users\Vlad\Documents\AndroidStudioProjects\turbo-editor\app-pro\build\intermediates\pre-dexed\debug\classes-9b612f0cb16e63277808158fe971bb4f40c98d29.jar"
+        jar="C:\Users\Vlad\Documents\AndroidStudioProjects\turbo-editor\app-pro\build\intermediates\exploded-aar\com.github.gabrielemariotti.changeloglib\library\1.5.1\classes.jar"
         jumboMode="false"
-        revision="20.0.0"
-        sha1="591d72211acc0b909b79c840e0b3ed9a0982d807"/>
+        revision="19.1.0"
+        sha1="74a89f0f8b56d9f11d70b8d8134cf4109f4797dc"/>
     <item
         dex="C:\Users\Vlad\Documents\AndroidStudioProjects\turbo-editor\app\build\intermediates\pre-dexed\release\classes-579992e349b2c32e50f8907b9538ad0aa6df57b4.jar"
         jar="C:\Users\Vlad\Documents\AndroidStudioProjects\turbo-editor\app\build\intermediates\exploded-aar\com.google.android.gms\play-services\5.0.89\classes.jar"
@@ -20,29 +20,23 @@
         revision="19.1.0"
         sha1="d71573c9c5ea98a8db47ad6ff993a63d492b3bfa"/>
     <item
-        dex="C:\Users\Vlad\Documents\AndroidStudioProjects\turbo-editor\app-pro\build\intermediates\pre-dexed\debug\classes-30cc9565ecef1e8ae8577530d7ddd41993d192d7.jar"
-        jar="C:\Users\Vlad\Documents\AndroidStudioProjects\turbo-editor\app-pro\build\intermediates\exploded-aar\turbo-editor.libraries\RootCommands\unspecified\classes.jar"
-        jumboMode="false"
-        revision="20.0.0"
-        sha1="f449c5674e0427708d4fb17c4a2ec74c267e74d6"/>
-    <item
-        dex="C:\Users\Vlad\Documents\AndroidStudioProjects\turbo-editor\app\build\intermediates\pre-dexed\release\support-annotations-20.0.0-be727b9c9ce08c6ee055559b9506b675c13db989.jar"
+        dex="C:\Users\Vlad\Documents\AndroidStudioProjects\turbo-editor\app-pro\build\intermediates\pre-dexed\debug\support-annotations-20.0.0-be727b9c9ce08c6ee055559b9506b675c13db989.jar"
         jar="C:\Users\Vlad\AppData\Local\Android\android-sdk\extras\android\m2repository\com\android\support\support-annotations\20.0.0\support-annotations-20.0.0.jar"
         jumboMode="false"
         revision="19.1.0"
         sha1="9d9013e9ff35fc3756411e62873c363c70c638fa"/>
+    <item
+        dex="C:\Users\Vlad\Documents\AndroidStudioProjects\turbo-editor\app\build\intermediates\pre-dexed\release\juniversalchardet-1.0.3-sources-436707958bb47977373cb4a2d842cdbf635fd840.jar"
+        jar="C:\Users\Vlad\Documents\AndroidStudioProjects\turbo-editor\app\build\intermediates\exploded-aar\turbo-editor.libraries\sharedCode\unspecified\libs\juniversalchardet-1.0.3-sources.jar"
+        jumboMode="false"
+        revision="19.1.0"
+        sha1="77979eaa98f90806f984155f44f63cc1fb60ac25"/>
     <item
         dex="C:\Users\Vlad\Documents\AndroidStudioProjects\turbo-editor\app\build\intermediates\pre-dexed\release\crashlytics-1.1.13-7bbec76a44aa9cc3279ec6bff22b2c929a8abf67.jar"
         jar="C:\Users\Vlad\.gradle\caches\modules-2\files-2.1\com.crashlytics.android\crashlytics\1.1.13\e821eafa1bf489a26bdb71f95078c26785b37a1\crashlytics-1.1.13.jar"
         jumboMode="false"
         revision="19.1.0"
         sha1="0e821eafa1bf489a26bdb71f95078c26785b37a1"/>
-    <item
-        dex="C:\Users\Vlad\Documents\AndroidStudioProjects\turbo-editor\app-pro\build\intermediates\pre-dexed\debug\classes-bcfe21eb1248db73c27c811996e28274cf39b024.jar"
-        jar="C:\Users\Vlad\Documents\AndroidStudioProjects\turbo-editor\app-pro\build\intermediates\exploded-aar\turbo-editor.libraries\sharedCode\unspecified\classes.jar"
-        jumboMode="false"
-        revision="19.1.0"
-        sha1="8c7c075b0ccffca898d29086dfb74055143b987f"/>
     <item
         dex="C:\Users\Vlad\Documents\AndroidStudioProjects\TurboMaterialEditor\app\build\intermediates\pre-dexed\debug\commons-io-2.4-63b64e68cd19031cd252ac65a3ef94421c1bf0f4.jar"
         jar="C:\Users\Vlad\.gradle\caches\modules-2\files-2.1\commons-io\commons-io\2.4\b1b6ea3b7e4aa4f492509a4952029cd8e48019ad\commons-io-2.4.jar"
@@ -66,16 +60,10 @@
         jar="C:\Users\Vlad\Documents\AndroidStudioProjects\turbo-editor\app\build\intermediates\exploded-aar\turbo-editor.libraries\FloatingActionButton\unspecified\classes.jar"
         jumboMode="false"
         revision="19.1.0"
-        sha1="c9508d53a0ddc7399493e4c7ad474718c5ed196e"/>
+        sha1="22b92dd8763ce4c1a9bd71a25d6270a6398ac955"/>
     <item
         dex="C:\Users\Vlad\Documents\AndroidStudioProjects\turbo-editor\app-pro\build\intermediates\pre-dexed\debug\classes-9b612f0cb16e63277808158fe971bb4f40c98d29.jar"
         jar="C:\Users\Vlad\Documents\AndroidStudioProjects\turbo-editor\app-pro\build\intermediates\exploded-aar\com.github.gabrielemariotti.changeloglib\library\1.5.1\classes.jar"
-        jumboMode="false"
-        revision="20.0.0"
-        sha1="74a89f0f8b56d9f11d70b8d8134cf4109f4797dc"/>
-    <item
-        dex="C:\Users\Vlad\Documents\AndroidStudioProjects\TurboMaterialEditor\app\build\intermediates\pre-dexed\debug\classes-2ad27a3265673aeeb8f40e4322d8e19509329c96.jar"
-        jar="C:\Users\Vlad\Documents\AndroidStudioProjects\TurboMaterialEditor\app\build\intermediates\exploded-aar\com.github.gabrielemariotti.changeloglib\library\1.5.1\classes.jar"
         jumboMode="false"
         revision="20.0.0"
         sha1="74a89f0f8b56d9f11d70b8d8134cf4109f4797dc"/>
@@ -86,29 +74,11 @@
         revision="20.0.0"
         sha1="a593d4ce7ccdfa1eac8d97a82db64f23614b59a1"/>
     <item
-        dex="C:\Users\Vlad\Documents\AndroidStudioProjects\turbo-editor\app-pro\build\intermediates\pre-dexed\debug\classes-bcfe21eb1248db73c27c811996e28274cf39b024.jar"
-        jar="C:\Users\Vlad\Documents\AndroidStudioProjects\turbo-editor\app-pro\build\intermediates\exploded-aar\turbo-editor.libraries\sharedCode\unspecified\classes.jar"
-        jumboMode="false"
-        revision="20.0.0"
-        sha1="e7a26359f635a1353de0aa8492f56f1f47c42c1a"/>
-    <item
-        dex="C:\Users\Vlad\Documents\AndroidStudioProjects\turbo-editor\app-pro\build\intermediates\pre-dexed\debug\classes-82d5b6cab7f16bad663de7c7008673037efb0e1b.jar"
-        jar="C:\Users\Vlad\Documents\AndroidStudioProjects\turbo-editor\app-pro\build\intermediates\exploded-aar\turbo-editor.libraries\FloatingActionButton\unspecified\classes.jar"
-        jumboMode="false"
-        revision="20.0.0"
-        sha1="c9508d53a0ddc7399493e4c7ad474718c5ed196e"/>
-    <item
         dex="C:\Users\Vlad\Documents\AndroidStudioProjects\TurboMaterialEditor\app\build\intermediates\pre-dexed\release\crashlytics-1.1.13-7bbec76a44aa9cc3279ec6bff22b2c929a8abf67.jar"
         jar="C:\Users\Vlad\.gradle\caches\modules-2\files-2.1\com.crashlytics.android\crashlytics\1.1.13\e821eafa1bf489a26bdb71f95078c26785b37a1\crashlytics-1.1.13.jar"
         jumboMode="false"
         revision="20.0.0"
         sha1="0e821eafa1bf489a26bdb71f95078c26785b37a1"/>
-    <item
-        dex="C:\Users\Vlad\Documents\AndroidStudioProjects\turbo-editor\app\build\intermediates\pre-dexed\release\classes-515446996fed08836a9331ef47b508a0383ffa22.jar"
-        jar="C:\Users\Vlad\Documents\AndroidStudioProjects\turbo-editor\app\build\intermediates\exploded-aar\turbo-editor.libraries\RootCommands\unspecified\classes.jar"
-        jumboMode="false"
-        revision="19.1.0"
-        sha1="f449c5674e0427708d4fb17c4a2ec74c267e74d6"/>
     <item
         dex="C:\Users\Vlad\Documents\AndroidStudioProjects\turbo-editor\app\build\intermediates\pre-dexed\release\juniversalchardet-1.0.3-9db20cdcb8ae72104757d81297c98978c65bd91b.jar"
         jar="C:\Users\Vlad\Documents\AndroidStudioProjects\turbo-editor\app\build\intermediates\exploded-aar\turbo-editor.libraries\sharedCode\unspecified\libs\juniversalchardet-1.0.3.jar"
@@ -158,23 +128,11 @@
         revision="20.0.0"
         sha1="85f201b380937e61a9dce6ca90ccf6872abbfb67"/>
     <item
-        dex="C:\Users\Vlad\Documents\AndroidStudioProjects\TurboMaterialEditor\app\build\intermediates\pre-dexed\debug\juniversalchardet-1.0.3-2e38d54a78dd518320bb6abe3d8931a19ff26792.jar"
-        jar="C:\Users\Vlad\Documents\AndroidStudioProjects\TurboMaterialEditor\app\build\intermediates\exploded-aar\TurboMaterialEditor.libraries\sharedCode\unspecified\libs\juniversalchardet-1.0.3.jar"
-        jumboMode="false"
-        revision="20.0.0"
-        sha1="591d72211acc0b909b79c840e0b3ed9a0982d807"/>
-    <item
         dex="C:\Users\Vlad\Documents\AndroidStudioProjects\turbo-editor\app\build\intermediates\pre-dexed\release\classes-e7e86cab56b519ef20b4d01792717ffcddcc577b.jar"
         jar="C:\Users\Vlad\Documents\AndroidStudioProjects\turbo-editor\app\build\intermediates\exploded-aar\com.android.support\support-v4\20.0.0\classes.jar"
         jumboMode="false"
         revision="19.1.0"
         sha1="8694693636ab36910c8100ce527c258ff3ebece0"/>
-    <item
-        dex="C:\Users\Vlad\Documents\AndroidStudioProjects\turbo-editor\app\build\intermediates\pre-dexed\release\classes-4dd6beddde59ff8bd6c22bd0d65ac974f7e489d2.jar"
-        jar="C:\Users\Vlad\Documents\AndroidStudioProjects\turbo-editor\app\build\intermediates\exploded-aar\turbo-editor.libraries\sharedCode\unspecified\classes.jar"
-        jumboMode="false"
-        revision="19.1.0"
-        sha1="a3cd442213d832a910c1ec51cd2f2c507f7fea64"/>
     <item
         dex="C:\Users\Vlad\Documents\AndroidStudioProjects\TurboMaterialEditor\app-pro\build\intermediates\pre-dexed\debug\classes-bfc447e4dbe83598b94dbdc8e38492cbbda6ebb2.jar"
         jar="C:\Users\Vlad\Documents\AndroidStudioProjects\TurboMaterialEditor\app-pro\build\intermediates\exploded-aar\TurboMaterialEditor.libraries\RootCommands\unspecified\classes.jar"
@@ -182,13 +140,7 @@
         revision="20.0.0"
         sha1="cdecd8167dfb75d5785decb911fc4516445dd6a6"/>
     <item
-        dex="C:\Users\Vlad\Documents\AndroidStudioProjects\turbo-editor\app\build\intermediates\pre-dexed\release\internal_impl-20.0.0-2cc5dec0eb9c4e1671dc84ade9411d50c227e9ae.jar"
-        jar="C:\Users\Vlad\Documents\AndroidStudioProjects\turbo-editor\app\build\intermediates\exploded-aar\com.android.support\support-v4\20.0.0\libs\internal_impl-20.0.0.jar"
-        jumboMode="false"
-        revision="19.1.0"
-        sha1="e40b3078e3fbd353c9f44da8df25a8fc0078209d"/>
-    <item
-        dex="C:\Users\Vlad\Documents\AndroidStudioProjects\turbo-editor\app\build\intermediates\pre-dexed\release\eventbus-2.2.1-32e81c5612ed132ff771b5425053d87f4f6c68c5.jar"
+        dex="C:\Users\Vlad\Documents\AndroidStudioProjects\turbo-editor\app-pro\build\intermediates\pre-dexed\debug\eventbus-2.2.1-32e81c5612ed132ff771b5425053d87f4f6c68c5.jar"
         jar="C:\Users\Vlad\.gradle\caches\modules-2\files-2.1\de.greenrobot\eventbus\2.2.1\a18ff12a9ab5ae52fd30d42f134517997568231e\eventbus-2.2.1.jar"
         jumboMode="false"
         revision="19.1.0"
@@ -199,6 +151,84 @@
         jumboMode="false"
         revision="20.0.0"
         sha1="a593d4ce7ccdfa1eac8d97a82db64f23614b59a1"/>
+    <item
+        dex="C:\Users\Vlad\Documents\AndroidStudioProjects\turbo-editor\app-pro\build\intermediates\pre-dexed\debug\classes-30cc9565ecef1e8ae8577530d7ddd41993d192d7.jar"
+        jar="C:\Users\Vlad\Documents\AndroidStudioProjects\turbo-editor\app-pro\build\intermediates\exploded-aar\turbo-editor.libraries\RootCommands\unspecified\classes.jar"
+        jumboMode="false"
+        revision="19.1.0"
+        sha1="cb3d22565863773944a8c15de408e864e34d6da1"/>
+    <item
+        dex="C:\Users\Vlad\Documents\AndroidStudioProjects\TurboMaterialEditor\app-pro\build\intermediates\pre-dexed\debug\juniversalchardet-1.0.3-24b647622164ce26bc5d0be361e05056efc68e13.jar"
+        jar="C:\Users\Vlad\Documents\AndroidStudioProjects\TurboMaterialEditor\app-pro\build\intermediates\exploded-aar\TurboMaterialEditor.libraries\sharedCode\unspecified\libs\juniversalchardet-1.0.3.jar"
+        jumboMode="false"
+        revision="20.0.0"
+        sha1="591d72211acc0b909b79c840e0b3ed9a0982d807"/>
+    <item
+        dex="C:\Users\Vlad\Documents\AndroidStudioProjects\turbo-editor\app-pro\build\intermediates\pre-dexed\debug\classes-30cc9565ecef1e8ae8577530d7ddd41993d192d7.jar"
+        jar="C:\Users\Vlad\Documents\AndroidStudioProjects\turbo-editor\app-pro\build\intermediates\exploded-aar\turbo-editor.libraries\RootCommands\unspecified\classes.jar"
+        jumboMode="false"
+        revision="20.0.0"
+        sha1="f449c5674e0427708d4fb17c4a2ec74c267e74d6"/>
+    <item
+        dex="C:\Users\Vlad\Documents\AndroidStudioProjects\turbo-editor\app-pro\build\intermediates\pre-dexed\debug\classes-bcfe21eb1248db73c27c811996e28274cf39b024.jar"
+        jar="C:\Users\Vlad\Documents\AndroidStudioProjects\turbo-editor\app-pro\build\intermediates\exploded-aar\turbo-editor.libraries\sharedCode\unspecified\classes.jar"
+        jumboMode="false"
+        revision="19.1.0"
+        sha1="41e61b62a19d60195de1b91dff0438d2a8e68f1a"/>
+    <item
+        dex="C:\Users\Vlad\Documents\AndroidStudioProjects\turbo-editor\app-pro\build\intermediates\pre-dexed\debug\classes-82d5b6cab7f16bad663de7c7008673037efb0e1b.jar"
+        jar="C:\Users\Vlad\Documents\AndroidStudioProjects\turbo-editor\app-pro\build\intermediates\exploded-aar\turbo-editor.libraries\FloatingActionButton\unspecified\classes.jar"
+        jumboMode="false"
+        revision="19.1.0"
+        sha1="22b92dd8763ce4c1a9bd71a25d6270a6398ac955"/>
+    <item
+        dex="C:\Users\Vlad\Documents\AndroidStudioProjects\TurboMaterialEditor\app\build\intermediates\pre-dexed\debug\classes-2ad27a3265673aeeb8f40e4322d8e19509329c96.jar"
+        jar="C:\Users\Vlad\Documents\AndroidStudioProjects\TurboMaterialEditor\app\build\intermediates\exploded-aar\com.github.gabrielemariotti.changeloglib\library\1.5.1\classes.jar"
+        jumboMode="false"
+        revision="20.0.0"
+        sha1="74a89f0f8b56d9f11d70b8d8134cf4109f4797dc"/>
+    <item
+        dex="C:\Users\Vlad\Documents\AndroidStudioProjects\turbo-editor\app-pro\build\intermediates\pre-dexed\debug\classes-bcfe21eb1248db73c27c811996e28274cf39b024.jar"
+        jar="C:\Users\Vlad\Documents\AndroidStudioProjects\turbo-editor\app-pro\build\intermediates\exploded-aar\turbo-editor.libraries\sharedCode\unspecified\classes.jar"
+        jumboMode="false"
+        revision="20.0.0"
+        sha1="e7a26359f635a1353de0aa8492f56f1f47c42c1a"/>
+    <item
+        dex="C:\Users\Vlad\Documents\AndroidStudioProjects\turbo-editor\app-pro\build\intermediates\pre-dexed\debug\classes-82d5b6cab7f16bad663de7c7008673037efb0e1b.jar"
+        jar="C:\Users\Vlad\Documents\AndroidStudioProjects\turbo-editor\app-pro\build\intermediates\exploded-aar\turbo-editor.libraries\FloatingActionButton\unspecified\classes.jar"
+        jumboMode="false"
+        revision="20.0.0"
+        sha1="c9508d53a0ddc7399493e4c7ad474718c5ed196e"/>
+    <item
+        dex="C:\Users\Vlad\Documents\AndroidStudioProjects\turbo-editor\app\build\intermediates\pre-dexed\release\classes-515446996fed08836a9331ef47b508a0383ffa22.jar"
+        jar="C:\Users\Vlad\Documents\AndroidStudioProjects\turbo-editor\app\build\intermediates\exploded-aar\turbo-editor.libraries\RootCommands\unspecified\classes.jar"
+        jumboMode="false"
+        revision="19.1.0"
+        sha1="cb3d22565863773944a8c15de408e864e34d6da1"/>
+    <item
+        dex="C:\Users\Vlad\Documents\AndroidStudioProjects\turbo-editor\app-pro\build\intermediates\pre-dexed\debug\juniversalchardet-1.0.3-65b2b356e3f2da4b67e00aba70923d6321852204.jar"
+        jar="C:\Users\Vlad\Documents\AndroidStudioProjects\turbo-editor\app-pro\build\intermediates\exploded-aar\turbo-editor.libraries\sharedCode\unspecified\libs\juniversalchardet-1.0.3.jar"
+        jumboMode="false"
+        revision="19.1.0"
+        sha1="591d72211acc0b909b79c840e0b3ed9a0982d807"/>
+    <item
+        dex="C:\Users\Vlad\Documents\AndroidStudioProjects\TurboMaterialEditor\app\build\intermediates\pre-dexed\debug\juniversalchardet-1.0.3-2e38d54a78dd518320bb6abe3d8931a19ff26792.jar"
+        jar="C:\Users\Vlad\Documents\AndroidStudioProjects\TurboMaterialEditor\app\build\intermediates\exploded-aar\TurboMaterialEditor.libraries\sharedCode\unspecified\libs\juniversalchardet-1.0.3.jar"
+        jumboMode="false"
+        revision="20.0.0"
+        sha1="591d72211acc0b909b79c840e0b3ed9a0982d807"/>
+    <item
+        dex="C:\Users\Vlad\Documents\AndroidStudioProjects\turbo-editor\app\build\intermediates\pre-dexed\release\classes-4dd6beddde59ff8bd6c22bd0d65ac974f7e489d2.jar"
+        jar="C:\Users\Vlad\Documents\AndroidStudioProjects\turbo-editor\app\build\intermediates\exploded-aar\turbo-editor.libraries\sharedCode\unspecified\classes.jar"
+        jumboMode="false"
+        revision="19.1.0"
+        sha1="41e61b62a19d60195de1b91dff0438d2a8e68f1a"/>
+    <item
+        dex="C:\Users\Vlad\Documents\AndroidStudioProjects\turbo-editor\app\build\intermediates\pre-dexed\release\internal_impl-20.0.0-2cc5dec0eb9c4e1671dc84ade9411d50c227e9ae.jar"
+        jar="C:\Users\Vlad\Documents\AndroidStudioProjects\turbo-editor\app\build\intermediates\exploded-aar\com.android.support\support-v4\20.0.0\libs\internal_impl-20.0.0.jar"
+        jumboMode="false"
+        revision="19.1.0"
+        sha1="e40b3078e3fbd353c9f44da8df25a8fc0078209d"/>
     <item
         dex="C:\Users\Vlad\Documents\AndroidStudioProjects\TurboMaterialEditor\app-pro\build\intermediates\pre-dexed\debug\classes-0a2ec632e1127b260f2b888ca5539fd41a1a638b.jar"
         jar="C:\Users\Vlad\Documents\AndroidStudioProjects\TurboMaterialEditor\app-pro\build\intermediates\exploded-aar\com.github.gabrielemariotti.changeloglib\library\1.5.1\classes.jar"
@@ -212,7 +242,7 @@
         revision="20.0.0"
         sha1="d71573c9c5ea98a8db47ad6ff993a63d492b3bfa"/>
     <item
-        dex="C:\Users\Vlad\Documents\AndroidStudioProjects\turbo-editor\app\build\intermediates\pre-dexed\release\commons-io-2.4-63b64e68cd19031cd252ac65a3ef94421c1bf0f4.jar"
+        dex="C:\Users\Vlad\Documents\AndroidStudioProjects\turbo-editor\app-pro\build\intermediates\pre-dexed\debug\commons-io-2.4-63b64e68cd19031cd252ac65a3ef94421c1bf0f4.jar"
         jar="C:\Users\Vlad\.gradle\caches\modules-2\files-2.1\commons-io\commons-io\2.4\b1b6ea3b7e4aa4f492509a4952029cd8e48019ad\commons-io-2.4.jar"
         jumboMode="false"
         revision="19.1.0"

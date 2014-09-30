@@ -20,6 +20,15 @@
 
 <changelog bulletedList="true">
 
+    <changelogversion versionName="1.11" changeDate="Sep 30, 2014">
+        <changelogtext>[b]New! [/b]Important improvements to the syntax highlight</changelogtext>
+        <changelogtext>[b]New! [/b]Donation option in the about screen. Help to make Turbo Editor a better software! :)</changelogtext>
+        <changelogtext>[b]New! [/b]Setting to disable the "page system"</changelogtext>
+        <changelogtext>[b]New! [/b]Setting to ignore the back button</changelogtext>
+        <changelogtext>Fixed an issue related to cut/copy/past buttons</changelogtext>
+        <changelogtext>Other enchantments and fixes</changelogtext>
+    </changelogversion>
+
     <changelogversion versionName="1.10" changeDate="Sep 17, 2014">
         <changelogtext>[b]New! [/b]Go To Line feature</changelogtext>
         <changelogtext>Now the syntax highlight updates when scrolling</changelogtext>

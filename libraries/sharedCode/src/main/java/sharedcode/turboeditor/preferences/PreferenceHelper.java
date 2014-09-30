@@ -109,6 +109,14 @@ public final class PreferenceHelper {
         return getPrefs(context).getBoolean("ignore_back_button", false);
     }
 
+    public static boolean getPageSystemEnabled(Context context) {
+        return getPrefs(context).getBoolean("page_system_active", true);
+    }
+
+    public static int getNumberOfAdsRequested(Context context) {
+        return getPrefs(context).getInt("number_of_ads_requested", 0);
+    }
+
     // Setter methods
 
     public static void setUseMonospace(Context context, boolean value) {
@@ -153,6 +161,10 @@ public final class PreferenceHelper {
 
     public static void setReadOnly(Context context, boolean value) {
         getEditor(context).putBoolean("read_only", value).commit();
+    }
+
+    public static void setNumberOfAdsRequested(Context context, int value) {
+        getEditor(context).putInt("number_of_ads_requested", value).commit();
     }
 
 }
