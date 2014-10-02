@@ -80,8 +80,7 @@ public class RootUtils {
         } else {
             BufferedReader reader = null; //errReader = null;
             try {
-
-                reader = LinuxShell.execute("IFS='\n';CURDIR='" + LinuxShell.getCmdPath(path) + "';for i in `ls $CURDIR`; do if [ -d $CURDIR/$i ]; then echo \"d $CURDIR/$i\";else echo \"f $CURDIR/$i\"; fi; done");
+                LinuxShell.execute("ls -a " + LinuxShell.getCommandLineString(path));
                 if (reader == null)
                     return null;
 
