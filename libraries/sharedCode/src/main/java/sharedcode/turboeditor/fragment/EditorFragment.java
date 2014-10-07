@@ -713,6 +713,7 @@ public class EditorFragment extends Fragment implements FindTextDialogFragment.S
         private final EditTextChangeListener
                 mChangeListener;
         int lineCount, realLine;
+        private int startingLine = -1;
         private LineUtils lineUtils;
         private boolean modified = true;
         /**
@@ -854,8 +855,9 @@ public class EditorFragment extends Fragment implements FindTextDialogFragment.S
         public void onDraw(final Canvas canvas) {
 
             if (PreferenceHelper.getLineNumbers(getContext())) {
-                if (lineCount != getLineCount()) {
+                if (startingLine != editorInterface.getPageSystem().getStartingLine()) {
                     lineCount = getLineCount();
+                    startingLine = editorInterface.getPageSystem().getStartingLine();
 
                     lineUtils.updateHasNewLineArray(editorInterface.getPageSystem().getStartingLine(), lineCount, getLayout(), getText().toString());
                 }
