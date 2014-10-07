@@ -95,10 +95,12 @@ public class AdapterDrawer extends
                         selectedPath = "";
                 }
             });
-            if (TextUtils.equals(selectedPath, files.get(position).getAbsolutePath()))
+            if (TextUtils.equals(selectedPath, files.get(position).getAbsolutePath())) {
                 hold.nameLabel.setTypeface(hold.nameLabel.getTypeface(), Typeface.BOLD);
-            else
+            }
+            else {
                 hold.nameLabel.setTypeface(hold.nameLabel.getTypeface(), Typeface.NORMAL);
+            }
         }
         return convertView;
     }

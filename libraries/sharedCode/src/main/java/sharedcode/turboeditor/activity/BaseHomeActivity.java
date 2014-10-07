@@ -178,22 +178,28 @@ public abstract class BaseHomeActivity extends Activity {
             onBackPressed();
             return true;
         }
+        else if(keyCode == KeyEvent.KEYCODE_MENU){
+            return false;
+        }
+        else {
+            if (editor == null)
+                editor = (EditText) findViewById(R.id.editor);
+            // this will happen on first key pressed on hard-keyboard only. Once myInputField
+            // gets the focus again, it will automatically receive further key presses.
 
-        if (editor == null)
-            editor = (EditText) findViewById(R.id.editor);
-        // this will happen on first key pressed on hard-keyboard only. Once myInputField
-        // gets the focus again, it will automatically receive further key presses.
+            try {
+                if (editor != null && !editor.hasFocus()) {
+                    editor.requestFocus();
+                    editor.onKeyDown(keyCode, event);
+                    return true;
+                }
+            } catch (NullPointerException ex) {
 
-        try {
-            if (editor != null && !editor.hasFocus()) {
-                editor.requestFocus();
-                editor.onKeyDown(keyCode, event);
             }
-        } catch (NullPointerException ex) {
-
         }
 
-        return true;
+
+        return false;
     }
 
     @Override
@@ -225,7 +231,6 @@ public abstract class BaseHomeActivity extends Activity {
         } else
             return super.onOptionsItemSelected(item);
     }
-
 
     @Override
     protected void onNewIntent(Intent intent) {

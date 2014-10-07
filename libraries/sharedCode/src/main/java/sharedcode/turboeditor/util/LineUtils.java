@@ -38,10 +38,6 @@ public class LineUtils {
         return scrollView.getChildAt(0).getHeight() / lineCount * line;
     }
 
-    public int getFirstVisibleLine(ScrollView scrollView, int lineCount){
-        return getFirstVisibleLine(scrollView, scrollView.getChildAt(0).getHeight(), lineCount);
-    }
-
     public int getFirstVisibleLine(ScrollView scrollView, int childHeight, int lineCount) throws ArithmeticException{
         int line = (scrollView.getScrollY() * lineCount) / childHeight;
         if (line < 0) line = 0;
@@ -106,6 +102,10 @@ public class LineUtils {
         }
 
         return line;
+    }
+
+    public int firstReadLine() {
+        return realLines[0];
     }
 
     public int lastReadLine() {

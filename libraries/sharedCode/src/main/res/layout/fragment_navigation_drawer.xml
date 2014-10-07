@@ -50,7 +50,7 @@
 
     <LinearLayout
         android:layout_width="match_parent"
-        android:layout_height="144dp"
+        android:layout_height="104dp"
         android:id="@id/drawer_buttons"
         android:layout_alignParentBottom="true"
         android:orientation="vertical">
@@ -62,7 +62,7 @@
 
     <RelativeLayout
         android:layout_width="match_parent"
-        android:layout_height="48dp"
+        android:layout_height="52dp"
         android:orientation="horizontal"
         >
 
@@ -97,12 +97,20 @@
                 android:textColor="@color/navigation_drawer_button_text_color_inverted"/>
         </LinearLayout>
 
+        <View
+            android:background="@color/divider_inverted"
+            android:layout_width="@dimen/line_dimension"
+            android:layout_height="match_parent"
+            android:layout_toLeftOf="@id/ic_add_dark"
+            android:layout_marginTop="10dp"
+            android:layout_marginBottom="10dp"/>
+
         <ImageView
             android:id="@+id/ic_add_dark"
             android:layout_width="64dp"
             android:layout_height="match_parent"
             android:src="@drawable/ic_add_dark"
-            android:padding="12dp"
+            android:padding="14dp"
             android:layout_alignParentRight="true"
             android:clickable="true"
             android:onClick="CreateFile"
@@ -117,69 +125,64 @@
         android:layout_width="match_parent"
         android:layout_height="@dimen/line_dimension"/>
 
-    <LinearLayout
-        android:layout_width="match_parent"
-        android:layout_height="48dp"
-        android:orientation="horizontal"
-        android:clickable="true"
-        android:gravity="center_vertical"
-        android:onClick="OpenSettings"
-        android:background="@drawable/item_background_holo_dark">
-        <ImageView
-            android:layout_width="35dp"
-            android:layout_height="35dp"
-            android:src="@drawable/ic_settings_dark"
-            android:paddingStart="16dp"
-            android:paddingLeft="16dp"/>
-
-        <TextView
+        <RelativeLayout
             android:layout_width="match_parent"
-            android:layout_height="match_parent"
-            android:text="@string/preferenze"
-            android:paddingStart="20dp"
-            android:paddingLeft="20dp"
-            android:paddingEnd="20dp"
-            android:paddingRight="20dp"
-            android:gravity="center_vertical"
-            android:textSize="12sp"
-            android:textAllCaps="true"
-            android:textColor="@color/navigation_drawer_button_text_color_inverted"/>
-        </LinearLayout>
+            android:layout_height="52dp"
+            android:orientation="horizontal"
+            >
 
+            <LinearLayout
+                android:layout_width="match_parent"
+                android:layout_height="match_parent"
+                android:orientation="horizontal"
+                android:clickable="true"
+                android:gravity="center_vertical"
+                android:onClick="OpenSettings"
+                android:background="@drawable/item_background_holo_dark"
+                android:layout_toLeftOf="@+id/ic_info_dark"
+                >
+                <ImageView
+                    android:layout_width="35dp"
+                    android:layout_height="35dp"
+                    android:src="@drawable/ic_settings_dark"
+                    android:paddingStart="16dp"
+                    android:paddingLeft="16dp"/>
 
-    <View
-        android:background="@color/divider_inverted"
-        android:layout_width="match_parent"
-        android:layout_height="@dimen/line_dimension"/>
+                <TextView
+                    android:layout_width="match_parent"
+                    android:layout_height="match_parent"
+                    android:text="@string/preferenze"
+                    android:gravity="center_vertical"
+                    android:paddingStart="20dp"
+                    android:paddingLeft="20dp"
+                    android:paddingEnd="20dp"
+                    android:paddingRight="20dp"
+                    android:textSize="12sp"
+                    android:textAllCaps="true"
+                    android:textColor="@color/navigation_drawer_button_text_color_inverted"/>
+            </LinearLayout>
 
-    <LinearLayout
-        android:layout_width="match_parent"
-        android:layout_height="48dp"
-        android:orientation="horizontal"
-        android:clickable="true"
-        android:gravity="center_vertical"
-        android:onClick="OpenInfo"
-        android:background="@drawable/item_background_holo_dark">
-        <ImageView
-            android:layout_width="35dp"
-            android:layout_height="35dp"
-            android:src="@drawable/ic_info_dark"
-            android:paddingStart="16dp"
-            android:paddingLeft="16dp"/>
+            <View
+                android:background="@color/divider_inverted"
+                android:layout_width="@dimen/line_dimension"
+                android:layout_height="match_parent"
+                android:layout_toLeftOf="@id/ic_info_dark"
+                android:layout_marginTop="10dp"
+                android:layout_marginBottom="10dp"/>
 
-        <TextView
-            android:layout_width="match_parent"
-            android:layout_height="match_parent"
-            android:text="@string/info"
-            android:paddingStart="20dp"
-            android:paddingLeft="20dp"
-            android:paddingEnd="20dp"
-            android:paddingRight="20dp"
-            android:gravity="center_vertical"
-            android:textSize="12sp"
-            android:textAllCaps="true"
-            android:textColor="@color/navigation_drawer_button_text_color_inverted"/>
-    </LinearLayout>
+            <ImageView
+                android:id="@+id/ic_info_dark"
+                android:layout_width="64dp"
+                android:layout_height="match_parent"
+                android:src="@drawable/ic_info_dark"
+                android:padding="14dp"
+                android:layout_alignParentRight="true"
+                android:clickable="true"
+                android:onClick="OpenInfo"
+                android:background="@drawable/item_background_holo_dark"
+                />
+
+        </RelativeLayout>
 
     </LinearLayout>
 

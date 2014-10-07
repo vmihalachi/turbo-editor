@@ -151,11 +151,15 @@ public class EditorFragment extends Fragment implements FindTextDialogFragment.S
     @Override
     public void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
+        String fileText = getArguments().getString("fileText");
+        if(fileText == null)
+            fileText = "";
+
         setHasOptionsMenu(true);
+
         sFilePath = getArguments().getString("filePath");
-        pageSystem = new PageSystem(getActivity(), this, getArguments().getString("fileText"));
+        pageSystem = new PageSystem(getActivity(), this, fileText);
         currentEncoding = getArguments().getString("encoding");
-        getArguments().remove("fileText");
     }
 
 
@@ -290,8 +294,18 @@ public class EditorFragment extends Fragment implements FindTextDialogFragment.S
 
         if (searchingText) {
             MenuItem imReplace = menu.findItem(R.id.im_replace);
+            MenuItem imPrev = menu.findItem(R.id.im_previous_item);
+            MenuItem imNext = menu.findItem(R.id.im_next_item);
+
             if (imReplace != null)
-                imReplace.setVisible(searchResult.isReplace);
+                imReplace.setVisible(searchResult.canReplaceSomething());
+
+            if (imPrev != null)
+                imPrev.setVisible(searchResult.hasPrevious());
+
+            if (imNext != null)
+                imNext.setVisible(searchResult.hasNext());
+
 
         } else {
             MenuItem imSave = menu.findItem(R.id.im_save);
@@ -344,8 +358,9 @@ public class EditorFragment extends Fragment implements FindTextDialogFragment.S
 
         }
         else if(i == R.id.im_goto_line){
+            int min = mEditor.getLineUtils().firstReadLine();
             int max = mEditor.getLineUtils().lastReadLine();
-            SeekbarDialogFragment dialogFrag = SeekbarDialogFragment.newInstance(SeekbarDialogFragment.Actions.GoToLine, 0, 0, max);
+            SeekbarDialogFragment dialogFrag = SeekbarDialogFragment.newInstance(SeekbarDialogFragment.Actions.GoToLine, min, min, max);
             dialogFrag.setTargetFragment(EditorFragment.this, 0);
             dialogFrag.show(getFragmentManager().beginTransaction(), "dialog");
         }
@@ -367,6 +382,9 @@ public class EditorFragment extends Fragment implements FindTextDialogFragment.S
             shareIntent.setType("text/plain");
 
             startActivity(Intent.createChooser(shareIntent, getString(R.string.share)));
+
+        }
+        else {
 
         }
         return super.onOptionsItemSelected(item);
@@ -562,6 +580,8 @@ public class EditorFragment extends Fragment implements FindTextDialogFragment.S
 
             mEditor.setSelection(searchResult.foundIndex.get(searchResult.index), searchResult.foundIndex.get(searchResult.index) + searchResult.textLength);
         }
+
+        getActivity().invalidateOptionsMenu();
     }
 
     public void previousResult() {
@@ -584,12 +604,20 @@ public class EditorFragment extends Fragment implements FindTextDialogFragment.S
 
             mEditor.setSelection(searchResult.foundIndex.get(searchResult.index), searchResult.foundIndex.get(searchResult.index) + searchResult.textLength);
         }
+
+        getActivity().invalidateOptionsMenu();
     }
 
     public void replaceText() {
         mEditor.setText(mEditor.getText().replace(searchResult.foundIndex.get(searchResult.index), searchResult.foundIndex.get(searchResult.index) + searchResult.textLength, searchResult.textToReplace));
         searchResult.doneReplace();
-        nextResult();
+
+        getActivity().invalidateOptionsMenu();
+
+        if(searchResult.hasNext())
+            nextResult();
+        else if(searchResult.hasPrevious())
+            previousResult();
     }
     //endregion
 
@@ -712,7 +740,7 @@ public class EditorFragment extends Fragment implements FindTextDialogFragment.S
          */
         private final EditTextChangeListener
                 mChangeListener;
-        int lineCount, realLine;
+        private int lineCount, realLine;
         private LineUtils lineUtils;
         private boolean modified = true;
         /**
@@ -787,7 +815,27 @@ public class EditorFragment extends Fragment implements FindTextDialogFragment.S
 
         @Override
         public boolean onKeyUp(int keyCode, KeyEvent event) {
-            return true;
+            if (event.isCtrlPressed()) {
+                switch (keyCode) {
+                    case KeyEvent.KEYCODE_A:
+                    case KeyEvent.KEYCODE_X:
+                    case KeyEvent.KEYCODE_C:
+                    case KeyEvent.KEYCODE_V:
+                    case KeyEvent.KEYCODE_Z:
+                    case KeyEvent.KEYCODE_Y:
+                    case KeyEvent.KEYCODE_S:
+                        return true;
+                    default:
+                        return false;
+                }
+            } else {
+                switch (keyCode) {
+                    case KeyEvent.KEYCODE_TAB:
+                        return true;
+                    default:
+                        return false;
+                }
+            }
         }
 
         @Override
@@ -1030,67 +1078,70 @@ public class EditorFragment extends Fragment implements FindTextDialogFragment.S
                 return editable;
             }
 
-            firstVisibleIndex = 0;
-            int end = CHARS_TO_COLOR;
+            int end;
             int height = getHeight();
 
             if(height > 0) {
                 firstVisibleIndex = getLayout().getLineStart(getLineUtils().getFirstVisibleLine(editorInterface.getVerticalScrollView(), height, getLineCount()));
-                end = getLayout().getLineStart(getLineUtils().getLastVisibleLine(editorInterface.getVerticalScrollView(), height, lineCount, deviceHeight));
-                //int end = firstColoredIndex + CHARS_TO_COLOR;
+                end = getLayout().getLineStart(getLineUtils().getLastVisibleLine(editorInterface.getVerticalScrollView(), height, getLineCount(), deviceHeight));
+            } else {
+                firstVisibleIndex = 0;
+                end = CHARS_TO_COLOR;
             }
 
             firstColoredIndex = firstVisibleIndex - (CHARS_TO_COLOR / 5);
+
+            // normalize
             if (firstColoredIndex < 0)
                 firstColoredIndex = 0;
             if (end > editable.length())
                 end = editable.length();
 
-            CharSequence textToHiglight = editable.subSequence(firstColoredIndex, end);
+            CharSequence textToHighlight = editable.subSequence(firstColoredIndex, end);
 
             if (fileExtension.contains("htm")
                     || fileExtension.contains("xml")) {
-                color(Patterns.HTML_OPEN_TAGS, editable, textToHiglight, firstColoredIndex);
-                color(Patterns.HTML_CLOSE_TAGS, editable, textToHiglight, firstColoredIndex);
-                color(Patterns.HTML_ATTRS, editable, textToHiglight, firstColoredIndex);
-                color(Patterns.GENERAL_STRINGS, editable, textToHiglight, firstColoredIndex);
-                color(Patterns.XML_COMMENTS, editable, textToHiglight, firstColoredIndex);
+                color(Patterns.HTML_OPEN_TAGS, editable, textToHighlight, firstColoredIndex);
+                color(Patterns.HTML_CLOSE_TAGS, editable, textToHighlight, firstColoredIndex);
+                color(Patterns.HTML_ATTRS, editable, textToHighlight, firstColoredIndex);
+                color(Patterns.GENERAL_STRINGS, editable, textToHighlight, firstColoredIndex);
+                color(Patterns.XML_COMMENTS, editable, textToHighlight, firstColoredIndex);
             } else if (fileExtension.equals("css")) {
                 //color(CSS_STYLE_NAME, editable);
-                color(Patterns.CSS_ATTRS, editable, textToHiglight, firstColoredIndex);
-                color(Patterns.CSS_ATTR_VALUE, editable, textToHiglight, firstColoredIndex);
-                color(Patterns.SYMBOLS, editable, textToHiglight, firstColoredIndex);
-                color(Patterns.GENERAL_COMMENTS, editable, textToHiglight, firstColoredIndex);
+                color(Patterns.CSS_ATTRS, editable, textToHighlight, firstColoredIndex);
+                color(Patterns.CSS_ATTR_VALUE, editable, textToHighlight, firstColoredIndex);
+                color(Patterns.SYMBOLS, editable, textToHighlight, firstColoredIndex);
+                color(Patterns.GENERAL_COMMENTS, editable, textToHighlight, firstColoredIndex);
             } else if (Arrays.asList(MimeTypes.MIME_CODE).contains(fileExtension)) {
                 if(fileExtension.equals("lua"))
-                    color(Patterns.LUA_KEYWORDS, editable, textToHiglight, firstColoredIndex);
+                    color(Patterns.LUA_KEYWORDS, editable, textToHighlight, firstColoredIndex);
                 else if(fileExtension.equals("py"))
-                    color(Patterns.PY_KEYWORDS, editable, textToHiglight, firstColoredIndex);
+                    color(Patterns.PY_KEYWORDS, editable, textToHighlight, firstColoredIndex);
                 else
-                    color(Patterns.GENERAL_KEYWORDS, editable, textToHiglight, firstColoredIndex);
-                color(Patterns.NUMBERS, editable, textToHiglight, firstColoredIndex);
-                color(Patterns.SYMBOLS, editable, textToHiglight, firstColoredIndex);
-                color(Patterns.GENERAL_STRINGS, editable, textToHiglight, firstColoredIndex);
-                color(Patterns.GENERAL_COMMENTS, editable, textToHiglight, firstColoredIndex);
+                    color(Patterns.GENERAL_KEYWORDS, editable, textToHighlight, firstColoredIndex);
+                color(Patterns.NUMBERS, editable, textToHighlight, firstColoredIndex);
+                color(Patterns.SYMBOLS, editable, textToHighlight, firstColoredIndex);
+                color(Patterns.GENERAL_STRINGS, editable, textToHighlight, firstColoredIndex);
+                color(Patterns.GENERAL_COMMENTS, editable, textToHighlight, firstColoredIndex);
                 if (fileExtension.equals("php"))
-                    color(Patterns.PHP_VARIABLES, editable, textToHiglight, firstColoredIndex);
+                    color(Patterns.PHP_VARIABLES, editable, textToHighlight, firstColoredIndex);
             } else if (Arrays.asList(MimeTypes.MIME_SQL).contains(fileExtension)) {
-                color(Patterns.SYMBOLS, editable, textToHiglight, firstColoredIndex);
-                color(Patterns.GENERAL_STRINGS, editable, textToHiglight, firstColoredIndex);
-                color(Patterns.SQL_KEYWORDS, editable, textToHiglight, firstColoredIndex);
+                color(Patterns.SYMBOLS, editable, textToHighlight, firstColoredIndex);
+                color(Patterns.GENERAL_STRINGS, editable, textToHighlight, firstColoredIndex);
+                color(Patterns.SQL_KEYWORDS, editable, textToHighlight, firstColoredIndex);
             } else {
                 if(!fileExtension.contains("md"))
-                    color(Patterns.GENERAL_KEYWORDS, editable, textToHiglight, firstColoredIndex);
-                color(Patterns.NUMBERS, editable, textToHiglight, firstColoredIndex);
-                color(Patterns.SYMBOLS, editable, textToHiglight, firstColoredIndex);
-                color(Patterns.GENERAL_STRINGS, editable, textToHiglight, firstColoredIndex);
+                    color(Patterns.GENERAL_KEYWORDS, editable, textToHighlight, firstColoredIndex);
+                color(Patterns.NUMBERS, editable, textToHighlight, firstColoredIndex);
+                color(Patterns.SYMBOLS, editable, textToHighlight, firstColoredIndex);
+                color(Patterns.GENERAL_STRINGS, editable, textToHighlight, firstColoredIndex);
                 if (fileExtension.equals("prop") || fileExtension.contains("conf") || fileExtension.contains("md"))
-                    color(Patterns.GENERAL_COMMENTS_NO_SLASH, editable, textToHiglight, firstColoredIndex);
+                    color(Patterns.GENERAL_COMMENTS_NO_SLASH, editable, textToHighlight, firstColoredIndex);
                 else
-                    color(Patterns.GENERAL_COMMENTS, editable, textToHiglight, firstColoredIndex);
+                    color(Patterns.GENERAL_COMMENTS, editable, textToHighlight, firstColoredIndex);
 
                 if(fileExtension.contains("md"))
-                    color(Patterns.LINK, editable, textToHiglight, firstColoredIndex);
+                    color(Patterns.LINK, editable, textToHighlight, firstColoredIndex);
             }
 
             return editable;
@@ -1098,7 +1149,7 @@ public class EditorFragment extends Fragment implements FindTextDialogFragment.S
 
         private void color(Pattern pattern,
                            Editable allText,
-                           CharSequence textToHiglight,
+                           CharSequence textToHighlight,
                            int start) {
             int color = 0;
             if (pattern.equals(Patterns.HTML_OPEN_TAGS)
@@ -1128,7 +1179,7 @@ public class EditorFragment extends Fragment implements FindTextDialogFragment.S
                 color = getResources().getColor(R.color.syntax_variable);
             }
 
-            m = pattern.matcher(textToHiglight);
+            m = pattern.matcher(textToHighlight);
 
             while (m.find()) {
                 allText.setSpan(

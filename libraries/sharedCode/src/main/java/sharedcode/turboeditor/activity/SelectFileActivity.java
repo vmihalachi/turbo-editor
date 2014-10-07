@@ -59,9 +59,9 @@ import sharedcode.turboeditor.util.Constants;
 import sharedcode.turboeditor.util.RootUtils;
 
 public class SelectFileActivity extends Activity implements SearchView.OnQueryTextListener, AdapterView.OnItemClickListener, EditDialogFragment.EditDialogListener {
-    private String currentFolder;
+    private String currentFolder = PreferenceHelper.SD_CARD_ROOT;
     private ListView listView;
-    private boolean wantAFile;
+    private boolean wantAFile = true;
     private MenuItem mSearchViewMenuItem;
     private SearchView mSearchView;
 

@@ -22,6 +22,7 @@ package sharedcode.turboeditor.util;
 import java.util.LinkedList;
 
 public class SearchResult {
+    // list of index
     public LinkedList<Integer> foundIndex;
     public int textLength;
     public boolean isReplace;
@@ -46,5 +47,17 @@ public class SearchResult {
 
     public int numberOfResults() {
         return foundIndex.size();
+    }
+
+    public boolean hasNext() {
+        return index < foundIndex.size() - 1;
+    }
+
+    public boolean hasPrevious() {
+        return index > 0;
+    }
+
+    public boolean canReplaceSomething() {
+        return isReplace && foundIndex.size() > 0;
     }
 }

@@ -29,7 +29,7 @@
     android:layout_width="0dp"
     android:layout_height="wrap_content"
     android:layout_weight="5"
-    android:textSize="20sp"
+    android:textSize="18sp"
     android:paddingStart="@dimen/item_drawer_list_padding"
     android:paddingEnd="@dimen/item_drawer_list_padding"
     android:paddingLeft="@dimen/item_drawer_list_padding"
