@@ -854,11 +854,11 @@ public class EditorFragment extends Fragment implements FindTextDialogFragment.S
         public void onDraw(final Canvas canvas) {
 
             if (PreferenceHelper.getLineNumbers(getContext())) {
-                if (lineCount != getLineCount()) {
+//                if (lineCount != getLineCount()) {
                     lineCount = getLineCount();
 
                     lineUtils.updateHasNewLineArray(editorInterface.getPageSystem().getStartingLine(), lineCount, getLayout(), getText().toString());
-                }
+//                }
 
                 int editorHeight = getHeight();
                 int i = lineUtils.getFirstVisibleLine(editorInterface.getVerticalScrollView(), editorHeight, lineCount);
