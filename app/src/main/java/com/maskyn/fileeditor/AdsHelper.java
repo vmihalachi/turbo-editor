@@ -30,11 +30,9 @@ import java.util.Calendar;
 import sharedcode.turboeditor.preferences.PreferenceHelper;
 
 public class AdsHelper {
-    private Activity activity;
     private InterstitialAd interstitial;
 
     public AdsHelper(Activity activity) {
-        this.activity = activity;
 
         interstitial = new InterstitialAd(activity);
         interstitial.setAdUnitId("ca-app-pub-5679083452234719/7178038180");
@@ -47,15 +45,6 @@ public class AdsHelper {
     }
 
     public void displayInterstitial() {
-
-        int numberOfAdsRequested = PreferenceHelper.getNumberOfAdsRequested(activity);
-        numberOfAdsRequested++;
-        PreferenceHelper.setNumberOfAdsRequested(activity, numberOfAdsRequested);
-
-        if (numberOfAdsRequested % 3 == 0 && interstitial != null && interstitial.isLoaded()) {
-            interstitial.show();
-            int today = Calendar.getInstance().get(Calendar.DAY_OF_MONTH);
-            PreferenceHelper.setLastDayAdShowed(activity, today);
-        }
+        interstitial.show();
     }
 }

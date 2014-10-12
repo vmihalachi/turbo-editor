@@ -54,11 +54,11 @@
   <string name="pro_version">Pro-Version</string>
   <string name="auto_save">Automatisches Speichern</string>
   <string name="read_only">schreibgeschützt</string>
-  <string name="send_error_reports">Send error reports</string>
-  <string name="extra_options">Extra options</string>
-  <string name="split_text_if_too_long">Split the text if too long</string>
-  <string name="ignore_back_button">Ignore back button</string>
-  <string name="donate">Donate</string>
+  <string name="send_error_reports">Fehlerbericht senden</string>
+  <string name="extra_options">Extraeinstellungen</string>
+  <string name="split_text_if_too_long">Text teilen, wenn er zu lang ist</string>
+  <string name="ignore_back_button">Zurück-Knopf ignorieren</string>
+  <string name="donate">Spenden</string>
   <string name="aggiungi_account">Neues Benutzerkonto</string>
   <string name="attiva">Aktiv</string>
   <string name="cancella">Löschen</string>

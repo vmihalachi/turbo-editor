@@ -3,7 +3,7 @@
     package="com.faizmalkani.floatingactionbutton.test" >
 
     <uses-sdk
-        android:minSdkVersion="14"
+        android:minSdkVersion="7"
         android:targetSdkVersion="19" />
 
     <instrumentation

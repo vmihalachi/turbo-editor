@@ -22,7 +22,7 @@
     android:layout_width="match_parent"
     xmlns:android="http://schemas.android.com/apk/res/android"
     android:orientation="horizontal"
-    android:gravity="center_vertical">
+    android:gravity="center_vertical"  >
 
 <TextView
     android:id="@android:id/text1"
@@ -35,9 +35,8 @@
     android:paddingLeft="@dimen/item_drawer_list_padding"
     android:paddingRight="@dimen/item_drawer_list_padding"
     android:maxLines="1"
-    android:fontFamily="sans-serif-light"
-    android:background="?android:attr/activatedBackgroundIndicator"
-    android:textColor="@color/navigation_drawer_button_text_color_inverted"/>
+    android:textColor="@color/navigation_drawer_button_text_color_inverted"
+    android:ellipsize="end"/>
 
     <ImageView
         android:layout_width="0dp"

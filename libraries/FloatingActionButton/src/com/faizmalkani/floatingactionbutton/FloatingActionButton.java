@@ -1,9 +1,7 @@
-
-
 package com.faizmalkani.floatingactionbutton;
-import android.animation.ObjectAnimator;
-import android.annotation.SuppressLint;
+
 import android.content.Context;
+import android.content.res.TypedArray;
 import android.graphics.Bitmap;
 import android.graphics.Canvas;
 import android.graphics.Color;
@@ -11,129 +9,141 @@ import android.graphics.Paint;
 import android.graphics.Point;
 import android.graphics.drawable.BitmapDrawable;
 import android.graphics.drawable.Drawable;
+import android.os.Build;
 import android.util.AttributeSet;
-import android.util.DisplayMetrics;
 import android.view.Display;
 import android.view.MotionEvent;
 import android.view.View;
 import android.view.WindowManager;
-import android.view.animation.AccelerateInterpolator;
-import android.view.animation.DecelerateInterpolator;
+import android.view.animation.AccelerateDecelerateInterpolator;
+import android.view.animation.Interpolator;
 import android.widget.AbsListView;
 
-public class FloatingActionButton extends View
-{
-    Context _context;
-    Paint mButtonPaint, mDrawablePaint;
-    Bitmap  mBitmap;
-    int mScreenHeight;
-    float currentY;
-    boolean mHidden = false;
+import com.nineoldandroids.animation.ObjectAnimator;
+import com.nineoldandroids.view.ViewHelper;
 
-    ObjectAnimator mShowAnimation;
-    ObjectAnimator mHideAnimation;
+public class FloatingActionButton extends View {
 
-    public FloatingActionButton(Context context, AttributeSet attributeSet)
-    {
-        super(context, attributeSet);
-        _context = context;
-        init(Color.WHITE);
+    private final Interpolator mInterpolator = new AccelerateDecelerateInterpolator();
+    private final Paint mButtonPaint = new Paint(Paint.ANTI_ALIAS_FLAG);
+    private final Paint mDrawablePaint = new Paint(Paint.ANTI_ALIAS_FLAG);
+    private Bitmap mBitmap;
+    private int mColor;
+    private boolean mHidden = false;
+    /**
+     * The FAB button's Y position when it is displayed.
+     */
+    private float mYDisplayed = -1;
+    /**
+     * The FAB button's Y position when it is hidden.
+     */
+    private float mYHidden = -1;
+
+    public FloatingActionButton(Context context) {
+        this(context, null);
     }
 
-    @SuppressLint("NewApi")
-    public FloatingActionButton(Context context)
-    {
-        super(context);
-        _context = context;
-        init(Color.WHITE);
-    }
-
-    public void setColor(int fabColor)
-    {
-        init(fabColor);
-    }
-
-    public void setDrawable(Drawable fabDrawable)
-    {
-        mBitmap = ((BitmapDrawable) fabDrawable).getBitmap();
-        invalidate();
+    public FloatingActionButton(Context context, AttributeSet attributeSet) {
+        this(context, attributeSet, 0);
     }
 
 
-    public void init(int fabColor)
-    {
-        setWillNotDraw(false);
-        this.setLayerType(View.LAYER_TYPE_SOFTWARE, null);
-        mButtonPaint = new Paint(Paint.ANTI_ALIAS_FLAG);
-        mButtonPaint.setColor(fabColor);
+    public FloatingActionButton(Context context, AttributeSet attrs, int defStyleAttr) {
+        super(context, attrs, defStyleAttr);
+
+        TypedArray a = getContext().obtainStyledAttributes(attrs, R.styleable.FloatingActionButton);
+        mColor = a.getColor(R.styleable.FloatingActionButton_color, Color.WHITE);
         mButtonPaint.setStyle(Paint.Style.FILL);
-        mButtonPaint.setShadowLayer(10.0f, 0.0f, 3.5f, Color.argb(100, 0, 0, 0));
-        mDrawablePaint = new Paint(Paint.ANTI_ALIAS_FLAG);
-        invalidate();
+        mButtonPaint.setColor(mColor);
+        float radius, dx, dy;
+        radius = a.getFloat(R.styleable.FloatingActionButton_shadowRadius, 10.0f);
+        dx = a.getFloat(R.styleable.FloatingActionButton_shadowDx, 0.0f);
+        dy = a.getFloat(R.styleable.FloatingActionButton_shadowDy, 3.5f);
+        int color = a.getInteger(R.styleable.FloatingActionButton_shadowColor, Color.argb(100, 0, 0, 0));
+        mButtonPaint.setShadowLayer(radius, dx, dy, color);
 
-        WindowManager mWindowManager = (WindowManager) _context.getSystemService(Context.WINDOW_SERVICE);
+        Drawable drawable = a.getDrawable(R.styleable.FloatingActionButton_drawable);
+        if (null != drawable) {
+            mBitmap = ((BitmapDrawable) drawable).getBitmap();
+        }
+        setWillNotDraw(false);
+        if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.HONEYCOMB)
+            setLayerType(View.LAYER_TYPE_SOFTWARE, null);
+
+        WindowManager mWindowManager = (WindowManager)
+                context.getSystemService(Context.WINDOW_SERVICE);
         Display display = mWindowManager.getDefaultDisplay();
         Point size = new Point();
-        display.getSize(size);
-        mScreenHeight = size.y;
+        if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.HONEYCOMB_MR2) {
+            display.getSize(size);
+            mYHidden = size.y;
+        } else mYHidden = display.getHeight();
+    }
 
-        mShowAnimation = ObjectAnimator.ofFloat(this, "Y", currentY);
-        mHideAnimation = ObjectAnimator.ofFloat(this, "Y", mScreenHeight);
+    public static int darkenColor(int color) {
+        float[] hsv = new float[3];
+        Color.colorToHSV(color, hsv);
+        hsv[2] *= 0.8f;
+        return Color.HSVToColor(hsv);
+    }
+
+    public void setColor(int color) {
+        mColor = color;
+        mButtonPaint.setColor(mColor);
+        invalidate();
+    }
+
+    public void setDrawable(Drawable drawable) {
+        mBitmap = ((BitmapDrawable) drawable).getBitmap();
+        invalidate();
     }
 
     @Override
-    protected void onDraw(Canvas canvas)
-    {
-        setClickable(true);
-        canvas.drawCircle(getWidth()/2, getHeight()/2,(float) (getWidth()/2.6), mButtonPaint);
-        canvas.drawBitmap(mBitmap, (getWidth() - mBitmap.getWidth()) / 2, (getHeight() - mBitmap.getHeight()) / 2, mDrawablePaint);
+    protected void onDraw(Canvas canvas) {
+        canvas.drawCircle(getWidth() / 2, getHeight() / 2, (float) (getWidth() / 2.6), mButtonPaint);
+        if (null != mBitmap) {
+            canvas.drawBitmap(mBitmap, (getWidth() - mBitmap.getWidth()) / 2,
+                    (getHeight() - mBitmap.getHeight()) / 2, mDrawablePaint);
+        }
     }
 
     @Override
-    public boolean onTouchEvent(MotionEvent event)
-    {
-        if(event.getAction() == MotionEvent.ACTION_UP)
-        {
-            setAlpha(1.0f);
+    protected void onLayout(boolean changed, int left, int top, int right, int bottom) {
+        // Perform the default behavior
+        super.onLayout(changed, left, top, right, bottom);
+
+        // Store the FAB button's displayed Y position if we are not already aware of it
+        if (mYDisplayed == -1) {
+
+            mYDisplayed = ViewHelper.getY(this);
         }
-        else if(event.getAction() == MotionEvent.ACTION_DOWN)
-        {
-            setAlpha(0.6f);
+    }
+
+    @Override
+    public boolean onTouchEvent(MotionEvent event) {
+        int color;
+        if (event.getAction() == MotionEvent.ACTION_UP) {
+            color = mColor;
+        } else {
+            color = darkenColor(mColor);
         }
+        mButtonPaint.setColor(color);
+        invalidate();
         return super.onTouchEvent(event);
     }
 
-    public int dpToPx(int dp)
-    {
-        DisplayMetrics displayMetrics = getContext().getResources().getDisplayMetrics();
-        return Math.round(dp * (displayMetrics.xdpi / DisplayMetrics.DENSITY_DEFAULT));
-    }
+    public void hide(boolean hide) {
+        // If the hidden state is being updated
+        if (mHidden != hide) {
 
-    public void hideFab()
-    {
-        if(!mHidden && mShowAnimation != null && !mShowAnimation.isRunning())
-        {
-            currentY = getY();
-            mHideAnimation = ObjectAnimator.ofFloat(this, "Y", mScreenHeight);
-            mHideAnimation.setInterpolator(new AccelerateInterpolator());
-            mHideAnimation.start();
-            mHidden = true;
+            // Store the new hidden state
+            mHidden = hide;
+
+            // Animate the FAB to it's new Y position
+            ObjectAnimator animator = ObjectAnimator.ofFloat(this, "y", mHidden ? mYHidden : mYDisplayed).setDuration(500);
+            animator.setInterpolator(mInterpolator);
+            animator.start();
         }
-    }
-
-    public void showFab()
-    {
-        if(mHidden && mHideAnimation != null && !mHideAnimation.isRunning())
-        {
-            mShowAnimation = ObjectAnimator.ofFloat(this, "Y", currentY);
-            mShowAnimation.setInterpolator(new DecelerateInterpolator());
-            mShowAnimation.start();
-            mHidden = false;
-        }
-    }
-
-    public boolean isHidden(){
-        return mHidden;
     }
 
     public void listenTo(AbsListView listView) {
@@ -141,5 +151,4 @@ public class FloatingActionButton extends View
             listView.setOnScrollListener(new DirectionScrollListener(this));
         }
     }
-
 }

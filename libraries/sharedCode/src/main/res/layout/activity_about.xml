@@ -62,7 +62,7 @@
         android:layout_marginTop="20dp"
         android:onClick="SendFeedback"
         android:clickable="true"
-        android:background="?android:attr/selectableItemBackground"
+        android:background="@drawable/item_background_holo_dark"
         android:gravity="center"
         android:minWidth="200dp" />
 
@@ -78,7 +78,7 @@
     android:textStyle="bold"
     android:onClick="OpenTranslatePage"
     android:clickable="true"
-    android:background="?android:attr/selectableItemBackground"
+    android:background="@drawable/item_background_holo_dark"
     android:gravity="center"
     android:minWidth="200dp" />
 
@@ -94,7 +94,7 @@
         android:textStyle="bold"
         android:onClick="GoToProVersion"
         android:clickable="true"
-        android:background="?android:attr/selectableItemBackground"
+        android:background="@drawable/item_background_holo_dark"
         android:gravity="center"
         android:minWidth="200dp" />
 
@@ -112,7 +112,7 @@
             android:id="@+id/imageView5"
             android:src="@drawable/ic_action_mail"
             android:onClick="SendMail"
-            android:background="?android:attr/selectableItemBackground"
+            android:background="@drawable/item_background_holo_dark"
             android:scaleType="centerCrop" />
 
         <ImageView
@@ -123,7 +123,7 @@
             android:layout_marginEnd="15dp"
             android:src="@drawable/ic_action_google_play"
             android:onClick="OpenPlayStore"
-            android:background="?android:attr/selectableItemBackground"
+            android:background="@drawable/item_background_holo_dark"
             android:scaleType="centerCrop" />
 
         <ImageView
@@ -131,9 +131,10 @@
             android:layout_height="45dp"
             android:id="@+id/imageView4"
             android:layout_marginEnd="15dp"
+            android:layout_marginRight="15dp"
             android:src="@drawable/ic_action_gplus"
             android:onClick="OpenGooglePlusCommunity"
-            android:background="?android:attr/selectableItemBackground"
+            android:background="@drawable/item_background_holo_dark"
             android:scaleType="centerCrop" />
 
         <ImageView
@@ -142,7 +143,7 @@
             android:id="@+id/imageView6"
             android:src="@drawable/ic_action_github"
             android:onClick="OpenGithub"
-            android:background="?android:attr/selectableItemBackground"
+            android:background="@drawable/item_background_holo_dark"
             android:scaleType="fitCenter" />
     </LinearLayout>
 </LinearLayout>

@@ -56,9 +56,9 @@
   <string name="read_only">Sólo lectura</string>
   <string name="send_error_reports">Envíar reporte de errores</string>
   <string name="extra_options">Opciones extra</string>
-  <string name="split_text_if_too_long">Split the text if too long</string>
+  <string name="split_text_if_too_long">Partir el texto si es muy largo</string>
   <string name="ignore_back_button">Ignorar el botón de regreso</string>
-  <string name="donate">Donate</string>
+  <string name="donate">Donar</string>
   <string name="aggiungi_account">Nueva Cuenta</string>
   <string name="attiva">Activo</string>
   <string name="cancella">Borrar</string>

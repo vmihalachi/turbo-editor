@@ -45,7 +45,7 @@
   <string name="next">Suivant</string>
   <string name="previous">Précédent</string>
   <string name="please_wait">Veuillez patienter&#8230;</string>
-  <string name="occurrences_found">occurrences de %s ont été trouvées</string>
+  <string name="occurrences_found">%s occurences ont été trouvées</string>
   <string name="app_version">Version %s</string>
   <string name="translate_the_app">Traduire</string>
   <string name="changelog">Historique des changements</string>
@@ -55,10 +55,10 @@
   <string name="auto_save">Sauvegarde automatique</string>
   <string name="read_only">Lecture seule</string>
   <string name="send_error_reports">Envoyer les rapports d\'erreur</string>
-  <string name="extra_options">Extra options</string>
-  <string name="split_text_if_too_long">Split the text if too long</string>
-  <string name="ignore_back_button">Ignore back button</string>
-  <string name="donate">Donate</string>
+  <string name="extra_options">Autres options</string>
+  <string name="split_text_if_too_long">Scinder le texte si trop long</string>
+  <string name="ignore_back_button">Ignorer le bouton retour</string>
+  <string name="donate">Faire un don</string>
   <string name="aggiungi_account">Nouveau compte</string>
   <string name="attiva">Actif</string>
   <string name="cancella">Supprimer</string>
@@ -136,7 +136,7 @@
   <string name="inapp_seconditem_description">J\'aime vraiment cette application !</string>
   <string name="inapp_thirditem_description">J\'adore cette application !</string>
   <string name="backup_accounts">Sauvegarder les comptes</string>
-  <string name="restore_accounts">Restaurer des comptes</string>
+  <string name="restore_accounts">Restaurer les comptes</string>
   <string name="share_accounts">Sauvegarder et partager les comptes</string>
   <string name="importing_accounts">Importation des comptes&#8230;</string>
   <string name="exporting_accounts">Exportation des comptes...</string>

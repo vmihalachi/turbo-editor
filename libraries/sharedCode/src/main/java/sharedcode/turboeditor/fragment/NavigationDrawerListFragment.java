@@ -90,31 +90,30 @@ public class NavigationDrawerListFragment extends Fragment implements AdapterVie
         String filePath = savedPaths[position];
         // Send the event that a file was selected
         EventBus.getDefault().post(new EventBusEvents.NewFileToOpen(new File(filePath)));
-        arrayAdapter.selectView(filePath);
+        EventBus.getDefault().post(new EventBusEvents.AFileIsSelected(filePath));
     }
 
-    /**
-     * When a new file is opened
-     * Invoked by the main activity which receive the intent
-     *
-     * @param event The event called
-     */
+    public void onEvent(EventBusEvents.AFileIsSelected event) {
+        arrayAdapter.selectView(event.getPath());
+
+        EventBus.getDefault().removeStickyEvent(event);
+    }
+
     public void onEvent(EventBusEvents.NewFileToOpen event) {
 
         // File paths saved in preferences
         String[] savedPaths = PreferenceHelper.getSavedPaths(getActivity());
         String selectedPath = event.getFile().getAbsolutePath();
+        boolean pathAlreadyExist = false;
         for (String savedPath : savedPaths) {
             // We don't need to save the file path twice
             if (savedPath.equals(selectedPath)) {
-                arrayAdapter.selectView(selectedPath);
-                return;
+                pathAlreadyExist = true;
             }
         }
         // Add the path if it wasn't added before
-        addPath(selectedPath);
-
-        arrayAdapter.selectView(selectedPath);
+        if(!pathAlreadyExist)
+            addPath(selectedPath);
 
         EventBus.getDefault().removeStickyEvent(event);
     }
@@ -198,8 +197,8 @@ public class NavigationDrawerListFragment extends Fragment implements AdapterVie
             EventBus.getDefault().post(new EventBusEvents.CannotOpenAFile());
     }
 
-    @Override
+    /*@Override
     public void ItemSelected(String path) {
         EventBus.getDefault().post(new EventBusEvents.AFileIsSelected(path));
-    }
+    }*/
 }

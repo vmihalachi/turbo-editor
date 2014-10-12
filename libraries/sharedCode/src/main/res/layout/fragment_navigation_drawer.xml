@@ -33,6 +33,9 @@
         android:cacheColorHint="@android:color/transparent"
         android:layout_above="@id/drawer_buttons"
         android:divider="@color/divider"
+        android:listSelector="@android:color/transparent"
+        android:choiceMode="singleChoice"
+        android:background="@null"
         />
 
     <TextView

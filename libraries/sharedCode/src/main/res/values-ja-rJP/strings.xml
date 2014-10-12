@@ -58,7 +58,7 @@
   <string name="extra_options">追加のオプション</string>
   <string name="split_text_if_too_long">長すぎる場合にテキストを分割</string>
   <string name="ignore_back_button">戻るボタンを無視</string>
-  <string name="donate">Donate</string>
+  <string name="donate">寄付</string>
   <string name="aggiungi_account">新しいアカウント</string>
   <string name="attiva">アクティブ</string>
   <string name="cancella">削除</string>

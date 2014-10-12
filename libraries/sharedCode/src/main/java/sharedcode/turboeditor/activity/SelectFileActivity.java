@@ -23,14 +23,16 @@ import android.app.Activity;
 import android.content.Intent;
 import android.os.AsyncTask;
 import android.os.Bundle;
+import android.support.v4.view.MenuItemCompat;
+import android.widget.PopupMenu;
+import android.widget.SearchView;
 import android.text.TextUtils;
 import android.view.Menu;
 import android.view.MenuItem;
 import android.view.View;
 import android.widget.AdapterView;
+import android.widget.Filter;
 import android.widget.ListView;
-import android.widget.PopupMenu;
-import android.widget.SearchView;
 import android.widget.TextView;
 import android.widget.Toast;
 
@@ -64,6 +66,7 @@ public class SelectFileActivity extends Activity implements SearchView.OnQueryTe
     private boolean wantAFile = true;
     private MenuItem mSearchViewMenuItem;
     private SearchView mSearchView;
+    private Filter filter;
 
 
     @Override
@@ -148,10 +151,13 @@ public class SelectFileActivity extends Activity implements SearchView.OnQueryTe
     }
 
     public boolean onQueryTextChange(String newText) {
+        if(filter == null)
+            return true;
+
         if (TextUtils.isEmpty(newText)) {
-            listView.clearTextFilter();
+            filter.filter(null);
         } else {
-            listView.setFilterText(newText);
+            filter.filter(newText);
         }
         return true;
     }
@@ -206,7 +212,7 @@ public class SelectFileActivity extends Activity implements SearchView.OnQueryTe
     public boolean onCreateOptionsMenu(Menu menu) {
         getMenuInflater().inflate(R.menu.activity_select_file, menu);
         mSearchViewMenuItem = menu.findItem(R.id.im_search);
-        mSearchView = (SearchView) mSearchViewMenuItem.getActionView();
+        mSearchView = (SearchView) MenuItemCompat.getActionView(mSearchViewMenuItem);
         mSearchView.setIconifiedByDefault(true);
         mSearchView.setOnQueryTextListener(this);
         mSearchView.setSubmitButtonEnabled(false);
@@ -243,6 +249,9 @@ public class SelectFileActivity extends Activity implements SearchView.OnQueryTe
             PreferenceHelper.setWorkingFolder(SelectFileActivity.this, currentFolder);
             invalidateOptionsMenu();
             return true;
+        } else if (i == R.id.im_is_working_folder) {
+            Toast.makeText(getBaseContext(), R.string.is_the_working_folder, Toast.LENGTH_SHORT).show();
+            return true;
         } else if (i == R.id.im_select_folder) {
             returnData(currentFolder);
             return true;
@@ -276,7 +285,7 @@ public class SelectFileActivity extends Activity implements SearchView.OnQueryTe
             super.onPreExecute();
             if (mSearchView != null) {
                 mSearchView.setIconified(true);
-                mSearchViewMenuItem.collapseActionView();
+                MenuItemCompat.collapseActionView(mSearchViewMenuItem);
                 mSearchView.setQuery("", false);
             }
 
@@ -358,6 +367,7 @@ public class SelectFileActivity extends Activity implements SearchView.OnQueryTe
                 boolean isRoot = currentFolder.equals("/");
                 AdapterDetailedList mAdapter = new AdapterDetailedList(getBaseContext(), names, isRoot);
                 listView.setAdapter(mAdapter);
+                filter = mAdapter.getFilter();
             } else if (exceptionMessage != null) {
                 Toast.makeText(SelectFileActivity.this, exceptionMessage, Toast.LENGTH_SHORT).show();
             }

@@ -29,7 +29,7 @@ android {
 
     defaultConfig {
         applicationId "sharedcode.turboeditor"
-        minSdkVersion 14
+        minSdkVersion 10
         targetSdkVersion 19
         versionCode 1
         versionName "1.0"
@@ -54,9 +54,10 @@ dependencies {
     compile('de.greenrobot:eventbus:2.2.1') {
         exclude module: 'support-v4'
     }
-//    compile 'com.googlecode.juniversalchardet:juniversalchardet:1.0.3'
+    //    compile 'com.googlecode.juniversalchardet:juniversalchardet:1.0.3'
     compile files('libs/juniversalchardet-1.0.3.jar')
-    compile 'com.android.support:support-v4:20.0.0'
+    compile "com.android.support:support-v4:19.0.+"
     compile 'com.github.gabrielemariotti.changeloglib:library:1.5.1'
     compile 'commons-io:commons-io:2.4'
+    compile 'org.solovyev.android:checkout:0.5.1@aar'
 }

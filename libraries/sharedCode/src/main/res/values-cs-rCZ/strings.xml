@@ -54,11 +54,11 @@
   <string name="pro_version">Verze PRO</string>
   <string name="auto_save">Automatické ukládání</string>
   <string name="read_only">Jen pro čtení</string>
-  <string name="send_error_reports">Send error reports</string>
-  <string name="extra_options">Extra options</string>
-  <string name="split_text_if_too_long">Split the text if too long</string>
-  <string name="ignore_back_button">Ignore back button</string>
-  <string name="donate">Donate</string>
+  <string name="send_error_reports">Odesílat zprávy o chybách</string>
+  <string name="extra_options">Další možnosti</string>
+  <string name="split_text_if_too_long">Rozdělit text, pokud je příliš dlouhý</string>
+  <string name="ignore_back_button">Ignorovat tlačítko zpět</string>
+  <string name="donate">Podpořit</string>
   <string name="aggiungi_account">Nový účet</string>
   <string name="attiva">Aktivní</string>
   <string name="cancella">Odstranit</string>

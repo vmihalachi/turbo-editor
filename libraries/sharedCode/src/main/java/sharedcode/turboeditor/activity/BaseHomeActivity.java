@@ -20,6 +20,7 @@
 package sharedcode.turboeditor.activity;
 
 import android.app.ActionBar;
+import android.os.ParcelFileDescriptor;
 import android.app.Activity;
 import android.app.ProgressDialog;
 import android.content.Context;
@@ -46,6 +47,8 @@ import org.sufficientlysecure.rootcommands.Shell;
 import org.sufficientlysecure.rootcommands.Toolbox;
 
 import java.io.File;
+import java.io.FileDescriptor;
+import java.io.FileNotFoundException;
 
 import de.greenrobot.event.EventBus;
 import sharedcode.turboeditor.R;
@@ -53,6 +56,7 @@ import sharedcode.turboeditor.fragment.ChangelogDialogFragment;
 import sharedcode.turboeditor.fragment.EditorFragment;
 import sharedcode.turboeditor.fragment.NoFileOpenedFragment;
 import sharedcode.turboeditor.preferences.PreferenceHelper;
+import sharedcode.turboeditor.util.AccessStorageApi;
 import sharedcode.turboeditor.util.AppInfoHelper;
 import sharedcode.turboeditor.util.EventBusEvents;
 import sharedcode.turboeditor.util.ProCheckUtils;
@@ -62,6 +66,8 @@ import sharedcode.turboeditor.views.CustomDrawerLayout;
 public abstract class BaseHomeActivity extends Activity {
 
     private static final int SELECT_FILE_CODE = 121;
+    private static final int KITKAT_OPEN_REQUEST_CODE = 41;
+
     private EditText editor;
 
     /*
@@ -211,14 +217,24 @@ public abstract class BaseHomeActivity extends Activity {
     @Override
     protected void onActivityResult(int requestCode, int resultCode, Intent data) {
         super.onActivityResult(requestCode, resultCode, data);
-        if (resultCode == RESULT_OK && requestCode == SELECT_FILE_CODE) {
-            String path = data.getStringExtra("path");
-            File file = new File(path);
-            if (file.isFile() && file.exists()) {
-                EventBus.getDefault().postSticky(new EventBusEvents.NewFileToOpen(new File(path)));
-            } else if (file.isDirectory()) {
-
+        if (resultCode == RESULT_OK) {
+            String path = "";
+            if (requestCode == SELECT_FILE_CODE) {
+                path = data.getStringExtra("path");
             }
+
+            if (requestCode == KITKAT_OPEN_REQUEST_CODE) {
+                path = AccessStorageApi.getPath(getBaseContext(), data.getData());
+            }
+
+            if(!path.isEmpty()){
+                File file = new File(path);
+                if (file.isFile() && file.exists()) {
+                    EventBus.getDefault().postSticky(new EventBusEvents.NewFileToOpen(new File(path)));
+                    EventBus.getDefault().postSticky(new EventBusEvents.AFileIsSelected(path));
+                }
+            }
+
         }
     }
 
@@ -241,6 +257,7 @@ public abstract class BaseHomeActivity extends Activity {
 
     //region Calls from the layout
     public void OpenFile(View view) {
+
         Intent subActivity = new Intent(BaseHomeActivity.this, SelectFileActivity.class);
         subActivity.putExtra("action", SelectFileActivity.Actions.SelectFile);
         Bundle scaleBundle = ActivityOptionsCompat.makeScaleUpAnimation(
@@ -252,8 +269,8 @@ public abstract class BaseHomeActivity extends Activity {
     }
 
     public void CreateFile(View view) {
-        onEvent(new EventBusEvents.NewFileToOpen(""));
-        onEvent(new EventBusEvents.AFileIsSelected("")); // simulate click on the list
+        onEvent(new EventBusEvents.NewFileToOpen("")); // do not send the event to others
+        EventBus.getDefault().post(new EventBusEvents.AFileIsSelected(""));
     }
 
     public void OpenInfo(View view) {
@@ -395,14 +412,6 @@ public abstract class BaseHomeActivity extends Activity {
             displayInterstitial();
     }
 
-    public void onEvent(EventBusEvents.AFileIsSelected event) {
-        String name = FilenameUtils.getName(event.getPath());
-        if (name.isEmpty())
-            getActionBar().setTitle(R.string.nome_app_turbo_editor);
-        else
-            getActionBar().setTitle(name);
-    }
-
     /**
      * When a file can't be opened
      * Invoked by the EditorFragment
@@ -515,10 +524,10 @@ public abstract class BaseHomeActivity extends Activity {
                 && type != null) {
             // Post event
             EventBus.getDefault().postSticky(new EventBusEvents.NewFileToOpen(new File(intent.getData().getPath())));
+            EventBus.getDefault().postSticky(new EventBusEvents.AFileIsSelected(intent.getData().getPath()));
         } else if (Intent.ACTION_SEND.equals(action) && type != null) {
             if ("text/plain".equals(type)) {
                 onEvent(new EventBusEvents.NewFileToOpen(intent.getStringExtra(Intent.EXTRA_TEXT)));
-                onEvent(new EventBusEvents.AFileIsSelected("")); // simulate click on the list
             }
         }
     }

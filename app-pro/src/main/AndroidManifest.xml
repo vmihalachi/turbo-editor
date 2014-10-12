@@ -36,7 +36,7 @@
         android:allowBackup="true"
         android:icon="@drawable/ic_launcher"
         android:label="@string/nome_app_turbo_editor"
-        android:hardwareAccelerated="false"
+        android:hardwareAccelerated="true"
         android:largeHeap="true"
         android:supportsRtl="true"
         android:name="sharedcode.turboeditor.activity.MyApp"

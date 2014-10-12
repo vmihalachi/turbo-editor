@@ -55,10 +55,10 @@
   <string name="auto_save">Salvataggio automatico</string>
   <string name="read_only">Solo lettura</string>
   <string name="send_error_reports">Invia rapporti di errore</string>
-  <string name="extra_options">Extra options</string>
-  <string name="split_text_if_too_long">Split the text if too long</string>
-  <string name="ignore_back_button">Ignore back button</string>
-  <string name="donate">Donate</string>
+  <string name="extra_options">Altre opzioni</string>
+  <string name="split_text_if_too_long">Dividi il testo se troppo lungo</string>
+  <string name="ignore_back_button">Ignora il tasto indietro</string>
+  <string name="donate">Dona</string>
   <string name="aggiungi_account">Nuovo account</string>
   <string name="attiva">Attiva</string>
   <string name="cancella">Cancella</string>

@@ -28,7 +28,7 @@ public class EdittextPadding {
     }
 
     public static int getPaddingWithLineNumbers(Context context, float fontSize) {
-        return (int) PixelDipConverter.convertDpToPixel(fontSize * 1.85f, context);
+        return (int) PixelDipConverter.convertDpToPixel(fontSize * 2f, context);
     }
 
     public static int getPaddingTop(Context context) {

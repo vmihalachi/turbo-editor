@@ -29,49 +29,62 @@
         <item name="android:windowBackground">@null</item>
         <item name="android:actionBarStyle">@style/ActionBar.Dark</item>
         <item name="android:actionOverflowButtonStyle">@style/OverFlow</item>
+        <item name="android:actionBarSize">@dimen/action_bar_height</item>
+        <item name="android:windowContentOverlay">@drawable/actionbar_shadow</item>
+        <item name="android:homeAsUpIndicator">@drawable/ic_ab_up_compat</item>
     </style>
 
     <style name="AppTheme.Light" parent="android:Theme.Holo.Light.DarkActionBar">
         <!-- Customize your theme here. -->
         <item name="android:windowBackground">@color/window_background_light</item>
         <item name="android:actionBarStyle">@style/ActionBar.Dark</item>
+        <item name="android:actionOverflowButtonStyle">@style/OverFlow</item>
+        <item name="android:actionBarSize">@dimen/action_bar_height</item>
+        <item name="android:windowContentOverlay">@drawable/actionbar_shadow</item>
+        <item name="android:homeAsUpIndicator">@drawable/ic_ab_up_compat</item>
     </style>
 
     <style name="AppTheme.Dark" parent="android:Theme.Holo">
         <!-- Customize your theme here. -->
         <item name="android:windowBackground">@color/window_background</item>
         <item name="android:actionBarStyle">@style/ActionBar.Dark</item>
-
+        <item name="android:actionOverflowButtonStyle">@style/OverFlow</item>
+        <item name="android:actionBarSize">@dimen/action_bar_height</item>
+        <item name="android:windowContentOverlay">@drawable/actionbar_shadow</item>
+        <item name="android:homeAsUpIndicator">@drawable/ic_ab_up_compat</item>
     </style>
 
-    <style name="ActionBar.Light" parent="android:Widget.Holo.Light.ActionBar.Solid">
+    <style name="ActionBar.Light" parent="android:Widget.Holo.Light.ActionBar">
+
         <item name="android:background">@color/window_background_light</item>
-        <item name="android:icon">@android:color/transparent</item>
+        <item name="android:icon">@drawable/actionbar_icon_placeholder_compat</item>
+        <item name="android:actionOverflowButtonStyle">@style/OverFlow</item>
         <item name="android:titleTextStyle">
             @style/ActionBar.TitleLight
         </item>
         <item name="android:subtitleTextStyle">
             @style/ActionBar.SubtitleLight
         </item>
-        <item name="android:actionOverflowButtonStyle">@style/OverFlow</item>
     </style>
 
-    <style name="ActionBar.Dark" parent="android:Widget.Holo.ActionBar.Solid">
+    <style name="ActionBar.Dark" parent="android:Widget.Holo.ActionBar">
+
         <item name="android:background">@color/window_background</item>
-        <item name="android:icon">@android:color/transparent</item>
+        <item name="android:icon">@drawable/actionbar_icon_placeholder_compat</item>
+        <item name="android:actionOverflowButtonStyle">@style/OverFlow</item>
         <item name="android:titleTextStyle">
             @style/ActionBar.TitleDark
         </item>
         <item name="android:subtitleTextStyle">
             @style/ActionBar.SubtitleDark
         </item>
-        <item name="android:actionOverflowButtonStyle">@style/OverFlow</item>
     </style>
 
     <style name="ActionBar.TitleDark" parent="android:TextAppearance.Holo.Widget.ActionBar.Title">
         <item name="android:textColor">
             @color/textColor
         </item>
+        <item name="android:textStyle">bold</item>
     </style>
 
     <style name="ActionBar.SubtitleDark" parent="android:TextAppearance.Holo.Widget.ActionBar.Subtitle">
@@ -80,20 +93,21 @@
         </item>
     </style>
 
-    <style name="ActionBar.TitleLight" parent="android:TextAppearance.Holo.Widget.ActionBar.Title">
+    <style name="ActionBar.TitleLight" parent="android:TextAppearance.Holo.Widget.ActionBar.Title.Inverse">
+        <item name="android:textColor">
+            @color/textColorInverted
+        </item>
+        <item name="android:textStyle">bold</item>
+    </style>
+
+    <style name="ActionBar.SubtitleLight" parent="android:TextAppearance.Holo.Widget.ActionBar.Subtitle.Inverse">
         <item name="android:textColor">
             @color/textColorInverted
         </item>
     </style>
 
-    <style name="ActionBar.SubtitleLight" parent="android:TextAppearance.Holo.Widget.ActionBar.Subtitle">
-        <item name="android:textColor">
-            @color/textColorInverted
-        </item>
-    </style>
-
-    <style name="OverFlow" parent="@android:style/Widget.Holo.ActionButton.Overflow">
-        <item name="android:src">@drawable/ic_action_overflow</item>
+    <style name="OverFlow" parent="android:Widget.ActionButton.Overflow">
+        <item name="android:src">@drawable/ic_ab_overflow_compat</item>
     </style>
 
 </resources>

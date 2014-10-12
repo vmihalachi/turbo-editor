@@ -37,4 +37,6 @@
     <dimen name="text_size_mega_title">25sp</dimen>
     <dimen name="text_size_title">16sp</dimen>
     <dimen name="text_size_subtitle">14sp</dimen>
+
+    <dimen name="action_bar_height">56dp</dimen>
 </resources>

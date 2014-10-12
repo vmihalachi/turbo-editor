@@ -73,10 +73,6 @@ public final class PreferenceHelper {
         return getPrefs(context).getBoolean("send_error_reports", true);
     }
 
-    public static int getLastDayAdShowed(Context context) {
-        return getPrefs(context).getInt("last_day_ad_showed", 0);
-    }
-
     public static String getEncoding(Context context) {
         return getPrefs(context).getString("editor_encoding", "UTF-8");
     }
@@ -113,10 +109,6 @@ public final class PreferenceHelper {
         return getPrefs(context).getBoolean("page_system_active", true);
     }
 
-    public static int getNumberOfAdsRequested(Context context) {
-        return getPrefs(context).getInt("number_of_ads_requested", 0);
-    }
-
     // Setter methods
 
     public static void setUseMonospace(Context context, boolean value) {
@@ -139,10 +131,6 @@ public final class PreferenceHelper {
         getEditor(context).putBoolean("autoencoding", value).commit();
     }
 
-    public static void setLastDayAdShowed(Context context, int value) {
-        getEditor(context).putInt("last_day_ad_showed", value).commit();
-    }
-
     public static void setFontSize(Context context, int value) {
         getEditor(context).putInt("font_size", value).commit();
     }
@@ -161,10 +149,6 @@ public final class PreferenceHelper {
 
     public static void setReadOnly(Context context, boolean value) {
         getEditor(context).putBoolean("read_only", value).commit();
-    }
-
-    public static void setNumberOfAdsRequested(Context context, int value) {
-        getEditor(context).putInt("number_of_ads_requested", value).commit();
     }
 
 }

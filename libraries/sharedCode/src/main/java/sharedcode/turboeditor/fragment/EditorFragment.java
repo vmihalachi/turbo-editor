@@ -27,6 +27,7 @@ import android.content.Intent;
 import android.content.SharedPreferences;
 import android.content.res.Configuration;
 import android.graphics.Canvas;
+import android.graphics.Paint;
 import android.graphics.Typeface;
 import android.net.Uri;
 import android.os.Bundle;
@@ -61,6 +62,7 @@ import com.faizmalkani.floatingactionbutton.FloatingActionButton;
 import sharedcode.turboeditor.R;
 
 import sharedcode.turboeditor.preferences.SettingsFragment;
+import sharedcode.turboeditor.util.ApiHelper;
 import sharedcode.turboeditor.util.EditorInterface;
 import sharedcode.turboeditor.util.EdittextPadding;
 import sharedcode.turboeditor.util.EventBusEvents;
@@ -108,7 +110,7 @@ public class EditorFragment extends Fragment implements FindTextDialogFragment.S
     private PageSystemButtons pageSystemButtons;
     private String currentEncoding;
 
-    private static final int SYNTAX_DELAY_MILLIS_SHORT = 250;
+    private static final int SYNTAX_DELAY_MILLIS_SHORT = 350;
     private static final int SYNTAX_DELAY_MILLIS_LONG = 1500;
     static final int
             ID_SELECT_ALL = android.R.id.selectAll;
@@ -215,6 +217,7 @@ public class EditorFragment extends Fragment implements FindTextDialogFragment.S
             @Override
             public void onClick(View v) {
                 if(!PreferenceHelper.getReadOnly(getActivity())) {
+                    getVerticalScrollView().tempDisableListener(1000);
                     ((InputMethodManager) getActivity().getSystemService(Context.INPUT_METHOD_SERVICE))
                             .showSoftInput(mEditor, InputMethodManager.SHOW_IMPLICIT);
                 }
@@ -225,6 +228,7 @@ public class EditorFragment extends Fragment implements FindTextDialogFragment.S
             @Override
             public void onFocusChange(View v, boolean hasFocus) {
                 if(hasFocus && !PreferenceHelper.getReadOnly(getActivity())) {
+                    getVerticalScrollView().tempDisableListener(1000);
                     ((InputMethodManager) getActivity().getSystemService(Context.INPUT_METHOD_SERVICE))
                             .showSoftInput(mEditor, InputMethodManager.SHOW_IMPLICIT);
                 }
@@ -241,6 +245,16 @@ public class EditorFragment extends Fragment implements FindTextDialogFragment.S
         mEditor.replaceTextKeepCursor(pageSystem.getCurrentPageText(), false);
         mEditor.enableTextChangedListener();
         return rootView;
+    }
+
+    @Override
+    public void onActivityCreated(Bundle savedInstanceState) {
+        super.onActivityCreated(savedInstanceState);
+        String name = FilenameUtils.getName(sFilePath);
+        if (name.isEmpty())
+            getActivity().getActionBar().setTitle("*");
+        else
+            getActivity().getActionBar().setTitle(name);
     }
 
     @Override
@@ -384,8 +398,10 @@ public class EditorFragment extends Fragment implements FindTextDialogFragment.S
             startActivity(Intent.createChooser(shareIntent, getString(R.string.share)));
 
         }
-        else {
-
+        else if (i == R.id.im_info) {
+            FileInfoDialogFragment dialogFrag = FileInfoDialogFragment.newInstance(sFilePath);
+            dialogFrag.setTargetFragment(EditorFragment.this, 0);
+            dialogFrag.show(getFragmentManager().beginTransaction(), "dialog");
         }
         return super.onOptionsItemSelected(item);
     }
@@ -740,7 +756,7 @@ public class EditorFragment extends Fragment implements FindTextDialogFragment.S
          */
         private final EditTextChangeListener
                 mChangeListener;
-        private int lineCount, realLine;
+        private int lineCount, realLine, startingLine;
         private LineUtils lineUtils;
         private boolean modified = true;
         /**
@@ -770,6 +786,7 @@ public class EditorFragment extends Fragment implements FindTextDialogFragment.S
 
             this.mPaintNumbers.setAntiAlias(true);
             this.mPaintNumbers.setDither(false);
+            this.mPaintNumbers.setTextAlign(Paint.Align.RIGHT);
 
             // Syntax editor
             setFilters(new InputFilter[]{
@@ -841,7 +858,7 @@ public class EditorFragment extends Fragment implements FindTextDialogFragment.S
         @Override
         public boolean onKeyDown(int keyCode, KeyEvent event) {
 
-            if (event.isCtrlPressed()) {
+            if (ApiHelper.is11() && event.isCtrlPressed()) {
                 switch (keyCode) {
                     case KeyEvent.KEYCODE_A:
                         return onTextContextMenuItem(ID_SELECT_ALL);
@@ -902,7 +919,8 @@ public class EditorFragment extends Fragment implements FindTextDialogFragment.S
         public void onDraw(final Canvas canvas) {
 
             if (PreferenceHelper.getLineNumbers(getContext())) {
-                if (lineCount != getLineCount()) {
+                if (lineCount != getLineCount() || startingLine != editorInterface.getPageSystem().getStartingLine()) {
+                    startingLine = editorInterface.getPageSystem().getStartingLine();
                     lineCount = getLineCount();
 
                     lineUtils.updateHasNewLineArray(editorInterface.getPageSystem().getStartingLine(), lineCount, getLayout(), getText().toString());
@@ -914,6 +932,8 @@ public class EditorFragment extends Fragment implements FindTextDialogFragment.S
                 boolean[] hasNewLineArray = lineUtils.getToCountLinesArray();
                 int[] realLines = lineUtils.getRealLines();
                 boolean wrapContent = PreferenceHelper.getWrapContent(getContext());
+                int numbersWidth = (int) (EdittextPadding.getPaddingWithLineNumbers(getContext(), PreferenceHelper.getFontSize(getContext())) * 0.8);
+                int paddingTop = EdittextPadding.getPaddingTop(getContext());
 
                 while (i < lastLine) {
                     // if last line we count it anyway
@@ -926,8 +946,8 @@ public class EditorFragment extends Fragment implements FindTextDialogFragment.S
                             realLine = realLines[i];
 
                         canvas.drawText(String.valueOf(realLine),
-                                5, // padding left
-                                getLineHeight() * (i + 1),
+                                numbersWidth, // they all center aligned
+                                paddingTop + getLineHeight() * (i + 1),
                                 mPaintNumbers);
                     }
                     i++;
@@ -1096,6 +1116,9 @@ public class EditorFragment extends Fragment implements FindTextDialogFragment.S
                 firstColoredIndex = 0;
             if (end > editable.length())
                 end = editable.length();
+            if(firstColoredIndex > end)
+                firstColoredIndex = end;
+
 
             CharSequence textToHighlight = editable.subSequence(firstColoredIndex, end);
 

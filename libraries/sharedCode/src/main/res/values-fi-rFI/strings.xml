@@ -34,7 +34,7 @@
   <string name="find">Löydä</string>
   <string name="replace">Korvaa</string>
   <string name="share">Jaa</string>
-  <string name="keyboard_suggestions_and_swipe">Näppäimistöehdotukset ja pyyhkäisy</string>
+  <string name="keyboard_suggestions_and_swipe">Näppäimistön ehdotukset ja pyyhkäisy</string>
   <string name="enable_autoencoding">Automaattinen koodaus</string>
   <string name="set_as_working_folder">Määritä työkansioksi</string>
   <string name="is_the_working_folder">Tämä on työkansio</string>
@@ -58,7 +58,7 @@
   <string name="extra_options">Lisäasetukset</string>
   <string name="split_text_if_too_long">Jaa liian pitkä teksti</string>
   <string name="ignore_back_button">Ohita Takaisin-painike</string>
-  <string name="donate">Donate</string>
+  <string name="donate">Lahjoita</string>
   <string name="aggiungi_account">Uusi tili</string>
   <string name="attiva">Aktiivinen</string>
   <string name="cancella">Poista</string>
