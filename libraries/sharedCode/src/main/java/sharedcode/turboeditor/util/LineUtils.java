@@ -66,7 +66,7 @@ public class LineUtils {
             if (hasNewLineArray[i]) {
                 int j = i - 1;
                 while (j > -1 && !hasNewLineArray[j]) {
-                    j--;
+                    --j;
                 }
                 toCountLinesArray[j + 1] = true;
 
@@ -75,7 +75,7 @@ public class LineUtils {
 
         int realLine = startingLine; // the first line is not 0, is 1. We start counting from 1
 
-        for (i = 0; i < toCountLinesArray.length; i++) {
+        for (i = 0; i < toCountLinesArray.length; ++i) {
             if (toCountLinesArray[i]) {
                 realLine++;
             }
@@ -94,7 +94,7 @@ public class LineUtils {
         int line;
         int currentIndex = 0;
 
-        for (line = 0; line < lineCount; line++) {
+        for (line = 0; line < lineCount; ++line) {
             currentIndex += layout.getLineEnd(line) - layout.getLineStart(line);
             if (currentIndex > index) {
                 break;
@@ -115,7 +115,7 @@ public class LineUtils {
     public int fakeLineFromRealLine(int realLine) {
         int i;
         int fakeLine = 0;
-        for(i = 0; i < realLines.length; i++) {
+        for(i = 0; i < realLines.length; ++i) {
             if (realLine == realLines[i]){
                 fakeLine = i;
                 break;

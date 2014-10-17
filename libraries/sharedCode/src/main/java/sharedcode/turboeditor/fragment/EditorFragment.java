@@ -181,11 +181,13 @@ public class EditorFragment extends Fragment implements FindTextDialogFragment.S
         } else {
             // else show what is in the xml file fragment_editor.xml-
         }
+        
         if (PreferenceHelper.getLightTheme(getActivity())) {
             mEditor.setTextColor(getResources().getColor(R.color.textColorInverted));
         } else {
             mEditor.setTextColor(getResources().getColor(R.color.textColor));
         }
+        
         if (PreferenceHelper.getLineNumbers(getActivity())) {
             mEditor.setPadding(EdittextPadding.getPaddingWithLineNumbers(getActivity(), PreferenceHelper.getFontSize(getActivity())), EdittextPadding.getPaddingTop(getActivity()), 0, 0);
         } else {
@@ -319,7 +321,6 @@ public class EditorFragment extends Fragment implements FindTextDialogFragment.S
 
             if (imNext != null)
                 imNext.setVisible(searchResult.hasNext());
-
 
         } else {
             MenuItem imSave = menu.findItem(R.id.im_save);
@@ -571,9 +572,7 @@ public class EditorFragment extends Fragment implements FindTextDialogFragment.S
 
     public void nextResult() {
         if (searchResult.index == mEditor.getLineCount() - 1) // last result of page
-        {
             return;
-        }
 
 
         if (searchResult.index < searchResult.numberOfResults() - 1) { // equal zero is not good
@@ -950,7 +949,7 @@ public class EditorFragment extends Fragment implements FindTextDialogFragment.S
                                 paddingTop + getLineHeight() * (i + 1),
                                 mPaintNumbers);
                     }
-                    i++;
+                    ++i;
                 }
             }
 
@@ -1067,7 +1066,6 @@ public class EditorFragment extends Fragment implements FindTextDialogFragment.S
             }
             disableTextChangedListener();
             modified = false;
-
 
 
 
@@ -1303,8 +1301,8 @@ public class EditorFragment extends Fragment implements FindTextDialogFragment.S
          * Can redo be performed?
          */
         public boolean getCanRedo() {
-            return (mEditHistory.mmPosition
-                    < mEditHistory.mmHistory.size());
+            return mEditHistory.mmPosition
+                    < mEditHistory.mmHistory.size();
         }
 
         /**
@@ -1365,7 +1363,7 @@ public class EditorFragment extends Fragment implements FindTextDialogFragment.S
                 editor.putString(pre + ".after",
                         ei.mmAfter.toString());
 
-                i++;
+                ++i;
             }
         }
 
@@ -1414,7 +1412,7 @@ public class EditorFragment extends Fragment implements FindTextDialogFragment.S
                 return false;
             }
 
-            for (int i = 0; i < count; i++) {
+            for (int i = 0; i < count; ++i) {
                 String pre = prefix + "." + i;
 
                 int start = sp.getInt(pre + ".start", -1);
@@ -1548,7 +1546,7 @@ public class EditorFragment extends Fragment implements FindTextDialogFragment.S
                     mmHistory.removeLast();
                 }
                 mmHistory.add(item);
-                mmPosition++;
+                ++mmPosition;
 
                 if (mmMaxHistorySize >= 0) {
                     trimHistory();
@@ -1593,7 +1591,7 @@ public class EditorFragment extends Fragment implements FindTextDialogFragment.S
                 if (mmPosition == 0) {
                     return null;
                 }
-                mmPosition--;
+                --mmPosition;
                 return mmHistory.get(mmPosition);
             }
 
@@ -1608,7 +1606,7 @@ public class EditorFragment extends Fragment implements FindTextDialogFragment.S
                 }
 
                 EditItem item = mmHistory.get(mmPosition);
-                mmPosition++;
+                ++mmPosition;
                 return item;
             }
         }
