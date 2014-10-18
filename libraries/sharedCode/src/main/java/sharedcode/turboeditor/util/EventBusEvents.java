@@ -78,11 +78,10 @@ public class EventBusEvents {
 
         public boolean hasType(Type value) {
 
-            if (type != null) {
+            if (type != null)
                 return value == type;
-            } else {
-                return types.contains(value);
-            }
+            
+            return types.contains(value);
 
         }
 

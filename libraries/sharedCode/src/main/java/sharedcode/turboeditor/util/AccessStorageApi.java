@@ -41,14 +41,12 @@ public class AccessStorageApi {
         // Facebook image size
         final int IMAGE_MAX_SIZE = 630;
 
-        File file = null;
-        FileInputStream fis;
-
         BitmapFactory.Options opts;
         int resizeScale;
         Bitmap bmp;
 
-        file = new File(filename);
+        File file = new File(filename);
+        FileInputStream fis;
 
         // This bit determines only the width/height of the bitmap without loading the contents
         opts = new BitmapFactory.Options();

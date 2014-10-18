@@ -92,7 +92,7 @@ public class EncodingDialog extends DialogFragment implements AdapterView.OnItem
 
         String currentEncoding = PreferenceHelper.getEncoding(getActivity());
 
-        for (int i = 0; i < encodings.length; i++) {
+        for (int i = 0; i < encodings.length; ++i) {
             if (currentEncoding.equals(encodings[i])) {
                 list.setItemChecked(i, true);
             }

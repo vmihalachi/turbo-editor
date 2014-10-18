@@ -27,15 +27,10 @@ public class ProCheckUtils {
     public static boolean isPro(Context context, boolean includeDonations) {
 
         String packageName = context.getPackageName();
-
-        if (Build.FOR_AMAZON)
-            return true;
-        else if (packageName.equals("com.maskyn.fileeditorpro"))
-            return true;
-        else if (includeDonations && PreferenceHelper.hasDonated(context))
-            return true;
-        else
-            return false;
+        
+        return Constants.FOR_AMAZON ||
+        		packageName.equals("com.maskyn.fileeditorpro") ||
+        		(includeDonations && PreferenceHelper.hasDonated(context));
     }
 
     public static boolean isPro(Context context) {

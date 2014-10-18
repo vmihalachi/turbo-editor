@@ -100,8 +100,10 @@ public class PageSystem {
     }
 
     public void goToPage(int page) {
-        if (page >= pages.size()) page = pages.size() - 1;
-        if (page < 0) page = 0;
+        if (page >= pages.size())
+        	page = pages.size() - 1;
+        if (page < 0)
+        	page = 0;
         boolean shouldUpdateLines = page > currentPage && canReadNextPage();
         if (shouldUpdateLines) {
             String text = getCurrentPageText();
@@ -115,12 +117,11 @@ public class PageSystem {
     }
 
     public void setStartingLines() {
-        int i;
         int startingLine;
         int nOfNewLines;
         String text;
         startingLines[0] = 0;
-        for (i = 1; i < pages.size(); i++) {
+        for (int i = 1; i < pages.size(); ++i) {
             text = pages.get(i - 1);
             nOfNewLines = text.length() - text.replace("\n", "").length() + 1;
             startingLine = startingLines[i - 1] + nOfNewLines;
@@ -131,9 +132,9 @@ public class PageSystem {
     public void updateStartingLines(int fromPage, int difference) {
         if (difference == 0)
             return;
-        int i;
-        if (fromPage < 1) fromPage = 1;
-        for (i = fromPage; i < pages.size(); i++) {
+        if (fromPage < 1)
+        	fromPage = 1;
+        for (int i = fromPage; i < pages.size(); ++i) {
             startingLines[i] += difference;
         }
     }
@@ -148,10 +149,9 @@ public class PageSystem {
 
     public String getAllText(String currentPageText) {
         pages.set(currentPage, currentPageText);
-        int i;
         StringBuilder allText = new StringBuilder();
-        for (i = 0; i < pages.size(); i++) {
-            allText.append(pages.get(i)).append("\n");
+        for (String page : pages) {
+        	allText.append(page).append("\n");
         }
         return allText.toString();
     }

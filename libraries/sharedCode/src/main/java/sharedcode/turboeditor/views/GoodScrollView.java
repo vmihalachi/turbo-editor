@@ -51,7 +51,8 @@ public class GoodScrollView extends ScrollView {
     protected void onScrollChanged(int l, int t, int oldl, int oldt) {
         super.onScrollChanged(l, t, oldl, oldt);
 
-        if (scrollInterface == null || !listenerEnabled) return;
+        if (scrollInterface == null || !listenerEnabled)
+        	return;
 
         if (Math.abs(lastY - t) > 100) {
             lastY = t;

@@ -40,13 +40,15 @@ public class LineUtils {
 
     public int getFirstVisibleLine(ScrollView scrollView, int childHeight, int lineCount) throws ArithmeticException {
         int line = (scrollView.getScrollY() * lineCount) / childHeight;
-        if (line < 0) line = 0;
+        if (line < 0)
+        	line = 0;
         return line;
     }
 
     public int getLastVisibleLine(ScrollView scrollView, int childHeight, int lineCount, int deviceHeight) {
         int line = ((scrollView.getScrollY() + deviceHeight) * lineCount) / childHeight;
-        if (line > lineCount) line = lineCount;
+        if (line > lineCount)
+        	line = lineCount;
         return line;
     }
 
@@ -59,14 +61,14 @@ public class LineUtils {
         int i;
 
         // for every line on the edittext
-        for (i = 0; i < lineCount; i++) {
+        for (i = 0; i < lineCount; ++i) {
             // check if this line contains "\n"
             hasNewLineArray[i] = text.substring(layout.getLineStart(i), layout.getLineEnd(i)).endsWith("\n");
             // if true
             if (hasNewLineArray[i]) {
                 int j = i - 1;
                 while (j > -1 && !hasNewLineArray[j]) {
-                    j--;
+                    --j;
                 }
                 toCountLinesArray[j + 1] = true;
 
@@ -75,9 +77,9 @@ public class LineUtils {
 
         int realLine = startingLine; // the first line is not 0, is 1. We start counting from 1
 
-        for (i = 0; i < toCountLinesArray.length; i++) {
+        for (i = 0; i < toCountLinesArray.length; ++i) {
             if (toCountLinesArray[i]) {
-                realLine++;
+                ++realLine;
             }
             realLines[i] = realLine;
         }
@@ -95,7 +97,7 @@ public class LineUtils {
         int line;
         int currentIndex = 0;
 
-        for (line = 0; line < lineCount; line++) {
+        for (line = 0; line < lineCount; ++line) {
             currentIndex += layout.getLineEnd(line) - layout.getLineStart(line);
             if (currentIndex > index) {
                 break;
@@ -116,7 +118,7 @@ public class LineUtils {
     public int fakeLineFromRealLine(int realLine) {
         int i;
         int fakeLine = 0;
-        for (i = 0; i < realLines.length; i++) {
+        for(i = 0; i < realLines.length; ++i) {
             if (realLine == realLines[i]) {
                 fakeLine = i;
                 break;

@@ -243,26 +243,26 @@ public abstract class BaseHomeActivity extends Activity implements FindTextDialo
         if (keyCode == KeyEvent.KEYCODE_BACK) {
             onBackPressed();
             return true;
-        } else if (keyCode == KeyEvent.KEYCODE_MENU) {
-            return false;
-        } else {
-            if (mEditor == null)
-                mEditor = (Editor) findViewById(R.id.editor);
-
-            // this will happen on first key pressed on hard-keyboard only. Once myInputField
-            // gets the focus again, it will automatically receive further key presses.
-
-            try {
-                if (fileOpened && mEditor != null && !mEditor.hasFocus()) {
-                    mEditor.requestFocus();
-                    mEditor.onKeyDown(keyCode, event);
-                    return true;
-                }
-            } catch (NullPointerException ex) {
-
-            }
         }
+        if (keyCode == KeyEvent.KEYCODE_MENU) {
+            return false;
+        }
+        
+        if (mEditor == null)
+        	mEditor = (Editor) findViewById(R.id.editor);
 
+        // this will happen on first key pressed on hard-keyboard only. Once myInputField
+        // gets the focus again, it will automatically receive further key presses.
+
+        try {
+        	if (fileOpened && mEditor != null && !mEditor.hasFocus()) {
+        		mEditor.requestFocus();
+        		mEditor.onKeyDown(keyCode, event);
+        		return true;
+        	}
+        } catch (NullPointerException ex) {
+
+        }
 
         return false;
     }
@@ -284,7 +284,6 @@ public abstract class BaseHomeActivity extends Activity implements FindTextDialo
                         .getText().toString()), currentEncoding).show(getFragmentManager(),
                         "dialog");
             } else if (fileOpened) {
-
                 // remove editor fragment
                 hideTextEditor();
 
@@ -467,13 +466,11 @@ public abstract class BaseHomeActivity extends Activity implements FindTextDialo
 
     public void nextResult() {
         if (searchResult.index == mEditor.getLineCount() - 1) // last result of page
-        {
             return;
-        }
 
 
         if (searchResult.index < searchResult.numberOfResults() - 1) { // equal zero is not good
-            searchResult.index++;
+            ++searchResult.index;
             final int line = mEditor.getLineUtils().getLineFromIndex(searchResult.foundIndex.get
                     (searchResult.index), mEditor.getLineCount(), mEditor.getLayout());
 
