@@ -66,7 +66,7 @@ public class AlphanumComparator implements Comparator {
         StringBuilder chunk = new StringBuilder();
         char c = s.charAt(marker);
         chunk.append(c);
-        marker++;
+        ++marker;
         if (isDigit(c)) {
             while (marker < slength) {
                 c = s.charAt(marker);
@@ -74,7 +74,7 @@ public class AlphanumComparator implements Comparator {
                     break;
                 }
                 chunk.append(c);
-                marker++;
+                ++marker;
             }
         } else {
             while (marker < slength) {
@@ -83,7 +83,7 @@ public class AlphanumComparator implements Comparator {
                     break;
                 }
                 chunk.append(c);
-                marker++;
+                ++marker;
             }
         }
         return chunk.toString();

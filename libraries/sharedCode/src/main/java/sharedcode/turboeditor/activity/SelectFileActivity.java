@@ -245,14 +245,17 @@ public class SelectFileActivity extends Activity implements SearchView.OnQueryTe
         if (i == android.R.id.home) {
             finish();
             return true;
-        } else if (i == R.id.im_set_as_working_folder) {
+        }
+        if (i == R.id.im_set_as_working_folder) {
             PreferenceHelper.setWorkingFolder(SelectFileActivity.this, currentFolder);
             invalidateOptionsMenu();
             return true;
-        } else if (i == R.id.im_is_working_folder) {
+        }
+        if (i == R.id.im_is_working_folder) {
             Toast.makeText(getBaseContext(), R.string.is_the_working_folder, Toast.LENGTH_SHORT).show();
             return true;
-        } else if (i == R.id.im_select_folder) {
+        }
+        if (i == R.id.im_select_folder) {
             returnData(currentFolder);
             return true;
         }
