@@ -31,16 +31,11 @@
     android:orientation="vertical"
     >
 
-    <View
-        android:background="@color/divider_inverted"
-        android:layout_width="match_parent"
-        android:layout_height="@dimen/line_dimension"/>
-
     <TextView
         android:id="@id/drawer_button_go_pro"
         android:layout_width="match_parent"
         android:layout_height="72dp"
-        android:text="@string/pro_version"
+        android:text="@string/donate"
         android:paddingStart="20dp"
         android:paddingEnd="20dp"
         android:paddingLeft="20dp"

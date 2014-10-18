@@ -21,7 +21,6 @@ package sharedcode.turboeditor.preferences;
 
 import android.app.Fragment;
 import android.content.Intent;
-import android.net.Uri;
 import android.os.Bundle;
 import android.view.LayoutInflater;
 import android.view.View;
@@ -32,8 +31,11 @@ import android.widget.TextView;
 
 import de.greenrobot.event.EventBus;
 import sharedcode.turboeditor.R;
-import sharedcode.turboeditor.fragment.SeekbarDialogFragment;
+import sharedcode.turboeditor.fragment.SeekbarDialog;
+import sharedcode.turboeditor.util.AnimationUtils;
 import sharedcode.turboeditor.util.ProCheckUtils;
+import sharedcode.turboeditor.util.ViewUtils;
+import sharedcode.turboeditor.views.DialogHelper;
 
 import static sharedcode.turboeditor.util.EventBusEvents.APreferenceValueWasChanged;
 import static sharedcode.turboeditor.util.EventBusEvents.APreferenceValueWasChanged.Type.FONT_SIZE;
@@ -43,7 +45,7 @@ import static sharedcode.turboeditor.util.EventBusEvents.APreferenceValueWasChan
 import static sharedcode.turboeditor.util.EventBusEvents.APreferenceValueWasChanged.Type.SYNTAX;
 import static sharedcode.turboeditor.util.EventBusEvents.APreferenceValueWasChanged.Type.WRAP_CONTENT;
 
-public class SettingsFragment extends Fragment implements SeekbarDialogFragment.onSeekbarDialogDismissed {
+public class SettingsFragment extends Fragment implements SeekbarDialog.ISeekbarDialog {
 
     // Editor Variables
     private boolean sLineNumbers;
@@ -67,7 +69,7 @@ public class SettingsFragment extends Fragment implements SeekbarDialogFragment.
                              Bundle savedInstanceState) {
         // Our custom layout
         View rootView = inflater.inflate(R.layout.fragment_settings, container, false);
-        final CheckBox switchLineNumbers, switchSyntax, switchWrapContent, switchMonospace, switchLightTheme, switchSuggestionsActive, switchAutoSave, switchReadOnly, switchSendErrorReports;
+        final CheckBox switchLineNumbers, switchSyntax, switchWrapContent, switchMonospace, switchReadOnly;
         switchLineNumbers = (CheckBox) rootView.findViewById(R.id.switch_line_numbers);
         switchSyntax = (CheckBox) rootView.findViewById(R.id.switch_syntax);
         switchWrapContent = (CheckBox) rootView.findViewById(R.id.switch_wrap_content);
@@ -80,10 +82,13 @@ public class SettingsFragment extends Fragment implements SeekbarDialogFragment.
         switchMonospace.setChecked(sUseMonospace);
         switchReadOnly.setChecked(sReadOnly);
 
-        TextView fontSizeView, goProView, extraOptionsView;
+        TextView fontSizeView, donateView, extraOptionsView;
         fontSizeView = (TextView) rootView.findViewById(R.id.drawer_button_font_size);
         extraOptionsView = (TextView) rootView.findViewById(R.id.drawer_button_extra_options);
-        goProView = (TextView) rootView.findViewById(R.id.drawer_button_go_pro);
+        donateView = (TextView) rootView.findViewById(R.id.drawer_button_go_pro);
+
+        if(ProCheckUtils.isPro(getActivity(), false))
+            ViewUtils.setVisible(donateView, false);
 
         switchLineNumbers.setOnCheckedChangeListener(new CompoundButton.OnCheckedChangeListener() {
             @Override
@@ -139,7 +144,8 @@ public class SettingsFragment extends Fragment implements SeekbarDialogFragment.
                 int fontCurrent = //(int) (mEditor.getTextSize() / scaledDensity);
                         //fontMax / 2;
                         PreferenceHelper.getFontSize(getActivity());
-                SeekbarDialogFragment dialogFrag = SeekbarDialogFragment.newInstance(SeekbarDialogFragment.Actions.FileSize, 1, fontCurrent, fontMax);
+                SeekbarDialog dialogFrag = SeekbarDialog.newInstance(SeekbarDialog.Actions
+                        .FontSize, 1, fontCurrent, fontMax);
                 dialogFrag.setTargetFragment(SettingsFragment.this, 0);
                 dialogFrag.show(getFragmentManager().beginTransaction(), "dialog");
             }
@@ -148,27 +154,23 @@ public class SettingsFragment extends Fragment implements SeekbarDialogFragment.
         extraOptionsView.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                startActivity(new Intent(getActivity(), ExtraSettingsActivity.class));
+                AnimationUtils.startActivityWithScale(getActivity(), new Intent(getActivity(),
+                        ExtraSettingsActivity.class), false, 0, v);
             }
         });
 
-        goProView.setOnClickListener(new View.OnClickListener() {
+        donateView.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                try {
-                    startActivity(new Intent(Intent.ACTION_VIEW, Uri.parse("market://details?id=com.maskyn.fileeditorpro"))
-                            .setFlags(Intent.FLAG_ACTIVITY_NEW_TASK));
-                } catch (Exception e) {
-                }
+                DialogHelper.showDonateDialog(getActivity());
             }
         });
 
-        goProView.setVisibility(ProCheckUtils.isPro(getActivity()) ? View.GONE : View.VISIBLE);
         return rootView;
     }
 
     @Override
-    public void onSeekbarDialogDismissed(SeekbarDialogFragment.Actions action, int value) {
+    public void onSeekbarDialogDismissed(SeekbarDialog.Actions action, int value) {
         PreferenceHelper.setFontSize(getActivity(), value);
         EventBus.getDefault().post(new APreferenceValueWasChanged(FONT_SIZE));
 

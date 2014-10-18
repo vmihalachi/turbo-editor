@@ -22,8 +22,10 @@ package com.maskyn.fileeditor;
 import android.os.Bundle;
 
 import com.crashlytics.android.Crashlytics;
+
 import sharedcode.turboeditor.activity.BaseHomeActivity;
 import sharedcode.turboeditor.preferences.PreferenceHelper;
+import sharedcode.turboeditor.util.ProCheckUtils;
 
 public class HomeActivity extends BaseHomeActivity {
 
@@ -36,11 +38,13 @@ public class HomeActivity extends BaseHomeActivity {
         if(PreferenceHelper.getSendErrorReports(this))
             Crashlytics.start(this);
         // setup the ads
-        adsHelper = new AdsHelper(this);
+        if(!ProCheckUtils.isPro(this))
+            adsHelper = new AdsHelper(this);
     }
 
     @Override
     public void displayInterstitial() {
-        adsHelper.displayInterstitial();
+        if(adsHelper != null && !ProCheckUtils.isPro(this))
+            adsHelper.displayInterstitial();
     }
 }

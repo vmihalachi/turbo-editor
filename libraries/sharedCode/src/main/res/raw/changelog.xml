@@ -20,6 +20,13 @@
 
 <changelog bulletedList="true">
 
+    <changelogversion versionName="1.13" changeDate="Oct 17, 2014">
+        <changelogtext>Turbo Editor is a free and open source app. Now you can show your appreciation and support development by donating :)</changelogtext>
+        <changelogtext>New visual changes</changelogtext>
+        <changelogtext>New save dialog when you are about to close a file</changelogtext>
+        <changelogtext>Many enchantments and fixes</changelogtext>
+    </changelogversion>
+
     <changelogversion versionName="1.12" changeDate="Oct 9, 2014">
         <changelogtext>Many enchantments and fixes</changelogtext>
     </changelogversion>

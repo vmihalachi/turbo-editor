@@ -20,17 +20,11 @@
 package sharedcode.turboeditor.adapter;
 
 import android.content.Context;
-import android.graphics.Typeface;
-import android.text.TextUtils;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.ArrayAdapter;
-import android.widget.ImageView;
 import android.widget.TextView;
-
-import java.io.File;
-import java.util.ArrayList;
 
 import sharedcode.turboeditor.R;
 
@@ -39,11 +33,11 @@ public class AdapterTwoItem extends
 
     private final LayoutInflater inflater;
     private final String[] lines1;
-    private final String[]  lines2;
+    private final String[] lines2;
 
     public AdapterTwoItem(Context context,
-                          String[]  lines1,
-                          String[]  lines2) {
+                          String[] lines1,
+                          String[] lines2) {
         super(context, R.layout.item_two_lines, lines1);
         this.lines1 = lines1;
         this.lines2 = lines2;

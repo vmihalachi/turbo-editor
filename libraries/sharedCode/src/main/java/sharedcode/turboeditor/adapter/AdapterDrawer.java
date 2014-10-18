@@ -83,8 +83,7 @@ public class AdapterDrawer extends
                 hold.nameLabel.setTypeface(hold.nameLabel.getTypeface(), Typeface.BOLD);
                 convertView.setBackgroundColor((convertView.getResources()
                         .getColor(R.color.item_selected)));
-            }
-            else {
+            } else {
                 hold.nameLabel.setTypeface(hold.nameLabel.getTypeface(), Typeface.NORMAL);
                 convertView.setBackgroundColor((convertView.getResources()
                         .getColor(android.R.color.transparent)));
@@ -108,8 +107,7 @@ public class AdapterDrawer extends
                 hold.nameLabel.setTypeface(null, Typeface.BOLD);
                 convertView.setBackgroundColor((convertView.getResources()
                         .getColor(R.color.item_selected)));
-            }
-            else {
+            } else {
                 hold.nameLabel.setTypeface(null, Typeface.NORMAL);
                 convertView.setBackgroundColor((convertView.getResources()
                         .getColor(android.R.color.transparent)));

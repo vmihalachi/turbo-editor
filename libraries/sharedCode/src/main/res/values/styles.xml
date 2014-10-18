@@ -19,14 +19,14 @@
 
 <resources>
 
-    <!-- Base application theme. -->
-    <style name="AppTheme" parent="android:Theme.Holo">
+    <style name="AppThemeBaseDark" parent="android:Theme.Holo">
 
-    </style>
+        <!-- Dialog -->
+        <item name="textAppearanceDialogTitle">@style/TextAppearance.Dialog.Title</item>
+        <item name="textAppearanceDialogMessage">@style/TextAppearance.Dialog.Message</item>
+        <item name="textAppearanceDialogInfo">@style/TextAppearance.Dialog.Info</item>
 
-    <style name="AppTheme.Light.Editor" parent="android:Theme.Holo.Light.DarkActionBar">
-        <!-- Customize your theme here. -->
-        <item name="android:windowBackground">@null</item>
+        <item name="android:windowBackground">@color/window_background</item>
         <item name="android:actionBarStyle">@style/ActionBar.Dark</item>
         <item name="android:actionOverflowButtonStyle">@style/OverFlow</item>
         <item name="android:actionBarSize">@dimen/action_bar_height</item>
@@ -34,8 +34,13 @@
         <item name="android:homeAsUpIndicator">@drawable/ic_ab_up_compat</item>
     </style>
 
-    <style name="AppTheme.Light" parent="android:Theme.Holo.Light.DarkActionBar">
-        <!-- Customize your theme here. -->
+    <style name="AppThemeBaseLight" parent="android:Theme.Holo.Light.DarkActionBar">
+
+        <!-- Dialog -->
+        <item name="textAppearanceDialogTitle">@style/TextAppearance.Dialog.Title</item>
+        <item name="textAppearanceDialogMessage">@style/TextAppearance.Dialog.Message</item>
+        <item name="textAppearanceDialogInfo">@style/TextAppearance.Dialog.Info</item>
+
         <item name="android:windowBackground">@color/window_background_light</item>
         <item name="android:actionBarStyle">@style/ActionBar.Dark</item>
         <item name="android:actionOverflowButtonStyle">@style/OverFlow</item>
@@ -44,14 +49,8 @@
         <item name="android:homeAsUpIndicator">@drawable/ic_ab_up_compat</item>
     </style>
 
-    <style name="AppTheme.Dark" parent="android:Theme.Holo">
-        <!-- Customize your theme here. -->
-        <item name="android:windowBackground">@color/window_background</item>
-        <item name="android:actionBarStyle">@style/ActionBar.Dark</item>
-        <item name="android:actionOverflowButtonStyle">@style/OverFlow</item>
-        <item name="android:actionBarSize">@dimen/action_bar_height</item>
-        <item name="android:windowContentOverlay">@drawable/actionbar_shadow</item>
-        <item name="android:homeAsUpIndicator">@drawable/ic_ab_up_compat</item>
+    <style name="AppThemeEditorDark" parent="AppThemeBaseDark">
+        <item name="android:windowBackground">@null</item>
     </style>
 
     <style name="ActionBar.Light" parent="android:Widget.Holo.Light.ActionBar">
@@ -108,6 +107,21 @@
 
     <style name="OverFlow" parent="android:Widget.ActionButton.Overflow">
         <item name="android:src">@drawable/ic_ab_overflow_compat</item>
+    </style>
+
+    <style name="TextAppearance.Dialog.Title" parent="android:TextAppearance.Holo.Large">
+        <item name="android:fontFamily">sans-serif-condensed</item>
+        <item name="android:textSize">24sp</item>
+    </style>
+
+    <style name="TextAppearance.Dialog.Message" parent="android:TextAppearance.Holo.Small">
+        <item name="android:lineSpacingMultiplier">1.2</item>
+        <item name="android:fontFamily">sans-serif-light</item>
+        <item name="android:textSize">16sp</item>
+    </style>
+
+    <style name="TextAppearance.Dialog.Info" parent="android:TextAppearance.Holo.Small">
+        <item name="android:fontFamily">sans-serif-condensed</item>
     </style>
 
 </resources>

@@ -38,14 +38,14 @@ repositories {
 
 
 android {
-    compileSdkVersion 19
-    buildToolsVersion "19.1.0"
+    compileSdkVersion 20
+    buildToolsVersion '20.0.0'
     defaultConfig {
         applicationId "com.maskyn.fileeditor"
-        minSdkVersion 10
+        minSdkVersion 11
         targetSdkVersion 19
-        versionCode 29
-        versionName "1.12"
+        versionCode 30
+        versionName "1.13"
     }
     compileOptions {
         sourceCompatibility JavaVersion.VERSION_1_7
@@ -57,6 +57,13 @@ android {
             proguardFiles getDefaultProguardFile('proguard-android.txt'), 'proguard-rules.pro'
         }
     }
+    lintOptions {
+        abortOnError false
+    }
+    packagingOptions {
+        exclude 'META-INF/LICENSE.txt'
+        exclude 'META-INF/NOTICE.txt'
+    }
 }
 
 dependencies {
@@ -64,5 +71,4 @@ dependencies {
     compile project(':libraries:sharedCode')
     compile 'com.google.android.gms:play-services:5.0.89'
     compile 'com.crashlytics.android:crashlytics:1.+'
-
 }

@@ -20,12 +20,12 @@
 apply plugin: 'com.android.application'
 
 android {
-    compileSdkVersion 19
-    buildToolsVersion "19.1.0"
+    compileSdkVersion 20
+    buildToolsVersion '20.0.0'
 
     defaultConfig {
         applicationId "com.maskyn.fileeditorpro"
-        minSdkVersion 10
+        minSdkVersion 11
         targetSdkVersion 19
         versionCode 29
         versionName "1.12"
@@ -40,6 +40,13 @@ android {
             runProguard false
             proguardFiles getDefaultProguardFile('proguard-android.txt'), 'proguard-rules.pro'
         }
+    }
+    lintOptions {
+        abortOnError false
+    }
+    packagingOptions {
+        exclude 'META-INF/LICENSE.txt'
+        exclude 'META-INF/NOTICE.txt'
     }
 }
 

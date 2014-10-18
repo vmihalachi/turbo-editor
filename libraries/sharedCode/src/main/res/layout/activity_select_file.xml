@@ -28,11 +28,7 @@
     android:id="@android:id/list"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    android:smoothScrollbar="true"
-    android:paddingStart="@dimen/activity_horizontal_margin"
-    android:paddingEnd="@dimen/activity_horizontal_margin"
-    android:paddingLeft="@dimen/activity_horizontal_margin"
-    android:paddingRight="@dimen/activity_horizontal_margin"/>
+    android:smoothScrollbar="true"/>
 
     <com.faizmalkani.floatingactionbutton.FloatingActionButton
         android:id="@+id/fabbutton"
