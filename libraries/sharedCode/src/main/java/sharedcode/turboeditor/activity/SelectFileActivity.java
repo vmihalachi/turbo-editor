@@ -24,8 +24,6 @@ import android.content.Intent;
 import android.os.AsyncTask;
 import android.os.Bundle;
 import android.support.v4.view.MenuItemCompat;
-import android.widget.PopupMenu;
-import android.widget.SearchView;
 import android.text.TextUtils;
 import android.view.Menu;
 import android.view.MenuItem;
@@ -33,6 +31,8 @@ import android.view.View;
 import android.widget.AdapterView;
 import android.widget.Filter;
 import android.widget.ListView;
+import android.widget.PopupMenu;
+import android.widget.SearchView;
 import android.widget.TextView;
 import android.widget.Toast;
 
@@ -54,13 +54,14 @@ import java.util.concurrent.TimeoutException;
 
 import sharedcode.turboeditor.R;
 import sharedcode.turboeditor.adapter.AdapterDetailedList;
-import sharedcode.turboeditor.fragment.EditDialogFragment;
+import sharedcode.turboeditor.fragment.EditTextDialog;
 import sharedcode.turboeditor.preferences.PreferenceHelper;
+import sharedcode.turboeditor.root.RootUtils;
 import sharedcode.turboeditor.util.AlphanumComparator;
-import sharedcode.turboeditor.util.Constants;
-import sharedcode.turboeditor.util.RootUtils;
+import sharedcode.turboeditor.util.Build;
+import sharedcode.turboeditor.util.ThemeUtils;
 
-public class SelectFileActivity extends Activity implements SearchView.OnQueryTextListener, AdapterView.OnItemClickListener, EditDialogFragment.EditDialogListener {
+public class SelectFileActivity extends Activity implements SearchView.OnQueryTextListener, AdapterView.OnItemClickListener, EditTextDialog.EditDialogListener {
     private String currentFolder = PreferenceHelper.SD_CARD_ROOT;
     private ListView listView;
     private boolean wantAFile = true;
@@ -73,12 +74,7 @@ public class SelectFileActivity extends Activity implements SearchView.OnQueryTe
     protected void onCreate(Bundle savedInstanceState) {
 
 
-        boolean light = PreferenceHelper.getLightTheme(this);
-        if (light) {
-            setTheme(R.style.AppTheme_Light);
-        } else {
-            setTheme(R.style.AppTheme_Dark);
-        }
+        ThemeUtils.setTheme(this);
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_select_file);
 
@@ -105,14 +101,14 @@ public class SelectFileActivity extends Activity implements SearchView.OnQueryTe
                 popup.setOnMenuItemClickListener(new PopupMenu.OnMenuItemClickListener() {
                     @Override
                     public boolean onMenuItemClick(MenuItem item) {
-                        final EditDialogFragment dialogFrag;
+                        final EditTextDialog dialogFrag;
                         int i = item.getItemId();
                         if (i == R.id.im_new_file) {
-                            dialogFrag = EditDialogFragment.newInstance(EditDialogFragment.Actions.NewFile);
+                            dialogFrag = EditTextDialog.newInstance(EditTextDialog.Actions.NewFile);
                             dialogFrag.show(getFragmentManager().beginTransaction(), "dialog");
                             return true;
                         } else if (i == R.id.im_new_folder) {
-                            dialogFrag = EditDialogFragment.newInstance(EditDialogFragment.Actions.NewFolder);
+                            dialogFrag = EditTextDialog.newInstance(EditTextDialog.Actions.NewFolder);
                             dialogFrag.show(getFragmentManager().beginTransaction(), "dialog");
                             return true;
                         } else {
@@ -151,7 +147,7 @@ public class SelectFileActivity extends Activity implements SearchView.OnQueryTe
     }
 
     public boolean onQueryTextChange(String newText) {
-        if(filter == null)
+        if (filter == null)
             return true;
 
         if (TextUtils.isEmpty(newText)) {
@@ -261,11 +257,11 @@ public class SelectFileActivity extends Activity implements SearchView.OnQueryTe
 
 
     @Override
-    public void onFinishEditDialog(final String inputText, final String hint, final EditDialogFragment.Actions actions) {
-        if (actions == EditDialogFragment.Actions.NewFile && !TextUtils.isEmpty(inputText)) {
+    public void onFinishEditDialog(final String inputText, final String hint, final EditTextDialog.Actions actions) {
+        if (actions == EditTextDialog.Actions.NewFile && !TextUtils.isEmpty(inputText)) {
             File file = new File(currentFolder, inputText);
             returnData(file.getAbsolutePath());
-        } else if (actions == EditDialogFragment.Actions.NewFolder && !TextUtils.isEmpty(inputText)) {
+        } else if (actions == EditTextDialog.Actions.NewFolder && !TextUtils.isEmpty(inputText)) {
             File file = new File(currentFolder, inputText);
             file.mkdirs();
             new UpdateList().execute(currentFolder);
@@ -340,7 +336,7 @@ public class SelectFileActivity extends Activity implements SearchView.OnQueryTe
                                     ""));
                         } else if (f.isFile()
                                 && !FilenameUtils.isExtension(f.getName().toLowerCase(), unopenableExtensions)
-                                && FileUtils.sizeOf(f) <= Constants.MAX_FILE_SIZE * FileUtils.ONE_KB) {
+                                && FileUtils.sizeOf(f) <= Build.MAX_FILE_SIZE * FileUtils.ONE_KB) {
                             final long fileSize = f.length();
                             SimpleDateFormat format = new SimpleDateFormat("MMM dd, yyyy  hh:mm a");
                             String date = format.format(f.lastModified());

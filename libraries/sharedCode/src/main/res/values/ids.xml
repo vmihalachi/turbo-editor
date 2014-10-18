@@ -50,7 +50,6 @@
     <item type="id" name="im_donate_a_coffee"/>
     <!-- layout item ids -->
     <item type="id" name="drawer_layout"/>
-    <item type="id" name="fragment_editor"/>
     <item type="id" name="editor"/>
     <item type="id" name="vertical_scroll"/>
     <item type="id" name="horizontal_scroll"/>
@@ -58,6 +57,9 @@
     <item type="id" name="drawer_files"/>
     <item type="id" name="drawer_settings"/>
     <item type="id" name="button_remove_from_list"/>
+
+    <item type="id" name="text_editor"/>
+    <item type="id" name="no_file_opened_messagge"/>
 
     <item type="id" name="regex_check"/>
     <item type="id" name="replace_check"/>

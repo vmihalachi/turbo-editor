@@ -109,6 +109,9 @@ public final class PreferenceHelper {
         return getPrefs(context).getBoolean("page_system_active", true);
     }
 
+    public static boolean hasDonated(Context context) {
+        return getPrefs(context).getBoolean("has_donated", false);
+    }
     // Setter methods
 
     public static void setUseMonospace(Context context, boolean value) {
@@ -149,6 +152,10 @@ public final class PreferenceHelper {
 
     public static void setReadOnly(Context context, boolean value) {
         getEditor(context).putBoolean("read_only", value).commit();
+    }
+
+    public static void setHasDonated(Context context, boolean value) {
+        getEditor(context).putBoolean("has_donated", value);
     }
 
 }

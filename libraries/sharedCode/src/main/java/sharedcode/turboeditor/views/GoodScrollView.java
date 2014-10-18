@@ -22,7 +22,6 @@ package sharedcode.turboeditor.views;
 import android.content.Context;
 import android.os.Handler;
 import android.util.AttributeSet;
-import android.view.MotionEvent;
 import android.view.View;
 import android.widget.ScrollView;
 
@@ -61,10 +60,10 @@ public class GoodScrollView extends ScrollView {
 
     }
 
-    public boolean hasReachedBottom(){
-        View firstChild = getChildAt(getChildCount()-1);
+    public boolean hasReachedBottom() {
+        View firstChild = getChildAt(getChildCount() - 1);
 
-        int diff = (firstChild.getBottom()-(getHeight()+getScrollY()+firstChild.getTop()));// Calculate the scrolldiff
+        int diff = (firstChild.getBottom() - (getHeight() + getScrollY() + firstChild.getTop()));// Calculate the scrolldiff
         return diff <= 0;
     }
 

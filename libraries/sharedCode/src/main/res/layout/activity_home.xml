@@ -25,14 +25,81 @@
     android:layout_width="match_parent"
     android:layout_height="match_parent">
 
-    <FrameLayout
-        android:id="@id/fragment_editor"
+    <TextView
         android:layout_width="match_parent"
-        android:layout_height="match_parent"/>
+        android:layout_height="match_parent"
+        android:gravity="center"
+        android:textSize="@dimen/text_size_mega_title"
+        android:fontFamily="sans-serif-light"
+        android:text="@string/open_a_file"
+        android:background="@null"
+        android:textColor="@android:color/secondary_text_dark"
+        android:id="@id/no_file_opened_messagge"/>
+
+
+    <FrameLayout
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+        android:id="@id/text_editor"
+        android:visibility="gone">
+
+    <sharedcode.turboeditor.views.GoodScrollView
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        android:scrollbars="vertical"
+        android:fillViewport="true"
+        android:id="@id/vertical_scroll"
+        android:background="@null">
+
+        <HorizontalScrollView
+            android:layout_height="wrap_content"
+            android:layout_width="match_parent"
+            android:scrollbars="horizontal"
+            android:fillViewport="true"
+            android:id="@id/horizontal_scroll"
+            android:background="@null">
+
+            <view
+                class="sharedcode.turboeditor.activity.BaseHomeActivity$Editor"
+                android:id="@id/editor"
+                android:layout_width="match_parent"
+                android:layout_height="match_parent"
+                android:bufferType="spannable"
+                android:textCursorDrawable="@null"
+                android:cursorVisible="true"
+                android:gravity="top|start"
+                android:singleLine="false"
+                android:background="@null"
+                android:text=""
+                android:textIsSelectable="true" />
+        </HorizontalScrollView>
+    </sharedcode.turboeditor.views.GoodScrollView>
+
+    <com.faizmalkani.floatingactionbutton.FloatingActionButton
+        android:id="@+id/fabNext"
+        android:layout_width="72dp"
+        android:layout_height="72dp"
+        android:layout_gravity="bottom|right"
+        android:layout_marginBottom="16dp"
+        android:layout_marginRight="16dp"
+        android:layout_marginEnd="16dp"
+        android:visibility="invisible"/>
+
+    <com.faizmalkani.floatingactionbutton.FloatingActionButton
+        android:id="@+id/fabPrev"
+        android:layout_width="72dp"
+        android:layout_height="72dp"
+        android:layout_gravity="bottom|right"
+        android:layout_marginBottom="16dp"
+        android:layout_marginRight="100dp"
+        android:layout_marginEnd="90dp"
+        android:visibility="invisible"/>
+
+</FrameLayout>
 
     <fragment android:layout_width="@dimen/navigation_drawer_width"
               android:layout_height="match_parent"
-              android:name="sharedcode.turboeditor.fragment.NavigationDrawerListFragment"
+              android:name="sharedcode.turboeditor.fragment.NavigationDrawer"
               android:id="@id/drawer_files"
               android:layout_gravity="start"
                tools:layout="@layout/fragment_navigation_drawer"

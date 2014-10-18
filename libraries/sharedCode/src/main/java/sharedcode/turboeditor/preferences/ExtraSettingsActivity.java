@@ -35,6 +35,7 @@ import java.util.List;
 import de.greenrobot.event.EventBus;
 import sharedcode.turboeditor.R;
 import sharedcode.turboeditor.util.EventBusEvents;
+import sharedcode.turboeditor.util.ThemeUtils;
 
 /**
  * A {@link PreferenceActivity} that presents a set of application settings. On
@@ -107,12 +108,7 @@ public class ExtraSettingsActivity extends PreferenceActivity {
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
-        boolean light = PreferenceHelper.getLightTheme(this);
-        if (light) {
-            setTheme(R.style.AppTheme_Light);
-        } else {
-            setTheme(R.style.AppTheme_Dark);
-        }
+        ThemeUtils.setTheme(this);
         super.onCreate(savedInstanceState);
     }
 

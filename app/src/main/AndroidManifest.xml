@@ -55,7 +55,7 @@
             android:configChanges="fontScale|keyboard|keyboardHidden|locale|mnc|mcc|navigation|orientation|screenLayout|screenSize|smallestScreenSize|uiMode|touchscreen"
             android:launchMode="singleTop"
             android:windowSoftInputMode="stateUnspecified|adjustResize"
-            android:theme="@style/AppTheme.Light.Editor">
+            android:theme="@style/AppThemeEditorDark">
             <intent-filter>
                 <action android:name="android.intent.action.MAIN" />
 
@@ -86,31 +86,11 @@
             </intent-filter>
         </activity>
         <activity
-            android:name="sharedcode.turboeditor.activity.PreferenceAbout"
-            android:configChanges="keyboardHidden|orientation|screenSize"
-            android:label="@string/info"
-            android:parentActivityName=".HomeActivity"
-            android:theme="@style/AppTheme.Dark">
-            <meta-data
-                android:name="android.support.PARENT_ACTIVITY"
-                android:value=".HomeActivity" />
-        </activity>
-        <activity
-            android:name="sharedcode.turboeditor.activity.LicensesActivity"
-            android:configChanges="keyboardHidden|orientation|screenSize"
-            android:label="@string/open_source_license"
-            android:parentActivityName="sharedcode.turboeditor.activity.PreferenceAbout"
-            android:theme="@style/AppTheme.Light">
-            <meta-data
-                android:name="android.support.PARENT_ACTIVITY"
-                android:value=".PreferenceAbout" />
-        </activity>
-        <activity
             android:name="sharedcode.turboeditor.activity.SelectFileActivity"
             android:configChanges="keyboardHidden|orientation|screenSize"
             android:label="@string/open_a_file"
             android:parentActivityName=".HomeActivity"
-            android:theme="@style/AppTheme.Light">
+            android:theme="@style/AppThemeBaseLight">
         <meta-data
             android:name="android.support.PARENT_ACTIVITY"
             android:value=".HomeActivity" />

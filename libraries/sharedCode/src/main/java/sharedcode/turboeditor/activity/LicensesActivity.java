@@ -30,19 +30,14 @@ import android.widget.ListView;
 import android.widget.TextView;
 
 import sharedcode.turboeditor.R;
-import sharedcode.turboeditor.preferences.PreferenceHelper;
+import sharedcode.turboeditor.util.ThemeUtils;
 
 public class LicensesActivity extends Activity implements AdapterView.OnItemClickListener {
 
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
-        boolean light = PreferenceHelper.getLightTheme(this);
-        if (light) {
-            setTheme(R.style.AppTheme_Light);
-        } else {
-            setTheme(R.style.AppTheme_Dark);
-        }
+        ThemeUtils.setTheme(this);
         super.onCreate(savedInstanceState);
 
         setContentView(R.layout.activity_licenses);
