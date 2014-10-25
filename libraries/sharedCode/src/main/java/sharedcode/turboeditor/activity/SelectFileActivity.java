@@ -19,11 +19,13 @@
 
 package sharedcode.turboeditor.activity;
 
-import android.app.Activity;
 import android.content.Intent;
 import android.os.AsyncTask;
 import android.os.Bundle;
 import android.support.v4.view.MenuItemCompat;
+import android.support.v7.app.ActionBarActivity;
+import android.support.v7.widget.SearchView;
+import android.support.v7.widget.Toolbar;
 import android.text.TextUtils;
 import android.view.Menu;
 import android.view.MenuItem;
@@ -32,7 +34,6 @@ import android.widget.AdapterView;
 import android.widget.Filter;
 import android.widget.ListView;
 import android.widget.PopupMenu;
-import android.widget.SearchView;
 import android.widget.TextView;
 import android.widget.Toast;
 
@@ -61,7 +62,7 @@ import sharedcode.turboeditor.util.AlphanumComparator;
 import sharedcode.turboeditor.util.Build;
 import sharedcode.turboeditor.util.ThemeUtils;
 
-public class SelectFileActivity extends Activity implements SearchView.OnQueryTextListener, AdapterView.OnItemClickListener, EditTextDialog.EditDialogListener {
+public class SelectFileActivity extends ActionBarActivity implements SearchView.OnQueryTextListener, AdapterView.OnItemClickListener, EditTextDialog.EditDialogListener {
     private String currentFolder = PreferenceHelper.SD_CARD_ROOT;
     private ListView listView;
     private boolean wantAFile = true;
@@ -78,7 +79,10 @@ public class SelectFileActivity extends Activity implements SearchView.OnQueryTe
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_select_file);
 
-        getActionBar().setDisplayHomeAsUpEnabled(true);
+        Toolbar toolbar = (Toolbar) findViewById(R.id.my_awesome_toolbar);
+        setSupportActionBar(toolbar);
+
+        getSupportActionBar().setDisplayHomeAsUpEnabled(true);
 
         final Actions action = (Actions) getIntent().getExtras().getSerializable("action");
         wantAFile = action == Actions.SelectFile;

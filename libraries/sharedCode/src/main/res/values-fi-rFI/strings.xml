@@ -71,4 +71,6 @@
   <string name="open">Avaa</string>
   <string name="file_saved_with_success">Tiedosto \'%1$s\' on tallennettu onnistuneesti!</string>
   <string name="open_a_file">Avaa tiedosto</string>
+  <string name="no">Ei</string>
+  <string name="new_file">Uusi tiedosto</string>
 </resources>

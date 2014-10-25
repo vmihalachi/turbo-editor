@@ -31,7 +31,7 @@
   <string name="folder">Klasör</string>
   <string name="light_theme">Aydınlık Tema</string>
   <string name="goto_line">Satıra git</string>
-  <string name="goto_page">Go to Page&#8230;</string>
+  <string name="goto_page">Sayfaya git&#8230;</string>
   <string name="find">Bul</string>
   <string name="replace">Değiştir</string>
   <string name="share">Paylaş</string>
@@ -71,4 +71,6 @@
   <string name="open">Aç</string>
   <string name="file_saved_with_success">%1$s dosyası başarıyla kaydedildi!</string>
   <string name="open_a_file">Dosya aç</string>
+  <string name="no">No</string>
+  <string name="new_file">New file</string>
 </resources>

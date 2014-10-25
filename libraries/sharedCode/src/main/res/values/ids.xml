@@ -76,6 +76,9 @@
     <item type="id" name="switch_auto_save"/>
     <item type="id" name="switch_read_only"/>
     <item type="id" name="drawer_button_extra_options"/>
+    <item type="id" name="switch_ignore_backbutton"/>
+    <item type="id" name="switch_page_system"/>
+    <item type="id" name="switch_send_error_reports"/>
 
     <item type="id" name="drawer_button_go_pro"/>
     <item type="id" name="drawer_button_encoding"/>

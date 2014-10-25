@@ -19,16 +19,16 @@
   ~ along with this program.  If not, see <http://www.gnu.org/licenses/>.
   -->
 <resources>
-  <string name="close">Close</string>
-  <string name="about_action">About</string>
+  <string name="close">Fechar	</string>
+  <string name="about_action">Sobre</string>
   <string name="about_message"><![CDATA[
-        Turbo Editor is a free and <a href="http://github.com/vmihalachi/turbo-editor">open source</a> app.
-        Copyright 2013-2014 <a href="https://plus.google.com/+VladMihalachi">Vlad Mihalachi</a>. All Rights Reserved.<br/>
+        O Turbo Editor é uma <a href="http://github.com/vmihalachi/turbo-editor">aplicação livre</a>.
+        Copyright 2013-2014 <a href="https://plus.google.com/+VladMihalachi">Vlad Mihalachi</a>. Todos os direitos reservados.<br/>
         <br/>
-        Many thanks to all who
-        <a href="http://crowdin.net/project/turbo-client">helped with translations</a> or
-        donated to me</a>.<br/>
+        Muito obrigado a todos os que 
+        <a href="http://crowdin.net/project/turbo-client">ajudaram a traduzir</a> ou
+        efetuaram donativos</a>.<br/>
         <br/>
-        If you want to send feedback here is the <a href="http://forum.xda-developers.com/android/apps-games/app-turbo-editor-text-editor-t2832016">XDA thread</a>
+        Se quiser fazer algum comentário aceda ao <a href="http://forum.xda-developers.com/android/apps-games/app-turbo-editor-text-editor-t2832016">fórum XDA</a>.
     ]]></string>
 </resources>

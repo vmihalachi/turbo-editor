@@ -8,7 +8,7 @@ package com.faizmalkani.floatingactionbutton;
 
 public final class R {
 	public static final class attr {
-		public static final int color = 0x7f010001;
+		public static final int colour = 0x7f010001;
 		public static final int drawable = 0x7f010000;
 		public static final int shadowColor = 0x7f010005;
 		public static final int shadowDx = 0x7f010003;
@@ -17,7 +17,7 @@ public final class R {
 	}
 	public static final class styleable {
 		public static final int[] FloatingActionButton = { 0x7f010000, 0x7f010001, 0x7f010002, 0x7f010003, 0x7f010004, 0x7f010005 };
-		public static final int FloatingActionButton_color = 1;
+		public static final int FloatingActionButton_colour = 1;
 		public static final int FloatingActionButton_drawable = 0;
 		public static final int FloatingActionButton_shadowColor = 5;
 		public static final int FloatingActionButton_shadowDx = 3;

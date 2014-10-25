@@ -71,4 +71,6 @@
   <string name="open">فتح</string>
   <string name="file_saved_with_success">تم حفظ الملف % 1$ s مع النجاح!</string>
   <string name="open_a_file">فتح ملف</string>
+  <string name="no">No</string>
+  <string name="new_file">New file</string>
 </resources>

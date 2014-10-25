@@ -49,7 +49,7 @@ public final class PreferenceHelper {
         return getPrefs(context).getBoolean("editor_line_numbers", true);
     }
 
-    public static boolean getSyntaxHiglight(Context context) {
+    public static boolean getSyntaxHighlight(Context context) {
         return getPrefs(context).getBoolean("editor_syntax_highlight", false);
     }
 
@@ -105,7 +105,7 @@ public final class PreferenceHelper {
         return getPrefs(context).getBoolean("ignore_back_button", false);
     }
 
-    public static boolean getPageSystemEnabled(Context context) {
+    public static boolean getSplitText(Context context) {
         return getPrefs(context).getBoolean("page_system_active", true);
     }
 
@@ -122,7 +122,7 @@ public final class PreferenceHelper {
         getEditor(context).putBoolean("editor_line_numbers", value).commit();
     }
 
-    public static void setSyntaxHiglight(Context context, boolean value) {
+    public static void setSyntaxHighlight(Context context, boolean value) {
         getEditor(context).putBoolean("editor_syntax_highlight", value).commit();
     }
 
@@ -158,4 +158,31 @@ public final class PreferenceHelper {
         getEditor(context).putBoolean("has_donated", value);
     }
 
+    public static void setLightTheme(Context context, boolean value) {
+        getEditor(context).putBoolean("light_theme", value).commit();
+    }
+
+    public static void setSuggestionsActive(Context context, boolean value) {
+        getEditor(context).putBoolean("suggestion_active", value).commit();
+    }
+
+    public static void setAutoSave(Context context, boolean value) {
+        getEditor(context).putBoolean("auto_save", value).commit();
+    }
+
+    public static void setIgnoreBackButton(Context context, boolean value) {
+        getEditor(context).putBoolean("ignore_back_button", value).commit();
+    }
+
+    public static void setSplitText(Context context, boolean value) {
+        getEditor(context).putBoolean("page_system_active", value).commit();
+    }
+
+    public static void setSendErrorReport(Context context, boolean value) {
+        getEditor(context).putBoolean("ignore_back_button", value).commit();
+    }
+
+    public static void setEncoding(Context context, String value) {
+        getEditor(context).putString("editor_encoding", value).commit();
+    }
 }

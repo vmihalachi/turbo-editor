@@ -71,4 +71,6 @@
   <string name="open">Άνοιγμα</string>
   <string name="file_saved_with_success">Το αρχείο %1$s αποθηκεύτηκε με επιτυχία!</string>
   <string name="open_a_file">Άνοιγμα αρχείου</string>
+  <string name="no">No</string>
+  <string name="new_file">New file</string>
 </resources>

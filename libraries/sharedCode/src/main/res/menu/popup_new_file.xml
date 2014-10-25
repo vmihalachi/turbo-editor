@@ -24,10 +24,10 @@
     <item
         android:id="@id/im_new_file"
         android:title="@string/file"
-        android:showAsAction="ifRoom"/>
+        app:showAsAction="ifRoom"/>
 
     <item
         android:id="@id/im_new_folder"
         android:title="@string/folder"
-        android:showAsAction="ifRoom"/>
+        app:showAsAction="ifRoom"/>
 </menu>

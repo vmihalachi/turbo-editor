@@ -20,18 +20,17 @@
   -->
 <resources>
   <string name="donation_action">Donativos</string>
-  <string name="donation_title">Donate to developer</string>
+  <string name="donation_title">Efetuar donativo</string>
   <string name="donation_info"><![CDATA[
-        Turbo Editor is a free and <a href="http://github.com/vmihalachi/turbo-editor/">open source</a> app.
-        You can show your appreciation and support development by donating:
-    ]]></string>
-  <string name="donation_item_bought">You\'ve donated for this item already.</string>
-  <string name="donation_2">An ice cream</string>
-  <string name="donation_4">Cup of coffee</string>
-  <string name="donation_10">Electricity bills</string>
-  <string name="donation_20">The right pillow</string>
-  <string name="donation_50">Solid-state drive</string>
-  <string name="donation_99">Sound system</string>
-  <string name="donation_error_iab_setup">Failed to setup in-app-billing service!</string>
-  <string name="donation_no_responsibility">Notice that Google is not responsible for that payments method.</string>
+        O Turbo Editor é uma <a href="http://github.com/vmihalachi/turbo-editor/">aplicação livre</a>.
+        Pode demonstrar o seu apreço e ajudar no desenvolvimento efetuando um donativo para:]]></string>
+  <string name="donation_item_bought">Já efetuou um donativo para este item.</string>
+  <string name="donation_2">Um gelado</string>
+  <string name="donation_4">Um café</string>
+  <string name="donation_10">A conta de eletricidade</string>
+  <string name="donation_20">Uma almofada</string>
+  <string name="donation_50">Um disco SSD</string>
+  <string name="donation_99">Um sistema de som</string>
+  <string name="donation_error_iab_setup">Erro ao configurar o serviço de pagamento!</string>
+  <string name="donation_no_responsibility">Tenha em atenção que a Google não é responsável por este método de pagamento.</string>
 </resources>

@@ -71,4 +71,6 @@
   <string name="open">открыть</string>
   <string name="file_saved_with_success">Файл %1$s успешно сохранен!</string>
   <string name="open_a_file">Открыть файл</string>
+  <string name="no">No</string>
+  <string name="new_file">New file</string>
 </resources>

@@ -23,12 +23,12 @@ import android.app.AlertDialog;
 import android.app.Dialog;
 import android.app.DialogFragment;
 import android.os.Bundle;
+import android.support.v7.widget.SwitchCompat;
 import android.view.View;
 import android.widget.AdapterView;
 import android.widget.ArrayAdapter;
 import android.widget.CompoundButton;
 import android.widget.ListView;
-import android.widget.Switch;
 
 import org.mozilla.universalchardet.Constants;
 
@@ -77,7 +77,7 @@ public class EncodingDialog extends DialogFragment implements AdapterView.OnItem
 
         final View view = getActivity().getLayoutInflater().inflate(R.layout.dialog_encoding_list, null);
         list = (ListView) view.findViewById(android.R.id.list);
-        Switch autoencoding = (Switch) view.findViewById(android.R.id.checkbox);
+        SwitchCompat autoencoding = (SwitchCompat) view.findViewById(android.R.id.checkbox);
         autoencoding.setChecked(PreferenceHelper.getAutoEncoding(getActivity()));
 
         autoencoding.setOnCheckedChangeListener(new CompoundButton.OnCheckedChangeListener() {

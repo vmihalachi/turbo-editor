@@ -24,7 +24,7 @@ import android.support.v4.widget.DrawerLayout;
 import android.util.AttributeSet;
 import android.view.KeyEvent;
 
-public class CustomDrawerLayout extends DrawerLayout {
+public class CustomDrawerLayout extends DrawerLayout{
     public CustomDrawerLayout(Context context) {
         super(context);
     }

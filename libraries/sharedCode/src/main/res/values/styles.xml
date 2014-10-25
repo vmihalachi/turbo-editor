@@ -19,7 +19,7 @@
 
 <resources>
 
-    <style name="AppThemeBaseDark" parent="android:Theme.Holo">
+    <style name="AppThemeBaseDark" parent="Theme.AppCompat.NoActionBar">
 
         <!-- Dialog -->
         <item name="textAppearanceDialogTitle">@style/TextAppearance.Dialog.Title</item>
@@ -27,14 +27,19 @@
         <item name="textAppearanceDialogInfo">@style/TextAppearance.Dialog.Info</item>
 
         <item name="android:windowBackground">@color/window_background</item>
-        <item name="android:actionBarStyle">@style/ActionBar.Dark</item>
-        <item name="android:actionOverflowButtonStyle">@style/OverFlow</item>
-        <item name="android:actionBarSize">@dimen/action_bar_height</item>
-        <item name="android:windowContentOverlay">@drawable/actionbar_shadow</item>
-        <item name="android:homeAsUpIndicator">@drawable/ic_ab_up_compat</item>
+
+        <!-- colorPrimary is used for the default action bar background -->
+        <item name="colorPrimary">@color/actionbar_background</item>
+
+        <!-- colorPrimaryDark is used for the status bar -->
+        <item name="colorPrimaryDark">@color/actionbar_background</item>
+
+        <!-- colorAccent is used as the default value for colorControlActivated
+             which is used to tint widgets -->
+        <item name="colorAccent">@color/accent_material_dark</item>
     </style>
 
-    <style name="AppThemeBaseLight" parent="android:Theme.Holo.Light.DarkActionBar">
+    <style name="AppThemeBaseLight" parent="Theme.AppCompat.Light.NoActionBar">
 
         <!-- Dialog -->
         <item name="textAppearanceDialogTitle">@style/TextAppearance.Dialog.Title</item>
@@ -42,71 +47,26 @@
         <item name="textAppearanceDialogInfo">@style/TextAppearance.Dialog.Info</item>
 
         <item name="android:windowBackground">@color/window_background_light</item>
-        <item name="android:actionBarStyle">@style/ActionBar.Dark</item>
-        <item name="android:actionOverflowButtonStyle">@style/OverFlow</item>
-        <item name="android:actionBarSize">@dimen/action_bar_height</item>
-        <item name="android:windowContentOverlay">@drawable/actionbar_shadow</item>
-        <item name="android:homeAsUpIndicator">@drawable/ic_ab_up_compat</item>
+
+        <!-- colorPrimary is used for the default action bar background -->
+        <item name="colorPrimary">@color/actionbar_background</item>
+
+        <!-- colorPrimaryDark is used for the status bar -->
+        <item name="colorPrimaryDark">@color/actionbar_background</item>
+
+        <!-- colorAccent is used as the default value for colorControlActivated
+             which is used to tint widgets -->
+        <item name="colorAccent">@color/accent_material_dark</item>
     </style>
 
     <style name="AppThemeEditorDark" parent="AppThemeBaseDark">
         <item name="android:windowBackground">@null</item>
     </style>
 
-    <style name="ActionBar.Light" parent="android:Widget.Holo.Light.ActionBar">
-
-        <item name="android:background">@color/window_background_light</item>
-        <item name="android:icon">@drawable/actionbar_icon_placeholder_compat</item>
-        <item name="android:actionOverflowButtonStyle">@style/OverFlow</item>
-        <item name="android:titleTextStyle">
-            @style/ActionBar.TitleLight
-        </item>
-        <item name="android:subtitleTextStyle">
-            @style/ActionBar.SubtitleLight
-        </item>
+    <style name="PreferenceDark" parent="android:Theme.Holo">
     </style>
 
-    <style name="ActionBar.Dark" parent="android:Widget.Holo.ActionBar">
-
-        <item name="android:background">@color/window_background</item>
-        <item name="android:icon">@drawable/actionbar_icon_placeholder_compat</item>
-        <item name="android:actionOverflowButtonStyle">@style/OverFlow</item>
-        <item name="android:titleTextStyle">
-            @style/ActionBar.TitleDark
-        </item>
-        <item name="android:subtitleTextStyle">
-            @style/ActionBar.SubtitleDark
-        </item>
-    </style>
-
-    <style name="ActionBar.TitleDark" parent="android:TextAppearance.Holo.Widget.ActionBar.Title">
-        <item name="android:textColor">
-            @color/textColor
-        </item>
-        <item name="android:textStyle">bold</item>
-    </style>
-
-    <style name="ActionBar.SubtitleDark" parent="android:TextAppearance.Holo.Widget.ActionBar.Subtitle">
-        <item name="android:textColor">
-            @color/textColor
-        </item>
-    </style>
-
-    <style name="ActionBar.TitleLight" parent="android:TextAppearance.Holo.Widget.ActionBar.Title.Inverse">
-        <item name="android:textColor">
-            @color/textColorInverted
-        </item>
-        <item name="android:textStyle">bold</item>
-    </style>
-
-    <style name="ActionBar.SubtitleLight" parent="android:TextAppearance.Holo.Widget.ActionBar.Subtitle.Inverse">
-        <item name="android:textColor">
-            @color/textColorInverted
-        </item>
-    </style>
-
-    <style name="OverFlow" parent="android:Widget.ActionButton.Overflow">
-        <item name="android:src">@drawable/ic_ab_overflow_compat</item>
+    <style name="PreferenceLight" parent="android:Theme.Holo.Light">
     </style>
 
     <style name="TextAppearance.Dialog.Title" parent="android:TextAppearance.Holo.Large">

@@ -24,7 +24,7 @@
               android:layout_gravity="center"
               android:orientation="vertical">
 
-    <Switch
+    <android.support.v7.widget.SwitchCompat
             android:id="@android:id/checkbox"
             android:layout_width="match_parent"
             android:layout_height="56dp"
@@ -34,7 +34,7 @@
         android:paddingRight="16dp"
             android:text="@string/enable_autoencoding"
         android:textSize="12sp"
-        android:textColor="@color/navigation_drawer_button_text_color"
+        android:textColor="@color/textColor"
         android:textAllCaps="true"/>
 
     <ListView

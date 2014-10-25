@@ -20,18 +20,18 @@
   -->
 <resources>
   <string name="donation_action">Bağış yap</string>
-  <string name="donation_title">Donate to developer</string>
+  <string name="donation_title">Geliştiriciye bağış yap</string>
   <string name="donation_info"><![CDATA[
-        Turbo Editor is a free and <a href="http://github.com/vmihalachi/turbo-editor/">open source</a> app.
-        You can show your appreciation and support development by donating:
+        Turbo Editör ücretsiz ve <a href="http://github.com/vmihalachi/turbo-editor/">açık kaynak</a> bir uygulamadır.
+        Bağış yaparak gelişimini destekleyebilir ve beğeninizi gösterebilirsiniz:
     ]]></string>
-  <string name="donation_item_bought">You\'ve donated for this item already.</string>
-  <string name="donation_2">An ice cream</string>
-  <string name="donation_4">Cup of coffee</string>
-  <string name="donation_10">Electricity bills</string>
-  <string name="donation_20">The right pillow</string>
-  <string name="donation_50">Solid-state drive</string>
-  <string name="donation_99">Sound system</string>
-  <string name="donation_error_iab_setup">Failed to setup in-app-billing service!</string>
-  <string name="donation_no_responsibility">Notice that Google is not responsible for that payments method.</string>
+  <string name="donation_item_bought">Zaten bu öğe için bağış yaptınız.</string>
+  <string name="donation_2">Bir dondurma</string>
+  <string name="donation_4">Bir fincan kahve</string>
+  <string name="donation_10">Elektrik faturaları</string>
+  <string name="donation_20">Ortopedik yastık</string>
+  <string name="donation_50">Solid-state sürücü</string>
+  <string name="donation_99">Ses sistemi</string>
+  <string name="donation_error_iab_setup">Uygulama içi ödeme hizmetinin kurulumu başarısız oldu!</string>
+  <string name="donation_no_responsibility">Google\'ın bu ödeme yönteminden sorumlu olmadığına dikkat edin.</string>
 </resources>

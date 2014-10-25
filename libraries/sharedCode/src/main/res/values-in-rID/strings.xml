@@ -71,4 +71,6 @@
   <string name="open">Buka</string>
   <string name="file_saved_with_success">File %1$s berhasil disimpan!</string>
   <string name="open_a_file">Buka file</string>
+  <string name="no">No</string>
+  <string name="new_file">New file</string>
 </resources>

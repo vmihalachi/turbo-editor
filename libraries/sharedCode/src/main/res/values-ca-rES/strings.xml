@@ -71,4 +71,6 @@
   <string name="open">Obre</string>
   <string name="file_saved_with_success">L\'arxiu %1$s s\'ha desat amb èxit!</string>
   <string name="open_a_file">Obre un arxiu</string>
+  <string name="no">No</string>
+  <string name="new_file">New file</string>
 </resources>

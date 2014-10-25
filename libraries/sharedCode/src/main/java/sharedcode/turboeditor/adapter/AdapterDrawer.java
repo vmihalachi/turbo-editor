@@ -30,7 +30,7 @@ import android.widget.ImageView;
 import android.widget.TextView;
 
 import java.io.File;
-import java.util.ArrayList;
+import java.util.List;
 
 import sharedcode.turboeditor.R;
 
@@ -41,11 +41,11 @@ public class AdapterDrawer extends
     // Layout Inflater
     private final LayoutInflater inflater;
     // List of file details
-    private final ArrayList<File> files;
+    private final List<File> files;
     private String selectedPath = "";
 
     public AdapterDrawer(Context context,
-                         ArrayList<File> files,
+                         List<File> files,
                          Callbacks callbacks) {
         super(context, R.layout.item_file_list, files);
         this.files = files;
@@ -80,13 +80,9 @@ public class AdapterDrawer extends
             });
 
             if (TextUtils.equals(selectedPath, files.get(position).getAbsolutePath())) {
-                hold.nameLabel.setTypeface(hold.nameLabel.getTypeface(), Typeface.BOLD);
-                convertView.setBackgroundColor((convertView.getResources()
-                        .getColor(R.color.item_selected)));
+                hold.nameLabel.setTypeface(null, Typeface.BOLD);
             } else {
-                hold.nameLabel.setTypeface(hold.nameLabel.getTypeface(), Typeface.NORMAL);
-                convertView.setBackgroundColor((convertView.getResources()
-                        .getColor(android.R.color.transparent)));
+                hold.nameLabel.setTypeface(null, Typeface.NORMAL);
             }
 
         } else {
@@ -105,12 +101,8 @@ public class AdapterDrawer extends
 
             if (TextUtils.equals(selectedPath, files.get(position).getAbsolutePath())) {
                 hold.nameLabel.setTypeface(null, Typeface.BOLD);
-                convertView.setBackgroundColor((convertView.getResources()
-                        .getColor(R.color.item_selected)));
             } else {
                 hold.nameLabel.setTypeface(null, Typeface.NORMAL);
-                convertView.setBackgroundColor((convertView.getResources()
-                        .getColor(android.R.color.transparent)));
             }
         }
         return convertView;

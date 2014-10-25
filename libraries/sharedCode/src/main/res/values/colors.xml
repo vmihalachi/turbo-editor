@@ -37,7 +37,7 @@
     <color name="navigation_drawer_button_inverted">#212121</color>
     <color name="navigation_drawer_button_text_color">#666666</color>
     <color name="navigation_drawer_button_text_color_inverted">#ffffffff</color>
-    <color name="indigo">#607d8b</color>
+
     <color name="fab_light">#ffffff</color>
     <color name="fab_dark">#f7f7f7</color>
     <!-- colors used as file icons -->
@@ -64,4 +64,6 @@
 
     <color name="donation_normal">#b6cc45</color>
     <color name="donation_purchased">#DFED47</color>
+
+    <color name="indigo">#607d8b</color>
 </resources>

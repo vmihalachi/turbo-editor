@@ -21,7 +21,7 @@
 <resources>
   <string name="donation_action">Dona</string>
   <string name="donation_title">Fai una donazione allo sviluppatore</string>
-  <string name="donation_info"><![CDATA[Turbo Editor è un'app gratuita e <a href="http://github.com/vmihalachi/turbo-editor/">open source</a>.
+  <string name="donation_info"><![CDATA[Turbo Editor è un\'app gratuita e <a href="http://github.com/vmihalachi/turbo-editor/">open source</a>.
 Puoi mostrare il tuo apprezzamento e aiutare nello sviluppo donando:]]></string>
   <string name="donation_item_bought">Hai già effettuato la donazione di questo elemento.</string>
   <string name="donation_2">Un gelato</string>

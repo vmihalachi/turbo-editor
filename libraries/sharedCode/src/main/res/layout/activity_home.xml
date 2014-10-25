@@ -17,17 +17,23 @@
   ~ You should have received a copy of the GNU General Public License
   ~ along with this program.  If not, see <http://www.gnu.org/licenses/>.
   -->
+<LinearLayout
+    xmlns:android="http://schemas.android.com/apk/res/android"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:orientation="vertical">
+
+    <include layout="@layout/toolbar"/>
 
 <sharedcode.turboeditor.views.CustomDrawerLayout
-    xmlns:android="http://schemas.android.com/apk/res/android"
-    xmlns:tools="http://schemas.android.com/tools"
+
     android:id="@id/drawer_layout"
     android:layout_width="match_parent"
     android:layout_height="match_parent">
 
     <TextView
-        android:layout_width="match_parent"
-        android:layout_height="match_parent"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
         android:gravity="center"
         android:textSize="@dimen/text_size_mega_title"
         android:fontFamily="sans-serif-light"
@@ -36,81 +42,311 @@
         android:textColor="@android:color/secondary_text_dark"
         android:id="@id/no_file_opened_messagge"/>
 
-
     <FrameLayout
-    android:layout_width="match_parent"
-    android:layout_height="match_parent"
-        android:id="@id/text_editor"
-        android:visibility="gone">
-
-    <sharedcode.turboeditor.views.GoodScrollView
-        android:layout_width="match_parent"
-        android:layout_height="match_parent"
-        android:scrollbars="vertical"
-        android:fillViewport="true"
-        android:id="@id/vertical_scroll"
-        android:background="@null">
-
-        <HorizontalScrollView
-            android:layout_height="wrap_content"
             android:layout_width="match_parent"
-            android:scrollbars="horizontal"
-            android:fillViewport="true"
-            android:id="@id/horizontal_scroll"
-            android:background="@null">
+            android:layout_height="match_parent"
+            android:id="@id/text_editor"
+            android:visibility="gone">
 
-            <view
-                class="sharedcode.turboeditor.activity.BaseHomeActivity$Editor"
-                android:id="@id/editor"
+            <sharedcode.turboeditor.views.GoodScrollView
                 android:layout_width="match_parent"
                 android:layout_height="match_parent"
-                android:bufferType="spannable"
-                android:textCursorDrawable="@null"
-                android:cursorVisible="true"
-                android:gravity="top|start"
-                android:singleLine="false"
-                android:background="@null"
-                android:text=""
-                android:textIsSelectable="true" />
-        </HorizontalScrollView>
-    </sharedcode.turboeditor.views.GoodScrollView>
+                android:scrollbars="vertical"
+                android:fillViewport="true"
+                android:id="@id/vertical_scroll"
+                android:background="@null">
 
-    <com.faizmalkani.floatingactionbutton.FloatingActionButton
-        android:id="@+id/fabNext"
-        android:layout_width="72dp"
-        android:layout_height="72dp"
-        android:layout_gravity="bottom|right"
-        android:layout_marginBottom="16dp"
-        android:layout_marginRight="16dp"
-        android:layout_marginEnd="16dp"
-        android:visibility="invisible"/>
+                <HorizontalScrollView
+                    android:layout_height="wrap_content"
+                    android:layout_width="match_parent"
+                    android:scrollbars="horizontal"
+                    android:fillViewport="true"
+                    android:id="@id/horizontal_scroll"
+                    android:background="@null">
 
-    <com.faizmalkani.floatingactionbutton.FloatingActionButton
-        android:id="@+id/fabPrev"
-        android:layout_width="72dp"
-        android:layout_height="72dp"
-        android:layout_gravity="bottom|right"
-        android:layout_marginBottom="16dp"
-        android:layout_marginRight="100dp"
-        android:layout_marginEnd="90dp"
-        android:visibility="invisible"/>
+                    <view
+                        class="sharedcode.turboeditor.activity.BaseHomeActivity$Editor"
+                        android:id="@id/editor"
+                        android:layout_width="match_parent"
+                        android:layout_height="match_parent"
+                        android:bufferType="spannable"
+                        android:textCursorDrawable="@null"
+                        android:cursorVisible="true"
+                        android:gravity="top|start"
+                        android:singleLine="false"
+                        android:background="@null"
+                        android:text=""
+                        android:textIsSelectable="true" />
+                </HorizontalScrollView>
+            </sharedcode.turboeditor.views.GoodScrollView>
 
-</FrameLayout>
+            <com.faizmalkani.floatingactionbutton.FloatingActionButton
+                android:id="@+id/fabNext"
+                android:layout_width="72dp"
+                android:layout_height="72dp"
+                android:layout_gravity="bottom|right"
+                android:layout_marginBottom="16dp"
+                android:layout_marginRight="16dp"
+                android:layout_marginEnd="16dp"
+                android:visibility="invisible"/>
 
-    <fragment android:layout_width="@dimen/navigation_drawer_width"
-              android:layout_height="match_parent"
-              android:name="sharedcode.turboeditor.fragment.NavigationDrawer"
-              android:id="@id/drawer_files"
-              android:layout_gravity="start"
-               tools:layout="@layout/fragment_navigation_drawer"
-        />
+            <com.faizmalkani.floatingactionbutton.FloatingActionButton
+                android:id="@+id/fabPrev"
+                android:layout_width="72dp"
+                android:layout_height="72dp"
+                android:layout_gravity="bottom|right"
+                android:layout_marginBottom="16dp"
+                android:layout_marginRight="100dp"
+                android:layout_marginEnd="90dp"
+                android:visibility="invisible"/>
+
+        </FrameLayout>
+
+
+
+    <RelativeLayout
+        android:layout_width="@dimen/navigation_drawer_width"
+        android:layout_height="match_parent"
+        android:background="@color/navigation_drawer_background_inverted"
+        android:id="@id/drawer_files"
+        android:layout_gravity="start"
+        >
+
+        <ListView
+            android:id="@id/android:list"
+            android:layout_width="match_parent"
+            android:layout_height="match_parent"
+            android:fadingEdge="none"
+            android:cacheColorHint="@android:color/transparent"
+            android:layout_above="@id/drawer_buttons"
+            android:divider="@color/divider"
+            android:listSelector="?selectableItemBackground"
+            android:choiceMode="singleChoice"
+            android:background="@null"
+            />
+
+        <TextView
+            android:id="@android:id/empty"
+            android:layout_width="match_parent"
+            android:layout_height="match_parent"
+            android:gravity="center"
+            android:textSize="@dimen/text_size_mega_title"
+            android:fontFamily="sans-serif-light"
+            android:text="@string/recent_files"
+            android:textColor="@android:color/secondary_text_dark"
+            android:layout_above="@id/drawer_buttons" />
+
+
+
+        <LinearLayout
+            android:layout_width="match_parent"
+            android:layout_height="192dp"
+            android:id="@id/drawer_buttons"
+            android:layout_alignParentBottom="true"
+            android:orientation="vertical">
+
+            <View
+                android:background="@color/divider_inverted"
+                android:layout_width="match_parent"
+                android:layout_height="@dimen/line_dimension"/>
+
+            <TextView
+                android:layout_width="match_parent"
+                android:layout_height="48dp"
+                android:text="@string/new_file"
+                android:gravity="center_vertical"
+                android:paddingStart="20dp"
+                android:paddingLeft="20dp"
+                android:paddingEnd="20dp"
+                android:paddingRight="20dp"
+                android:textSize="12sp"
+                android:textColor="@color/navigation_drawer_button_text_color_inverted"
+                android:clickable="true"
+                android:onClick="CreateFile"
+                android:background="?selectableItemBackground"/>
+
+            <TextView
+                android:layout_width="match_parent"
+                android:layout_height="48dp"
+                android:text="@string/open_a_file"
+                android:gravity="center_vertical"
+                android:paddingStart="20dp"
+                android:paddingLeft="20dp"
+                android:paddingEnd="20dp"
+                android:paddingRight="20dp"
+                android:textSize="12sp"
+                android:textColor="@color/navigation_drawer_button_text_color_inverted"
+                android:clickable="true"
+                android:onClick="OpenFile"
+                android:background="?selectableItemBackground"/>
+
+            <TextView
+                android:layout_width="match_parent"
+                android:layout_height="48dp"
+                android:text="@string/preferenze"
+                android:gravity="center_vertical"
+                android:paddingStart="20dp"
+                android:paddingLeft="20dp"
+                android:paddingEnd="20dp"
+                android:paddingRight="20dp"
+                android:textSize="12sp"
+                android:textColor="@color/navigation_drawer_button_text_color_inverted"
+                android:clickable="true"
+                android:onClick="OpenSettings"
+                android:background="?selectableItemBackground"/>
+
+            <TextView
+                android:layout_width="match_parent"
+                android:layout_height="48dp"
+                android:text="@string/info"
+                android:gravity="center_vertical"
+                android:paddingStart="20dp"
+                android:paddingLeft="20dp"
+                android:paddingEnd="20dp"
+                android:paddingRight="20dp"
+                android:textSize="12sp"
+                android:textColor="@color/navigation_drawer_button_text_color_inverted"
+                android:clickable="true"
+                android:onClick="OpenInfo"
+                android:background="?selectableItemBackground"/>
+
+
+
+            <!--<RelativeLayout
+                android:layout_width="match_parent"
+                android:layout_height="52dp"
+                android:orientation="horizontal"
+                >
+
+                <LinearLayout
+                    android:layout_width="match_parent"
+                    android:layout_height="match_parent"
+                    android:orientation="horizontal"
+                    android:clickable="true"
+                    android:gravity="center_vertical"
+                    android:onClick="OpenFile"
+                    android:background="@drawable/item_background_holo_dark"
+                    android:layout_toLeftOf="@+id/ic_add_dark"
+                    >
+                    <ImageView
+                        android:layout_width="35dp"
+                        android:layout_height="35dp"
+                        android:src="@drawable/ic_file_dark"
+                        android:paddingStart="16dp"
+                        android:paddingLeft="16dp"/>
+
+                    <TextView
+                        android:layout_width="match_parent"
+                        android:layout_height="match_parent"
+                        android:text="@string/open_a_file"
+                        android:gravity="center_vertical"
+                        android:paddingStart="20dp"
+                        android:paddingLeft="20dp"
+                        android:paddingEnd="20dp"
+                        android:paddingRight="20dp"
+                        android:textSize="12sp"
+                        android:textAllCaps="true"
+                        android:textColor="@color/navigation_drawer_button_text_color_inverted"/>
+                </LinearLayout>
+
+               <View
+                    android:background="@color/divider_inverted"
+                    android:layout_width="@dimen/line_dimension"
+                    android:layout_height="match_parent"
+                    android:layout_toLeftOf="@id/ic_add_dark"
+                    android:layout_marginTop="10dp"
+                    android:layout_marginBottom="10dp"/>
+
+                <ImageView
+                    android:id="@+id/ic_add_dark"
+                    android:layout_width="64dp"
+                    android:layout_height="match_parent"
+                    android:src="@drawable/ic_add_dark"
+                    android:padding="14dp"
+                    android:layout_alignParentRight="true"
+                    android:clickable="true"
+                    android:onClick="CreateFile"
+                    android:background="@drawable/item_background_holo_dark"
+                    />
+
+            </RelativeLayout>
+
+
+            <View
+                android:background="@color/divider_inverted"
+                android:layout_width="match_parent"
+                android:layout_height="@dimen/line_dimension"/>
+
+            <RelativeLayout
+                android:layout_width="match_parent"
+                android:layout_height="52dp"
+                android:orientation="horizontal"
+                >
+
+                <LinearLayout
+                    android:layout_width="match_parent"
+                    android:layout_height="match_parent"
+                    android:orientation="horizontal"
+                    android:clickable="true"
+                    android:gravity="center_vertical"
+                    android:onClick="OpenSettings"
+                    android:background="@drawable/item_background_holo_dark"
+                    android:layout_toLeftOf="@+id/ic_info_dark"
+                    >
+                    <ImageView
+                        android:layout_width="35dp"
+                        android:layout_height="35dp"
+                        android:src="@drawable/ic_settings_dark"
+                        android:paddingStart="16dp"
+                        android:paddingLeft="16dp"/>
+
+                    <TextView
+                        android:layout_width="match_parent"
+                        android:layout_height="match_parent"
+                        android:text="@string/preferenze"
+                        android:gravity="center_vertical"
+                        android:paddingStart="20dp"
+                        android:paddingLeft="20dp"
+                        android:paddingEnd="20dp"
+                        android:paddingRight="20dp"
+                        android:textSize="12sp"
+                        android:textAllCaps="true"
+                        android:textColor="@color/navigation_drawer_button_text_color_inverted"/>
+                </LinearLayout>
+
+               <View
+                    android:background="@color/divider_inverted"
+                    android:layout_width="@dimen/line_dimension"
+                    android:layout_height="match_parent"
+                    android:layout_toLeftOf="@id/ic_info_dark"
+                    android:layout_marginTop="10dp"
+                    android:layout_marginBottom="10dp"/>
+
+                <ImageView
+                    android:id="@+id/ic_info_dark"
+                    android:layout_width="64dp"
+                    android:layout_height="match_parent"
+                    android:src="@drawable/ic_info_dark"
+                    android:padding="14dp"
+                    android:layout_alignParentRight="true"
+                    android:clickable="true"
+                    android:onClick="OpenInfo"
+                    android:background="@drawable/item_background_holo_dark"
+                    />
+
+            </RelativeLayout>-->
+
+        </LinearLayout>
+
+    </RelativeLayout>
 
     <fragment android:layout_width="@dimen/navigation_drawer_width"
         android:layout_height="match_parent"
         android:name="sharedcode.turboeditor.preferences.SettingsFragment"
         android:id="@id/drawer_settings"
-        android:layout_gravity="end"
-        tools:layout="@layout/fragment_navigation_drawer"/>
+        android:layout_gravity="end"/>
 
 
 </sharedcode.turboeditor.views.CustomDrawerLayout>
+
+</LinearLayout>

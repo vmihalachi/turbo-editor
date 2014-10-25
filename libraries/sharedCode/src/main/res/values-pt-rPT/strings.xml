@@ -31,7 +31,7 @@
   <string name="folder">Pasta</string>
   <string name="light_theme">Tema claro</string>
   <string name="goto_line">Ir para a linha</string>
-  <string name="goto_page">Go to Page&#8230;</string>
+  <string name="goto_page">Ir para a página&#8230;</string>
   <string name="find">Localizar</string>
   <string name="replace">Substituir</string>
   <string name="share">Partilhar</string>
@@ -71,4 +71,6 @@
   <string name="open">Abrir</string>
   <string name="file_saved_with_success">O ficheiro %1$s foi gravado com sucesso!</string>
   <string name="open_a_file">Abrir um ficheiro</string>
+  <string name="no">No</string>
+  <string name="new_file">New file</string>
 </resources>

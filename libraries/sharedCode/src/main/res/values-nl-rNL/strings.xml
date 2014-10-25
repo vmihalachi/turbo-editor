@@ -71,4 +71,6 @@
   <string name="open">Openen</string>
   <string name="file_saved_with_success">Het bestand %1$s is met succes opgeslagen!</string>
   <string name="open_a_file">Open een bestand</string>
+  <string name="no">No</string>
+  <string name="new_file">New file</string>
 </resources>

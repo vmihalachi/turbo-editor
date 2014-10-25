@@ -19,8 +19,6 @@
 
 package sharedcode.turboeditor.activity;
 
-import android.app.ActionBar;
-import android.app.Activity;
 import android.app.ProgressDialog;
 import android.content.ActivityNotFoundException;
 import android.content.Context;
@@ -36,12 +34,18 @@ import android.os.Bundle;
 import android.os.Handler;
 import android.os.IBinder;
 import android.preference.PreferenceManager;
-import android.support.v4.app.ActionBarDrawerToggle;
+import android.support.annotation.Nullable;
+import android.support.v4.view.MenuItemCompat;
+import android.support.v7.app.ActionBarActivity;
+import android.support.v7.app.ActionBarDrawerToggle;
+import android.support.v7.widget.ShareActionProvider;
+import android.support.v7.widget.Toolbar;
 import android.text.Editable;
 import android.text.InputType;
 import android.text.Selection;
 import android.text.Spannable;
 import android.text.TextPaint;
+import android.text.TextUtils;
 import android.text.TextWatcher;
 import android.text.method.KeyListener;
 import android.text.style.ForegroundColorSpan;
@@ -54,13 +58,16 @@ import android.view.MenuItem;
 import android.view.View;
 import android.view.WindowManager;
 import android.view.inputmethod.InputMethodManager;
+import android.widget.AdapterView;
 import android.widget.EditText;
 import android.widget.HorizontalScrollView;
+import android.widget.ListView;
 import android.widget.Toast;
 
 import com.faizmalkani.floatingactionbutton.FloatingActionButton;
 
 import org.apache.commons.io.FilenameUtils;
+import org.apache.commons.lang3.ArrayUtils;
 import org.sufficientlysecure.rootcommands.Shell;
 import org.sufficientlysecure.rootcommands.Toolbox;
 
@@ -73,6 +80,7 @@ import java.util.regex.Pattern;
 
 import de.greenrobot.event.EventBus;
 import sharedcode.turboeditor.R;
+import sharedcode.turboeditor.adapter.AdapterDrawer;
 import sharedcode.turboeditor.fragment.ChangelogDialog;
 import sharedcode.turboeditor.fragment.FileInfoDialog;
 import sharedcode.turboeditor.fragment.FindTextDialog;
@@ -108,11 +116,12 @@ import static sharedcode.turboeditor.util.EventBusEvents.APreferenceValueWasChan
 import static sharedcode.turboeditor.util.EventBusEvents.APreferenceValueWasChanged.Type.THEME_CHANGE;
 import static sharedcode.turboeditor.util.EventBusEvents.APreferenceValueWasChanged.Type.WRAP_CONTENT;
 
-public abstract class BaseHomeActivity extends Activity implements FindTextDialog
+public abstract class BaseHomeActivity extends ActionBarActivity implements FindTextDialog
         .SearchDialogInterface, GoodScrollView.ScrollInterface, PageSystem.PageSystemInterface,
-        PageSystemButtons.PageButtonsInterface, SeekbarDialog.ISeekbarDialog, SaveFileDialog.ISaveDialog {
+        PageSystemButtons.PageButtonsInterface, SeekbarDialog.ISeekbarDialog, SaveFileDialog.ISaveDialog,
+        AdapterView.OnItemClickListener, AdapterDrawer.Callbacks{
 
-    //region EDITOR VARIABLES
+    //region VARIABLES
     static final int
             ID_SELECT_ALL = android.R.id.selectAll;
     static final int ID_CUT = android.R.id.cut;
@@ -160,9 +169,18 @@ public abstract class BaseHomeActivity extends Activity implements FindTextDialo
     private PageSystem pageSystem;
     private PageSystemButtons pageSystemButtons;
     private String currentEncoding = "UTF-8";
+    private Toolbar toolbar;
+
+    /*
+    Navigation Drawer
+     */
+    private AdapterDrawer arrayAdapter;
+    private LinkedList<File> files;
+    private ListView listView;
     //endregion
 
     //region Activity facts
+
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         // set the windows background
@@ -171,6 +189,8 @@ public abstract class BaseHomeActivity extends Activity implements FindTextDialo
         super.onCreate(savedInstanceState);
         // setup the layout
         setContentView(R.layout.activity_home);
+        toolbar = (Toolbar) findViewById(R.id.my_awesome_toolbar);
+        setSupportActionBar(toolbar);
         // setup the navigation drawer
         setupNavigationDrawer();
         // reset text editor
@@ -181,7 +201,7 @@ public abstract class BaseHomeActivity extends Activity implements FindTextDialo
             // Open
             mDrawerLayout.openDrawer(Gravity.START);
             // Set the default title
-            getActionBar().setTitle(getString(R.string.nome_app_turbo_editor));
+            getSupportActionBar().setTitle(getString(R.string.nome_app_turbo_editor));
         }
         // parse the intent
         parseIntent(getIntent());
@@ -201,6 +221,8 @@ public abstract class BaseHomeActivity extends Activity implements FindTextDialo
         super.onResume();
         // Register the Event Bus for events
         EventBus.getDefault().registerSticky(this);
+        // Refresh the list view
+        refreshList();
     }
 
     @Override
@@ -289,7 +311,7 @@ public abstract class BaseHomeActivity extends Activity implements FindTextDialo
                 hideTextEditor();
 
                 // Set the default title
-                getActionBar().setTitle(getString(R.string.nome_app_turbo_editor));
+                getSupportActionBar().setTitle(getString(R.string.nome_app_turbo_editor));
 
                 EventBus.getDefault().post(new EventBusEvents.ClosedAFile());
 
@@ -311,13 +333,15 @@ public abstract class BaseHomeActivity extends Activity implements FindTextDialo
             String path = "";
             if (requestCode == SELECT_FILE_CODE) {
                 path = data.getStringExtra("path");
+                if(TextUtils.isEmpty(path))
+                    path = AccessStorageApi.getPath(getBaseContext(), data.getData());
             }
 
             if (requestCode == KITKAT_OPEN_REQUEST_CODE) {
                 path = AccessStorageApi.getPath(getBaseContext(), data.getData());
             }
 
-            if (!path.isEmpty()) {
+            if (!TextUtils.isEmpty(path)) {
                 File file = new File(path);
                 if (file.isFile() && file.exists()) {
                     EventBus.getDefault().postSticky(new EventBusEvents.NewFileToOpen(new File
@@ -327,6 +351,15 @@ public abstract class BaseHomeActivity extends Activity implements FindTextDialo
 
         }
     }
+
+    @Override
+    public void onItemClick(AdapterView<?> parent, View view, int position, long id) {
+        // Path of the file selected
+        String filePath = files.get(position).getAbsolutePath();
+        // Send the event that a file was selected
+        EventBus.getDefault().post(new EventBusEvents.NewFileToOpen(new File(filePath)));
+    }
+
     //endregion
 
     //region MENU
@@ -342,11 +375,6 @@ public abstract class BaseHomeActivity extends Activity implements FindTextDialo
 
     @Override
     public boolean onPrepareOptionsMenu(Menu menu) {
-
-        ActionBar ab = getActionBar();
-        if (ab == null)
-            return false;
-
 
         if (fileOpened && searchingText) {
             MenuItem imReplace = menu.findItem(R.id.im_replace);
@@ -379,6 +407,16 @@ public abstract class BaseHomeActivity extends Activity implements FindTextDialo
                 imUndo.setVisible(false);
                 imRedo.setVisible(false);
             }
+
+            MenuItem item = (MenuItem) menu.findItem(R.id.im_share);
+            ShareActionProvider shareAction = (ShareActionProvider) MenuItemCompat
+                    .getActionProvider(item);
+            File f = new File(sFilePath);
+            Intent shareIntent = new Intent();
+            shareIntent.setAction(Intent.ACTION_SEND);
+            shareIntent.putExtra(Intent.EXTRA_STREAM, Uri.fromFile(f));
+            shareIntent.setType("text/plain");
+            shareAction.setShareIntent(shareIntent);
         }
 
         return true;
@@ -388,7 +426,8 @@ public abstract class BaseHomeActivity extends Activity implements FindTextDialo
     public boolean onOptionsItemSelected(MenuItem item) {
         int i = item.getItemId();
         if (mDrawerToggle.onOptionsItemSelected(item)) {
-            mDrawerLayout.closeDrawer(Gravity.RIGHT);
+            Toast.makeText(getBaseContext(), "drawer click", Toast.LENGTH_SHORT).show();
+            mDrawerLayout.closeDrawer(Gravity.END);
             return true;
         } else if (i == R.id.im_save) {
             saveTheFile();
@@ -431,15 +470,6 @@ public abstract class BaseHomeActivity extends Activity implements FindTextDialo
             } catch (ActivityNotFoundException ex2) {
                 //
             }
-
-        } else if (i == R.id.im_share) {
-            File f = new File(sFilePath);
-            Intent shareIntent = new Intent();
-            shareIntent.setAction(Intent.ACTION_SEND);
-            shareIntent.putExtra(Intent.EXTRA_STREAM, Uri.fromFile(f));
-            shareIntent.setType("text/plain");
-
-            startActivity(Intent.createChooser(shareIntent, getString(R.string.share)));
 
         } else if (i == R.id.im_info) {
             FileInfoDialog dialogFrag = FileInfoDialog.newInstance(sFilePath);
@@ -543,25 +573,22 @@ public abstract class BaseHomeActivity extends Activity implements FindTextDialo
      */
     private void setupNavigationDrawer() {
         mDrawerLayout = (CustomDrawerLayout) findViewById(R.id.drawer_layout);
-        /* Action Bar */
-        final ActionBar ab = getActionBar();
+        /* Action Bar
+        final ActionBar ab = toolbar;
         ab.setDisplayHomeAsUpEnabled(true);
-        ab.setHomeButtonEnabled(true);
+        ab.setHomeButtonEnabled(true);*/
         /* Navigation drawer */
         mDrawerToggle =
                 new ActionBarDrawerToggle(
                         this,
                         mDrawerLayout,
-                        R.drawable.ic_drawer,
+                        toolbar,
                         R.string.nome_app_turbo_editor,
                         R.string.nome_app_turbo_editor) {
 
-                    /**
-                     * {@inheritDoc}
-                     */
                     @Override
                     public void onDrawerOpened(View drawerView) {
-                        invalidateOptionsMenu();
+                        supportInvalidateOptionsMenu();
                         try {
                             closeKeyBoard();
                         } catch (NullPointerException e) {
@@ -569,17 +596,21 @@ public abstract class BaseHomeActivity extends Activity implements FindTextDialo
                         }
                     }
 
-                    /**
-                     * {@inheritDoc}
-                     */
                     @Override
                     public void onDrawerClosed(View view) {
-                        invalidateOptionsMenu();
+                        supportInvalidateOptionsMenu();
                     }
                 };
         /* link the mDrawerToggle to the Drawer Layout */
         mDrawerLayout.setDrawerListener(mDrawerToggle);
 //mDrawerLayout.setFocusableInTouchMode(false);
+
+        listView = (ListView) findViewById(android.R.id.list);
+        listView.setEmptyView(findViewById(android.R.id.empty));
+        files = new LinkedList<>();
+        arrayAdapter = new AdapterDrawer(this, files, this);
+        listView.setAdapter(arrayAdapter);
+        listView.setOnItemClickListener(this);
     }
 
     private void setupTextEditor() {
@@ -696,13 +727,55 @@ public abstract class BaseHomeActivity extends Activity implements FindTextDialo
     }
 
     public void updateTextSyntax() {
-        if (!PreferenceHelper.getSyntaxHiglight(getBaseContext()) || mEditor.hasSelection() ||
+        if (!PreferenceHelper.getSyntaxHighlight(getBaseContext()) || mEditor.hasSelection() ||
                 updateHandler == null || colorRunnable_duringEditing == null)
             return;
 
         updateHandler.removeCallbacks(colorRunnable_duringEditing);
         updateHandler.removeCallbacks(colorRunnable_duringScroll);
         updateHandler.postDelayed(colorRunnable_duringEditing, SYNTAX_DELAY_MILLIS_LONG);
+    }
+
+    private void refreshList(){
+        refreshList(null, false, false);
+    }
+
+    private void refreshList(@Nullable String path, boolean add, boolean delete) {
+        int max_recent_files = 15;
+        if(add)
+            max_recent_files--;
+
+        // File paths saved in preferences
+        String[] savedPaths = PreferenceHelper.getSavedPaths(this);
+        int first_index_of_array = savedPaths.length > max_recent_files ? savedPaths.length - max_recent_files : 0;
+        savedPaths = ArrayUtils.subarray(savedPaths, first_index_of_array, savedPaths.length);
+        // File names for the list
+        files.clear();
+        // StringBuilder that will contain the file paths
+        StringBuilder sb = new StringBuilder();
+        // for cycle to convert paths to names
+
+        for(int i = 0; i < savedPaths.length; i++){
+            String savedPath = savedPaths[i];
+            File file = new File(savedPath);
+            // Check that the file exist
+            if (file.exists()) {
+                if(path != null && path.equals(savedPath) && delete)
+                    continue;
+                else {
+                    files.addFirst(file);
+                    sb.append(savedPath).append(",");
+                }
+            }
+        }
+        if(path != null && !path.isEmpty() && add && !ArrayUtils.contains(savedPaths, path)) {
+            sb.append(path).append(",");
+            files.addFirst(new File(path));
+        }
+        // save list without empty or non existed files
+        PreferenceHelper.setSavedPaths(this, sb);
+        // Set adapter
+        arrayAdapter.notifyDataSetChanged();
     }
     //endregion
 
@@ -718,8 +791,8 @@ public abstract class BaseHomeActivity extends Activity implements FindTextDialo
 
         new AsyncTask<Void, Void, Void>() {
 
-            File file;
-            String message;
+            File file = event.getFile();
+            String message = "";
             String fileText;
             String encoding;
             ProgressDialog progressDialog;
@@ -729,8 +802,6 @@ public abstract class BaseHomeActivity extends Activity implements FindTextDialo
                 super.onPreExecute();
                 // Close the drawer
                 mDrawerLayout.closeDrawer(Gravity.START);
-                file = event.getFile();
-                message = "";
                 progressDialog = new ProgressDialog(BaseHomeActivity.this);
                 progressDialog.setMessage(getString(R.string.please_wait));
                 progressDialog.show();
@@ -742,7 +813,7 @@ public abstract class BaseHomeActivity extends Activity implements FindTextDialo
                 try {
                     boolean isRoot = false;
 
-                    if (!file.exists()) {
+                    if (!file.exists() || !file.isFile()) {
                         fileText = event.getFileText();
                         return null;
                     }
@@ -811,14 +882,19 @@ public abstract class BaseHomeActivity extends Activity implements FindTextDialo
 
                     String name = FilenameUtils.getName(sFilePath);
                     if (name.isEmpty())
-                        getActionBar().setTitle("*");
+                        getSupportActionBar().setTitle(R.string.new_file);
                     else
-                        getActionBar().setTitle(name);
+                        getSupportActionBar().setTitle(name);
 
+                    if(!name.isEmpty()) {
+                        refreshList(sFilePath, true, false);
+                    }
                 }
 
             }
         }.execute();
+
+        EventBus.getDefault().removeStickyEvent(event);
 
     }
 
@@ -833,7 +909,8 @@ public abstract class BaseHomeActivity extends Activity implements FindTextDialo
         } catch (NullPointerException e) {
             e.printStackTrace();
         }
-        // Get intent, action and MIME type
+
+        /*// Get intent, action and MIME type
         final Intent intent = getIntent();
         final String action = intent.getAction();
         final String type = intent.getType();
@@ -847,7 +924,10 @@ public abstract class BaseHomeActivity extends Activity implements FindTextDialo
             setResult(Activity.RESULT_OK, returnIntent);
             // finish the activity
             finish();
-        }
+        }*/
+
+        refreshList(event.getPath(), true, false);
+        arrayAdapter.selectView(event.getPath());
 
         displayInterstitial();
     }
@@ -862,7 +942,9 @@ public abstract class BaseHomeActivity extends Activity implements FindTextDialo
         //
         mDrawerLayout.openDrawer(Gravity.LEFT);
         //
-        getActionBar().setTitle(getString(R.string.nome_app_turbo_editor));
+        getSupportActionBar().setTitle(getString(R.string.nome_app_turbo_editor));
+        //
+        supportInvalidateOptionsMenu();
         // Replace fragment
         hideTextEditor();
     }
@@ -965,14 +1047,22 @@ public abstract class BaseHomeActivity extends Activity implements FindTextDialo
             }
         }
     }
+
+    public void onEvent(EventBusEvents.AFileIsSelected event) {
+        arrayAdapter.selectView(event.getPath());
+
+        EventBus.getDefault().removeStickyEvent(event);
+    }
+
+    public void onEvent(EventBusEvents.ClosedAFile event) {
+        arrayAdapter.selectView("");
+    }
     //endregion
 
     //region Calls from the layout
     public void OpenFile(View view) {
-
         Intent subActivity = new Intent(BaseHomeActivity.this, SelectFileActivity.class);
         subActivity.putExtra("action", SelectFileActivity.Actions.SelectFile);
-
         AnimationUtils.startActivityWithScale(this, subActivity, true, SELECT_FILE_CODE, view);
     }
 
@@ -1093,7 +1183,7 @@ public abstract class BaseHomeActivity extends Activity implements FindTextDialo
     public void onScrollChanged(int l, int t, int oldl, int oldt) {
         pageSystemButtons.updateVisibility(Math.abs(t) > 10);
 
-        if (!PreferenceHelper.getSyntaxHiglight(getBaseContext()) || (mEditor.hasSelection() &&
+        if (!PreferenceHelper.getSyntaxHighlight(getBaseContext()) || (mEditor.hasSelection() &&
                 !searchingText) || updateHandler == null || colorRunnable_duringScroll == null)
             return;
 
@@ -1139,8 +1229,16 @@ public abstract class BaseHomeActivity extends Activity implements FindTextDialo
         mEditor.canSaveFile = false;
         if(openNewFile)
             onEvent(new EventBusEvents.NewFileToOpen(new File(pathOfNewFile)));
+        else
+            onEvent(new EventBusEvents.CannotOpenAFile());
     }
 
+    @Override
+    public void CancelItem(int position, boolean andCloseOpenedFile) {
+        refreshList(files.get(position).getAbsolutePath(), false, true);
+        if (andCloseOpenedFile)
+            EventBus.getDefault().post(new EventBusEvents.CannotOpenAFile());
+    }
     //endregion
 
     public static class Editor extends EditText {
@@ -1645,7 +1743,7 @@ public abstract class BaseHomeActivity extends Activity implements FindTextDialo
             disableTextChangedListener();
             modified = false;
 
-            if (PreferenceHelper.getSyntaxHiglight(getContext()))
+            if (PreferenceHelper.getSyntaxHighlight(getContext()))
                 setText(highlight(textToUpdate == null ? getEditableText() : Editable.Factory
                         .getInstance().newEditable(textToUpdate), textToUpdate != null));
             else

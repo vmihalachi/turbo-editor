@@ -17,7 +17,7 @@ theme attribute (in the form
 "<code>?[<i>package</i>:][<i>type</i>:]<i>name</i></code>")
 containing a value of this type.
          */
-        public static int color=0x7f010001;
+        public static int colour=0x7f010001;
         /** <p>Must be an integer value, such as "<code>100</code>".
 <p>This may also be a reference to a resource (in the form
 "<code>@[<i>package</i>:]<i>type</i>:<i>name</i></code>") or
@@ -66,14 +66,14 @@ containing a value of this type.
            <colgroup align="left" />
            <colgroup align="left" />
            <tr><th>Attribute</th><th>Description</th></tr>
-           <tr><td><code>{@link #FloatingActionButton_color com.faizmalkani.floatingactionbutton:color}</code></td><td></td></tr>
+           <tr><td><code>{@link #FloatingActionButton_colour com.faizmalkani.floatingactionbutton:colour}</code></td><td></td></tr>
            <tr><td><code>{@link #FloatingActionButton_drawable com.faizmalkani.floatingactionbutton:drawable}</code></td><td></td></tr>
            <tr><td><code>{@link #FloatingActionButton_shadowColor com.faizmalkani.floatingactionbutton:shadowColor}</code></td><td></td></tr>
            <tr><td><code>{@link #FloatingActionButton_shadowDx com.faizmalkani.floatingactionbutton:shadowDx}</code></td><td></td></tr>
            <tr><td><code>{@link #FloatingActionButton_shadowDy com.faizmalkani.floatingactionbutton:shadowDy}</code></td><td></td></tr>
            <tr><td><code>{@link #FloatingActionButton_shadowRadius com.faizmalkani.floatingactionbutton:shadowRadius}</code></td><td></td></tr>
            </table>
-           @see #FloatingActionButton_color
+           @see #FloatingActionButton_colour
            @see #FloatingActionButton_drawable
            @see #FloatingActionButton_shadowColor
            @see #FloatingActionButton_shadowDx
@@ -85,7 +85,7 @@ containing a value of this type.
             0x7f010004, 0x7f010005
         };
         /**
-          <p>This symbol is the offset where the {@link com.faizmalkani.floatingactionbutton.R.attr#color}
+          <p>This symbol is the offset where the {@link com.faizmalkani.floatingactionbutton.R.attr#colour}
           attribute's value can be found in the {@link #FloatingActionButton} array.
 
 
@@ -96,9 +96,9 @@ containing a value of this type.
 theme attribute (in the form
 "<code>?[<i>package</i>:][<i>type</i>:]<i>name</i></code>")
 containing a value of this type.
-          @attr name com.faizmalkani.floatingactionbutton:color
+          @attr name com.faizmalkani.floatingactionbutton:colour
         */
-        public static final int FloatingActionButton_color = 1;
+        public static int FloatingActionButton_colour = 1;
         /**
           <p>This symbol is the offset where the {@link com.faizmalkani.floatingactionbutton.R.attr#drawable}
           attribute's value can be found in the {@link #FloatingActionButton} array.
@@ -112,7 +112,7 @@ theme attribute (in the form
 containing a value of this type.
           @attr name com.faizmalkani.floatingactionbutton:drawable
         */
-        public static final int FloatingActionButton_drawable = 0;
+        public static int FloatingActionButton_drawable = 0;
         /**
           <p>This symbol is the offset where the {@link com.faizmalkani.floatingactionbutton.R.attr#shadowColor}
           attribute's value can be found in the {@link #FloatingActionButton} array.
@@ -126,7 +126,7 @@ theme attribute (in the form
 containing a value of this type.
           @attr name com.faizmalkani.floatingactionbutton:shadowColor
         */
-        public static final int FloatingActionButton_shadowColor = 5;
+        public static int FloatingActionButton_shadowColor = 5;
         /**
           <p>This symbol is the offset where the {@link com.faizmalkani.floatingactionbutton.R.attr#shadowDx}
           attribute's value can be found in the {@link #FloatingActionButton} array.
@@ -140,7 +140,7 @@ theme attribute (in the form
 containing a value of this type.
           @attr name com.faizmalkani.floatingactionbutton:shadowDx
         */
-        public static final int FloatingActionButton_shadowDx = 3;
+        public static int FloatingActionButton_shadowDx = 3;
         /**
           <p>This symbol is the offset where the {@link com.faizmalkani.floatingactionbutton.R.attr#shadowDy}
           attribute's value can be found in the {@link #FloatingActionButton} array.
@@ -154,7 +154,7 @@ theme attribute (in the form
 containing a value of this type.
           @attr name com.faizmalkani.floatingactionbutton:shadowDy
         */
-        public static final int FloatingActionButton_shadowDy = 4;
+        public static int FloatingActionButton_shadowDy = 4;
         /**
           <p>This symbol is the offset where the {@link com.faizmalkani.floatingactionbutton.R.attr#shadowRadius}
           attribute's value can be found in the {@link #FloatingActionButton} array.
@@ -168,6 +168,6 @@ theme attribute (in the form
 containing a value of this type.
           @attr name com.faizmalkani.floatingactionbutton:shadowRadius
         */
-        public static final int FloatingActionButton_shadowRadius = 2;
+        public static int FloatingActionButton_shadowRadius = 2;
     };
 }

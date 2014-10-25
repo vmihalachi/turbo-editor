@@ -34,6 +34,7 @@ import java.util.Date;
 
 import sharedcode.turboeditor.R;
 import sharedcode.turboeditor.adapter.AdapterTwoItem;
+import sharedcode.turboeditor.views.DialogHelper;
 
 // ...
 public class FileInfoDialog extends DialogFragment {
@@ -49,7 +50,12 @@ public class FileInfoDialog extends DialogFragment {
     @Override
     public Dialog onCreateDialog(Bundle savedInstanceState) {
 
-        final View view = getActivity().getLayoutInflater().inflate(R.layout.dialog_fragment_file_info, null);
+        View view = new DialogHelper.Builder(getActivity())
+                .setTitle(R.string.info)
+                .setView(R.layout.dialog_fragment_file_info)
+                .createSkeletonView();
+        //final View view = getActivity().getLayoutInflater().inflate(R.layout.dialog_fragment_file_info, null);
+
         ListView list = (ListView) view.findViewById(android.R.id.list);
 
         File file = new File(getArguments().getString("filePath"));
@@ -76,8 +82,8 @@ public class FileInfoDialog extends DialogFragment {
 
         list.setAdapter(new AdapterTwoItem(getActivity(), lines1, lines2));
 
+
         return new AlertDialog.Builder(getActivity())
-                //.setTitle(title)
                 .setView(view)
                 .setPositiveButton(android.R.string.ok,
                         new DialogInterface.OnClickListener() {

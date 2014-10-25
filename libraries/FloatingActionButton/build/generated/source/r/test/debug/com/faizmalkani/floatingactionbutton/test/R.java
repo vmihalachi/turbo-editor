@@ -17,7 +17,7 @@ theme attribute (in the form
 "<code>?[<i>package</i>:][<i>type</i>:]<i>name</i></code>")
 containing a value of this type.
          */
-        public static final int color=0x7f010001;
+        public static final int colour=0x7f010001;
         /** <p>Must be an integer value, such as "<code>100</code>".
 <p>This may also be a reference to a resource (in the form
 "<code>@[<i>package</i>:]<i>type</i>:<i>name</i></code>") or
@@ -66,14 +66,14 @@ containing a value of this type.
            <colgroup align="left" />
            <colgroup align="left" />
            <tr><th>Attribute</th><th>Description</th></tr>
-           <tr><td><code>{@link #FloatingActionButton_color com.faizmalkani.floatingactionbutton.test:color}</code></td><td></td></tr>
+           <tr><td><code>{@link #FloatingActionButton_colour com.faizmalkani.floatingactionbutton.test:colour}</code></td><td></td></tr>
            <tr><td><code>{@link #FloatingActionButton_drawable com.faizmalkani.floatingactionbutton.test:drawable}</code></td><td></td></tr>
            <tr><td><code>{@link #FloatingActionButton_shadowColor com.faizmalkani.floatingactionbutton.test:shadowColor}</code></td><td></td></tr>
            <tr><td><code>{@link #FloatingActionButton_shadowDx com.faizmalkani.floatingactionbutton.test:shadowDx}</code></td><td></td></tr>
            <tr><td><code>{@link #FloatingActionButton_shadowDy com.faizmalkani.floatingactionbutton.test:shadowDy}</code></td><td></td></tr>
            <tr><td><code>{@link #FloatingActionButton_shadowRadius com.faizmalkani.floatingactionbutton.test:shadowRadius}</code></td><td></td></tr>
            </table>
-           @see #FloatingActionButton_color
+           @see #FloatingActionButton_colour
            @see #FloatingActionButton_drawable
            @see #FloatingActionButton_shadowColor
            @see #FloatingActionButton_shadowDx
@@ -85,7 +85,7 @@ containing a value of this type.
             0x7f010004, 0x7f010005
         };
         /**
-          <p>This symbol is the offset where the {@link com.faizmalkani.floatingactionbutton.test.R.attr#color}
+          <p>This symbol is the offset where the {@link com.faizmalkani.floatingactionbutton.test.R.attr#colour}
           attribute's value can be found in the {@link #FloatingActionButton} array.
 
 
@@ -96,9 +96,9 @@ containing a value of this type.
 theme attribute (in the form
 "<code>?[<i>package</i>:][<i>type</i>:]<i>name</i></code>")
 containing a value of this type.
-          @attr name com.faizmalkani.floatingactionbutton.test:color
+          @attr name com.faizmalkani.floatingactionbutton.test:colour
         */
-        public static final int FloatingActionButton_color = 1;
+        public static final int FloatingActionButton_colour = 1;
         /**
           <p>This symbol is the offset where the {@link com.faizmalkani.floatingactionbutton.test.R.attr#drawable}
           attribute's value can be found in the {@link #FloatingActionButton} array.

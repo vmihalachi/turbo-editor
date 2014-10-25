@@ -31,7 +31,7 @@
   <string name="folder">フォルダー</string>
   <string name="light_theme">ライトテーマ</string>
   <string name="goto_line">行へ移動</string>
-  <string name="goto_page">Go to Page&#8230;</string>
+  <string name="goto_page">ページを移動&#8230;</string>
   <string name="find">検索</string>
   <string name="replace">置換</string>
   <string name="share">共有</string>
@@ -71,4 +71,6 @@
   <string name="open">開く</string>
   <string name="file_saved_with_success">ファイル %1$s は保存されました！</string>
   <string name="open_a_file">ファイルを開く</string>
+  <string name="no">いいえ</string>
+  <string name="new_file">新しいファイル</string>
 </resources>

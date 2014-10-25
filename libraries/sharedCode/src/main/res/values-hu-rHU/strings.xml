@@ -71,4 +71,6 @@
   <string name="open">Megnyit</string>
   <string name="file_saved_with_success">A(z) %1$s fájl sikeresen mentve!</string>
   <string name="open_a_file">Fájl megnyitása</string>
+  <string name="no">No</string>
+  <string name="new_file">New file</string>
 </resources>

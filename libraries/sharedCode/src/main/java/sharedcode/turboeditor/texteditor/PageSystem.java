@@ -43,7 +43,7 @@ public class PageSystem {
         int to;
         int indexOfReturn;
         int textLenght = text.length();
-        boolean pageSystemEnabled = PreferenceHelper.getPageSystemEnabled(context);
+        boolean pageSystemEnabled = PreferenceHelper.getSplitText(context);
         if (pageSystemEnabled && textLenght > maxLenghtInOnePage) {
             while (i < textLenght && pageSystemEnabled) {
                 to = i + charForPage;

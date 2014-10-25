@@ -71,4 +71,6 @@
   <string name="open">Otevřít</string>
   <string name="file_saved_with_success">Soubor %1$s byl úspěšně uložen!</string>
   <string name="open_a_file">Otevřít soubor</string>
+  <string name="no">No</string>
+  <string name="new_file">New file</string>
 </resources>

@@ -31,10 +31,10 @@
   <string name="folder">Director</string>
   <string name="light_theme">Tema deschisă la culoare</string>
   <string name="goto_line">Du-te la linia</string>
-  <string name="goto_page">Go to Page&#8230;</string>
+  <string name="goto_page">Du-te la pagina&#8230;</string>
   <string name="find">Caută</string>
   <string name="replace">Înlocuiește</string>
-  <string name="share">Share</string>
+  <string name="share">Distribuiți</string>
   <string name="keyboard_suggestions_and_swipe">Keyboard suggestions and Swipe</string>
   <string name="enable_autoencoding">Auto-codificarea</string>
   <string name="set_as_working_folder">Setați ca folderul de lucru</string>
@@ -54,13 +54,13 @@
   <string name="long_click_for_more_options">Faceţi clic pe lung pentru mai multe opţiuni</string>
   <string name="auto_save">Auto salvare</string>
   <string name="read_only">Doar citire</string>
-  <string name="send_error_reports">Send error reports</string>
-  <string name="extra_options">Extra options</string>
-  <string name="split_text_if_too_long">Split the text if too long</string>
-  <string name="ignore_back_button">Ignore back button</string>
-  <string name="donate">Donate</string>
+  <string name="send_error_reports">Trimite raportul de eroare</string>
+  <string name="extra_options">Opţiuni suplimentare</string>
+  <string name="split_text_if_too_long">Împarte textul dacă e prea lung</string>
+  <string name="ignore_back_button">Ignoră butonul \"back\"</string>
+  <string name="donate">Donează</string>
   <string name="codifica">Codificare</string>
-  <string name="condividi">Share</string>
+  <string name="condividi">Distribuiți</string>
   <string name="info">Informații</string>
   <string name="nome_app_turbo_editor">Turbo Editor</string>
   <string name="preferenze">Preferințe</string>
@@ -71,4 +71,6 @@
   <string name="open">Deschide</string>
   <string name="file_saved_with_success">Fişierul %1$s a fost salvat cu succes!</string>
   <string name="open_a_file">Deschideţi un fişier</string>
+  <string name="no">No</string>
+  <string name="new_file">New file</string>
 </resources>

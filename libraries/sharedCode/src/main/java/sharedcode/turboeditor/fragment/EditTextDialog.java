@@ -32,6 +32,7 @@ import android.widget.EditText;
 import android.widget.TextView;
 
 import sharedcode.turboeditor.R;
+import sharedcode.turboeditor.views.DialogHelper;
 
 // ...
 public class EditTextDialog extends DialogFragment implements TextView.OnEditorActionListener {
@@ -55,22 +56,25 @@ public class EditTextDialog extends DialogFragment implements TextView.OnEditorA
     public Dialog onCreateDialog(Bundle savedInstanceState) {
 
         final Actions action = (Actions) getArguments().getSerializable("action");
-        final String hint;
+        final String title;
         switch (action) {
             case NewFile:
-                hint = getString(R.string.file);
+                title = getString(R.string.file);
                 break;
             case NewFolder:
-                hint = getString(R.string.folder);
+                title = getString(R.string.folder);
                 break;
             default:
-                hint = null;
+                title = null;
                 break;
         }
 
-        final View view = getActivity().getLayoutInflater().inflate(R.layout.dialog_fragment_edittext, null);
+        View view = new DialogHelper.Builder(getActivity())
+                .setTitle(title)
+                .setView(R.layout.dialog_fragment_edittext)
+                .createSkeletonView();
         this.mEditText = (EditText) view.findViewById(android.R.id.edit);
-        this.mEditText.setHint(hint);
+        this.mEditText.setHint(R.string.name);
 
         // Show soft keyboard automatically
         this.mEditText.setText(getArguments().getString("hint"));

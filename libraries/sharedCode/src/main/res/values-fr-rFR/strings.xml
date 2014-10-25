@@ -31,7 +31,7 @@
   <string name="folder">Dossier </string>
   <string name="light_theme">Thème clair</string>
   <string name="goto_line">Aller à la ligne</string>
-  <string name="goto_page">Go to Page&#8230;</string>
+  <string name="goto_page">Aller à la Page&#8230;</string>
   <string name="find">Rechercher</string>
   <string name="replace">Remplacer</string>
   <string name="share">Partager</string>
@@ -71,4 +71,6 @@
   <string name="open">Ouvrir</string>
   <string name="file_saved_with_success">Le fichier %1$s a été enregistré avec succès !</string>
   <string name="open_a_file">Ouvrir un fichier</string>
+  <string name="no">No</string>
+  <string name="new_file">New file</string>
 </resources>

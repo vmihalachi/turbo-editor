@@ -71,4 +71,6 @@
   <string name="open">Otwórz</string>
   <string name="file_saved_with_success">Plik %1$s został pomyślnie zapisany!</string>
   <string name="open_a_file">Otwórz plik</string>
+  <string name="no">No</string>
+  <string name="new_file">New file</string>
 </resources>

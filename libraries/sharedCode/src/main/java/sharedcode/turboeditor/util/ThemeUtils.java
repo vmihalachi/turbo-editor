@@ -35,6 +35,15 @@ public class ThemeUtils {
         }
     }
 
+    public static void setPreferenceTheme(Activity activity){
+        boolean light = PreferenceHelper.getLightTheme(activity);
+        if (light) {
+            activity.setTheme(R.style.PreferenceLight);
+        } else {
+            activity.setTheme(R.style.PreferenceDark);
+        }
+    }
+
     public static void setWindowsBackground(Activity activity) {
         boolean whiteTheme = PreferenceHelper.getLightTheme(activity);
         if (whiteTheme) {

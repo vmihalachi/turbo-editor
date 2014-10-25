@@ -30,29 +30,29 @@
     </item>-->
     <item
         android:id="@id/im_cancel"
-        android:showAsAction="always"
+        app:showAsAction="always"
         android:title="@android:string/cancel">
     </item>
 
     <item
         android:id="@id/im_previous_item"
-        android:showAsAction="always"
+        app:showAsAction="always"
         android:title="@string/previous">
     </item>
     <item
         android:id="@id/im_next_item"
-        android:showAsAction="always"
+        app:showAsAction="always"
         android:title="@string/next">
     </item>
     <item
         android:id="@id/im_replace"
-        android:showAsAction="always"
+        app:showAsAction="always"
         android:title="@string/replace">
     </item>
     <!--<item
         android:id="@id/im_cancel"
         android:icon="@drawable/ic_action_close"
-        android:title="@android:string/cancel"
+        android:title="@app:tring/cancel"
         app:showAsAction="always">
     </item>-->
 </menu>

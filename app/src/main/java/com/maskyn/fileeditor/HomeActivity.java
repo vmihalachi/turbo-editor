@@ -23,6 +23,7 @@ import android.os.Bundle;
 
 import com.crashlytics.android.Crashlytics;
 
+import io.fabric.sdk.android.Fabric;
 import sharedcode.turboeditor.activity.BaseHomeActivity;
 import sharedcode.turboeditor.preferences.PreferenceHelper;
 import sharedcode.turboeditor.util.ProCheckUtils;
@@ -36,7 +37,7 @@ public class HomeActivity extends BaseHomeActivity {
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         if(PreferenceHelper.getSendErrorReports(this))
-            Crashlytics.start(this);
+            Fabric.with(this, new Crashlytics());
         // setup the ads
         if(!ProCheckUtils.isPro(this))
             adsHelper = new AdsHelper(this);

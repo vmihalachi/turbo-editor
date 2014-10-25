@@ -71,4 +71,6 @@
   <string name="open">Abrir</string>
   <string name="file_saved_with_success">¡El archivo %1$s fue guardado exitosamente!</string>
   <string name="open_a_file">Abrir archivo</string>
+  <string name="no">No</string>
+  <string name="new_file">New file</string>
 </resources>
