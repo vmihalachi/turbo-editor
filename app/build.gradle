@@ -46,8 +46,8 @@ android {
         applicationId "com.maskyn.fileeditor"
         minSdkVersion 11
         targetSdkVersion 21
-        versionCode 31
-        versionName "1.13"
+        versionCode 32
+        versionName "1.13.1"
     }
     compileOptions {
         sourceCompatibility JavaVersion.VERSION_1_7

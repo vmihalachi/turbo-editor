@@ -17,7 +17,7 @@
  * along with this program.  If not, see <http://www.gnu.org/licenses/>.
  */
 
-package sharedcode.turboeditor.fragment;
+package sharedcode.turboeditor.dialogfragment;
 
 import android.app.AlertDialog;
 import android.app.Dialog;

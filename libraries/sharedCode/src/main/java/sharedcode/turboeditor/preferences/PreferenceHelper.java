@@ -155,7 +155,7 @@ public final class PreferenceHelper {
     }
 
     public static void setHasDonated(Context context, boolean value) {
-        getEditor(context).putBoolean("has_donated", value);
+        getEditor(context).putBoolean("has_donated", value).commit();
     }
 
     public static void setLightTheme(Context context, boolean value) {

@@ -24,11 +24,11 @@ import android.os.Bundle;
 import com.crashlytics.android.Crashlytics;
 
 import io.fabric.sdk.android.Fabric;
-import sharedcode.turboeditor.activity.BaseHomeActivity;
+import sharedcode.turboeditor.activity.MainActivity;
 import sharedcode.turboeditor.preferences.PreferenceHelper;
 import sharedcode.turboeditor.util.ProCheckUtils;
 
-public class HomeActivity extends BaseHomeActivity {
+public class HomeActivity extends MainActivity {
 
     private AdsHelper adsHelper;
 

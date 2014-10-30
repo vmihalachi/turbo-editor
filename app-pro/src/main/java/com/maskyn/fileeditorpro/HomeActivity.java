@@ -19,11 +19,9 @@
 
 package com.maskyn.fileeditorpro;
 
-import android.os.Bundle;
+import sharedcode.turboeditor.activity.MainActivity;
 
-import sharedcode.turboeditor.activity.BaseHomeActivity;
-
-public class HomeActivity extends BaseHomeActivity {
+public class HomeActivity extends MainActivity {
 
     @Override
     public void displayInterstitial() {

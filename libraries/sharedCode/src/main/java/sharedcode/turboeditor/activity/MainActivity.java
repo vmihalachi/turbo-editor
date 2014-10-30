@@ -34,6 +34,7 @@ import android.os.Bundle;
 import android.os.Handler;
 import android.os.IBinder;
 import android.preference.PreferenceManager;
+import android.support.annotation.NonNull;
 import android.support.annotation.Nullable;
 import android.support.v4.view.MenuItemCompat;
 import android.support.v7.app.ActionBarActivity;
@@ -78,15 +79,14 @@ import java.util.LinkedList;
 import java.util.regex.Matcher;
 import java.util.regex.Pattern;
 
-import de.greenrobot.event.EventBus;
 import sharedcode.turboeditor.R;
 import sharedcode.turboeditor.adapter.AdapterDrawer;
-import sharedcode.turboeditor.fragment.ChangelogDialog;
-import sharedcode.turboeditor.fragment.FileInfoDialog;
-import sharedcode.turboeditor.fragment.FindTextDialog;
-import sharedcode.turboeditor.fragment.NewFileDetailsDialog;
-import sharedcode.turboeditor.fragment.SaveFileDialog;
-import sharedcode.turboeditor.fragment.SeekbarDialog;
+import sharedcode.turboeditor.dialogfragment.ChangelogDialog;
+import sharedcode.turboeditor.dialogfragment.FileInfoDialog;
+import sharedcode.turboeditor.dialogfragment.FindTextDialog;
+import sharedcode.turboeditor.dialogfragment.NewFileDetailsDialog;
+import sharedcode.turboeditor.dialogfragment.NumberPickerDialog;
+import sharedcode.turboeditor.dialogfragment.SaveFileDialog;
 import sharedcode.turboeditor.preferences.PreferenceHelper;
 import sharedcode.turboeditor.task.SaveFileTask;
 import sharedcode.turboeditor.texteditor.EditTextPadding;
@@ -101,6 +101,7 @@ import sharedcode.turboeditor.util.AnimationUtils;
 import sharedcode.turboeditor.util.AppInfoHelper;
 import sharedcode.turboeditor.util.EventBusEvents;
 import sharedcode.turboeditor.util.MimeTypes;
+import sharedcode.turboeditor.util.ProCheckUtils;
 import sharedcode.turboeditor.util.ThemeUtils;
 import sharedcode.turboeditor.views.CustomDrawerLayout;
 import sharedcode.turboeditor.views.DialogHelper;
@@ -116,17 +117,17 @@ import static sharedcode.turboeditor.util.EventBusEvents.APreferenceValueWasChan
 import static sharedcode.turboeditor.util.EventBusEvents.APreferenceValueWasChanged.Type.THEME_CHANGE;
 import static sharedcode.turboeditor.util.EventBusEvents.APreferenceValueWasChanged.Type.WRAP_CONTENT;
 
-public abstract class BaseHomeActivity extends ActionBarActivity implements FindTextDialog
+public abstract class MainActivity extends ActionBarActivity implements FindTextDialog
         .SearchDialogInterface, GoodScrollView.ScrollInterface, PageSystem.PageSystemInterface,
-        PageSystemButtons.PageButtonsInterface, SeekbarDialog.ISeekbarDialog, SaveFileDialog.ISaveDialog,
+        PageSystemButtons.PageButtonsInterface, NumberPickerDialog.INumberPickerDialog, SaveFileDialog.ISaveDialog,
         AdapterView.OnItemClickListener, AdapterDrawer.Callbacks{
 
     //region VARIABLES
-    static final int
+    private static final int
             ID_SELECT_ALL = android.R.id.selectAll;
-    static final int ID_CUT = android.R.id.cut;
-    static final int ID_COPY = android.R.id.copy;
-    static final int ID_PASTE = android.R.id.paste;
+    private static final int ID_CUT = android.R.id.cut;
+    private static final int ID_COPY = android.R.id.copy;
+    private static final int ID_PASTE = android.R.id.paste;
     private static final int SELECT_FILE_CODE = 121;
     private static final int KITKAT_OPEN_REQUEST_CODE = 41;
     private static final int SYNTAX_DELAY_MILLIS_SHORT = 250;
@@ -134,49 +135,49 @@ public abstract class BaseHomeActivity extends ActionBarActivity implements Find
     private static final int ID_UNDO = R.id.im_undo;
     private static final int ID_REDO = R.id.im_redo;
     private static final int CHARS_TO_COLOR = 2500;
-    private final Handler updateHandler = new Handler();
-    private final Runnable colorRunnable_duringEditing =
+    private static  final Handler updateHandler = new Handler();
+    private static final Runnable colorRunnable_duringEditing =
             new Runnable() {
                 @Override
                 public void run() {
                     mEditor.replaceTextKeepCursor(null, true);
                 }
             };
-    private final Runnable colorRunnable_duringScroll =
+    private static final Runnable colorRunnable_duringScroll =
             new Runnable() {
                 @Override
                 public void run() {
                     mEditor.replaceTextKeepCursor(null, false);
                 }
             };
-    boolean fileOpened = false;
+    private static boolean fileOpened = false;
+    private static String fileExtension;
     /*
     * This class provides a handy way to tie together the functionality of
     * {@link DrawerLayout} and the framework <code>ActionBar</code> to implement the recommended
     * design for navigation drawers.
     */
-    private ActionBarDrawerToggle mDrawerToggle;
+    private static ActionBarDrawerToggle mDrawerToggle;
     /*
     * The Drawer Layout
     */
-    private CustomDrawerLayout mDrawerLayout;
-    private GoodScrollView verticalScroll;
-    private String sFilePath = "";
-    private Editor mEditor;
-    private HorizontalScrollView horizontalScroll;
+    private static CustomDrawerLayout mDrawerLayout;
+    private static GoodScrollView verticalScroll;
+    private static String sFilePath = "";
+    private static Editor mEditor;
+    private static HorizontalScrollView horizontalScroll;
     private boolean searchingText;
-    private SearchResult searchResult;
-    private PageSystem pageSystem;
-    private PageSystemButtons pageSystemButtons;
-    private String currentEncoding = "UTF-8";
-    private Toolbar toolbar;
+    private static SearchResult searchResult;
+    private static PageSystem pageSystem;
+    private static PageSystemButtons pageSystemButtons;
+    private static String currentEncoding = "UTF-8";
+    private static Toolbar toolbar;
 
     /*
     Navigation Drawer
      */
-    private AdapterDrawer arrayAdapter;
-    private LinkedList<File> files;
-    private ListView listView;
+    private static AdapterDrawer arrayAdapter;
+    private static LinkedList<File> files;
     //endregion
 
     //region Activity facts
@@ -219,8 +220,6 @@ public abstract class BaseHomeActivity extends ActionBarActivity implements Find
     @Override
     public void onResume() {
         super.onResume();
-        // Register the Event Bus for events
-        EventBus.getDefault().registerSticky(this);
         // Refresh the list view
         refreshList();
     }
@@ -234,8 +233,6 @@ public abstract class BaseHomeActivity extends ActionBarActivity implements Find
     @Override
     public void onPause() {
         super.onPause();
-        // Unregister the Event Bus
-        EventBus.getDefault().unregister(this);
 
         if (PreferenceHelper.getAutoSave(getBaseContext()) && mEditor.canSaveFile()) {
             saveTheFile();
@@ -313,7 +310,7 @@ public abstract class BaseHomeActivity extends ActionBarActivity implements Find
                 // Set the default title
                 getSupportActionBar().setTitle(getString(R.string.nome_app_turbo_editor));
 
-                EventBus.getDefault().post(new EventBusEvents.ClosedAFile());
+                onEvent(new EventBusEvents.ClosedAFile());
 
                 mDrawerLayout.openDrawer(Gravity.START);
                 mDrawerLayout.closeDrawer(Gravity.END);
@@ -344,7 +341,7 @@ public abstract class BaseHomeActivity extends ActionBarActivity implements Find
             if (!TextUtils.isEmpty(path)) {
                 File file = new File(path);
                 if (file.isFile() && file.exists()) {
-                    EventBus.getDefault().postSticky(new EventBusEvents.NewFileToOpen(new File
+                    onEvent(new EventBusEvents.NewFileToOpen(new File
                             (path)));
                 }
             }
@@ -357,7 +354,7 @@ public abstract class BaseHomeActivity extends ActionBarActivity implements Find
         // Path of the file selected
         String filePath = files.get(position).getAbsolutePath();
         // Send the event that a file was selected
-        EventBus.getDefault().post(new EventBusEvents.NewFileToOpen(new File(filePath)));
+        onEvent(new EventBusEvents.NewFileToOpen(new File(filePath)));
     }
 
     //endregion
@@ -408,7 +405,7 @@ public abstract class BaseHomeActivity extends ActionBarActivity implements Find
                 imRedo.setVisible(false);
             }
 
-            MenuItem item = (MenuItem) menu.findItem(R.id.im_share);
+            MenuItem item = menu.findItem(R.id.im_share);
             ShareActionProvider shareAction = (ShareActionProvider) MenuItemCompat
                     .getActionProvider(item);
             File f = new File(sFilePath);
@@ -418,6 +415,11 @@ public abstract class BaseHomeActivity extends ActionBarActivity implements Find
             shareIntent.setType("text/plain");
             shareAction.setShareIntent(shareIntent);
         }
+
+        MenuItem imDonate = menu.findItem(R.id.im_donate);
+        if (imDonate != null)
+            if (ProCheckUtils.isPro(this, false))
+                imDonate.setVisible(false);
 
         return true;
     }
@@ -433,14 +435,14 @@ public abstract class BaseHomeActivity extends ActionBarActivity implements Find
             saveTheFile();
 
         } else if (i == R.id.im_undo) {
-            this.mEditor.onTextContextMenuItem(ID_UNDO);
+            mEditor.onTextContextMenuItem(ID_UNDO);
 
         } else if (i == R.id.im_redo) {
-            this.mEditor.onTextContextMenuItem(ID_REDO);
+            mEditor.onTextContextMenuItem(ID_REDO);
 
         } else if (i == R.id.im_search) {
-            FindTextDialog dialogFrag = FindTextDialog.newInstance(mEditor.getText().toString());
-            dialogFrag.show(getFragmentManager().beginTransaction(), "dialog");
+            FindTextDialog.newInstance(mEditor.getText().toString()).show(getFragmentManager()
+                    .beginTransaction(), "dialog");
         } else if (i == R.id.im_cancel) {
             searchingText = false;
             invalidateOptionsMenu();
@@ -457,12 +459,10 @@ public abstract class BaseHomeActivity extends ActionBarActivity implements Find
         } else if (i == R.id.im_goto_line) {
             int min = mEditor.getLineUtils().firstReadLine();
             int max = mEditor.getLineUtils().lastReadLine();
-            SeekbarDialog dialogFrag = SeekbarDialog.newInstance
-                    (SeekbarDialog.Actions.GoToLine, min, min, max);
-
-            dialogFrag.show(getFragmentManager().beginTransaction(), "dialog");
+            NumberPickerDialog.newInstance
+                    (NumberPickerDialog.Actions.GoToLine, min, min, max).show(getFragmentManager().beginTransaction(), "dialog");
         } else if (i == R.id.im_view_it_on_browser) {
-            Intent browserIntent = null;
+            Intent browserIntent;
             try {
                 browserIntent = new Intent(Intent.ACTION_VIEW);
                 browserIntent.setDataAndType(Uri.fromFile(new File(sFilePath)), "text/*");
@@ -472,16 +472,18 @@ public abstract class BaseHomeActivity extends ActionBarActivity implements Find
             }
 
         } else if (i == R.id.im_info) {
-            FileInfoDialog dialogFrag = FileInfoDialog.newInstance(sFilePath);
+            FileInfoDialog.newInstance(sFilePath).show(getFragmentManager().beginTransaction(), "dialog");
+        }
 
-            dialogFrag.show(getFragmentManager().beginTransaction(), "dialog");
+        else if (i == R.id.im_donate) {
+            DialogHelper.showDonateDialog(this);
         }
         return super.onOptionsItemSelected(item);
     }
     //endregion
 
     // region OTHER THINGS
-    public void replaceText() {
+    void replaceText() {
         int start = searchResult.foundIndex.get(searchResult.index);
         int end = start + searchResult.textLength;
         mEditor.setText(mEditor.getText().replace(start, end, searchResult.textToReplace));
@@ -495,7 +497,7 @@ public abstract class BaseHomeActivity extends ActionBarActivity implements Find
             previousResult();
     }
 
-    public void nextResult() {
+    void nextResult() {
         if (searchResult.index == mEditor.getLineCount() - 1) // last result of page
         {
             return;
@@ -521,6 +523,8 @@ public abstract class BaseHomeActivity extends ActionBarActivity implements Find
                 }
             });
 
+            mEditor.setFocusable(true);
+            mEditor.requestFocus();
             mEditor.setSelection(searchResult.foundIndex.get(searchResult.index),
                     searchResult.foundIndex.get(searchResult.index) + searchResult.textLength);
         }
@@ -528,7 +532,7 @@ public abstract class BaseHomeActivity extends ActionBarActivity implements Find
         invalidateOptionsMenu();
     }
 
-    public void previousResult() {
+    void previousResult() {
         if (searchResult.index == 0)
             return;
         if (searchResult.index > 0) {
@@ -559,12 +563,11 @@ public abstract class BaseHomeActivity extends ActionBarActivity implements Find
     private void saveTheFile() {
         File file = new File(sFilePath);
         if (!file.getName().isEmpty())
-            new SaveFileTask(getBaseContext(), sFilePath, pageSystem.getAllText(mEditor.getText()
+            new SaveFileTask(this, sFilePath, pageSystem.getAllText(mEditor.getText()
                     .toString()), currentEncoding).execute();
         else {
-            NewFileDetailsDialog dialogFrag = NewFileDetailsDialog.newInstance
-                    (pageSystem.getAllText(mEditor.getText().toString()), currentEncoding);
-            dialogFrag.show(getFragmentManager().beginTransaction(), "dialog");
+            NewFileDetailsDialog.newInstance
+                    (pageSystem.getAllText(mEditor.getText().toString()), currentEncoding).show(getFragmentManager().beginTransaction(), "dialog");
         }
     }
 
@@ -605,7 +608,7 @@ public abstract class BaseHomeActivity extends ActionBarActivity implements Find
         mDrawerLayout.setDrawerListener(mDrawerToggle);
 //mDrawerLayout.setFocusableInTouchMode(false);
 
-        listView = (ListView) findViewById(android.R.id.list);
+        ListView listView = (ListView) findViewById(android.R.id.list);
         listView.setEmptyView(findViewById(android.R.id.empty));
         files = new LinkedList<>();
         arrayAdapter = new AdapterDrawer(this, files, this);
@@ -619,15 +622,15 @@ public abstract class BaseHomeActivity extends ActionBarActivity implements Find
         horizontalScroll = (HorizontalScrollView) findViewById(R.id.horizontal_scroll);
         mEditor = (Editor) findViewById(R.id.editor);
 
-        if (PreferenceHelper.getWrapContent(getBaseContext())) {
+        //mEditor.setLayerType(View.LAYER_TYPE_NONE, null);
+
+        if (PreferenceHelper.getWrapContent(this)) {
             horizontalScroll.removeView(mEditor);
             verticalScroll.removeView(horizontalScroll);
             verticalScroll.addView(mEditor);
-        } else {
-            // else show what is in the xml file fragment_editor.xml-
         }
 
-        if (PreferenceHelper.getReadOnly(getBaseContext())) {
+        if (PreferenceHelper.getReadOnly(this)) {
             getWindow().setSoftInputMode(WindowManager.LayoutParams.SOFT_INPUT_STATE_ALWAYS_HIDDEN);
         } else {
             getWindow().setSoftInputMode(WindowManager.LayoutParams.SOFT_INPUT_STATE_UNSPECIFIED);
@@ -635,9 +638,9 @@ public abstract class BaseHomeActivity extends ActionBarActivity implements Find
 
         verticalScroll.setScrollInterface(this);
 
-        pageSystem = new PageSystem(getBaseContext(), this, "");
+        pageSystem = new PageSystem(this, this, "", null);
 
-        pageSystemButtons = new PageSystemButtons(getBaseContext(), this,
+        pageSystemButtons = new PageSystemButtons(this, this,
                 (FloatingActionButton) findViewById(R.id.fabPrev),
                 (FloatingActionButton) findViewById(R.id.fabNext));
     }
@@ -688,7 +691,7 @@ public abstract class BaseHomeActivity extends ActionBarActivity implements Find
                 || Intent.ACTION_PICK.equals(action)
                 && type != null) {
             // Post event
-            EventBus.getDefault().postSticky(new EventBusEvents.NewFileToOpen(new File(intent
+            onEvent(new EventBusEvents.NewFileToOpen(new File(intent
                     .getData().getPath())));
         } else if (Intent.ACTION_SEND.equals(action) && type != null) {
             if ("text/plain".equals(type)) {
@@ -726,8 +729,8 @@ public abstract class BaseHomeActivity extends ActionBarActivity implements Find
         inputManager.hideSoftInputFromWindow(windowToken, hideType);
     }
 
-    public void updateTextSyntax() {
-        if (!PreferenceHelper.getSyntaxHighlight(getBaseContext()) || mEditor.hasSelection() ||
+    void updateTextSyntax() {
+        if (!PreferenceHelper.getSyntaxHighlight(this) || mEditor.hasSelection() ||
                 updateHandler == null || colorRunnable_duringEditing == null)
             return;
 
@@ -780,7 +783,7 @@ public abstract class BaseHomeActivity extends ActionBarActivity implements Find
     //endregion
 
     //region EVENTBUS
-    public void onEvent(final EventBusEvents.NewFileToOpen event) {
+    void onEvent(final EventBusEvents.NewFileToOpen event) {
 
         if (fileOpened && mEditor.canSaveFile()) {
             SaveFileDialog.newInstance(sFilePath, pageSystem.getAllText(mEditor
@@ -802,7 +805,7 @@ public abstract class BaseHomeActivity extends ActionBarActivity implements Find
                 super.onPreExecute();
                 // Close the drawer
                 mDrawerLayout.closeDrawer(Gravity.START);
-                progressDialog = new ProgressDialog(BaseHomeActivity.this);
+                progressDialog = new ProgressDialog(MainActivity.this);
                 progressDialog.setMessage(getString(R.string.please_wait));
                 progressDialog.show();
 
@@ -811,40 +814,42 @@ public abstract class BaseHomeActivity extends ActionBarActivity implements Find
             @Override
             protected Void doInBackground(Void... params) {
                 try {
-                    boolean isRoot = false;
-
                     if (!file.exists() || !file.isFile()) {
                         fileText = event.getFileText();
                         return null;
                     }
 
+                    file = file.getCanonicalFile();
+                    sFilePath = file.getAbsolutePath();
+                    fileExtension = FilenameUtils.getExtension(sFilePath).toLowerCase();
+
+                    boolean isRoot;
+
                     if (!file.canRead()) {
-                        Shell shell = null;
+                        Shell shell;
                         shell = Shell.startRootShell();
                         Toolbox tb = new Toolbox(shell);
                         isRoot = tb.isRootAccessGiven();
+
+                        if (isRoot) {
+                            File tempFile = new File(getFilesDir(), "temp.root.file");
+                            if (!tempFile.exists())
+                                tempFile.createNewFile();
+                            tb.copyFile(event.getFile().getAbsolutePath(),
+                                    tempFile.getAbsolutePath(), false, false);
+                            file = new File(tempFile.getAbsolutePath());
+                        }
                     }
 
-                    if (isRoot) {
-                        File tempFile = new File(getFilesDir(), "temp.root.file");
-                        if (!tempFile.exists())
-                            tempFile.createNewFile();
-                        Shell shell = Shell.startRootShell();
-                        Toolbox tb = new Toolbox(shell);
-                        tb.copyFile(event.getFile().getAbsolutePath(),
-                                tempFile.getAbsolutePath(), false, false);
-                        file = new File(tempFile.getAbsolutePath());
-                    }
-
-                    boolean autoencoding = PreferenceHelper.getAutoEncoding(BaseHomeActivity.this);
+                    boolean autoencoding = PreferenceHelper.getAutoEncoding(MainActivity.this);
                     if (autoencoding) {
 
                         encoding = FileUtils.getDetectedEncoding(file);
                         if (encoding.isEmpty()) {
-                            encoding = PreferenceHelper.getEncoding(BaseHomeActivity.this);
+                            encoding = PreferenceHelper.getEncoding(MainActivity.this);
                         }
                     } else {
-                        encoding = PreferenceHelper.getEncoding(BaseHomeActivity.this);
+                        encoding = PreferenceHelper.getEncoding(MainActivity.this);
                     }
 
                     fileText = org.apache.commons.io.FileUtils.readFileToString(file, encoding);
@@ -868,15 +873,14 @@ public abstract class BaseHomeActivity extends ActionBarActivity implements Find
                 progressDialog.hide();
 
                 if (!message.isEmpty()) {
-                    Toast.makeText(BaseHomeActivity.this, message, Toast.LENGTH_LONG).show();
-                    EventBus.getDefault().post(new EventBusEvents.CannotOpenAFile());
+                    Toast.makeText(MainActivity.this, message, Toast.LENGTH_LONG).show();
+                    onEvent(new EventBusEvents.CannotOpenAFile());
                 } else {
 
-                    sFilePath = event.getFile().getAbsolutePath();
-                    pageSystem = new PageSystem(getBaseContext(), BaseHomeActivity.this, fileText);
+                    pageSystem = new PageSystem(MainActivity.this, MainActivity.this, fileText, new File(sFilePath));
                     currentEncoding = encoding;
 
-                    EventBus.getDefault().post(new EventBusEvents.AFileIsSelected(sFilePath));
+                    onEvent(new EventBusEvents.AFileIsSelected(sFilePath));
 
                     showTextEditor();
 
@@ -893,12 +897,12 @@ public abstract class BaseHomeActivity extends ActionBarActivity implements Find
 
             }
         }.execute();
-
-        EventBus.getDefault().removeStickyEvent(event);
-
     }
 
     public void onEvent(EventBusEvents.SavedAFile event) {
+
+        sFilePath = event.getPath();
+        fileExtension = FilenameUtils.getExtension(sFilePath).toLowerCase();
 
         mEditor.clearHistory();
         mEditor.fileSaved();
@@ -909,22 +913,6 @@ public abstract class BaseHomeActivity extends ActionBarActivity implements Find
         } catch (NullPointerException e) {
             e.printStackTrace();
         }
-
-        /*// Get intent, action and MIME type
-        final Intent intent = getIntent();
-        final String action = intent.getAction();
-        final String type = intent.getType();
-
-        if (Intent.ACTION_VIEW.equals(action)
-                || Intent.ACTION_EDIT.equals(action)
-                || Intent.ACTION_PICK.equals(action)
-                && type != null) {
-            //This Activity was called by startActivityForResult
-            final Intent returnIntent = new Intent();
-            setResult(Activity.RESULT_OK, returnIntent);
-            // finish the activity
-            finish();
-        }*/
 
         refreshList(event.getPath(), true, false);
         arrayAdapter.selectView(event.getPath());
@@ -938,7 +926,7 @@ public abstract class BaseHomeActivity extends ActionBarActivity implements Find
      *
      * @param event The event called
      */
-    public void onEvent(EventBusEvents.CannotOpenAFile event) {
+    void onEvent(EventBusEvents.CannotOpenAFile event) {
         //
         mDrawerLayout.openDrawer(Gravity.LEFT);
         //
@@ -956,7 +944,7 @@ public abstract class BaseHomeActivity extends ActionBarActivity implements Find
         }
 
         if (event.hasType(WRAP_CONTENT)) {
-            if (PreferenceHelper.getWrapContent(getBaseContext())) {
+            if (PreferenceHelper.getWrapContent(this)) {
                 horizontalScroll.removeView(mEditor);
                 verticalScroll.removeView(horizontalScroll);
                 verticalScroll.addView(mEditor);
@@ -969,31 +957,31 @@ public abstract class BaseHomeActivity extends ActionBarActivity implements Find
             mEditor.disableTextChangedListener();
             mEditor.replaceTextKeepCursor(null, true);
             mEditor.enableTextChangedListener();
-            if (PreferenceHelper.getLineNumbers(getBaseContext())) {
-                mEditor.setPadding(EditTextPadding.getPaddingWithLineNumbers(getBaseContext(),
-                                PreferenceHelper.getFontSize(getBaseContext())),
-                        EditTextPadding.getPaddingTop(getBaseContext()), 0, 0);
+            if (PreferenceHelper.getLineNumbers(this)) {
+                mEditor.setPadding(EditTextPadding.getPaddingWithLineNumbers(this,
+                                PreferenceHelper.getFontSize(this)),
+                        EditTextPadding.getPaddingTop(this), 0, 0);
             } else {
-                mEditor.setPadding(EditTextPadding.getPaddingWithoutLineNumbers(getBaseContext())
-                        , EditTextPadding.getPaddingTop(getBaseContext()), 0, 0);
+                mEditor.setPadding(EditTextPadding.getPaddingWithoutLineNumbers(this)
+                        , EditTextPadding.getPaddingTop(this), 0, 0);
             }
         } else if (event.hasType(SYNTAX)) {
             mEditor.disableTextChangedListener();
             mEditor.replaceTextKeepCursor(null, true);
             mEditor.enableTextChangedListener();
         } else if (event.hasType(MONOSPACE)) {
-            if (PreferenceHelper.getUseMonospace(getBaseContext()))
-                this.mEditor.setTypeface(Typeface.MONOSPACE);
+            if (PreferenceHelper.getUseMonospace(this))
+                mEditor.setTypeface(Typeface.MONOSPACE);
             else
-                this.mEditor.setTypeface(Typeface.DEFAULT);
+                mEditor.setTypeface(Typeface.DEFAULT);
         } else if (event.hasType(THEME_CHANGE)) {
-            if (PreferenceHelper.getLightTheme(getBaseContext())) {
+            if (PreferenceHelper.getLightTheme(this)) {
                 mEditor.setTextColor(getResources().getColor(R.color.textColorInverted));
             } else {
                 mEditor.setTextColor(getResources().getColor(R.color.textColor));
             }
         } else if (event.hasType(TEXT_SUGGESTIONS) || event.hasType(READ_ONLY)) {
-            if (PreferenceHelper.getReadOnly(getBaseContext())) {
+            if (PreferenceHelper.getReadOnly(this)) {
                 getWindow().setSoftInputMode(WindowManager.LayoutParams
                         .SOFT_INPUT_STATE_ALWAYS_HIDDEN);
                 mEditor.setReadOnly(true);
@@ -1001,7 +989,7 @@ public abstract class BaseHomeActivity extends ActionBarActivity implements Find
                 getWindow().setSoftInputMode(WindowManager.LayoutParams
                         .SOFT_INPUT_STATE_UNSPECIFIED);
                 mEditor.setReadOnly(false);
-                if (PreferenceHelper.getSuggestionActive(getBaseContext())) {
+                if (PreferenceHelper.getSuggestionActive(this)) {
                     mEditor.setInputType(InputType.TYPE_CLASS_TEXT | InputType
                             .TYPE_TEXT_FLAG_MULTI_LINE | InputType.TYPE_TEXT_FLAG_IME_MULTI_LINE);
                 } else {
@@ -1012,33 +1000,33 @@ public abstract class BaseHomeActivity extends ActionBarActivity implements Find
                 }
             }
             // sometimes it becomes monospace after setting the input type
-            if (PreferenceHelper.getUseMonospace(getBaseContext()))
-                this.mEditor.setTypeface(Typeface.MONOSPACE);
+            if (PreferenceHelper.getUseMonospace(this))
+                mEditor.setTypeface(Typeface.MONOSPACE);
             else
-                this.mEditor.setTypeface(Typeface.DEFAULT);
+                mEditor.setTypeface(Typeface.DEFAULT);
         } else if (event.hasType(FONT_SIZE)) {
-            if (PreferenceHelper.getLineNumbers(getBaseContext())) {
-                mEditor.setPadding(EditTextPadding.getPaddingWithLineNumbers(getBaseContext(),
-                                PreferenceHelper.getFontSize(getBaseContext())),
-                        EditTextPadding.getPaddingTop(getBaseContext()), 0, 0);
+            if (PreferenceHelper.getLineNumbers(this)) {
+                mEditor.setPadding(EditTextPadding.getPaddingWithLineNumbers(this,
+                                PreferenceHelper.getFontSize(this)),
+                        EditTextPadding.getPaddingTop(this), 0, 0);
             } else {
-                mEditor.setPadding(EditTextPadding.getPaddingWithoutLineNumbers(getBaseContext())
-                        , EditTextPadding.getPaddingTop(getBaseContext()), 0, 0);
+                mEditor.setPadding(EditTextPadding.getPaddingWithoutLineNumbers(this)
+                        , EditTextPadding.getPaddingTop(this), 0, 0);
             }
-            this.mEditor.setTextSize(PreferenceHelper.getFontSize(getBaseContext()));
+            mEditor.setTextSize(PreferenceHelper.getFontSize(this));
         } else if (event.hasType(ENCODING)) {
             String oldEncoding, newEncoding;
             oldEncoding = currentEncoding;
-            newEncoding = PreferenceHelper.getEncoding(getBaseContext());
+            newEncoding = PreferenceHelper.getEncoding(this);
             try {
-                final byte[] oldText = this.mEditor.getText().toString().getBytes(oldEncoding);
+                final byte[] oldText = mEditor.getText().toString().getBytes(oldEncoding);
                 mEditor.disableTextChangedListener();
                 mEditor.replaceTextKeepCursor(new String(oldText, newEncoding), true);
                 mEditor.enableTextChangedListener();
                 currentEncoding = newEncoding;
             } catch (UnsupportedEncodingException ignored) {
                 try {
-                    final byte[] oldText = this.mEditor.getText().toString().getBytes(oldEncoding);
+                    final byte[] oldText = mEditor.getText().toString().getBytes(oldEncoding);
                     mEditor.disableTextChangedListener();
                     mEditor.replaceTextKeepCursor(new String(oldText, "UTF-8"), true);
                     mEditor.enableTextChangedListener();
@@ -1048,20 +1036,18 @@ public abstract class BaseHomeActivity extends ActionBarActivity implements Find
         }
     }
 
-    public void onEvent(EventBusEvents.AFileIsSelected event) {
+    void onEvent(EventBusEvents.AFileIsSelected event) {
         arrayAdapter.selectView(event.getPath());
-
-        EventBus.getDefault().removeStickyEvent(event);
     }
 
-    public void onEvent(EventBusEvents.ClosedAFile event) {
+    void onEvent(EventBusEvents.ClosedAFile event) {
         arrayAdapter.selectView("");
     }
     //endregion
 
     //region Calls from the layout
     public void OpenFile(View view) {
-        Intent subActivity = new Intent(BaseHomeActivity.this, SelectFileActivity.class);
+        Intent subActivity = new Intent(MainActivity.this, SelectFileActivity.class);
         subActivity.putExtra("action", SelectFileActivity.Actions.SelectFile);
         AnimationUtils.startActivityWithScale(this, subActivity, true, SELECT_FILE_CODE, view);
     }
@@ -1096,9 +1082,9 @@ public abstract class BaseHomeActivity extends ActionBarActivity implements Find
             }
         }, 200);
 
-        if (PreferenceHelper.getPageSystemButtonsPopupShown(getBaseContext()) == false) {
-            PreferenceHelper.setPageSystemButtonsPopupShown(getBaseContext(), true);
-            Toast.makeText(getBaseContext(), getString(R.string.long_click_for_more_options),
+        if (!PreferenceHelper.getPageSystemButtonsPopupShown(this)) {
+            PreferenceHelper.setPageSystemButtonsPopupShown(this, true);
+            Toast.makeText(this, getString(R.string.long_click_for_more_options),
                     Toast.LENGTH_LONG).show();
         }
     }
@@ -1118,9 +1104,9 @@ public abstract class BaseHomeActivity extends ActionBarActivity implements Find
             }
         }, 200);
 
-        if (PreferenceHelper.getPageSystemButtonsPopupShown(getBaseContext()) == false) {
-            PreferenceHelper.setPageSystemButtonsPopupShown(getBaseContext(), true);
-            Toast.makeText(getBaseContext(), getString(R.string.long_click_for_more_options),
+        if (!PreferenceHelper.getPageSystemButtonsPopupShown(this)) {
+            PreferenceHelper.setPageSystemButtonsPopupShown(this, true);
+            Toast.makeText(this, getString(R.string.long_click_for_more_options),
                     Toast.LENGTH_LONG).show();
         }
     }
@@ -1129,10 +1115,8 @@ public abstract class BaseHomeActivity extends ActionBarActivity implements Find
     public void pageSystemButtonLongClicked() {
         int maxPages = pageSystem.getMaxPage();
         int currentPage = pageSystem.getCurrentPage();
-        SeekbarDialog dialogFrag = SeekbarDialog.newInstance
-                (SeekbarDialog.Actions.SelectPage, 0, currentPage, maxPages);
-
-        dialogFrag.show(getFragmentManager().beginTransaction(), "dialog");
+        NumberPickerDialog.newInstance
+                (NumberPickerDialog.Actions.SelectPage, 0, currentPage, maxPages).show(getFragmentManager().beginTransaction(), "dialog");
     }
 
     @Override
@@ -1147,7 +1131,7 @@ public abstract class BaseHomeActivity extends ActionBarActivity implements Find
 
     @Override
     public void onSearchDone(SearchResult searchResult) {
-        this.searchResult = searchResult;
+        MainActivity.searchResult = searchResult;
         searchingText = true;
         invalidateOptionsMenu();
 
@@ -1183,7 +1167,7 @@ public abstract class BaseHomeActivity extends ActionBarActivity implements Find
     public void onScrollChanged(int l, int t, int oldl, int oldt) {
         pageSystemButtons.updateVisibility(Math.abs(t) > 10);
 
-        if (!PreferenceHelper.getSyntaxHighlight(getBaseContext()) || (mEditor.hasSelection() &&
+        if (!PreferenceHelper.getSyntaxHighlight(this) || (mEditor.hasSelection() &&
                 !searchingText) || updateHandler == null || colorRunnable_duringScroll == null)
             return;
 
@@ -1193,8 +1177,8 @@ public abstract class BaseHomeActivity extends ActionBarActivity implements Find
     }
 
     @Override
-    public void onSeekbarDialogDismissed(SeekbarDialog.Actions action, int value) {
-        if (action == SeekbarDialog.Actions.SelectPage) {
+    public void onNumberPickerDialogDismissed(NumberPickerDialog.Actions action, int value) {
+        if (action == NumberPickerDialog.Actions.SelectPage) {
             pageSystem.savePage(mEditor.getText().toString());
             pageSystem.goToPage(value);
             mEditor.disableTextChangedListener();
@@ -1208,7 +1192,7 @@ public abstract class BaseHomeActivity extends ActionBarActivity implements Find
                 }
             }, 200);
 
-        } else if (action == SeekbarDialog.Actions.GoToLine) {
+        } else if (action == NumberPickerDialog.Actions.GoToLine) {
 
             int fakeLine = mEditor.getLineUtils().fakeLineFromRealLine(value);
             final int y = mEditor.getLineUtils().getYAtLine(verticalScroll,
@@ -1226,7 +1210,7 @@ public abstract class BaseHomeActivity extends ActionBarActivity implements Find
 
     @Override
     public void userDoesntWantToSave(boolean openNewFile, String pathOfNewFile) {
-        mEditor.canSaveFile = false;
+        Editor.canSaveFile = false;
         if(openNewFile)
             onEvent(new EventBusEvents.NewFileToOpen(new File(pathOfNewFile)));
         else
@@ -1237,13 +1221,14 @@ public abstract class BaseHomeActivity extends ActionBarActivity implements Find
     public void CancelItem(int position, boolean andCloseOpenedFile) {
         refreshList(files.get(position).getAbsolutePath(), false, true);
         if (andCloseOpenedFile)
-            EventBus.getDefault().post(new EventBusEvents.CannotOpenAFile());
+            onEvent(new EventBusEvents.CannotOpenAFile());
     }
     //endregion
 
     public static class Editor extends EditText {
 
-        private final TextPaint mPaintNumbers = new TextPaint();
+        //region VARIABLES
+        private static final TextPaint mPaintNumbers = new TextPaint();
         /**
          * The edit history.
          */
@@ -1257,11 +1242,13 @@ public abstract class BaseHomeActivity extends ActionBarActivity implements Find
          * Disconnect this undo/redo from the text
          * view.
          */
-        private boolean enabledChangeListener;
-        //region VARIABLES
-        private int lineCount, realLine, startingLine;
-        private LineUtils lineUtils;
-        private boolean modified;
+        private static boolean enabledChangeListener;
+        private static int paddingTop;
+        private static int numbersWidth;
+        private static int lineHeight;
+
+        private static int lineCount, realLine, startingLine;
+        private static LineUtils lineUtils;
         /**
          * Is undo/redo being performed? This member
          * signals if an undo/redo operation is
@@ -1269,52 +1256,42 @@ public abstract class BaseHomeActivity extends ActionBarActivity implements Find
          * text during undo/redo are not recorded
          * because it would mess up the undo history.
          */
-        private boolean mIsUndoOrRedo;
-        private Matcher m;
-        private boolean mShowUndo, mShowRedo;
-        private boolean canSaveFile;
-        private KeyListener keyListener;
-        private int firstVisibleIndex, firstColoredIndex;
-        private int deviceHeight;
+        private static boolean mIsUndoOrRedo;
+        private static Matcher m;
+        private static boolean mShowUndo, mShowRedo;
+        private static boolean canSaveFile;
+        private static KeyListener keyListener;
+        private static int firstVisibleIndex, firstColoredIndex;
+        private static int deviceHeight;
+        private static int editorHeight;
+        private static boolean[] hasNewLineArray;
+        private static int[] realLines;
+        private static boolean wrapContent;
+        private static int lastLine;
+        private static int firstLine;
+        private static CharSequence textToHighlight;
+        private static int lastVisibleIndex;
+        private static int i;
         //endregion
 
         //region CONSTRUCTOR
         public Editor(final Context context, AttributeSet attrs) {
             super(context, attrs);
+
+            //setLayerType(View.LAYER_TYPE_NONE, null);
+
             mEditHistory = new EditHistory();
             mChangeListener = new EditTextChangeListener();
             lineUtils = new LineUtils();
 
             deviceHeight = getResources().getDisplayMetrics().heightPixels;
 
-            this.mPaintNumbers.setAntiAlias(true);
-            this.mPaintNumbers.setDither(false);
-            this.mPaintNumbers.setTextAlign(Paint.Align.RIGHT);
+            paddingTop = EditTextPadding.getPaddingTop(getContext());
 
-            // Syntax editor
-            /*setFilters(new InputFilter[]{
-                    new InputFilter() {
-                        @Override
-                        public CharSequence filter(
-                                CharSequence source,
-                                int start,
-                                int end,
-                                Spanned dest,
-                                int dstart,
-                                int dend) {
-                            if (modified) {
-                                return autoIndent(
-                                        source,
-                                        start,
-                                        end,
-                                        dest,
-                                        dstart,
-                                        dend);
-                            }
-
-                            return source;
-                        }
-                    }});*/
+            mPaintNumbers.setAntiAlias(true);
+            mPaintNumbers.setDither(false);
+            mPaintNumbers.setTextAlign(Paint.Align.RIGHT);
+            mPaintNumbers.setColor(getResources().getColor(R.color.file_text));
 
             if (PreferenceHelper.getLightTheme(getContext())) {
                 setTextColor(getResources().getColor(R.color.textColorInverted));
@@ -1357,7 +1334,7 @@ public abstract class BaseHomeActivity extends ActionBarActivity implements Find
                 @Override
                 public void onClick(View v) {
                     if (!PreferenceHelper.getReadOnly(getContext())) {
-                        ((BaseHomeActivity) getContext()).verticalScroll.tempDisableListener(1000);
+                        verticalScroll.tempDisableListener(1000);
                         ((InputMethodManager) getContext().getSystemService(Context
                                 .INPUT_METHOD_SERVICE))
                                 .showSoftInput(Editor.this, InputMethodManager.SHOW_IMPLICIT);
@@ -1369,7 +1346,7 @@ public abstract class BaseHomeActivity extends ActionBarActivity implements Find
                 @Override
                 public void onFocusChange(View v, boolean hasFocus) {
                     if (hasFocus && !PreferenceHelper.getReadOnly(getContext())) {
-                        ((BaseHomeActivity) getContext()).verticalScroll.tempDisableListener(1000);
+                        verticalScroll.tempDisableListener(1000);
                         ((InputMethodManager) getContext().getSystemService(Context
                                 .INPUT_METHOD_SERVICE))
                                 .showSoftInput(Editor.this, InputMethodManager.SHOW_IMPLICIT);
@@ -1381,81 +1358,6 @@ public abstract class BaseHomeActivity extends ActionBarActivity implements Find
 
             resetVariables();
         }
-
-        /*private CharSequence autoIndent(
-                CharSequence source,
-                int start,
-                int end,
-                Spanned dest,
-                int dstart,
-                int dend) {
-            if (end - start != 1 ||
-                    start >= source.length() ||
-                    source.charAt(start) != '\n' ||
-                    dstart >= dest.length()) {
-                return source;
-            }
-
-            int istart = dstart;
-            int iend;
-            String indent = "";
-
-            // skip end of line if cursor is at the end of a line
-            if (dest.charAt(istart) == '\n') {
-                --istart;
-            }
-
-            // indent next line if this one isn't terminated
-            if (istart > -1) {
-                // skip white space
-                for (; istart > -1; --istart) {
-                    char c = dest.charAt(istart);
-
-                    if (c != ' ' &&
-                            c != '\t') {
-                        break;
-                    }
-                }
-
-                if (istart > -1) {
-                    char c = dest.charAt(istart);
-
-                    if (c != ';' &&
-                            c != '\n') {
-                        indent = "\t";
-                    }
-                }
-            }
-
-            // find start of previous line
-            for (; istart > -1; --istart) {
-                if (dest.charAt(istart) == '\n') {
-                    break;
-                }
-            }
-
-            // cursor is in the first line
-            if (istart < 0) {
-                return source;
-            }
-
-            // span over previous indent
-            for (iend = ++istart;
-                 iend < dend;
-                 ++iend) {
-                char c = dest.charAt(iend);
-
-                if (c != ' ' &&
-                        c != '\t') {
-                    break;
-                }
-            }
-
-            // copy white space of previous lines and append new indent
-            return "\n" + dest.subSequence(
-                    istart,
-                    iend) + indent;
-        }*/
 
         public void setReadOnly(boolean value) {
             if (value) {
@@ -1472,40 +1374,34 @@ public abstract class BaseHomeActivity extends ActionBarActivity implements Find
         public void setTextSize(float size) {
             super.setTextSize(size);
             final float scale = getContext().getResources().getDisplayMetrics().density;
-            this.mPaintNumbers.setTextSize((int) (size * scale * 0.65f));
+            mPaintNumbers.setTextSize((int) (size * scale * 0.65f));
+            numbersWidth = (int) (EditTextPadding.getPaddingWithLineNumbers(getContext(),
+                    PreferenceHelper.getFontSize(getContext())) * 0.8);
+            lineHeight = getLineHeight();
         }
 
-        @Override
-        public void setTextColor(int color) {
-            super.setTextColor(color);
-            //this.mPaintNumbers.setColor(getTextColors().getDefaultColor());
-            this.mPaintNumbers.setColor(getResources().getColor(R.color.file_text));
-        }
 
         @Override
-        public void onDraw(final Canvas canvas) {
+        public void onDraw(@NonNull final Canvas canvas) {
+
+            if (lineCount != getLineCount() || startingLine != pageSystem.getStartingLine()) {
+                startingLine = pageSystem.getStartingLine();
+                lineCount = getLineCount();
+                lineUtils.updateHasNewLineArray(pageSystem
+                        .getStartingLine(), lineCount, getLayout(), getText().toString());
+
+                hasNewLineArray = lineUtils.getToCountLinesArray();
+                realLines = lineUtils.getRealLines();
+
+            }
+
+            editorHeight = getHeight();
+            firstLine = lineUtils.getFirstVisibleLine(verticalScroll, editorHeight, lineCount);
+            lastLine = lineUtils.getLastVisibleLine(verticalScroll, editorHeight, lineCount, deviceHeight);
 
             if (PreferenceHelper.getLineNumbers(getContext())) {
-                if (lineCount != getLineCount() || startingLine != ((BaseHomeActivity) getContext
-                        ()).pageSystem.getStartingLine()) {
-                    startingLine = ((BaseHomeActivity) getContext()).pageSystem.getStartingLine();
-                    lineCount = getLineCount();
-
-                    lineUtils.updateHasNewLineArray(((BaseHomeActivity) getContext()).pageSystem
-                            .getStartingLine(), lineCount, getLayout(), getText().toString());
-                }
-
-                int editorHeight = getHeight();
-                int i = lineUtils.getFirstVisibleLine(((BaseHomeActivity) getContext())
-                        .verticalScroll, editorHeight, lineCount);
-                int lastLine = lineUtils.getLastVisibleLine(((BaseHomeActivity) getContext())
-                        .verticalScroll, editorHeight, lineCount, deviceHeight);
-                boolean[] hasNewLineArray = lineUtils.getToCountLinesArray();
-                int[] realLines = lineUtils.getRealLines();
-                boolean wrapContent = PreferenceHelper.getWrapContent(getContext());
-                int numbersWidth = (int) (EditTextPadding.getPaddingWithLineNumbers(getContext(),
-                        PreferenceHelper.getFontSize(getContext())) * 0.8);
-                int paddingTop = EditTextPadding.getPaddingTop(getContext());
+                wrapContent = PreferenceHelper.getWrapContent(getContext());
+                i = firstLine;
 
                 while (i < lastLine) {
                     // if last line we count it anyway
@@ -1518,14 +1414,13 @@ public abstract class BaseHomeActivity extends ActionBarActivity implements Find
                             realLine = realLines[i];
 
                         canvas.drawText(String.valueOf(realLine),
-                                numbersWidth, // they all center aligned
-                                paddingTop + getLineHeight() * (i + 1),
+                                numbersWidth, // they are all center aligned
+                                paddingTop + lineHeight * (i + 1),
                                 mPaintNumbers);
                     }
                     i++;
                 }
             }
-
 
             super.onDraw(canvas);
         }
@@ -1536,7 +1431,7 @@ public abstract class BaseHomeActivity extends ActionBarActivity implements Find
         //region Other
 
         @Override
-        public boolean onKeyDown(int keyCode, KeyEvent event) {
+        public boolean onKeyDown(int keyCode, @NonNull KeyEvent event) {
 
             if (event.isCtrlPressed()) {
                 switch (keyCode) {
@@ -1557,7 +1452,7 @@ public abstract class BaseHomeActivity extends ActionBarActivity implements Find
                             return onTextContextMenuItem(ID_REDO);
                         }
                     case KeyEvent.KEYCODE_S:
-                        ((BaseHomeActivity) getContext()).saveTheFile();
+                        ((MainActivity) getContext()).saveTheFile();
                         return true;
                     default:
                         return super.onKeyDown(keyCode, event);
@@ -1579,7 +1474,7 @@ public abstract class BaseHomeActivity extends ActionBarActivity implements Find
         }
 
         @Override
-        public boolean onKeyUp(int keyCode, KeyEvent event) {
+        public boolean onKeyUp(int keyCode, @NonNull KeyEvent event) {
             if (event.isCtrlPressed()) {
                 switch (keyCode) {
                     case KeyEvent.KEYCODE_A:
@@ -1712,7 +1607,6 @@ public abstract class BaseHomeActivity extends ActionBarActivity implements Find
             lineCount = 0;
             realLine = 0;
             startingLine = 0;
-            modified = true;
             mIsUndoOrRedo = false;
             mShowUndo = false;
             mShowRedo = false;
@@ -1741,7 +1635,6 @@ public abstract class BaseHomeActivity extends ActionBarActivity implements Find
                 cursorPosEnd = getSelectionEnd();
             }
             disableTextChangedListener();
-            modified = false;
 
             if (PreferenceHelper.getSyntaxHighlight(getContext()))
                 setText(highlight(textToUpdate == null ? getEditableText() : Editable.Factory
@@ -1749,7 +1642,6 @@ public abstract class BaseHomeActivity extends ActionBarActivity implements Find
             else
                 setText(textToUpdate == null ? getText().toString() : textToUpdate);
 
-            modified = true;
             enableTextChangedListener();
 
             if (mantainCursorPos)
@@ -1772,26 +1664,22 @@ public abstract class BaseHomeActivity extends ActionBarActivity implements Find
         }
 
         public CharSequence highlight(Editable editable, boolean newText) {
-            final String fileExtension = FilenameUtils.getExtension(((BaseHomeActivity)
-                    getContext()).sFilePath).toLowerCase();
             editable.clearSpans();
 
             if (editable.length() == 0) {
                 return editable;
             }
 
-            int end;
-            int height = getHeight();
+            editorHeight = getHeight();
 
-            if (newText == false && height > 0) {
-                firstVisibleIndex = getLayout().getLineStart(getLineUtils().getFirstVisibleLine((
-                        (BaseHomeActivity) getContext()).verticalScroll, height, getLineCount()));
-                end = getLayout().getLineStart(getLineUtils().getLastVisibleLine((
-                        (BaseHomeActivity) getContext()).verticalScroll, height, getLineCount(),
-                        deviceHeight));
+            if (!newText && editorHeight > 0) {
+                firstLine = lineUtils.getFirstVisibleLine(verticalScroll, editorHeight, lineCount);
+                lastLine = lineUtils.getLastVisibleLine(verticalScroll, editorHeight, lineCount, deviceHeight);
+                firstVisibleIndex = getLayout().getLineStart(firstLine);
+                lastVisibleIndex = getLayout().getLineStart(lastLine);
             } else {
                 firstVisibleIndex = 0;
-                end = CHARS_TO_COLOR;
+                lastVisibleIndex = CHARS_TO_COLOR;
             }
 
             firstColoredIndex = firstVisibleIndex - (CHARS_TO_COLOR / 5);
@@ -1799,13 +1687,13 @@ public abstract class BaseHomeActivity extends ActionBarActivity implements Find
             // normalize
             if (firstColoredIndex < 0)
                 firstColoredIndex = 0;
-            if (end > editable.length())
-                end = editable.length();
-            if (firstColoredIndex > end)
-                firstColoredIndex = end;
+            if (lastVisibleIndex > editable.length())
+                lastVisibleIndex = editable.length();
+            if (firstColoredIndex > lastVisibleIndex)
+                firstColoredIndex = lastVisibleIndex;
 
 
-            CharSequence textToHighlight = editable.subSequence(firstColoredIndex, end);
+            textToHighlight = editable.subSequence(firstColoredIndex, lastVisibleIndex);
 
             if (fileExtension.contains("htm")
                     || fileExtension.contains("xml")) {
@@ -1821,14 +1709,18 @@ public abstract class BaseHomeActivity extends ActionBarActivity implements Find
                 color(Patterns.SYMBOLS, editable, textToHighlight, firstColoredIndex);
                 color(Patterns.GENERAL_COMMENTS, editable, textToHighlight, firstColoredIndex);
             } else if (Arrays.asList(MimeTypes.MIME_CODE).contains(fileExtension)) {
-                if (fileExtension.equals("lua"))
-                    color(Patterns.LUA_KEYWORDS, editable, textToHighlight, firstColoredIndex);
-                else if (fileExtension.equals("py"))
-                    color(Patterns.PY_KEYWORDS, editable, textToHighlight, firstColoredIndex);
-                else
-                    color(Patterns.GENERAL_KEYWORDS, editable, textToHighlight, firstColoredIndex);
-                color(Patterns.NUMBERS, editable, textToHighlight, firstColoredIndex);
-                color(Patterns.SYMBOLS, editable, textToHighlight, firstColoredIndex);
+                switch (fileExtension) {
+                    case "lua":
+                        color(Patterns.LUA_KEYWORDS, editable, textToHighlight, firstColoredIndex);
+                        break;
+                    case "py":
+                        color(Patterns.PY_KEYWORDS, editable, textToHighlight, firstColoredIndex);
+                        break;
+                    default:
+                        color(Patterns.GENERAL_KEYWORDS, editable, textToHighlight, firstColoredIndex);
+                        break;
+                }
+                color(Patterns.NUMBERS_OR_SYMBOLS, editable, textToHighlight, firstColoredIndex);
                 color(Patterns.GENERAL_STRINGS, editable, textToHighlight, firstColoredIndex);
                 color(Patterns.GENERAL_COMMENTS, editable, textToHighlight, firstColoredIndex);
                 if (fileExtension.equals("php"))
@@ -1838,19 +1730,18 @@ public abstract class BaseHomeActivity extends ActionBarActivity implements Find
                 color(Patterns.GENERAL_STRINGS, editable, textToHighlight, firstColoredIndex);
                 color(Patterns.SQL_KEYWORDS, editable, textToHighlight, firstColoredIndex);
             } else {
-                if (!fileExtension.contains("md"))
+                if (!(Arrays.asList(MimeTypes.MIME_MARKDOWN).contains(fileExtension)))
                     color(Patterns.GENERAL_KEYWORDS, editable, textToHighlight, firstColoredIndex);
-                color(Patterns.NUMBERS, editable, textToHighlight, firstColoredIndex);
-                color(Patterns.SYMBOLS, editable, textToHighlight, firstColoredIndex);
+                color(Patterns.NUMBERS_OR_SYMBOLS, editable, textToHighlight, firstColoredIndex);
                 color(Patterns.GENERAL_STRINGS, editable, textToHighlight, firstColoredIndex);
                 if (fileExtension.equals("prop") || fileExtension.contains("conf") ||
-                        fileExtension.contains("md"))
+                        (Arrays.asList(MimeTypes.MIME_MARKDOWN).contains(fileExtension)))
                     color(Patterns.GENERAL_COMMENTS_NO_SLASH, editable, textToHighlight,
                             firstColoredIndex);
                 else
                     color(Patterns.GENERAL_COMMENTS, editable, textToHighlight, firstColoredIndex);
 
-                if (fileExtension.contains("md"))
+                if ((Arrays.asList(MimeTypes.MIME_MARKDOWN).contains(fileExtension)))
                     color(Patterns.LINK, editable, textToHighlight, firstColoredIndex);
             }
 
@@ -1894,7 +1785,7 @@ public abstract class BaseHomeActivity extends ActionBarActivity implements Find
                 color = getResources().getColor(R.color.syntax_comment);
             } else if (pattern.equals(Patterns.GENERAL_STRINGS)) {
                 color = getResources().getColor(R.color.syntax_string);
-            } else if (pattern.equals(Patterns.NUMBERS) || pattern.equals(Patterns.SYMBOLS)) {
+            } else if (pattern.equals(Patterns.NUMBERS) || pattern.equals(Patterns.SYMBOLS) || pattern.equals(Patterns.NUMBERS_OR_SYMBOLS)) {
                 color = getResources().getColor(R.color.syntax_number);
             } else if (pattern.equals(Patterns.PHP_VARIABLES)) {
                 color = getResources().getColor(R.color.syntax_variable);
@@ -2072,10 +1963,10 @@ public abstract class BaseHomeActivity extends ActionBarActivity implements Find
                 if (showUndo != mShowUndo || showRedo != mShowRedo) {
                     mShowUndo = showUndo;
                     mShowRedo = showRedo;
-                    ((BaseHomeActivity) getContext()).invalidateOptionsMenu();
+                    ((MainActivity) getContext()).invalidateOptionsMenu();
                 }
 
-                ((BaseHomeActivity) getContext()).updateTextSyntax();
+                ((MainActivity) getContext()).updateTextSyntax();
             }
         }
 

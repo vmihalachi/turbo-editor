@@ -17,7 +17,7 @@
  * along with this program.  If not, see <http://www.gnu.org/licenses/>.
  */
 
-package sharedcode.turboeditor.fragment;
+package sharedcode.turboeditor.dialogfragment;
 
 import android.app.AlertDialog;
 import android.app.Dialog;
@@ -31,6 +31,7 @@ import android.widget.EditText;
 import java.io.File;
 
 import sharedcode.turboeditor.R;
+import sharedcode.turboeditor.activity.MainActivity;
 import sharedcode.turboeditor.preferences.PreferenceHelper;
 import sharedcode.turboeditor.task.SaveFileTask;
 import sharedcode.turboeditor.views.DialogHelper;
@@ -75,7 +76,7 @@ public class NewFileDetailsDialog extends DialogFragment {
                             public void onClick(DialogInterface dialog, int which) {
                                 if (!mName.getText().toString().isEmpty() && !mFolder.getText().toString().isEmpty()) {
                                     File file = new File(mFolder.getText().toString(), mName.getText().toString());
-                                    new SaveFileTask(getActivity(), file.getPath(), getArguments().getString("fileText"), getArguments().getString("fileEncoding")).execute();
+                                    new SaveFileTask((MainActivity) getActivity(), file.getPath(), getArguments().getString("fileText"), getArguments().getString("fileEncoding")).execute();
                                     PreferenceHelper.setWorkingFolder(getActivity(), file.getParent());
                                 }
                             }

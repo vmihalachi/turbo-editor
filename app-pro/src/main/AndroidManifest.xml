@@ -39,7 +39,7 @@
         android:hardwareAccelerated="true"
         android:largeHeap="true"
         android:supportsRtl="true"
-        android:name="sharedcode.turboeditor.activity.MyApp"
+        android:name="sharedcode.turboeditor.application.MyApp"
         >
 
         <!-- android:alwaysRetainTaskState="true" -->

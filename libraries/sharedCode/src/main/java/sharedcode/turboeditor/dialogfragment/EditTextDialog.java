@@ -17,35 +17,37 @@
  * along with this program.  If not, see <http://www.gnu.org/licenses/>.
  */
 
-package sharedcode.turboeditor.fragment;
+package sharedcode.turboeditor.dialogfragment;
 
 import android.app.AlertDialog;
 import android.app.Dialog;
 import android.app.DialogFragment;
 import android.content.DialogInterface;
 import android.os.Bundle;
+import android.view.KeyEvent;
 import android.view.View;
-import android.widget.NumberPicker;
+import android.view.WindowManager;
+import android.view.inputmethod.EditorInfo;
+import android.widget.EditText;
+import android.widget.TextView;
 
 import sharedcode.turboeditor.R;
 import sharedcode.turboeditor.views.DialogHelper;
 
 // ...
-public class SeekbarDialog extends DialogFragment {
+public class EditTextDialog extends DialogFragment implements TextView.OnEditorActionListener {
 
-    private NumberPicker mSeekBar;
+    private EditText mEditText;
 
-    public static SeekbarDialog newInstance(final Actions action) {
-        return SeekbarDialog.newInstance(action, 0, 50, 100);
+    public static EditTextDialog newInstance(final Actions action) {
+        return EditTextDialog.newInstance(action, "");
     }
 
-    public static SeekbarDialog newInstance(final Actions action, final int min, final int current, final int max) {
-        final SeekbarDialog f = new SeekbarDialog();
+    public static EditTextDialog newInstance(final Actions action, final String hint) {
+        final EditTextDialog f = new EditTextDialog();
         final Bundle args = new Bundle();
         args.putSerializable("action", action);
-        args.putInt("min", min);
-        args.putInt("current", current);
-        args.putInt("max", max);
+        args.putString("hint", hint);
         f.setArguments(args);
         return f;
     }
@@ -53,34 +55,34 @@ public class SeekbarDialog extends DialogFragment {
     @Override
     public Dialog onCreateDialog(Bundle savedInstanceState) {
 
-        Actions action = (Actions) getArguments().getSerializable("action");
-        int title;
-        switch (action){
-            case FontSize:
-                title = R.string.font_size;
+        final Actions action = (Actions) getArguments().getSerializable("action");
+        final String title;
+        switch (action) {
+            case NewFile:
+                title = getString(R.string.file);
                 break;
-            case SelectPage:
-                title = R.string.goto_page;
-                break;
-            case GoToLine:
-                title = R.string.goto_line;
+            case NewFolder:
+                title = getString(R.string.folder);
                 break;
             default:
-                title = R.string.nome_app_turbo_editor;
+                title = null;
                 break;
         }
 
         View view = new DialogHelper.Builder(getActivity())
                 .setTitle(title)
-                .setView(R.layout.dialog_fragment_seekbar)
+                .setView(R.layout.dialog_fragment_edittext)
                 .createSkeletonView();
+        this.mEditText = (EditText) view.findViewById(android.R.id.edit);
+        this.mEditText.setHint(R.string.name);
 
-        this.mSeekBar = (NumberPicker) view.findViewById(android.R.id.input);
-        this.mSeekBar.setMaxValue(getArguments().getInt("max"));
-        this.mSeekBar.setMinValue(getArguments().getInt("min"));
-        this.mSeekBar.setValue(getArguments().getInt("current"));
+        // Show soft keyboard automatically
+        this.mEditText.setText(getArguments().getString("hint"));
+        this.mEditText.requestFocus();
+        getActivity().getWindow().setSoftInputMode(WindowManager.LayoutParams.SOFT_INPUT_STATE_VISIBLE);
+        this.mEditText.setOnEditorActionListener(this);
+
         return new AlertDialog.Builder(getActivity())
-                //.setTitle(title)
                 .setView(view)
                 .setPositiveButton(android.R.string.ok,
                         new DialogInterface.OnClickListener() {
@@ -102,22 +104,29 @@ public class SeekbarDialog extends DialogFragment {
     }
 
     void returnData() {
-        ISeekbarDialog target = (ISeekbarDialog) getTargetFragment();
+        EditDialogListener target = (EditDialogListener) getTargetFragment();
         if (target == null) {
-            target = (ISeekbarDialog) getActivity();
+            target = (EditDialogListener) getActivity();
         }
-        target.onSeekbarDialogDismissed(
-                (Actions) getArguments().getSerializable("action"),
-                mSeekBar.getValue()
-        );
+        target.onFinishEditDialog(this.mEditText.getText().toString(), getArguments().getString("hint"),
+                (Actions) getArguments().getSerializable("action"));
         this.dismiss();
     }
 
-    public enum Actions {
-        FontSize, SelectPage, GoToLine
+    @Override
+    public boolean onEditorAction(final TextView v, final int actionId, final KeyEvent event) {
+        if (EditorInfo.IME_ACTION_DONE == actionId) {
+            returnData();
+            return true;
+        }
+        return false;
     }
 
-    public interface ISeekbarDialog {
-        void onSeekbarDialogDismissed(Actions action, int value);
+    public enum Actions {
+        NewFile, NewFolder
+    }
+
+    public interface EditDialogListener {
+        void onFinishEditDialog(String result, String hint, Actions action);
     }
 }

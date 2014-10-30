@@ -55,7 +55,7 @@ import java.util.concurrent.TimeoutException;
 
 import sharedcode.turboeditor.R;
 import sharedcode.turboeditor.adapter.AdapterDetailedList;
-import sharedcode.turboeditor.fragment.EditTextDialog;
+import sharedcode.turboeditor.dialogfragment.EditTextDialog;
 import sharedcode.turboeditor.preferences.PreferenceHelper;
 import sharedcode.turboeditor.root.RootUtils;
 import sharedcode.turboeditor.util.AlphanumComparator;
@@ -105,15 +105,12 @@ public class SelectFileActivity extends ActionBarActivity implements SearchView.
                 popup.setOnMenuItemClickListener(new PopupMenu.OnMenuItemClickListener() {
                     @Override
                     public boolean onMenuItemClick(MenuItem item) {
-                        final EditTextDialog dialogFrag;
                         int i = item.getItemId();
                         if (i == R.id.im_new_file) {
-                            dialogFrag = EditTextDialog.newInstance(EditTextDialog.Actions.NewFile);
-                            dialogFrag.show(getFragmentManager().beginTransaction(), "dialog");
+                            EditTextDialog.newInstance(EditTextDialog.Actions.NewFile).show(getFragmentManager().beginTransaction(), "dialog");
                             return true;
                         } else if (i == R.id.im_new_folder) {
-                            dialogFrag = EditTextDialog.newInstance(EditTextDialog.Actions.NewFolder);
-                            dialogFrag.show(getFragmentManager().beginTransaction(), "dialog");
+                            EditTextDialog.newInstance(EditTextDialog.Actions.NewFolder).show(getFragmentManager().beginTransaction(), "dialog");
                             return true;
                         } else {
                             return false;
@@ -368,7 +365,8 @@ public class SelectFileActivity extends ActionBarActivity implements SearchView.
                 AdapterDetailedList mAdapter = new AdapterDetailedList(getBaseContext(), names, isRoot);
                 listView.setAdapter(mAdapter);
                 filter = mAdapter.getFilter();
-            } else if (exceptionMessage != null) {
+            }
+            if (exceptionMessage != null) {
                 Toast.makeText(SelectFileActivity.this, exceptionMessage, Toast.LENGTH_SHORT).show();
             }
             invalidateOptionsMenu();

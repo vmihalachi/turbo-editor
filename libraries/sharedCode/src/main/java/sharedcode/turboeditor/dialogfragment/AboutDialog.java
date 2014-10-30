@@ -16,7 +16,8 @@
  * You should have received a copy of the GNU General Public License
  * along with this program.  If not, see <http://www.gnu.org/licenses/>.
  */
-package sharedcode.turboeditor.fragment;
+
+package sharedcode.turboeditor.dialogfragment;
 
 import android.app.AlertDialog;
 import android.app.Dialog;
@@ -28,7 +29,6 @@ import android.content.res.Resources;
 import android.os.Bundle;
 import android.text.Html;
 import android.view.View;
-import android.widget.Toast;
 
 import sharedcode.turboeditor.R;
 import sharedcode.turboeditor.views.DialogHelper;

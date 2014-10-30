@@ -17,37 +17,35 @@
  * along with this program.  If not, see <http://www.gnu.org/licenses/>.
  */
 
-package sharedcode.turboeditor.fragment;
+package sharedcode.turboeditor.dialogfragment;
 
 import android.app.AlertDialog;
 import android.app.Dialog;
 import android.app.DialogFragment;
 import android.content.DialogInterface;
 import android.os.Bundle;
-import android.view.KeyEvent;
 import android.view.View;
-import android.view.WindowManager;
-import android.view.inputmethod.EditorInfo;
-import android.widget.EditText;
-import android.widget.TextView;
+import android.widget.NumberPicker;
 
 import sharedcode.turboeditor.R;
 import sharedcode.turboeditor.views.DialogHelper;
 
 // ...
-public class EditTextDialog extends DialogFragment implements TextView.OnEditorActionListener {
+public class NumberPickerDialog extends DialogFragment {
 
-    private EditText mEditText;
+    private NumberPicker mSeekBar;
 
-    public static EditTextDialog newInstance(final Actions action) {
-        return EditTextDialog.newInstance(action, "");
+    public static NumberPickerDialog newInstance(final Actions action) {
+        return NumberPickerDialog.newInstance(action, 0, 50, 100);
     }
 
-    public static EditTextDialog newInstance(final Actions action, final String hint) {
-        final EditTextDialog f = new EditTextDialog();
+    public static NumberPickerDialog newInstance(final Actions action, final int min, final int current, final int max) {
+        final NumberPickerDialog f = new NumberPickerDialog();
         final Bundle args = new Bundle();
         args.putSerializable("action", action);
-        args.putString("hint", hint);
+        args.putInt("min", min);
+        args.putInt("current", current);
+        args.putInt("max", max);
         f.setArguments(args);
         return f;
     }
@@ -55,34 +53,34 @@ public class EditTextDialog extends DialogFragment implements TextView.OnEditorA
     @Override
     public Dialog onCreateDialog(Bundle savedInstanceState) {
 
-        final Actions action = (Actions) getArguments().getSerializable("action");
-        final String title;
-        switch (action) {
-            case NewFile:
-                title = getString(R.string.file);
+        Actions action = (Actions) getArguments().getSerializable("action");
+        int title;
+        switch (action){
+            case FontSize:
+                title = R.string.font_size;
                 break;
-            case NewFolder:
-                title = getString(R.string.folder);
+            case SelectPage:
+                title = R.string.goto_page;
+                break;
+            case GoToLine:
+                title = R.string.goto_line;
                 break;
             default:
-                title = null;
+                title = R.string.nome_app_turbo_editor;
                 break;
         }
 
         View view = new DialogHelper.Builder(getActivity())
                 .setTitle(title)
-                .setView(R.layout.dialog_fragment_edittext)
+                .setView(R.layout.dialog_fragment_seekbar)
                 .createSkeletonView();
-        this.mEditText = (EditText) view.findViewById(android.R.id.edit);
-        this.mEditText.setHint(R.string.name);
 
-        // Show soft keyboard automatically
-        this.mEditText.setText(getArguments().getString("hint"));
-        this.mEditText.requestFocus();
-        getActivity().getWindow().setSoftInputMode(WindowManager.LayoutParams.SOFT_INPUT_STATE_VISIBLE);
-        this.mEditText.setOnEditorActionListener(this);
-
+        this.mSeekBar = (NumberPicker) view.findViewById(android.R.id.input);
+        this.mSeekBar.setMaxValue(getArguments().getInt("max"));
+        this.mSeekBar.setMinValue(getArguments().getInt("min"));
+        this.mSeekBar.setValue(getArguments().getInt("current"));
         return new AlertDialog.Builder(getActivity())
+                //.setTitle(title)
                 .setView(view)
                 .setPositiveButton(android.R.string.ok,
                         new DialogInterface.OnClickListener() {
@@ -104,29 +102,22 @@ public class EditTextDialog extends DialogFragment implements TextView.OnEditorA
     }
 
     void returnData() {
-        EditDialogListener target = (EditDialogListener) getTargetFragment();
+        INumberPickerDialog target = (INumberPickerDialog) getTargetFragment();
         if (target == null) {
-            target = (EditDialogListener) getActivity();
+            target = (INumberPickerDialog) getActivity();
         }
-        target.onFinishEditDialog(this.mEditText.getText().toString(), getArguments().getString("hint"),
-                (Actions) getArguments().getSerializable("action"));
+        target.onNumberPickerDialogDismissed(
+                (Actions) getArguments().getSerializable("action"),
+                mSeekBar.getValue()
+        );
         this.dismiss();
     }
 
-    @Override
-    public boolean onEditorAction(final TextView v, final int actionId, final KeyEvent event) {
-        if (EditorInfo.IME_ACTION_DONE == actionId) {
-            returnData();
-            return true;
-        }
-        return false;
-    }
-
     public enum Actions {
-        NewFile, NewFolder
+        FontSize, SelectPage, GoToLine
     }
 
-    public interface EditDialogListener {
-        void onFinishEditDialog(String result, String hint, Actions action);
+    public interface INumberPickerDialog {
+        void onNumberPickerDialogDismissed(Actions action, int value);
     }
 }

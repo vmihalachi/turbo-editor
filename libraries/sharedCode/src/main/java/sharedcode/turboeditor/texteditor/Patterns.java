@@ -50,11 +50,12 @@ public class Patterns {
             ":[ \t](.+?);");
 
     public static final Pattern NUMBERS = Pattern.compile(
-            "\\b(\\d*[.]?\\d+)\\b");
-    public static final Pattern CSS_NUMBERS = Pattern.compile(
-            "/^auto$|^[+-]?[0-9]+\\.?([0-9]+)?(px|em|ex|%|in|cm|mm|pt|pc)?$/ig");
+            "(\\b(\\d*[.]?\\d+)\\b)");
+    //public static final Pattern CSS_NUMBERS = Pattern.compile(
+    //        "/^auto$|^[+-]?[0-9]+\\.?([0-9]+)?(px|em|ex|%|in|cm|mm|pt|pc)?$/ig");
     public static final Pattern SYMBOLS = Pattern.compile(
             "(!|,|\\(|\\)|\\+|\\-|\\*|<|>|=|\\.|\\?|;|\\{|\\}|\\[|\\])");
+    public static final Pattern NUMBERS_OR_SYMBOLS = Pattern.compile(NUMBERS.pattern()+"|"+SYMBOLS.pattern());
     public static final Pattern GENERAL_KEYWORDS = Pattern.compile(
             "\\b(alignas|alignof|and|and_eq|asm|auto|bitand|bitorbool|break|case|catch|char|"
                     + "char16_t|char32_t|class|compl|const|constexpr|const_cast|continue|decltype"
@@ -78,7 +79,8 @@ public class Patterns {
     // Comments
     public static final Pattern XML_COMMENTS = Pattern.compile("(?s)<!--.*?-->");
     public static final Pattern GENERAL_COMMENTS = Pattern.compile(
-            "/\\*(?:.|[\\n\\r])*?\\*/|//.*|#.*");
+            "/\\*(?:.|[\\n\\r])*?\\*/|(?<!:)//.*|#.*");
+    // same as GENERAL_COMMENTS but without -> //
     public static final Pattern GENERAL_COMMENTS_NO_SLASH = Pattern.compile(
             "/\\*(?:.|[\\n\\r])*?\\*/|#.*");
     public static final Pattern SQL_KEYWORDS = Pattern.compile(

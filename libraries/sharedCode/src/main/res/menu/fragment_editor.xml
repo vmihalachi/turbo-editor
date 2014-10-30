@@ -63,39 +63,9 @@
         app:showAsAction="never"
         android:title="@string/info"
         />
-
-   <!-- <item
-        android:id="@id/im_goto_line"
+    <item
+        android:id="@id/im_donate"
         app:showAsAction="never"
-        android:title="@string/goto_line"
-        />-->
-    <!--<item
-            android:title="@string/preferenze"
-            app:showAsAction="ifRoom|withText">
-        <menu>
-            <item
-                    android:id="@id/im_line_numbers"
-                    app:showAsAction="ifRoom"
-                    android:title="@string/line_numbers"
-                    android:checkable="true"/>
-            <item
-                    android:id="@id/im_syntax_highlight"
-                    app:showAsAction="ifRoom"
-                    android:title="@string/menu_syntax_highlight"
-                    android:checkable="true"/>
-            <item
-                android:id="@id/im_use_monospace"
-                app:showAsAction="ifRoom"
-                android:title="@string/use_monospace"
-                android:checkable="true"/>
-            <item
-                android:id="@id/im_editor_encoding"
-                app:showAsAction="ifRoom"
-                android:title="@string/codifica"/>
-            <item
-                android:id="@id/im_text_size"
-                app:showAsAction="ifRoom"
-                android:title="@string/font_size"/>
-        </menu>
-    </item>-->
+        android:title="@string/donation_action"
+        />
 </menu>

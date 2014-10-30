@@ -51,4 +51,7 @@ public class MimeTypes {
     public static final String[] MIME_SQL = {
             "sql", "mdf", "ndf", "ldf"
     };
+    public static final String[] MIME_MARKDOWN = {
+            "md", "mdown", "markdown",
+    };
 }

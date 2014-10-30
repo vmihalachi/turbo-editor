@@ -16,11 +16,8 @@
  * You should have received a copy of the GNU General Public License
  * along with this program.  If not, see <http://www.gnu.org/licenses/>.
  */
-package sharedcode.turboeditor.views;
 
-/**
- * Created by Artem on 28.01.14.
- */
+package sharedcode.turboeditor.views;
 
 import android.app.Activity;
 import android.app.AlertDialog;
@@ -41,7 +38,7 @@ import org.apache.commons.lang3.builder.EqualsBuilder;
 import org.apache.commons.lang3.builder.HashCodeBuilder;
 
 import sharedcode.turboeditor.R;
-import sharedcode.turboeditor.fragment.AboutDialog;
+import sharedcode.turboeditor.dialogfragment.AboutDialog;
 import sharedcode.turboeditor.iab.DonationFragment;
 
 /**

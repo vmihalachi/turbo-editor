@@ -1,4 +1,5 @@
 <?xml version="1.0" encoding="utf-8"?>
+
 <!--
   ~ Copyright (C) 2014 Vlad Mihalachi
   ~
@@ -47,7 +48,7 @@
     <item type="id" name="im_replace"/>
     <item type="id" name="im_next_page"/>
     <item type="id" name="im_prev_page"/>
-    <item type="id" name="im_donate_a_coffee"/>
+    <item type="id" name="im_donate"/>
     <!-- layout item ids -->
     <item type="id" name="drawer_layout"/>
     <item type="id" name="editor"/>

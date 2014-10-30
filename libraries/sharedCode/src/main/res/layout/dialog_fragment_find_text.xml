@@ -32,7 +32,8 @@
         android:id="@id/text_to_find"
         android:hint="@string/text_to_find"
         android:padding="5dp"
-        android:textSize="12sp"/>
+        android:textSize="12sp"
+        android:inputType="textNoSuggestions|textFilter|textVisiblePassword"/>
 
     <CheckBox
         android:layout_width="match_parent"
@@ -71,5 +72,6 @@
         android:hint="@string/text_to_replace"
         android:visibility="gone"
         android:padding="5dp"
-        android:textSize="12sp"/>
+        android:textSize="12sp"
+        android:inputType="textNoSuggestions|textFilter"/>
 </LinearLayout>

@@ -34,17 +34,17 @@ public class LineUtils {
         return realLines;
     }
 
-    public int getYAtLine(ScrollView scrollView, int lineCount, int line) {
+    public static  int getYAtLine(ScrollView scrollView, int lineCount, int line) {
         return scrollView.getChildAt(0).getHeight() / lineCount * line;
     }
 
-    public int getFirstVisibleLine(ScrollView scrollView, int childHeight, int lineCount) throws ArithmeticException {
+    public static  int getFirstVisibleLine(ScrollView scrollView, int childHeight, int lineCount) throws ArithmeticException {
         int line = (scrollView.getScrollY() * lineCount) / childHeight;
         if (line < 0) line = 0;
         return line;
     }
 
-    public int getLastVisibleLine(ScrollView scrollView, int childHeight, int lineCount, int deviceHeight) {
+    public static int getLastVisibleLine(ScrollView scrollView, int childHeight, int lineCount, int deviceHeight) {
         int line = ((scrollView.getScrollY() + deviceHeight) * lineCount) / childHeight;
         if (line > lineCount) line = lineCount;
         return line;
@@ -61,7 +61,8 @@ public class LineUtils {
         // for every line on the edittext
         for (i = 0; i < lineCount; i++) {
             // check if this line contains "\n"
-            hasNewLineArray[i] = text.substring(layout.getLineStart(i), layout.getLineEnd(i)).endsWith("\n");
+            //hasNewLineArray[i] = text.substring(layout.getLineStart(i), layout.getLineEnd(i)).endsWith("\n");
+            hasNewLineArray[i] = text.charAt(layout.getLineEnd(i) - 1) == '\n';
             // if true
             if (hasNewLineArray[i]) {
                 int j = i - 1;
@@ -91,7 +92,7 @@ public class LineUtils {
      * @param layout
      * @return
      */
-    public int getLineFromIndex(int index, int lineCount, Layout layout) {
+    public static int getLineFromIndex(int index, int lineCount, Layout layout) {
         int line;
         int currentIndex = 0;
 

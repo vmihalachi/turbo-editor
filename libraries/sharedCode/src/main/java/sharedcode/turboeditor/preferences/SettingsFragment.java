@@ -28,10 +28,10 @@ import android.view.ViewGroup;
 import android.widget.CompoundButton;
 import android.widget.TextView;
 
-import de.greenrobot.event.EventBus;
 import sharedcode.turboeditor.R;
-import sharedcode.turboeditor.fragment.EncodingDialog;
-import sharedcode.turboeditor.fragment.SeekbarDialog;
+import sharedcode.turboeditor.activity.MainActivity;
+import sharedcode.turboeditor.dialogfragment.EncodingDialog;
+import sharedcode.turboeditor.dialogfragment.NumberPickerDialog;
 import sharedcode.turboeditor.util.ProCheckUtils;
 import sharedcode.turboeditor.util.ViewUtils;
 import sharedcode.turboeditor.views.DialogHelper;
@@ -47,7 +47,7 @@ import static sharedcode.turboeditor.util.EventBusEvents.APreferenceValueWasChan
 import static sharedcode.turboeditor.util.EventBusEvents.APreferenceValueWasChanged.Type.THEME_CHANGE;
 import static sharedcode.turboeditor.util.EventBusEvents.APreferenceValueWasChanged.Type.WRAP_CONTENT;
 
-public class SettingsFragment extends Fragment implements SeekbarDialog.ISeekbarDialog, EncodingDialog.DialogListener {
+public class SettingsFragment extends Fragment implements NumberPickerDialog.INumberPickerDialog, EncodingDialog.DialogListener {
 
     // Editor Variables
     private boolean sLineNumbers;
@@ -127,7 +127,7 @@ public class SettingsFragment extends Fragment implements SeekbarDialog.ISeekbar
             @Override
             public void onCheckedChanged(CompoundButton buttonView, boolean isChecked) {
                 PreferenceHelper.setLineNumbers(getActivity(), isChecked);
-                EventBus.getDefault().post(new APreferenceValueWasChanged(LINE_NUMERS));
+                ((MainActivity) getActivity()).onEvent(new APreferenceValueWasChanged(LINE_NUMERS));
             }
         });
 
@@ -136,7 +136,7 @@ public class SettingsFragment extends Fragment implements SeekbarDialog.ISeekbar
             public void onCheckedChanged(CompoundButton buttonView, boolean isChecked) {
                 sColorSyntax = isChecked;
                 PreferenceHelper.setSyntaxHighlight(getActivity(), isChecked);
-                EventBus.getDefault().post(new APreferenceValueWasChanged(SYNTAX));
+                ((MainActivity) getActivity()).onEvent(new APreferenceValueWasChanged(SYNTAX));
 
             }
         });
@@ -145,7 +145,7 @@ public class SettingsFragment extends Fragment implements SeekbarDialog.ISeekbar
             @Override
             public void onCheckedChanged(CompoundButton buttonView, boolean isChecked) {
                 PreferenceHelper.setWrapContent(getActivity(), isChecked);
-                EventBus.getDefault().post(new APreferenceValueWasChanged(WRAP_CONTENT));
+                ((MainActivity) getActivity()).onEvent(new APreferenceValueWasChanged(WRAP_CONTENT));
             }
         });
 
@@ -154,7 +154,7 @@ public class SettingsFragment extends Fragment implements SeekbarDialog.ISeekbar
             public void onCheckedChanged(CompoundButton buttonView, boolean isChecked) {
                 sUseMonospace = isChecked;
                 PreferenceHelper.setUseMonospace(getActivity(), isChecked);
-                EventBus.getDefault().post(new APreferenceValueWasChanged(MONOSPACE));
+                ((MainActivity) getActivity()).onEvent(new APreferenceValueWasChanged(MONOSPACE));
 
             }
         });
@@ -163,7 +163,7 @@ public class SettingsFragment extends Fragment implements SeekbarDialog.ISeekbar
             @Override
             public void onCheckedChanged(CompoundButton buttonView, boolean isChecked) {
                 PreferenceHelper.setReadOnly(getActivity(), isChecked);
-                EventBus.getDefault().post(new APreferenceValueWasChanged(READ_ONLY));
+                ((MainActivity) getActivity()).onEvent(new APreferenceValueWasChanged(READ_ONLY));
             }
         });
 
@@ -174,7 +174,8 @@ public class SettingsFragment extends Fragment implements SeekbarDialog.ISeekbar
                 int fontCurrent = //(int) (mEditor.getTextSize() / scaledDensity);
                         //fontMax / 2;
                         PreferenceHelper.getFontSize(getActivity());
-                SeekbarDialog dialogFrag = SeekbarDialog.newInstance(SeekbarDialog.Actions
+                NumberPickerDialog dialogFrag = NumberPickerDialog.newInstance(NumberPickerDialog
+                        .Actions
                         .FontSize, 1, fontCurrent, fontMax);
                 dialogFrag.setTargetFragment(SettingsFragment.this, 0);
                 dialogFrag.show(getFragmentManager().beginTransaction(), "dialog");
@@ -210,7 +211,7 @@ public class SettingsFragment extends Fragment implements SeekbarDialog.ISeekbar
             @Override
             public void onCheckedChanged(CompoundButton buttonView, boolean isChecked) {
                 PreferenceHelper.setLightTheme(getActivity(), isChecked);
-                EventBus.getDefault().post(new APreferenceValueWasChanged(THEME_CHANGE));
+                ((MainActivity) getActivity()).onEvent(new APreferenceValueWasChanged(THEME_CHANGE));
             }
         });
 
@@ -218,7 +219,35 @@ public class SettingsFragment extends Fragment implements SeekbarDialog.ISeekbar
             @Override
             public void onCheckedChanged(CompoundButton buttonView, boolean isChecked) {
                 PreferenceHelper.setSuggestionsActive(getActivity(), isChecked);
-                EventBus.getDefault().post(new APreferenceValueWasChanged(TEXT_SUGGESTIONS));
+                ((MainActivity) getActivity()).onEvent(new APreferenceValueWasChanged(TEXT_SUGGESTIONS));
+            }
+        });
+
+        swAutoSave.setOnCheckedChangeListener(new CompoundButton.OnCheckedChangeListener() {
+            @Override
+            public void onCheckedChanged(CompoundButton buttonView, boolean isChecked) {
+                PreferenceHelper.setAutoSave(getActivity(), isChecked);
+            }
+        });
+
+        swIgnoreBackButton.setOnCheckedChangeListener(new CompoundButton.OnCheckedChangeListener() {
+            @Override
+            public void onCheckedChanged(CompoundButton buttonView, boolean isChecked) {
+                PreferenceHelper.setIgnoreBackButton(getActivity(), isChecked);
+            }
+        });
+
+        swSplitText.setOnCheckedChangeListener(new CompoundButton.OnCheckedChangeListener() {
+            @Override
+            public void onCheckedChanged(CompoundButton buttonView, boolean isChecked) {
+                PreferenceHelper.setSplitText(getActivity(), isChecked);
+            }
+        });
+
+        swErrorReports.setOnCheckedChangeListener(new CompoundButton.OnCheckedChangeListener() {
+            @Override
+            public void onCheckedChanged(CompoundButton buttonView, boolean isChecked) {
+                PreferenceHelper.setSendErrorReport(getActivity(), isChecked);
             }
         });
 
@@ -226,15 +255,15 @@ public class SettingsFragment extends Fragment implements SeekbarDialog.ISeekbar
     }
 
     @Override
-    public void onSeekbarDialogDismissed(SeekbarDialog.Actions action, int value) {
+    public void onNumberPickerDialogDismissed(NumberPickerDialog.Actions action, int value) {
         PreferenceHelper.setFontSize(getActivity(), value);
-        EventBus.getDefault().post(new APreferenceValueWasChanged(FONT_SIZE));
+        ((MainActivity) getActivity()).onEvent(new APreferenceValueWasChanged(FONT_SIZE));
 
     }
 
     @Override
     public void onEncodingSelected(String result) {
         PreferenceHelper.setEncoding(getActivity(), result);
-        EventBus.getDefault().post(new APreferenceValueWasChanged(ENCODING));
+        ((MainActivity) getActivity()).onEvent(new APreferenceValueWasChanged(ENCODING));
     }
 }

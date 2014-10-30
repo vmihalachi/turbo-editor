@@ -17,7 +17,7 @@
  * along with this program.  If not, see <http://www.gnu.org/licenses/>.
  */
 
-package sharedcode.turboeditor.fragment;
+package sharedcode.turboeditor.dialogfragment;
 
 import android.app.AlertDialog;
 import android.app.Dialog;
@@ -31,6 +31,7 @@ import org.apache.commons.io.FilenameUtils;
 import java.io.File;
 
 import sharedcode.turboeditor.R;
+import sharedcode.turboeditor.activity.MainActivity;
 import sharedcode.turboeditor.task.SaveFileTask;
 import sharedcode.turboeditor.views.DialogHelper;
 
@@ -75,7 +76,7 @@ public class SaveFileDialog extends DialogFragment {
                             @Override
                             public void onClick(DialogInterface dialog, int which) {
                                 if (!fileName.isEmpty())
-                                    new SaveFileTask(getActivity(), filePath, text,
+                                    new SaveFileTask((MainActivity) getActivity(), filePath, text,
                                             encoding).execute();
                                 else {
                                     NewFileDetailsDialog dialogFrag =

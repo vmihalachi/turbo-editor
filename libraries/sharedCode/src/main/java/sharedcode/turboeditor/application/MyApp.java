@@ -17,7 +17,7 @@
  * along with this program.  If not, see <http://www.gnu.org/licenses/>.
  */
 
-package sharedcode.turboeditor.activity;
+package sharedcode.turboeditor.application;
 
 import android.app.Application;
 import android.view.ViewConfiguration;

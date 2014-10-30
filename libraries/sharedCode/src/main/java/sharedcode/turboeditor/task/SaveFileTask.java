@@ -19,7 +19,6 @@
 
 package sharedcode.turboeditor.task;
 
-import android.content.Context;
 import android.os.AsyncTask;
 import android.widget.Toast;
 
@@ -30,14 +29,14 @@ import java.io.File;
 import java.io.IOException;
 import java.util.concurrent.TimeoutException;
 
-import de.greenrobot.event.EventBus;
 import sharedcode.turboeditor.R;
+import sharedcode.turboeditor.activity.MainActivity;
 import sharedcode.turboeditor.root.RootUtils;
 import sharedcode.turboeditor.util.EventBusEvents;
 
 public class SaveFileTask extends AsyncTask<Void, Void, Void> {
 
-    private final Context context;
+    private final MainActivity activity;
     private final String filePath;
     private final String text;
     private final String encoding;
@@ -45,8 +44,8 @@ public class SaveFileTask extends AsyncTask<Void, Void, Void> {
     private String message;
     private String positiveMessage;
 
-    public SaveFileTask(Context context, String filePath, String text, String encoding) {
-        this.context = context;
+    public SaveFileTask(MainActivity activity, String filePath, String text, String encoding) {
+        this.activity = activity;
         this.filePath = filePath;
         this.text = text;
         this.encoding = encoding;
@@ -56,7 +55,7 @@ public class SaveFileTask extends AsyncTask<Void, Void, Void> {
     protected void onPreExecute() {
         super.onPreExecute();
         file = new File(filePath);
-        positiveMessage = String.format(context.getString(R.string.file_saved_with_success), file.getName());
+        positiveMessage = String.format(activity.getString(R.string.file_saved_with_success), file.getName());
     }
 
     /**
@@ -85,7 +84,7 @@ public class SaveFileTask extends AsyncTask<Void, Void, Void> {
                 }
             }
 
-            RootUtils.writeFile(context, file.getAbsolutePath(), text, encoding, isRoot);
+            RootUtils.writeFile(activity, file.getAbsolutePath(), text, encoding, isRoot);
 
             message = positiveMessage;
         } catch (Exception e) {
@@ -100,8 +99,8 @@ public class SaveFileTask extends AsyncTask<Void, Void, Void> {
     @Override
     protected void onPostExecute(final Void aVoid) {
         super.onPostExecute(aVoid);
-        Toast.makeText(context, message, Toast.LENGTH_LONG).show();
+        Toast.makeText(activity, message, Toast.LENGTH_LONG).show();
         if (message.equals(positiveMessage))
-            EventBus.getDefault().post(new EventBusEvents.SavedAFile(filePath));
+            activity.onEvent(new EventBusEvents.SavedAFile(filePath));
     }
 }

@@ -20,7 +20,11 @@
 package sharedcode.turboeditor.texteditor;
 
 import android.content.Context;
+import android.support.annotation.Nullable;
 
+import org.apache.commons.io.FileUtils;
+
+import java.io.File;
 import java.util.LinkedList;
 import java.util.List;
 
@@ -33,23 +37,32 @@ public class PageSystem {
     private int currentPage = 0;
     private PageSystemInterface pageSystemInterface;
 
-    public PageSystem(Context context, PageSystemInterface pageSystemInterface, String text) {
+    public PageSystem(Context context, PageSystemInterface pageSystemInterface, String text, @Nullable File file) {
+
+        final int charForPage = 15000;
+        final int MAX_KBs_WITHOUT_PAGE_SYSTEM = 50;
+
         this.pageSystemInterface = pageSystemInterface;
         pages = new LinkedList<>();
 
+        final boolean doWithoutPageSystem;
+        if(file != null)
+            doWithoutPageSystem = FileUtils.sizeOf(file) < MAX_KBs_WITHOUT_PAGE_SYSTEM * FileUtils.ONE_KB;
+        else
+            doWithoutPageSystem = false;
+
         int i = 0;
-        int charForPage = 15000;
-        int maxLenghtInOnePage = 30000;
         int to;
-        int indexOfReturn;
-        int textLenght = text.length();
+        int nextIndexOfReturn;
+        final int textLength = text.length();
         boolean pageSystemEnabled = PreferenceHelper.getSplitText(context);
-        if (pageSystemEnabled && textLenght > maxLenghtInOnePage) {
-            while (i < textLenght && pageSystemEnabled) {
+
+        if (pageSystemEnabled && !doWithoutPageSystem) {
+            while (i < textLength) {
                 to = i + charForPage;
-                indexOfReturn = text.indexOf("\n", to);
-                if (indexOfReturn > to) to = indexOfReturn;
-                if (to > text.length()) to = text.length();
+                nextIndexOfReturn = text.indexOf("\n", to);
+                if (nextIndexOfReturn > to) to = nextIndexOfReturn;
+                //if (to > text.length()) to = text.length();
                 pages.add(text.substring(i, to));
                 i = to + 1;
             }

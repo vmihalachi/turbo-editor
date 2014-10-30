@@ -36,7 +36,7 @@
         android:id="@id/drawer_button_go_pro"
         android:layout_width="match_parent"
         android:layout_height="72dp"
-        android:text="@string/donate"
+        android:text="@string/donation_action"
         android:paddingStart="16dp"
         android:paddingEnd="16dp"
         android:paddingLeft="16dp"
