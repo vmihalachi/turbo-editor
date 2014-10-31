@@ -21,7 +21,6 @@
 <changelog bulletedList="true">
 
     <changelogversion versionName="1.13.1" changeDate="Oct 30, 2014">
-        <changelogtext>Happy Halloween!</changelogtext>
         <changelogtext>Manly bug fixes</changelogtext>
     </changelogversion>
 

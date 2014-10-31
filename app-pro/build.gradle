@@ -27,8 +27,8 @@ android {
         applicationId "com.maskyn.fileeditorpro"
         minSdkVersion 11
         targetSdkVersion 21
-        versionCode 32
-        versionName "1.13.1"
+        versionCode 35
+        versionName "1.13.2"
     }
 
     compileOptions {

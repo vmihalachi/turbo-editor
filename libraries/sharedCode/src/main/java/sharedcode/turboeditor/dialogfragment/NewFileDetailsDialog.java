@@ -62,10 +62,12 @@ public class NewFileDetailsDialog extends DialogFragment {
         this.mName = (EditText) view.findViewById(android.R.id.text1);
         this.mFolder = (EditText) view.findViewById(android.R.id.text2);
 
+        this.mName.setText(".txt");
         this.mFolder.setText(PreferenceHelper.getWorkingFolder(getActivity()));
 
         // Show soft keyboard automatically
         this.mName.requestFocus();
+        this.mName.setSelection(0);
         getActivity().getWindow().setSoftInputMode(WindowManager.LayoutParams.SOFT_INPUT_STATE_VISIBLE);
 
         return new AlertDialog.Builder(getActivity())

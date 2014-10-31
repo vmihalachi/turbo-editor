@@ -20,6 +20,7 @@
 package sharedcode.turboeditor.texteditor;
 
 import android.text.Layout;
+import android.text.TextUtils;
 import android.widget.ScrollView;
 
 public class LineUtils {
@@ -55,6 +56,9 @@ public class LineUtils {
         boolean[] hasNewLineArray = new boolean[lineCount];
         toCountLinesArray = new boolean[lineCount];
         realLines = new int[lineCount];
+
+        if(TextUtils.isEmpty(text))
+            return;
 
         int i;
 

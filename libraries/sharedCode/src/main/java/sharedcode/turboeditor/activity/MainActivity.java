@@ -537,7 +537,7 @@ public abstract class MainActivity extends ActionBarActivity implements FindText
             return;
         if (searchResult.index > 0) {
             searchResult.index--;
-            final int line = mEditor.getLineUtils().getLineFromIndex(searchResult.foundIndex.get
+            final int line = LineUtils.getLineFromIndex(searchResult.foundIndex.get
                     (searchResult.index), mEditor.getLineCount(), mEditor.getLayout());
             verticalScroll.post(new Runnable() {
                 @Override
@@ -551,6 +551,8 @@ public abstract class MainActivity extends ActionBarActivity implements FindText
                 }
             });
 
+            mEditor.setFocusable(true);
+            mEditor.requestFocus();
             mEditor.setSelection(searchResult.foundIndex.get(searchResult.index),
                     searchResult.foundIndex.get(searchResult.index) + searchResult.textLength);
         }
@@ -794,7 +796,7 @@ public abstract class MainActivity extends ActionBarActivity implements FindText
 
         new AsyncTask<Void, Void, Void>() {
 
-            File file = event.getFile();
+            File file;
             String message = "";
             String fileText;
             String encoding;
@@ -813,9 +815,12 @@ public abstract class MainActivity extends ActionBarActivity implements FindText
 
             @Override
             protected Void doInBackground(Void... params) {
+                file = event.getFile();
                 try {
                     if (!file.exists() || !file.isFile()) {
                         fileText = event.getFileText();
+                        sFilePath = file.getAbsolutePath();
+                        fileExtension = "txt";
                         return null;
                     }
 
@@ -857,6 +862,7 @@ public abstract class MainActivity extends ActionBarActivity implements FindText
                     message = e.getMessage();
                     fileText = "";
                 }
+
                 while (mDrawerLayout.isDrawerOpen(Gravity.START)) {
                     try {
                         Thread.sleep(50);
@@ -1135,7 +1141,7 @@ public abstract class MainActivity extends ActionBarActivity implements FindText
         searchingText = true;
         invalidateOptionsMenu();
 
-        final int line = mEditor.getLineUtils().getLineFromIndex(searchResult.foundIndex.getFirst
+        final int line = LineUtils.getLineFromIndex(searchResult.foundIndex.getFirst
                 (), mEditor.getLineCount(), mEditor.getLayout());
         verticalScroll.post(new Runnable() {
             @Override
@@ -1150,6 +1156,8 @@ public abstract class MainActivity extends ActionBarActivity implements FindText
             }
         });
 
+        mEditor.setFocusable(true);
+        mEditor.requestFocus();
         mEditor.setSelection(searchResult.foundIndex.getFirst(), searchResult.foundIndex.getFirst
                 () + searchResult.textLength);
 

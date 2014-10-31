@@ -45,11 +45,11 @@ public class PageSystem {
         this.pageSystemInterface = pageSystemInterface;
         pages = new LinkedList<>();
 
-        final boolean doWithoutPageSystem;
-        if(file != null)
-            doWithoutPageSystem = FileUtils.sizeOf(file) < MAX_KBs_WITHOUT_PAGE_SYSTEM * FileUtils.ONE_KB;
+        final boolean dimensionOverLimit;
+        if(file != null && file.exists() && file.isFile())
+            dimensionOverLimit = FileUtils.sizeOf(file) >= MAX_KBs_WITHOUT_PAGE_SYSTEM * FileUtils.ONE_KB;
         else
-            doWithoutPageSystem = false;
+            dimensionOverLimit = false;
 
         int i = 0;
         int to;
@@ -57,12 +57,12 @@ public class PageSystem {
         final int textLength = text.length();
         boolean pageSystemEnabled = PreferenceHelper.getSplitText(context);
 
-        if (pageSystemEnabled && !doWithoutPageSystem) {
+        if (pageSystemEnabled && dimensionOverLimit) {
             while (i < textLength) {
                 to = i + charForPage;
                 nextIndexOfReturn = text.indexOf("\n", to);
                 if (nextIndexOfReturn > to) to = nextIndexOfReturn;
-                //if (to > text.length()) to = text.length();
+                if (to > text.length()) to = text.length();
                 pages.add(text.substring(i, to));
                 i = to + 1;
             }
