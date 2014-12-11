@@ -27,10 +27,9 @@ android {
     }
 
     compileSdkVersion 21
-    buildToolsVersion '21.0.2'
+    buildToolsVersion '21.1.2'
 
     defaultConfig {
-        applicationId "sharedcode.turboeditor"
         minSdkVersion 11
         targetSdkVersion 21
         versionCode 1
@@ -43,6 +42,7 @@ android {
     }
     buildTypes {
         release {
+            minifyEnabled false
             proguardFiles getDefaultProguardFile('proguard-android.txt'), 'proguard-rules.pro'
         }
     }
@@ -63,11 +63,11 @@ dependencies {
     compile project(':libraries:FloatingActionButton')
     //compile('de.greenrobot:eventbus:2.2.1') {
     //    exclude module: 'support-v4'
-   // }
+    // }
     //    compile 'com.googlecode.juniversalchardet:juniversalchardet:1.0.3'
     compile 'org.apache.commons:commons-lang3:3.1'
     compile files('libs/juniversalchardet-1.0.3.jar')
-    compile ("com.android.support:appcompat-v7:21.+") {
+    compile('com.android.support:appcompat-v7:21.+') {
         exclude group: 'com.android.support', module: 'support-v4'
     }
     compile 'com.android.support:support-v4:21.+'
