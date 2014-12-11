@@ -164,7 +164,9 @@ public class PageSystem {
         int i;
         StringBuilder allText = new StringBuilder();
         for (i = 0; i < pages.size(); i++) {
-            allText.append(pages.get(i)).append("\n");
+            allText.append(pages.get(i));
+            if(i < pages.size() - 1)
+                allText.append("\n");
         }
         return allText.toString();
     }

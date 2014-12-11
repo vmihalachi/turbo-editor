@@ -25,8 +25,6 @@ import com.crashlytics.android.Crashlytics;
 
 import io.fabric.sdk.android.Fabric;
 import sharedcode.turboeditor.activity.MainActivity;
-import sharedcode.turboeditor.preferences.PreferenceHelper;
-import sharedcode.turboeditor.util.ProCheckUtils;
 
 public class HomeActivity extends MainActivity {
 
@@ -36,16 +34,23 @@ public class HomeActivity extends MainActivity {
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
-        if(PreferenceHelper.getSendErrorReports(this))
+        if(sharedcode.turboeditor.preferences.PreferenceHelper.getSendErrorReports(this))
             Fabric.with(this, new Crashlytics());
         // setup the ads
-        if(!ProCheckUtils.isPro(this))
+        if(!sharedcode.turboeditor.util.ProCheckUtils.isPro(this))
             adsHelper = new AdsHelper(this);
     }
 
     @Override
-    public void displayInterstitial() {
-        if(adsHelper != null && !ProCheckUtils.isPro(this))
+    public boolean showInterstitial() {
+        if(adsHelper != null && !sharedcode.turboeditor.util.ProCheckUtils.isPro(this)) {
             adsHelper.displayInterstitial();
+            return true;
+        }
+        else {
+            return false;
+        }
     }
+
+
 }

@@ -20,14 +20,9 @@
 package com.maskyn.fileeditor;
 
 import android.app.Activity;
-import android.preference.PreferenceManager;
 
 import com.google.android.gms.ads.AdRequest;
 import com.google.android.gms.ads.InterstitialAd;
-
-import java.util.Calendar;
-
-import sharedcode.turboeditor.preferences.PreferenceHelper;
 
 public class AdsHelper {
     private InterstitialAd interstitial;

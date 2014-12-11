@@ -17,15 +17,8 @@
  * along with this program.  If not, see <http://www.gnu.org/licenses/>.
  */
 
-package com.maskyn.fileeditorpro;
+package sharedcode.turboeditor.util;
 
-import sharedcode.turboeditor.activity.MainActivity;
-
-public class HomeActivity extends MainActivity {
-
-    @Override
-    public boolean showInterstitial() {
-        // nothing to do here
-        return false;
-    }
+public interface IHomeActivity {
+    public abstract boolean showInterstitial();
 }

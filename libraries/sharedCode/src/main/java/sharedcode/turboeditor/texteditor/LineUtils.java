@@ -57,8 +57,11 @@ public class LineUtils {
         toCountLinesArray = new boolean[lineCount];
         realLines = new int[lineCount];
 
-        if(TextUtils.isEmpty(text))
+        if(TextUtils.isEmpty(text)) {
+            toCountLinesArray[0] = false;
+            realLines[0] = 1;
             return;
+        }
 
         int i;
 

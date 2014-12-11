@@ -100,6 +100,7 @@ import sharedcode.turboeditor.util.AccessStorageApi;
 import sharedcode.turboeditor.util.AnimationUtils;
 import sharedcode.turboeditor.util.AppInfoHelper;
 import sharedcode.turboeditor.util.EventBusEvents;
+import sharedcode.turboeditor.util.IHomeActivity;
 import sharedcode.turboeditor.util.MimeTypes;
 import sharedcode.turboeditor.util.ProCheckUtils;
 import sharedcode.turboeditor.util.ThemeUtils;
@@ -117,7 +118,7 @@ import static sharedcode.turboeditor.util.EventBusEvents.APreferenceValueWasChan
 import static sharedcode.turboeditor.util.EventBusEvents.APreferenceValueWasChanged.Type.THEME_CHANGE;
 import static sharedcode.turboeditor.util.EventBusEvents.APreferenceValueWasChanged.Type.WRAP_CONTENT;
 
-public abstract class MainActivity extends ActionBarActivity implements FindTextDialog
+public abstract class MainActivity extends ActionBarActivity implements IHomeActivity, FindTextDialog
         .SearchDialogInterface, GoodScrollView.ScrollInterface, PageSystem.PageSystemInterface,
         PageSystemButtons.PageButtonsInterface, NumberPickerDialog.INumberPickerDialog, SaveFileDialog.ISaveDialog,
         AdapterView.OnItemClickListener, AdapterDrawer.Callbacks{
@@ -315,7 +316,7 @@ public abstract class MainActivity extends ActionBarActivity implements FindText
                 mDrawerLayout.openDrawer(Gravity.START);
                 mDrawerLayout.closeDrawer(Gravity.END);
             } else {
-                displayInterstitial();
+                showInterstitial();
                 super.onBackPressed();
             }
         } catch (Exception e) {
@@ -559,8 +560,6 @@ public abstract class MainActivity extends ActionBarActivity implements FindText
 
         invalidateOptionsMenu();
     }
-
-    public abstract void displayInterstitial();
 
     private void saveTheFile() {
         File file = new File(sFilePath);
@@ -923,7 +922,7 @@ public abstract class MainActivity extends ActionBarActivity implements FindText
         refreshList(event.getPath(), true, false);
         arrayAdapter.selectView(event.getPath());
 
-        displayInterstitial();
+        showInterstitial();
     }
 
     /**
@@ -1416,10 +1415,7 @@ public abstract class MainActivity extends ActionBarActivity implements FindText
                     if (!wrapContent
                             || hasNewLineArray[i]
                             || i == lastLine - 1) {
-                        if (i == lastLine - 1)
-                            realLine = realLines[i] + 1;
-                        else
-                            realLine = realLines[i];
+                        realLine = realLines[i];
 
                         canvas.drawText(String.valueOf(realLine),
                                 numbersWidth, // they are all center aligned
