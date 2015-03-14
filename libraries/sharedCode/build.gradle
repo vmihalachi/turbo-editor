@@ -64,10 +64,10 @@ dependencies {
     //    compile 'com.googlecode.juniversalchardet:juniversalchardet:1.0.3'
     compile 'org.apache.commons:commons-lang3:3.1'
     compile files('libs/juniversalchardet-1.0.3.jar')
-    compile('com.android.support:appcompat-v7:21.+') {
+    compile('com.android.support:appcompat-v7:22.+') {
         exclude group: 'com.android.support', module: 'support-v4'
     }
-    compile 'com.android.support:support-v4:21.+'
+    compile 'com.android.support:support-v4:22.+'
     compile 'com.github.gabrielemariotti.changeloglib:library:1.5.1'
     compile 'commons-io:commons-io:2.4'
     compile 'com.android.support:support-annotations:20.0.0'

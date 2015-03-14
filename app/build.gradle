@@ -71,7 +71,7 @@ android {
 dependencies {
     compile fileTree(dir: 'libs', include: '*.jar')
     compile project(':libraries:sharedCode')
-    compile 'com.google.android.gms:play-services-ads:6.5.+'
+    //compile 'com.google.android.gms:play-services-ads:6.5.+'
     compile('com.crashlytics.sdk.android:crashlytics:2.+@aar') {
         transitive = true;
     }
