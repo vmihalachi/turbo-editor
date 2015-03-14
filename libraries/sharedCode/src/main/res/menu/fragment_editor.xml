@@ -21,10 +21,22 @@
 <menu xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:app="http://schemas.android.com/apk/res-auto">
     <item
-            android:id="@id/im_save"
+        android:id="@id/im_save"
         app:showAsAction="ifRoom"
-            android:icon="@drawable/ic_action_save"
+        android:icon="@drawable/ic_action_save"
+        android:title="@string/salva">
+    <menu>
+    <item
+            android:id="@id/im_save_normaly"
+            app:showAsAction="ifRoom"
             android:title="@string/salva"/>
+        <item
+            android:id="@id/im_save_as"
+            app:showAsAction="ifRoom"
+            android:title="@string/save_as"/>
+    </menu>
+    </item>
+
     <item
             android:id="@id/im_undo"
         app:showAsAction="ifRoom"
@@ -62,10 +74,5 @@
         android:id="@id/im_info"
         app:showAsAction="never"
         android:title="@string/info"
-        />
-    <item
-        android:id="@id/im_donate"
-        app:showAsAction="never"
-        android:title="@string/donation_action"
         />
 </menu>

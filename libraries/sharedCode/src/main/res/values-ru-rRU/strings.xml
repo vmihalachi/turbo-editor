@@ -30,13 +30,13 @@
   <string name="file">Файл</string>
   <string name="folder">Каталог</string>
   <string name="light_theme">Светлая тема</string>
-  <string name="goto_line">Перейти к строке</string>
+  <string name="goto_line">Перейти к строке&#8230;</string>
   <string name="goto_page">Перейти на страницу&#8230;</string>
   <string name="find">Поиск</string>
   <string name="replace">Заменить</string>
   <string name="share">Поделиться</string>
-  <string name="keyboard_suggestions_and_swipe">Car</string>
-  <string name="enable_autoencoding">Copy</string>
+  <string name="keyboard_suggestions_and_swipe">Показывать варианты исправлений</string>
+  <string name="enable_autoencoding">Автоопределение кодировки</string>
   <string name="set_as_working_folder">Установить в качестве рабочего каталога</string>
   <string name="is_the_working_folder">Это рабочий каталог</string>
   <string name="save_changes">Сохранить изменения в файле %s?</string>
@@ -54,7 +54,7 @@
   <string name="long_click_for_more_options">Долгое нажатие для дополнительных опций</string>
   <string name="auto_save">Автосохранение</string>
   <string name="read_only">Только для чтения</string>
-  <string name="send_error_reports">Отправить отчёт об ошибке</string>
+  <string name="send_error_reports">Отправлять отчёты об ошибках</string>
   <string name="extra_options">Дополнительные опции</string>
   <string name="split_text_if_too_long">Разбивать длинный текст</string>
   <string name="ignore_back_button">Игнорировать кнопку Назад</string>

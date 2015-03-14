@@ -28,7 +28,7 @@
   <string name="wrap_content">Ajuste de línea</string>
   <string name="view_it_on_the_web">Ver en la web</string>
   <string name="file">Archivo</string>
-  <string name="folder">archivo</string>
+  <string name="folder">Carpeta</string>
   <string name="light_theme">Tema claro</string>
   <string name="goto_line">Ir a línea</string>
   <string name="goto_page">Ir a página&#8230;</string>

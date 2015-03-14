@@ -20,6 +20,21 @@
 
 <changelog bulletedList="true">
 
+    <changelogversion versionName="1.15" changeDate="Oct 30, 2014">
+        <changelogtext>It is a "beta" release, feel free to send you feedback on github.com!</changelogtext>
+        <changelogtext>Added Save As! (and rename option)</changelogtext>
+        <changelogtext>Added Replace All!</changelogtext>
+        <changelogtext>Initial support to cloud files</changelogtext>
+        <changelogtext>The default encoding now is UTF-16</changelogtext>
+        <changelogtext>Removed donations items, if you want to donate please buy the pro version!</changelogtext>
+        <changelogtext>Minor bug fixes</changelogtext>
+    </changelogversion>
+
+    <changelogversion versionName="1.14" changeDate="Oct 30, 2014">
+        <changelogtext>Removed the ads because HAPPY NEW YEAR!!!</changelogtext>
+        <changelogtext>Minor bug fixes</changelogtext>
+    </changelogversion>
+
     <changelogversion versionName="1.13.1" changeDate="Oct 30, 2014">
         <changelogtext>Manly bug fixes</changelogtext>
     </changelogversion>

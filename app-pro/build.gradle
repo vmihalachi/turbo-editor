@@ -20,15 +20,15 @@
 apply plugin: 'com.android.application'
 
 android {
-    compileSdkVersion 21
-    buildToolsVersion '21.1.2'
+    compileSdkVersion 22
+    buildToolsVersion '22'
 
     defaultConfig {
         applicationId "com.maskyn.fileeditorpro"
         minSdkVersion 11
-        targetSdkVersion 21
-        versionCode 35
-        versionName "1.13.2"
+        targetSdkVersion 22
+        versionCode 39
+        versionName "1.15.1"
     }
 
     compileOptions {

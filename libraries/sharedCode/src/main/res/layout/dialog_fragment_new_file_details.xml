@@ -58,4 +58,14 @@
         android:hint="@string/folder"
         android:padding="5dp"
         android:textSize="12sp"/>
+
+    <CheckBox
+        android:layout_width="match_parent"
+        android:layout_height="56dp"
+        android:text="@string/delete_current_file"
+        android:id="@id/delete_current_file"
+        android:layout_weight="1"
+        android:singleLine="true"
+        android:textSize="12sp"
+        android:textAllCaps="true"/>
 </LinearLayout>

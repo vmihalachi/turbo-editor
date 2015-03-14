@@ -26,12 +26,12 @@ android {
         disable 'MissingTranslation', 'ExtraTranslation'
     }
 
-    compileSdkVersion 21
-    buildToolsVersion '21.1.2'
+    compileSdkVersion 22
+    buildToolsVersion '22'
 
     defaultConfig {
         minSdkVersion 11
-        targetSdkVersion 21
+        targetSdkVersion 22
         versionCode 1
         versionName "1.0"
     }
@@ -61,9 +61,6 @@ dependencies {
     compile fileTree(dir: 'libs', include: ['*.jar'])
     compile project(':libraries:RootCommands')
     compile project(':libraries:FloatingActionButton')
-    //compile('de.greenrobot:eventbus:2.2.1') {
-    //    exclude module: 'support-v4'
-    // }
     //    compile 'com.googlecode.juniversalchardet:juniversalchardet:1.0.3'
     compile 'org.apache.commons:commons-lang3:3.1'
     compile files('libs/juniversalchardet-1.0.3.jar')

@@ -74,7 +74,7 @@ public final class PreferenceHelper {
     }
 
     public static String getEncoding(Context context) {
-        return getPrefs(context).getString("editor_encoding", "UTF-8");
+        return getPrefs(context).getString("editor_encoding", "UTF-16");
     }
 
     public static int getFontSize(Context context) {

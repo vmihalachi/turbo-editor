@@ -25,12 +25,12 @@
   <string name="font_size">Schriftgröße</string>
   <string name="connection_name">Verbindungsname</string>
   <string name="line_numbers">Zeilennummern</string>
-  <string name="wrap_content">Inhalts Umbruch</string>
+  <string name="wrap_content">Zeilenumbruch</string>
   <string name="view_it_on_the_web">Im Web anschauen</string>
   <string name="file">Datei</string>
   <string name="folder">Ordner</string>
   <string name="light_theme">Helles Design</string>
-  <string name="goto_line">Gehe zu Linie</string>
+  <string name="goto_line">Gehe zu Zeile&#8230;</string>
   <string name="goto_page">Gehe zu Seite&#8230;</string>
   <string name="find">Suchen</string>
   <string name="replace">Ersetzen</string>

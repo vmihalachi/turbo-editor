@@ -60,6 +60,7 @@ public class EncodingDialog extends DialogFragment implements AdapterView.OnItem
             Constants.CHARSET_UTF_32BE,
             Constants.CHARSET_UTF_32LE,
             Constants.CHARSET_UTF_8,
+            "UTF-16",
             Constants.CHARSET_WINDOWS_1251,
             Constants.CHARSET_WINDOWS_1252,
             Constants.CHARSET_WINDOWS_1253,

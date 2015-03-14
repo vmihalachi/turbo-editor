@@ -21,21 +21,20 @@ package sharedcode.turboeditor.util;
 
 import android.content.Context;
 
-import sharedcode.turboeditor.preferences.PreferenceHelper;
-
 public class ProCheckUtils {
     public static boolean isPro(Context context, boolean includeDonations) {
 
-        String packageName = context.getPackageName();
-
+        // happy new year
+        return true;
+        /*
         if (Build.FOR_AMAZON)
             return true;
-        else if (packageName.equals("com.maskyn.fileeditorpro"))
+        else if (context.getPackageName().equals("com.maskyn.fileeditorpro"))
             return true;
         else if (includeDonations && PreferenceHelper.hasDonated(context))
             return true;
         else
-            return false;
+            return false;*/
     }
 
     public static boolean isPro(Context context) {

@@ -30,7 +30,7 @@
   <string name="file">Tiedosto</string>
   <string name="folder">Kansio</string>
   <string name="light_theme">Vaalea teema</string>
-  <string name="goto_line">Siirry riville</string>
+  <string name="goto_line">Siirry riville&#8230;</string>
   <string name="goto_page">Siirry sivulle&#8230;</string>
   <string name="find">Löydä</string>
   <string name="replace">Korvaa</string>
@@ -51,7 +51,7 @@
   <string name="translate_the_app">Auta kääntämisessä</string>
   <string name="changelog">Muutosloki</string>
   <string name="match_case">Sama kirjainkoko</string>
-  <string name="long_click_for_more_options">Saat lisää vaihtoehtoja napsauttamalla</string>
+  <string name="long_click_for_more_options">Saat lisää vaihtoehtoja pitkällä painalluksella</string>
   <string name="auto_save">Automaattinen tallennus</string>
   <string name="read_only">Vain luku</string>
   <string name="send_error_reports">Lähetä virheraportit</string>

@@ -17,21 +17,8 @@
  * along with this program.  If not, see <http://www.gnu.org/licenses/>.
  */
 
-package sharedcode.turboeditor.iab.utils;
+package sharedcode.turboeditor.preferences;
 
-/**
- * Exception thrown when encountering an invalid Base64 input character.
- *
- * @author nelson
- */
-public class Base64DecoderException extends Exception {
-    private static final long serialVersionUID = 1L;
-
-    public Base64DecoderException() {
-        super();
-    }
-
-    public Base64DecoderException(String s) {
-        super(s);
-    }
-}
+public enum PreferenceChangeType {
+            FONT_SIZE, ENCODING, SYNTAX, WRAP_CONTENT, MONOSPACE, LINE_NUMERS, THEME_CHANGE, TEXT_SUGGESTIONS, READ_ONLY,
+ }

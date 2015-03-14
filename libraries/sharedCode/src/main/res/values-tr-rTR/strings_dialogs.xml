@@ -21,13 +21,10 @@
 <resources>
   <string name="close">Kapat</string>
   <string name="about_action">Hakkında</string>
-  <string name="about_message"><![CDATA[
-        Turbo Editör ücretsiz ve <a href="http://github.com/vmihalachi/turbo-editor">açık kaynak</a> bir uygulamadır.
+  <string name="about_message"><![CDATA[        Turbo Editör ücretsiz ve <a href="http://github.com/vmihalachi/turbo-editor">açık kaynak</a> bir uygulamadır.
         Telif hakkı 2013-2014 <a href="https://plus.google.com/+VladMihalachi">Vlad Mihalachi</a>. Tüm Hakları Saklıdır.<br/>
         <br/>
-        Tüm çevirileriyle
-        <a href="http://crowdin.net/project/turbo-client">veya bağışlarıyla yardımcı</a> olanlara çok teşekkürler</a>.<br/>
+        <a href="http://crowdin.net/project/turbo-client">Tüm çevirileriyle</a> veya bağışlarıyla yardımcı olanlara çok teşekkürler</a>.<br/>
         <br/>
-        Geri bildirim göndermek istiyorsanız  XDA konusunu <a href="http://forum.xda-developers.com/android/apps-games/app-turbo-editor-text-editor-t2832016">kullanabilirsiniz</a>
-    <a href="https://plus.google.com/+VladMihalachi">]]></string>
+        Geri bildirim göndermek istiyorsanız <a href="http://forum.xda-developers.com/android/apps-games/app-turbo-editor-text-editor-t2832016">XDA konusunu</a> kullanabilirsiniz]]></string>
 </resources>

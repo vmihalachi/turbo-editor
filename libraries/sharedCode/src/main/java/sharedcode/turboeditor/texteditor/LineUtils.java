@@ -27,7 +27,7 @@ public class LineUtils {
     private boolean[] toCountLinesArray;
     private int[] realLines;
 
-    public boolean[] getToCountLinesArray() {
+    public boolean[] getGoodLines() {
         return toCountLinesArray;
     }
 
@@ -80,6 +80,8 @@ public class LineUtils {
 
             }
         }
+
+        toCountLinesArray[lineCount-1] = true;
 
         int realLine = startingLine; // the first line is not 0, is 1. We start counting from 1
 

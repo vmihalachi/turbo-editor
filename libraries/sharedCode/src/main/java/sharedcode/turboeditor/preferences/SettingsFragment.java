@@ -32,20 +32,7 @@ import sharedcode.turboeditor.R;
 import sharedcode.turboeditor.activity.MainActivity;
 import sharedcode.turboeditor.dialogfragment.EncodingDialog;
 import sharedcode.turboeditor.dialogfragment.NumberPickerDialog;
-import sharedcode.turboeditor.util.ProCheckUtils;
 import sharedcode.turboeditor.util.ViewUtils;
-import sharedcode.turboeditor.views.DialogHelper;
-
-import static sharedcode.turboeditor.util.EventBusEvents.APreferenceValueWasChanged;
-import static sharedcode.turboeditor.util.EventBusEvents.APreferenceValueWasChanged.Type.ENCODING;
-import static sharedcode.turboeditor.util.EventBusEvents.APreferenceValueWasChanged.Type.FONT_SIZE;
-import static sharedcode.turboeditor.util.EventBusEvents.APreferenceValueWasChanged.Type.LINE_NUMERS;
-import static sharedcode.turboeditor.util.EventBusEvents.APreferenceValueWasChanged.Type.MONOSPACE;
-import static sharedcode.turboeditor.util.EventBusEvents.APreferenceValueWasChanged.Type.READ_ONLY;
-import static sharedcode.turboeditor.util.EventBusEvents.APreferenceValueWasChanged.Type.SYNTAX;
-import static sharedcode.turboeditor.util.EventBusEvents.APreferenceValueWasChanged.Type.TEXT_SUGGESTIONS;
-import static sharedcode.turboeditor.util.EventBusEvents.APreferenceValueWasChanged.Type.THEME_CHANGE;
-import static sharedcode.turboeditor.util.EventBusEvents.APreferenceValueWasChanged.Type.WRAP_CONTENT;
 
 public class SettingsFragment extends Fragment implements NumberPickerDialog.INumberPickerDialog, EncodingDialog.DialogListener {
 
@@ -118,16 +105,12 @@ public class SettingsFragment extends Fragment implements NumberPickerDialog.INu
         fontSizeView = (TextView) rootView.findViewById(R.id.drawer_button_font_size);
         encodingView = (TextView) rootView.findViewById(R.id.drawer_button_encoding);
         extraOptionsView = (TextView) rootView.findViewById(R.id.drawer_button_extra_options);
-        donateView = (TextView) rootView.findViewById(R.id.drawer_button_go_pro);
-
-        if(ProCheckUtils.isPro(getActivity(), false))
-            ViewUtils.setVisible(donateView, false);
 
         swLineNumbers.setOnCheckedChangeListener(new CompoundButton.OnCheckedChangeListener() {
             @Override
             public void onCheckedChanged(CompoundButton buttonView, boolean isChecked) {
                 PreferenceHelper.setLineNumbers(getActivity(), isChecked);
-                ((MainActivity) getActivity()).onEvent(new APreferenceValueWasChanged(LINE_NUMERS));
+                ((MainActivity) getActivity()).aPreferenceValueWasChanged(PreferenceChangeType.LINE_NUMERS);
             }
         });
 
@@ -136,7 +119,7 @@ public class SettingsFragment extends Fragment implements NumberPickerDialog.INu
             public void onCheckedChanged(CompoundButton buttonView, boolean isChecked) {
                 sColorSyntax = isChecked;
                 PreferenceHelper.setSyntaxHighlight(getActivity(), isChecked);
-                ((MainActivity) getActivity()).onEvent(new APreferenceValueWasChanged(SYNTAX));
+                ((MainActivity) getActivity()).aPreferenceValueWasChanged(PreferenceChangeType.SYNTAX);
 
             }
         });
@@ -145,7 +128,7 @@ public class SettingsFragment extends Fragment implements NumberPickerDialog.INu
             @Override
             public void onCheckedChanged(CompoundButton buttonView, boolean isChecked) {
                 PreferenceHelper.setWrapContent(getActivity(), isChecked);
-                ((MainActivity) getActivity()).onEvent(new APreferenceValueWasChanged(WRAP_CONTENT));
+                ((MainActivity) getActivity()).aPreferenceValueWasChanged(PreferenceChangeType.WRAP_CONTENT);
             }
         });
 
@@ -154,7 +137,7 @@ public class SettingsFragment extends Fragment implements NumberPickerDialog.INu
             public void onCheckedChanged(CompoundButton buttonView, boolean isChecked) {
                 sUseMonospace = isChecked;
                 PreferenceHelper.setUseMonospace(getActivity(), isChecked);
-                ((MainActivity) getActivity()).onEvent(new APreferenceValueWasChanged(MONOSPACE));
+                ((MainActivity) getActivity()).aPreferenceValueWasChanged(PreferenceChangeType.MONOSPACE);
 
             }
         });
@@ -163,7 +146,7 @@ public class SettingsFragment extends Fragment implements NumberPickerDialog.INu
             @Override
             public void onCheckedChanged(CompoundButton buttonView, boolean isChecked) {
                 PreferenceHelper.setReadOnly(getActivity(), isChecked);
-                ((MainActivity) getActivity()).onEvent(new APreferenceValueWasChanged(READ_ONLY));
+                ((MainActivity) getActivity()).aPreferenceValueWasChanged(PreferenceChangeType.READ_ONLY);
             }
         });
 
@@ -200,18 +183,11 @@ public class SettingsFragment extends Fragment implements NumberPickerDialog.INu
             }
         });
 
-        donateView.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View v) {
-                DialogHelper.showDonateDialog(getActivity());
-            }
-        });
-
         swLightTheme.setOnCheckedChangeListener(new CompoundButton.OnCheckedChangeListener() {
             @Override
             public void onCheckedChanged(CompoundButton buttonView, boolean isChecked) {
                 PreferenceHelper.setLightTheme(getActivity(), isChecked);
-                ((MainActivity) getActivity()).onEvent(new APreferenceValueWasChanged(THEME_CHANGE));
+                ((MainActivity) getActivity()).aPreferenceValueWasChanged(PreferenceChangeType.THEME_CHANGE);
             }
         });
 
@@ -219,7 +195,7 @@ public class SettingsFragment extends Fragment implements NumberPickerDialog.INu
             @Override
             public void onCheckedChanged(CompoundButton buttonView, boolean isChecked) {
                 PreferenceHelper.setSuggestionsActive(getActivity(), isChecked);
-                ((MainActivity) getActivity()).onEvent(new APreferenceValueWasChanged(TEXT_SUGGESTIONS));
+                ((MainActivity) getActivity()).aPreferenceValueWasChanged(PreferenceChangeType.TEXT_SUGGESTIONS);
             }
         });
 
@@ -257,13 +233,13 @@ public class SettingsFragment extends Fragment implements NumberPickerDialog.INu
     @Override
     public void onNumberPickerDialogDismissed(NumberPickerDialog.Actions action, int value) {
         PreferenceHelper.setFontSize(getActivity(), value);
-        ((MainActivity) getActivity()).onEvent(new APreferenceValueWasChanged(FONT_SIZE));
+        ((MainActivity) getActivity()).aPreferenceValueWasChanged(PreferenceChangeType.FONT_SIZE);
 
     }
 
     @Override
     public void onEncodingSelected(String result) {
         PreferenceHelper.setEncoding(getActivity(), result);
-        ((MainActivity) getActivity()).onEvent(new APreferenceValueWasChanged(ENCODING));
+        ((MainActivity) getActivity()).aPreferenceValueWasChanged(PreferenceChangeType.ENCODING);
     }
 }

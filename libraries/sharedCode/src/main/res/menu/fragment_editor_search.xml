@@ -49,6 +49,11 @@
         app:showAsAction="always"
         android:title="@string/replace">
     </item>
+    <item
+        android:id="@id/im_replace_all"
+        app:showAsAction="always"
+        android:title="@string/replace_all">
+    </item>
     <!--<item
         android:id="@id/im_cancel"
         android:icon="@drawable/ic_action_close"

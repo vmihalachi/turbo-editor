@@ -28,11 +28,14 @@ public class SearchResult {
     public boolean isReplace;
     public String textToReplace;
     public int index;
+    public String whatToSearch;
 
-    public SearchResult(LinkedList<Integer> foundIndex, int textLength, boolean isReplace, String textToReplace) {
+
+    public SearchResult(LinkedList<Integer> foundIndex, int textLength, boolean isReplace, String whatToSearch, String textToReplace) {
         this.foundIndex = foundIndex;
         this.textLength = textLength;
         this.isReplace = isReplace;
+        this.whatToSearch = whatToSearch;
         this.textToReplace = textToReplace;
     }
 

@@ -28,6 +28,8 @@
     <item type="id" name="im_info"/>
     <item type="id" name="im_button"/>
     <item type="id" name="im_save"/>
+    <item type="id" name="im_save_normaly"/>
+    <item type="id" name="im_save_as"/>
     <item type="id" name="im_share"/>
     <item type="id" name="im_editor_encoding"/>
     <item type="id" name="im_line_numbers"/>
@@ -46,6 +48,7 @@
     <item type="id" name="im_is_working_folder"/>
     <item type="id" name="im_set_as_working_folder"/>
     <item type="id" name="im_replace"/>
+    <item type="id" name="im_replace_all"/>
     <item type="id" name="im_next_page"/>
     <item type="id" name="im_prev_page"/>
     <item type="id" name="im_donate"/>
@@ -62,6 +65,7 @@
     <item type="id" name="text_editor"/>
     <item type="id" name="no_file_opened_messagge"/>
 
+    <item type="id" name="delete_current_file"/>
     <item type="id" name="regex_check"/>
     <item type="id" name="replace_check"/>
     <item type="id" name="match_case_check"/>

@@ -20,7 +20,7 @@
   -->
 <resources>
   <string name="donation_action">Donar</string>
-  <string name="donation_title">Donate to developer</string>
+  <string name="donation_title">Donar al desarrollador</string>
   <string name="donation_info"><![CDATA[
         Turbo Editor is a free and <a href="http://github.com/vmihalachi/turbo-editor/">open source</a> app.
         You can show your appreciation and support development by donating:

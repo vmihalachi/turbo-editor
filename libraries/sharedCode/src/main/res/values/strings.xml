@@ -64,6 +64,7 @@
     <string name="nome_app_turbo_editor">Turbo Editor</string>
     <string name="preferenze">Preferences</string>
     <string name="salva">Save</string>
+    <string name="save_as">Save as</string>
     <string name="menu_syntax_highlight">Syntax highlight</string>
     <string name="testo_indietro">Undo</string>
     <string name="testo_rifai">Redo</string>
@@ -72,4 +73,6 @@
     <string name="open_a_file">Open a file</string>
     <string name="no">No</string>
     <string name="new_file">New file</string>
+    <string name="delete_current_file">Delete current file</string>
+    <string name="replace_all">Replace all</string>
 </resources>

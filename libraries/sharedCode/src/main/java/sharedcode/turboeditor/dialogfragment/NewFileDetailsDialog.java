@@ -24,9 +24,13 @@ import android.app.Dialog;
 import android.app.DialogFragment;
 import android.content.DialogInterface;
 import android.os.Bundle;
+import android.text.TextUtils;
 import android.view.View;
 import android.view.WindowManager;
+import android.widget.CheckBox;
 import android.widget.EditText;
+
+import org.apache.commons.io.FileUtils;
 
 import java.io.File;
 
@@ -34,6 +38,7 @@ import sharedcode.turboeditor.R;
 import sharedcode.turboeditor.activity.MainActivity;
 import sharedcode.turboeditor.preferences.PreferenceHelper;
 import sharedcode.turboeditor.task.SaveFileTask;
+import sharedcode.turboeditor.util.ViewUtils;
 import sharedcode.turboeditor.views.DialogHelper;
 
 // ...
@@ -41,10 +46,13 @@ public class NewFileDetailsDialog extends DialogFragment {
 
     private EditText mName;
     private EditText mFolder;
+    private CheckBox mDeleteCurrentFile;
 
-    public static NewFileDetailsDialog newInstance(String fileText, String fileEncoding) {
+    public static NewFileDetailsDialog newInstance(String currentPath, String currentName, String fileText, String fileEncoding) {
         final NewFileDetailsDialog f = new NewFileDetailsDialog();
         final Bundle args = new Bundle();
+        args.putString("path", currentPath);
+        args.putString("name", currentName);
         args.putString("fileText", fileText);
         args.putString("fileEncoding", fileEncoding);
         f.setArguments(args);
@@ -55,15 +63,29 @@ public class NewFileDetailsDialog extends DialogFragment {
     public Dialog onCreateDialog(Bundle savedInstanceState) {
 
         View view = new DialogHelper.Builder(getActivity())
-                .setTitle(R.string.file)
+                .setTitle(R.string.save_as)
                 .setView(R.layout.dialog_fragment_new_file_details)
                 .createSkeletonView();
 
         this.mName = (EditText) view.findViewById(android.R.id.text1);
         this.mFolder = (EditText) view.findViewById(android.R.id.text2);
 
-        this.mName.setText(".txt");
-        this.mFolder.setText(PreferenceHelper.getWorkingFolder(getActivity()));
+        boolean noName = TextUtils.isEmpty(getArguments().getString("name"));
+        boolean noPath = TextUtils.isEmpty(getArguments().getString("path"));
+
+        if (noName) {
+            this.mName.setText(".txt");
+        } else {
+            this.mName.setText(getArguments().getString("name"));
+        }
+        if (noPath) {
+            this.mFolder.setText(PreferenceHelper.getWorkingFolder(getActivity()));
+        } else {
+            this.mFolder.setText(getArguments().getString("path"));
+        }
+
+        this.mDeleteCurrentFile = (CheckBox) view.findViewById(R.id.delete_current_file);
+        ViewUtils.setVisible(mDeleteCurrentFile, !noName);
 
         // Show soft keyboard automatically
         this.mName.requestFocus();
@@ -76,6 +98,11 @@ public class NewFileDetailsDialog extends DialogFragment {
                         new DialogInterface.OnClickListener() {
                             @Override
                             public void onClick(DialogInterface dialog, int which) {
+
+                                if (mDeleteCurrentFile.isChecked()) {
+                                    FileUtils.deleteQuietly(new File(getArguments().getString("path"), getArguments().getString("name")));
+                                }
+
                                 if (!mName.getText().toString().isEmpty() && !mFolder.getText().toString().isEmpty()) {
                                     File file = new File(mFolder.getText().toString(), mName.getText().toString());
                                     new SaveFileTask((MainActivity) getActivity(), file.getPath(), getArguments().getString("fileText"), getArguments().getString("fileEncoding")).execute();

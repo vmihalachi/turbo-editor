@@ -80,7 +80,7 @@ public class SaveFileDialog extends DialogFragment {
                                             encoding).execute();
                                 else {
                                     NewFileDetailsDialog dialogFrag =
-                                            NewFileDetailsDialog.newInstance(text,
+                                            NewFileDetailsDialog.newInstance("","",text,
                                                     encoding);
                                     dialogFrag.show(getFragmentManager().beginTransaction(),
                                             "dialog");

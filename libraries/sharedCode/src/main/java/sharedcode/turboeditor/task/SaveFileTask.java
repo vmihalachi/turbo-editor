@@ -32,7 +32,6 @@ import java.util.concurrent.TimeoutException;
 import sharedcode.turboeditor.R;
 import sharedcode.turboeditor.activity.MainActivity;
 import sharedcode.turboeditor.root.RootUtils;
-import sharedcode.turboeditor.util.EventBusEvents;
 
 public class SaveFileTask extends AsyncTask<Void, Void, Void> {
 
@@ -101,6 +100,6 @@ public class SaveFileTask extends AsyncTask<Void, Void, Void> {
         super.onPostExecute(aVoid);
         Toast.makeText(activity, message, Toast.LENGTH_LONG).show();
         if (message.equals(positiveMessage))
-            activity.onEvent(new EventBusEvents.SavedAFile(filePath));
+            activity.savedAFile(filePath);
     }
 }
