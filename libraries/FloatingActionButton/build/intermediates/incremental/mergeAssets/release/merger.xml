@@ -1,2 +1,2 @@
 <?xml version="1.0" encoding="utf-8"?>
-<merger version="3"><dataSet config="main"><source path="/Users/mac/AndroidStudioProjects/turbo-editor/libraries/FloatingActionButton/assets"/></dataSet><dataSet config="release"><source path="/Users/mac/AndroidStudioProjects/turbo-editor/libraries/FloatingActionButton/src/release/assets"/></dataSet></merger>
+<merger version="3"><dataSet config="main"><source path="C:\Users\Admin\Documents\GitHub\turbo-editor\libraries\FloatingActionButton\assets"/></dataSet><dataSet config="release"><source path="C:\Users\Admin\Documents\GitHub\turbo-editor\libraries\FloatingActionButton\src\release\assets"/></dataSet></merger>
