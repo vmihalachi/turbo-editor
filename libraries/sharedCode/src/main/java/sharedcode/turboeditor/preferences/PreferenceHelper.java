@@ -24,9 +24,11 @@ import android.content.SharedPreferences;
 import android.os.Environment;
 import android.preference.PreferenceManager;
 
+import java.io.File;
+
 public final class PreferenceHelper {
 
-    public static final String SD_CARD_ROOT = Environment.getExternalStorageDirectory().getAbsolutePath();
+    //public static final String SD_CARD_ROOT = Environment.getExternalStorageDirectory().getAbsolutePath();
 
     private PreferenceHelper() {
     }
@@ -93,8 +95,21 @@ public final class PreferenceHelper {
         return getPrefs(context).getInt("font_size", 16);
     }
 
+    public static String defaultFolder(Context context) {
+        String folder;
+        /*File externalFolder = context.getFilesDir();
+
+        if (externalFolder != null) {
+            folder = externalFolder.getAbsolutePath();
+        } else {
+            folder = Environment.getExternalStorageDirectory().getAbsolutePath();
+        }*/
+        folder = Environment.getExternalStorageDirectory().getAbsolutePath();
+        return folder;
+    }
+
     public static String getWorkingFolder(Context context) {
-        return getPrefs(context).getString("working_folder", SD_CARD_ROOT);
+        return getPrefs(context).getString("working_folder", defaultFolder(context));
     }
 
     public static String[] getSavedPaths(Context context) {

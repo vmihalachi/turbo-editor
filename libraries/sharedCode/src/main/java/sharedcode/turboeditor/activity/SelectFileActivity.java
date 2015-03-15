@@ -63,7 +63,7 @@ import sharedcode.turboeditor.util.Build;
 import sharedcode.turboeditor.util.ThemeUtils;
 
 public class SelectFileActivity extends ActionBarActivity implements SearchView.OnQueryTextListener, AdapterView.OnItemClickListener, EditTextDialog.EditDialogListener {
-    private String currentFolder = PreferenceHelper.SD_CARD_ROOT;
+    private String currentFolder;
     private ListView listView;
     private boolean wantAFile = true;
     private MenuItem mSearchViewMenuItem;
@@ -73,7 +73,7 @@ public class SelectFileActivity extends ActionBarActivity implements SearchView.
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
-
+        currentFolder = PreferenceHelper.defaultFolder(this);
 
         ThemeUtils.setTheme(this);
         super.onCreate(savedInstanceState);
@@ -129,8 +129,8 @@ public class SelectFileActivity extends ActionBarActivity implements SearchView.
         File file = new File(lastNavigatedPath);
 
         if (!file.exists()) {
-            PreferenceHelper.setWorkingFolder(this, PreferenceHelper.SD_CARD_ROOT);
-            file = new File(PreferenceHelper.SD_CARD_ROOT);
+            PreferenceHelper.setWorkingFolder(this, PreferenceHelper.defaultFolder(this));
+            file = new File(PreferenceHelper.defaultFolder(this));
         }
 
         new UpdateList().execute(file.getAbsolutePath());

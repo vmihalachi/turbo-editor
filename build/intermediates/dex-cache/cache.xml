@@ -96,8 +96,8 @@
         jar="/Users/mac/AndroidStudioProjects/turbo-editor/app/build/intermediates/exploded-aar/turbo-editor.libraries/sharedCode/unspecified/classes.jar"
         jumboMode="false"
         revision="22.0.0"
-        sha1="5f8b3de6e00b82a3937c97aa571ca2e05a4075d6">
-        <dex dex="/Users/mac/AndroidStudioProjects/turbo-editor/app/build/intermediates/pre-dexed/release/classes-7af851cddf38d5159407b847c0234eebc467ba34.jar" />
+        sha1="6b22f22976cfd612e54da1632d59fe5a4a5d47ea">
+        <dex dex="/Users/mac/AndroidStudioProjects/turbo-editor/app/build/intermediates/pre-dexed/debug/classes-7af851cddf38d5159407b847c0234eebc467ba34.jar" />
     </item>
     <item
         jar="/Users/mac/.gradle/caches/modules-2/files-2.1/commons-io/commons-io/2.4/b1b6ea3b7e4aa4f492509a4952029cd8e48019ad/commons-io-2.4.jar"
@@ -121,18 +121,18 @@
         <dex dex="/Users/mac/AndroidStudioProjects/turbo-editor/app/build/intermediates/pre-dexed/release/juniversalchardet-1.0.3-6da18fe8b14fd219de988c9272910bd26b1433a2.jar" />
     </item>
     <item
-        jar="/Users/mac/AndroidStudioProjects/turbo-editor/app-pro/build/intermediates/exploded-aar/turbo-editor.libraries/sharedCode/unspecified/classes.jar"
-        jumboMode="false"
-        revision="21.1.2"
-        sha1="2c3d4d7b9f51d8f85dd121d722fcdce37b6f5752">
-        <dex dex="/Users/mac/AndroidStudioProjects/turbo-editor/app-pro/build/intermediates/pre-dexed/debug/classes-d2f158f0c6d8e71984e1b2f52f7c248ddf421cff.jar" />
-    </item>
-    <item
         jar="/Users/mac/AndroidStudioProjects/turbo-editor/app/build/intermediates/exploded-aar/turbo-editor.libraries/RootCommands/unspecified/classes.jar"
         jumboMode="false"
         revision="22.0.0"
         sha1="8fc5121de38525c53e82648c80cf0a9818b956ff">
         <dex dex="/Users/mac/AndroidStudioProjects/turbo-editor/app/build/intermediates/pre-dexed/release/classes-8e353cdc5188a33b2ae051656b4023deec32169f.jar" />
+    </item>
+    <item
+        jar="/Users/mac/AndroidStudioProjects/turbo-editor/app-pro/build/intermediates/exploded-aar/turbo-editor.libraries/sharedCode/unspecified/classes.jar"
+        jumboMode="false"
+        revision="21.1.2"
+        sha1="2c3d4d7b9f51d8f85dd121d722fcdce37b6f5752">
+        <dex dex="/Users/mac/AndroidStudioProjects/turbo-editor/app-pro/build/intermediates/pre-dexed/debug/classes-d2f158f0c6d8e71984e1b2f52f7c248ddf421cff.jar" />
     </item>
     <item
         jar="/Users/mac/AndroidStudioProjects/turbo-editor/app/build/intermediates/exploded-aar/com.crashlytics.sdk.android/beta/1.1.2/classes.jar"
@@ -142,11 +142,11 @@
         <dex dex="/Users/mac/AndroidStudioProjects/turbo-editor/app/build/intermediates/pre-dexed/release/classes-d7c3cbd32b25008f71bfaf501c6d05efb73f9642.jar" />
     </item>
     <item
-        jar="/Users/mac/.gradle/caches/modules-2/files-2.1/org.apache.commons/commons-lang3/3.1/905075e6c80f206bbe6cf1e809d2caa69f420c76/commons-lang3-3.1.jar"
+        jar="/Users/mac/AndroidStudioProjects/turbo-editor/app/build/intermediates/exploded-aar/com.github.gabrielemariotti.changeloglib/library/1.5.1/classes.jar"
         jumboMode="false"
         revision="22.0.0"
-        sha1="905075e6c80f206bbe6cf1e809d2caa69f420c76">
-        <dex dex="/Users/mac/AndroidStudioProjects/turbo-editor/app-pro/build/intermediates/pre-dexed/debug/commons-lang3-3.1-b10c93b68b275dbbda03ac96f3dca1760aaa7c91.jar" />
+        sha1="74a89f0f8b56d9f11d70b8d8134cf4109f4797dc">
+        <dex dex="/Users/mac/AndroidStudioProjects/turbo-editor/app/build/intermediates/pre-dexed/release/classes-378a7c750e497deeb602597a239d4846198295a3.jar" />
     </item>
     <item
         jar="/Users/mac/AndroidStudioProjects/turbo-editor/app/build/intermediates/exploded-aar/turbo-editor.libraries/RootCommands/unspecified/classes.jar"
@@ -156,11 +156,11 @@
         <dex dex="/Users/mac/AndroidStudioProjects/turbo-editor/app/build/intermediates/pre-dexed/debug/classes-8e353cdc5188a33b2ae051656b4023deec32169f.jar" />
     </item>
     <item
-        jar="/Users/mac/AndroidStudioProjects/turbo-editor/app/build/intermediates/exploded-aar/com.github.gabrielemariotti.changeloglib/library/1.5.1/classes.jar"
+        jar="/Users/mac/.gradle/caches/modules-2/files-2.1/org.apache.commons/commons-lang3/3.1/905075e6c80f206bbe6cf1e809d2caa69f420c76/commons-lang3-3.1.jar"
         jumboMode="false"
         revision="22.0.0"
-        sha1="74a89f0f8b56d9f11d70b8d8134cf4109f4797dc">
-        <dex dex="/Users/mac/AndroidStudioProjects/turbo-editor/app/build/intermediates/pre-dexed/release/classes-378a7c750e497deeb602597a239d4846198295a3.jar" />
+        sha1="905075e6c80f206bbe6cf1e809d2caa69f420c76">
+        <dex dex="/Users/mac/AndroidStudioProjects/turbo-editor/app-pro/build/intermediates/pre-dexed/debug/commons-lang3-3.1-b10c93b68b275dbbda03ac96f3dca1760aaa7c91.jar" />
     </item>
     <item
         jar="/Users/mac/AndroidStudioProjects/turbo-editor/app-pro/build/intermediates/exploded-aar/turbo-editor.libraries/RootCommands/unspecified/classes.jar"
