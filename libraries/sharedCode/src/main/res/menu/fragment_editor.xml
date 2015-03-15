@@ -65,6 +65,11 @@
         android:title="@string/view_it_on_the_web"
         />
     <item
+        android:id="@id/im_view_markdown"
+        app:showAsAction="never"
+        android:title="@string/view_markdown_result"
+        />
+    <item
         android:id="@id/im_share"
         app:showAsAction="never"
         android:title="@string/share"

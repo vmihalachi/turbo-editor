@@ -115,6 +115,7 @@
             android:name="com.sec.android.multiwindow.MINIMUM_SIZE_H"
             android:value="598.0dip" />
 
+        <activity android:name="sharedcode.turboeditor.activity.MarkdownActivity" />
     </application>
 
 </manifest>

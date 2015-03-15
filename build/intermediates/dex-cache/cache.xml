@@ -12,8 +12,8 @@
         jar="/Users/mac/AndroidStudioProjects/turbo-editor/app-pro/build/intermediates/exploded-aar/turbo-editor.libraries/FloatingActionButton/unspecified/classes.jar"
         jumboMode="false"
         revision="22.0.0"
-        sha1="66cee5a65742fef58c1dcdc0b892042f7bb1530b">
-        <dex dex="/Users/mac/AndroidStudioProjects/turbo-editor/app-pro/build/intermediates/pre-dexed/debug/classes-041d055cf4bc0ac183d528da81f21df261f58a2c.jar" />
+        sha1="6e76d33df7ad4d766237d97bbc4373abedaddbba">
+        <dex dex="/Users/mac/AndroidStudioProjects/turbo-editor/app-pro/build/intermediates/pre-dexed/release/classes-041d055cf4bc0ac183d528da81f21df261f58a2c.jar" />
     </item>
     <item
         jar="/Users/mac/AndroidStudioProjects/turbo-editor/app-pro/build/intermediates/exploded-aar/turbo-editor.libraries/sharedCode/unspecified/libs/juniversalchardet-1.0.3.jar"
@@ -96,8 +96,8 @@
         jar="/Users/mac/AndroidStudioProjects/turbo-editor/app/build/intermediates/exploded-aar/turbo-editor.libraries/sharedCode/unspecified/classes.jar"
         jumboMode="false"
         revision="22.0.0"
-        sha1="6b22f22976cfd612e54da1632d59fe5a4a5d47ea">
-        <dex dex="/Users/mac/AndroidStudioProjects/turbo-editor/app/build/intermediates/pre-dexed/debug/classes-7af851cddf38d5159407b847c0234eebc467ba34.jar" />
+        sha1="0a4ebbf36bab17d89d49f22b2f29170ead4b1c37">
+        <dex dex="/Users/mac/AndroidStudioProjects/turbo-editor/app/build/intermediates/pre-dexed/release/classes-7af851cddf38d5159407b847c0234eebc467ba34.jar" />
     </item>
     <item
         jar="/Users/mac/.gradle/caches/modules-2/files-2.1/commons-io/commons-io/2.4/b1b6ea3b7e4aa4f492509a4952029cd8e48019ad/commons-io-2.4.jar"
@@ -107,11 +107,25 @@
         <dex dex="/Users/mac/AndroidStudioProjects/turbo-editor/app-pro/build/intermediates/pre-dexed/debug/commons-io-2.4-b13b4a70538d465dbbcce6e080f59071eeb53a3a.jar" />
     </item>
     <item
+        jar="/Users/mac/AndroidStudioProjects/turbo-editor/app-pro/build/intermediates/exploded-aar/turbo-editor.libraries/sharedCode/unspecified/libs/markdownview-1.2.jar"
+        jumboMode="false"
+        revision="22.0.0"
+        sha1="6dfceaa4daa04ee7ed4cdda1157e3de8ede56a90">
+        <dex dex="/Users/mac/AndroidStudioProjects/turbo-editor/app-pro/build/intermediates/pre-dexed/release/markdownview-1.2-745b49cf0734056f6bf19a01501c4cea20a542b5.jar" />
+    </item>
+    <item
         jar="/Users/mac/.gradle/caches/modules-2/files-2.1/com.nineoldandroids/library/2.4.0/e9b63380f3a242dbdbf103a2355ad7e43bad17cb/library-2.4.0.jar"
         jumboMode="false"
         revision="21.1.2"
         sha1="e9b63380f3a242dbdbf103a2355ad7e43bad17cb">
         <dex dex="/Users/mac/AndroidStudioProjects/turbo-editor/app-pro/build/intermediates/pre-dexed/debug/library-2.4.0-fcd7bf57330797c3eaeb05d042207c4ab7ecac63.jar" />
+    </item>
+    <item
+        jar="/Users/mac/AndroidStudioProjects/turbo-editor/app/build/intermediates/exploded-aar/turbo-editor.libraries/sharedCode/unspecified/libs/markdownview-1.2.jar"
+        jumboMode="false"
+        revision="22.0.0"
+        sha1="6dfceaa4daa04ee7ed4cdda1157e3de8ede56a90">
+        <dex dex="/Users/mac/AndroidStudioProjects/turbo-editor/app/build/intermediates/pre-dexed/release/markdownview-1.2-1443999e5c62160ed6b8f07c2786bbf1f7558e8f.jar" />
     </item>
     <item
         jar="/Users/mac/AndroidStudioProjects/turbo-editor/app/build/intermediates/exploded-aar/turbo-editor.libraries/sharedCode/unspecified/libs/juniversalchardet-1.0.3.jar"
@@ -205,18 +219,18 @@
         <dex dex="/Users/mac/AndroidStudioProjects/turbo-editor/app-pro/build/intermediates/pre-dexed/debug/classes-041d055cf4bc0ac183d528da81f21df261f58a2c.jar" />
     </item>
     <item
-        jar="/Users/mac/AndroidStudioProjects/turbo-editor/app/build/intermediates/exploded-aar/turbo-editor.libraries/FloatingActionButton/unspecified/classes.jar"
-        jumboMode="false"
-        revision="22.0.0"
-        sha1="66cee5a65742fef58c1dcdc0b892042f7bb1530b">
-        <dex dex="/Users/mac/AndroidStudioProjects/turbo-editor/app/build/intermediates/pre-dexed/release/classes-f678c74688f3e132a975f931e58b6be06968cfee.jar" />
-    </item>
-    <item
         jar="/Users/mac/AndroidStudioProjects/turbo-editor/app/build/intermediates/exploded-aar/com.android.support/support-v4/22.0.0/classes.jar"
         jumboMode="false"
         revision="22.0.0"
         sha1="4e86306289ace4aa0cfec44a05ed2b410d36989d">
         <dex dex="/Users/mac/AndroidStudioProjects/turbo-editor/app/build/intermediates/pre-dexed/release/classes-e35aaa30c2e17c8aa077d511449f51f547413bb5.jar" />
+    </item>
+    <item
+        jar="/Users/mac/AndroidStudioProjects/turbo-editor/app/build/intermediates/exploded-aar/turbo-editor.libraries/FloatingActionButton/unspecified/classes.jar"
+        jumboMode="false"
+        revision="22.0.0"
+        sha1="6e76d33df7ad4d766237d97bbc4373abedaddbba">
+        <dex dex="/Users/mac/AndroidStudioProjects/turbo-editor/app/build/intermediates/pre-dexed/release/classes-f678c74688f3e132a975f931e58b6be06968cfee.jar" />
     </item>
     <item
         jar="/Users/mac/AndroidStudioProjects/turbo-editor/app-pro/build/intermediates/exploded-aar/turbo-editor.libraries/sharedCode/unspecified/libs/juniversalchardet-1.0.3.jar"
@@ -285,7 +299,7 @@
         jar="/Users/mac/AndroidStudioProjects/turbo-editor/app-pro/build/intermediates/exploded-aar/turbo-editor.libraries/sharedCode/unspecified/classes.jar"
         jumboMode="false"
         revision="22.0.0"
-        sha1="5f8b3de6e00b82a3937c97aa571ca2e05a4075d6">
+        sha1="0a4ebbf36bab17d89d49f22b2f29170ead4b1c37">
         <dex dex="/Users/mac/AndroidStudioProjects/turbo-editor/app-pro/build/intermediates/pre-dexed/release/classes-d2f158f0c6d8e71984e1b2f52f7c248ddf421cff.jar" />
     </item>
 

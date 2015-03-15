@@ -58,13 +58,13 @@
   <string name="extra_options">追加のオプション</string>
   <string name="split_text_if_too_long">長すぎる場合にテキストを分割</string>
   <string name="ignore_back_button">戻るボタンを無視</string>
-  <string name="donate">寄付</string>
   <string name="codifica">文字エンコード</string>
   <string name="condividi">共有</string>
   <string name="info">情報</string>
   <string name="nome_app_turbo_editor">ターボ エディター</string>
   <string name="preferenze">設定</string>
   <string name="salva">保存</string>
+  <string name="save_as">名前をつけて保存</string>
   <string name="menu_syntax_highlight">構文の強調表示</string>
   <string name="testo_indietro">取り消し</string>
   <string name="testo_rifai">やり直し</string>
@@ -73,4 +73,10 @@
   <string name="open_a_file">ファイルを開く</string>
   <string name="no">いいえ</string>
   <string name="new_file">新しいファイル</string>
+  <string name="delete_current_file">現在のファイルを削除</string>
+  <string name="replace_all">すべて置換</string>
+  <string name="theme">Theme</string>
+  <string name="theme_dark">Dark theme</string>
+  <string name="theme_black">Black theme</string>
+  <string name="view_markdown_result">View markdown result</string>
 </resources>

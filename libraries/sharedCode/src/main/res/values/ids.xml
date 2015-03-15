@@ -31,6 +31,7 @@
     <item type="id" name="im_save_normaly"/>
     <item type="id" name="im_save_as"/>
     <item type="id" name="im_share"/>
+    <item type="id" name="im_view_markdown"/>
     <item type="id" name="im_editor_encoding"/>
     <item type="id" name="im_line_numbers"/>
     <item type="id" name="im_syntax_highlight"/>

@@ -58,13 +58,13 @@
   <string name="extra_options">Extraeinstellungen</string>
   <string name="split_text_if_too_long">Text teilen, wenn er zu lang ist</string>
   <string name="ignore_back_button">Zurück-Knopf ignorieren</string>
-  <string name="donate">Spenden</string>
   <string name="codifica">Verschlüsseln</string>
   <string name="condividi">Teilen</string>
   <string name="info">Informationen</string>
   <string name="nome_app_turbo_editor">Turbo-Editor</string>
   <string name="preferenze">Einstellungen</string>
   <string name="salva">Speichern</string>
+  <string name="save_as">Speichern unter</string>
   <string name="menu_syntax_highlight">Syntax Hervorhebung</string>
   <string name="testo_indietro">Ungeschehen machen</string>
   <string name="testo_rifai">Rückgängig machen</string>
@@ -73,4 +73,10 @@
   <string name="open_a_file">Datei öffnen</string>
   <string name="no">Nein</string>
   <string name="new_file">Neue Datei</string>
+  <string name="delete_current_file">Aktuelle Datei löschen</string>
+  <string name="replace_all">Alle ersetzen</string>
+  <string name="theme">Theme</string>
+  <string name="theme_dark">Dark theme</string>
+  <string name="theme_black">Black theme</string>
+  <string name="view_markdown_result">View markdown result</string>
 </resources>

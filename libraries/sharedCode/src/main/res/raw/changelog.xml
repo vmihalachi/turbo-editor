@@ -21,7 +21,12 @@
 <changelog bulletedList="true">
 
     <changelogversion versionName="1.16" changeDate="Mar 14, 2015">
-        <changelogtext>Happy PI day!</changelogtext>
+        <changelogtext>Added a markdown viewer!</changelogtext>
+        <changelogtext>Fixed a bug with Copy, Paste, Cut buttons</changelogtext>
+        <changelogtext>Updated translations</changelogtext>
+    </changelogversion>
+
+    <changelogversion versionName="1.16" changeDate="Mar 14, 2015">
         <changelogtext>Added the Accessory View (now you can input more easily special symbols!)</changelogtext>
         <changelogtext>Added a Black theme!</changelogtext>
         <changelogtext>Added ISO-8859-2 encoding</changelogtext>

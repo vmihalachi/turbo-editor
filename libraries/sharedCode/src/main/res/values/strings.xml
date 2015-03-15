@@ -78,4 +78,5 @@
     <string name="theme">Theme</string>
     <string name="theme_dark">Dark theme</string>
     <string name="theme_black">Black theme</string>
+    <string name="view_markdown_result">View markdown result</string>
 </resources>

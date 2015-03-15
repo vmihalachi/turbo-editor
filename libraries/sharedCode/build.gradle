@@ -71,4 +71,5 @@ dependencies {
     compile 'com.github.gabrielemariotti.changeloglib:library:1.5.1'
     compile 'commons-io:commons-io:2.4'
     compile 'com.android.support:support-annotations:20.0.0'
+    compile files('libs/markdownview-1.2.jar')
 }

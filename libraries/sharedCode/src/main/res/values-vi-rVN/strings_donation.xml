@@ -19,8 +19,8 @@
   ~ along with this program.  If not, see <http://www.gnu.org/licenses/>.
   -->
 <resources>
-  <string name="donation_action">Donate</string>
-  <string name="donation_title">Donate to developer</string>
+  <string name="donation_action">Đóng góp</string>
+  <string name="donation_title">Dóng góp cho nhà phát triển</string>
   <string name="donation_info"><![CDATA[
         Turbo Editor is a free and <a href="http://github.com/vmihalachi/turbo-editor/">open source</a> app.
         You can show your appreciation and support development by donating:

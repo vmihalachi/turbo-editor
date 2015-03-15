@@ -58,13 +58,13 @@
   <string name="extra_options">Ďalšie voľby</string>
   <string name="split_text_if_too_long">Rozdeliť text, ak je príliš dlhý</string>
   <string name="ignore_back_button">Ignorovať tlačidlo späť</string>
-  <string name="donate">Prispieť</string>
   <string name="codifica">Kódovanie</string>
   <string name="condividi">Zdieľať</string>
   <string name="info">Informácie</string>
   <string name="nome_app_turbo_editor">Turbo Editor</string>
   <string name="preferenze">Predvoľby</string>
   <string name="salva">Uložiť</string>
+  <string name="save_as">Uložiť ako</string>
   <string name="menu_syntax_highlight">Zvýrazniť syntax</string>
   <string name="testo_indietro">Späť</string>
   <string name="testo_rifai">Znova</string>
@@ -73,4 +73,10 @@
   <string name="open_a_file">Otvoriť súbor</string>
   <string name="no">Nie</string>
   <string name="new_file">Nový súbor</string>
+  <string name="delete_current_file">Delete current file</string>
+  <string name="replace_all">Replace all</string>
+  <string name="theme">Theme</string>
+  <string name="theme_dark">Dark theme</string>
+  <string name="theme_black">Black theme</string>
+  <string name="view_markdown_result">View markdown result</string>
 </resources>

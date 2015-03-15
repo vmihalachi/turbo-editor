@@ -58,13 +58,13 @@
   <string name="extra_options">Ekstra seçenekler</string>
   <string name="split_text_if_too_long">Çok uzunsa metni böl</string>
   <string name="ignore_back_button">Geri düğmesini yoksay</string>
-  <string name="donate">Bağış yap</string>
   <string name="codifica">Kodlama</string>
   <string name="condividi">Paylaş</string>
   <string name="info">Bilgi</string>
   <string name="nome_app_turbo_editor">Turbo Editör</string>
   <string name="preferenze">Tercihler</string>
   <string name="salva">Kaydet</string>
+  <string name="save_as">Farklı kaydet</string>
   <string name="menu_syntax_highlight">Sözdizimi renklendirme</string>
   <string name="testo_indietro">Geri al</string>
   <string name="testo_rifai">Yinele</string>
@@ -73,4 +73,10 @@
   <string name="open_a_file">Dosya aç</string>
   <string name="no">Hayır</string>
   <string name="new_file">Yeni dosya</string>
+  <string name="delete_current_file">Geçerli dosyayı sil</string>
+  <string name="replace_all">Tümünü değiştir</string>
+  <string name="theme">Theme</string>
+  <string name="theme_dark">Dark theme</string>
+  <string name="theme_black">Black theme</string>
+  <string name="view_markdown_result">View markdown result</string>
 </resources>

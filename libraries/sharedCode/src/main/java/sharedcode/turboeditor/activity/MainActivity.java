@@ -388,6 +388,7 @@ public abstract class MainActivity extends ActionBarActivity implements IHomeAct
             MenuItem imSave = menu.findItem(R.id.im_save);
             MenuItem imUndo = menu.findItem(R.id.im_undo);
             MenuItem imRedo = menu.findItem(R.id.im_redo);
+
             if (mEditor != null) {
                 if (imSave != null)
                     imSave.setVisible(mEditor.canSaveFile());
@@ -401,9 +402,14 @@ public abstract class MainActivity extends ActionBarActivity implements IHomeAct
                 imRedo.setVisible(false);
             }
 
-            MenuItem item = menu.findItem(R.id.im_share);
+            MenuItem imMarkdown = menu.findItem(R.id.im_view_markdown);
+            boolean isMarkdown = Arrays.asList(MimeTypes.MIME_MARKDOWN).contains(FilenameUtils.getExtension(sFilePath));
+            if (imMarkdown != null)
+                imMarkdown.setVisible(isMarkdown);
+
+            MenuItem imShare = menu.findItem(R.id.im_share);
             ShareActionProvider shareAction = (ShareActionProvider) MenuItemCompat
-                    .getActionProvider(item);
+                    .getActionProvider(imShare);
             File f = new File(sFilePath);
             Intent shareIntent = new Intent();
             shareIntent.setAction(Intent.ACTION_SEND);
@@ -473,6 +479,10 @@ public abstract class MainActivity extends ActionBarActivity implements IHomeAct
                 //
             }
 
+        } else if (i == R.id.im_view_markdown) {
+            Intent browserIntent = new Intent(MainActivity.this, MarkdownActivity.class);
+            browserIntent.putExtra("text", mEditor.getText().toString());
+            startActivity(browserIntent);
         } else if (i == R.id.im_info) {
             FileInfoDialog.newInstance(sFilePath).show(getFragmentManager().beginTransaction(), "dialog");
         }
@@ -949,7 +959,9 @@ public abstract class MainActivity extends ActionBarActivity implements IHomeAct
     }
 
     public void aPreferenceValueWasChanged(final PreferenceChangeType type) {
-        this.aPreferenceValueWasChanged(new ArrayList<PreferenceChangeType>() {{add(type);}});
+        this.aPreferenceValueWasChanged(new ArrayList<PreferenceChangeType>() {{
+            add(type);
+        }});
     }
 
     public void aPreferenceValueWasChanged(List<PreferenceChangeType> types) {

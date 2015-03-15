@@ -58,13 +58,13 @@
   <string name="extra_options">Autres options</string>
   <string name="split_text_if_too_long">Scinder le texte si trop long</string>
   <string name="ignore_back_button">Ignorer le bouton retour</string>
-  <string name="donate">Faire un don</string>
   <string name="codifica">Encodage</string>
   <string name="condividi">Partager</string>
   <string name="info">Informations</string>
   <string name="nome_app_turbo_editor">Turbo Editor</string>
   <string name="preferenze">Préférences</string>
   <string name="salva">Sauver</string>
+  <string name="save_as">Save as</string>
   <string name="menu_syntax_highlight">Coloration syntaxique</string>
   <string name="testo_indietro">Annuler</string>
   <string name="testo_rifai">Rétablir</string>
@@ -73,4 +73,10 @@
   <string name="open_a_file">Ouvrir un fichier</string>
   <string name="no">Non</string>
   <string name="new_file">Nouveau fichier</string>
+  <string name="delete_current_file">Delete current file</string>
+  <string name="replace_all">Replace all</string>
+  <string name="theme">Theme</string>
+  <string name="theme_dark">Dark theme</string>
+  <string name="theme_black">Black theme</string>
+  <string name="view_markdown_result">View markdown result</string>
 </resources>
