@@ -49,6 +49,7 @@ public class EncodingDialog extends DialogFragment implements AdapterView.OnItem
             Constants.CHARSET_ISO_2022_CN,
             Constants.CHARSET_ISO_2022_JP,
             Constants.CHARSET_ISO_2022_KR,
+            "ISO-8859-2",
             Constants.CHARSET_ISO_8859_5,
             Constants.CHARSET_ISO_8859_7,
             Constants.CHARSET_ISO_8859_8,

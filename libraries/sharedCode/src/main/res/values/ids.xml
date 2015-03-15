@@ -76,7 +76,6 @@
     <item type="id" name="switch_syntax"/>
     <item type="id" name="switch_wrap_content"/>
     <item type="id" name="switch_monospace"/>
-    <item type="id" name="switch_light_theme"/>
     <item type="id" name="switch_suggestions_active"/>
     <item type="id" name="switch_auto_save"/>
     <item type="id" name="switch_read_only"/>
@@ -86,6 +85,7 @@
     <item type="id" name="switch_send_error_reports"/>
 
     <item type="id" name="drawer_button_go_pro"/>
+    <item type="id" name="drawer_button_theme"/>
     <item type="id" name="drawer_button_encoding"/>
     <item type="id" name="drawer_button_font_size"/>
     <item name="im_select_folder" type="id" />

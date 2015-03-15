@@ -25,11 +25,11 @@ public class ProCheckUtils {
     public static boolean isPro(Context context, boolean includeDonations) {
 
         // happy new year
-        return true;
+        return context.getPackageName().equals("com.maskyn.fileeditorpro");
         /*
         if (Build.FOR_AMAZON)
             return true;
-        else if (context.getPackageName().equals("com.maskyn.fileeditorpro"))
+        else if ()
             return true;
         else if (includeDonations && PreferenceHelper.hasDonated(context))
             return true;

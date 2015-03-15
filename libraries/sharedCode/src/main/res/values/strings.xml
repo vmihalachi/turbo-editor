@@ -75,4 +75,7 @@
     <string name="new_file">New file</string>
     <string name="delete_current_file">Delete current file</string>
     <string name="replace_all">Replace all</string>
+    <string name="theme">Theme</string>
+    <string name="theme_dark">Dark theme</string>
+    <string name="theme_black">Black theme</string>
 </resources>

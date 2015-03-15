@@ -99,6 +99,7 @@ import sharedcode.turboeditor.texteditor.PageSystemButtons;
 import sharedcode.turboeditor.texteditor.Patterns;
 import sharedcode.turboeditor.texteditor.SearchResult;
 import sharedcode.turboeditor.util.AccessStorageApi;
+import sharedcode.turboeditor.util.AccessoryView;
 import sharedcode.turboeditor.util.AnimationUtils;
 import sharedcode.turboeditor.util.AppInfoHelper;
 import sharedcode.turboeditor.util.IHomeActivity;
@@ -112,7 +113,7 @@ import sharedcode.turboeditor.views.GoodScrollView;
 public abstract class MainActivity extends ActionBarActivity implements IHomeActivity, FindTextDialog
         .SearchDialogInterface, GoodScrollView.ScrollInterface, PageSystem.PageSystemInterface,
         PageSystemButtons.PageButtonsInterface, NumberPickerDialog.INumberPickerDialog, SaveFileDialog.ISaveDialog,
-        AdapterView.OnItemClickListener, AdapterDrawer.Callbacks{
+        AdapterView.OnItemClickListener, AdapterDrawer.Callbacks, AccessoryView.IAccessoryView{
 
     //region VARIABLES
     private static final int READ_REQUEST_CODE = 42;
@@ -132,14 +133,14 @@ public abstract class MainActivity extends ActionBarActivity implements IHomeAct
             new Runnable() {
                 @Override
                 public void run() {
-                    mEditor.replaceTextKeepCursor(null, true);
+                    mEditor.replaceTextKeepCursor(null);
                 }
             };
     private static final Runnable colorRunnable_duringScroll =
             new Runnable() {
                 @Override
                 public void run() {
-                    mEditor.replaceTextKeepCursor(null, false);
+                    mEditor.replaceTextKeepCursor(null);
                 }
             };
     private static boolean fileOpened = false;
@@ -630,6 +631,8 @@ public abstract class MainActivity extends ActionBarActivity implements IHomeAct
         horizontalScroll = (HorizontalScrollView) findViewById(R.id.horizontal_scroll);
         mEditor = (Editor) findViewById(R.id.editor);
 
+        AccessoryView accessoryView = (AccessoryView) findViewById(R.id.accessoryView);
+        accessoryView.setInterface(this);
         //mEditor.setLayerType(View.LAYER_TYPE_NONE, null);
 
         if (PreferenceHelper.getWrapContent(this)) {
@@ -660,7 +663,7 @@ public abstract class MainActivity extends ActionBarActivity implements IHomeAct
         invalidateOptionsMenu();
 
         mEditor.disableTextChangedListener();
-        mEditor.replaceTextKeepCursor(pageSystem.getCurrentPageText(), false);
+        mEditor.replaceTextKeepCursor(pageSystem.getCurrentPageText());
         mEditor.enableTextChangedListener();
     }
 
@@ -673,7 +676,7 @@ public abstract class MainActivity extends ActionBarActivity implements IHomeAct
             findViewById(R.id.no_file_opened_messagge).setVisibility(View.VISIBLE);
 
             mEditor.disableTextChangedListener();
-            mEditor.replaceTextKeepCursor("", false);
+            mEditor.replaceTextKeepCursor("");
             mEditor.enableTextChangedListener();
         } catch (Exception e) {
             // lol
@@ -786,7 +789,7 @@ public abstract class MainActivity extends ActionBarActivity implements IHomeAct
     //region EVENTBUS
     public void newFileToOpen(final File newFile, final String newFileText) {
 
-        if (fileOpened && mEditor.canSaveFile()) {
+        if (fileOpened && mEditor != null && mEditor.canSaveFile()) {
             SaveFileDialog.newInstance(sFilePath, pageSystem.getAllText(mEditor
                     .getText().toString()), currentEncoding, true, newFile.getAbsolutePath()).show(getFragmentManager(),
                     "dialog");
@@ -953,6 +956,8 @@ public abstract class MainActivity extends ActionBarActivity implements IHomeAct
 
         if (types.contains(PreferenceChangeType.THEME_CHANGE)) {
             ThemeUtils.setWindowsBackground(this);
+            AccessoryView accessoryView = (AccessoryView) findViewById(R.id.accessoryView);
+            accessoryView.updateTextColors();
         }
 
         if (types.contains(PreferenceChangeType.WRAP_CONTENT)) {
@@ -967,7 +972,7 @@ public abstract class MainActivity extends ActionBarActivity implements IHomeAct
             }
         } else if (types.contains(PreferenceChangeType.LINE_NUMERS)) {
             mEditor.disableTextChangedListener();
-            mEditor.replaceTextKeepCursor(null, true);
+            mEditor.replaceTextKeepCursor(null);
             mEditor.enableTextChangedListener();
             if (PreferenceHelper.getLineNumbers(this)) {
                 mEditor.setPadding(
@@ -984,7 +989,7 @@ public abstract class MainActivity extends ActionBarActivity implements IHomeAct
             }
         } else if (types.contains(PreferenceChangeType.SYNTAX)) {
             mEditor.disableTextChangedListener();
-            mEditor.replaceTextKeepCursor(null, true);
+            mEditor.replaceTextKeepCursor(null);
             mEditor.enableTextChangedListener();
         } else if (types.contains(PreferenceChangeType.MONOSPACE)) {
             if (PreferenceHelper.getUseMonospace(this))
@@ -1039,14 +1044,14 @@ public abstract class MainActivity extends ActionBarActivity implements IHomeAct
             try {
                 final byte[] oldText = mEditor.getText().toString().getBytes(oldEncoding);
                 mEditor.disableTextChangedListener();
-                mEditor.replaceTextKeepCursor(new String(oldText, newEncoding), true);
+                mEditor.replaceTextKeepCursor(new String(oldText, newEncoding));
                 mEditor.enableTextChangedListener();
                 currentEncoding = newEncoding;
             } catch (UnsupportedEncodingException ignored) {
                 try {
                     final byte[] oldText = mEditor.getText().toString().getBytes(oldEncoding);
                     mEditor.disableTextChangedListener();
-                    mEditor.replaceTextKeepCursor(new String(oldText, "UTF-16"), true);
+                    mEditor.replaceTextKeepCursor(new String(oldText, "UTF-16"));
                     mEditor.enableTextChangedListener();
                 } catch (UnsupportedEncodingException ignored2) {
                 }
@@ -1109,7 +1114,7 @@ public abstract class MainActivity extends ActionBarActivity implements IHomeAct
         pageSystem.savePage(mEditor.getText().toString());
         pageSystem.nextPage();
         mEditor.disableTextChangedListener();
-        mEditor.replaceTextKeepCursor(pageSystem.getCurrentPageText(), false);
+        mEditor.replaceTextKeepCursor(pageSystem.getCurrentPageText());
         mEditor.enableTextChangedListener();
 
         verticalScroll.postDelayed(new Runnable() {
@@ -1131,7 +1136,7 @@ public abstract class MainActivity extends ActionBarActivity implements IHomeAct
         pageSystem.savePage(mEditor.getText().toString());
         pageSystem.prevPage();
         mEditor.disableTextChangedListener();
-        mEditor.replaceTextKeepCursor(pageSystem.getCurrentPageText(), false);
+        mEditor.replaceTextKeepCursor(pageSystem.getCurrentPageText());
         mEditor.enableTextChangedListener();
 
         verticalScroll.postDelayed(new Runnable() {
@@ -1220,7 +1225,7 @@ public abstract class MainActivity extends ActionBarActivity implements IHomeAct
             pageSystem.savePage(mEditor.getText().toString());
             pageSystem.goToPage(value);
             mEditor.disableTextChangedListener();
-            mEditor.replaceTextKeepCursor(pageSystem.getCurrentPageText(), true);
+            mEditor.replaceTextKeepCursor(pageSystem.getCurrentPageText());
             mEditor.enableTextChangedListener();
 
             verticalScroll.postDelayed(new Runnable() {
@@ -1261,6 +1266,12 @@ public abstract class MainActivity extends ActionBarActivity implements IHomeAct
         if (andCloseOpenedFile)
             cannotOpenFile();
     }
+
+    @Override
+    public void onButtonAccessoryViewClicked(String text) {
+        mEditor.getText().insert(mEditor.getSelectionStart(), text);
+    }
+
     //endregion
 
     public static class Editor extends EditText {
@@ -1658,10 +1669,11 @@ public abstract class MainActivity extends ActionBarActivity implements IHomeAct
             canSaveFile = false;
         }
 
-        public void replaceTextKeepCursor(String textToUpdate, boolean mantainCursorPos) {
+        public void replaceTextKeepCursor(String textToUpdate) {
 
             int cursorPos;
             int cursorPosEnd;
+
             if (textToUpdate != null) {
                 cursorPos = 0;
                 cursorPosEnd = 0;
@@ -1681,6 +1693,8 @@ public abstract class MainActivity extends ActionBarActivity implements IHomeAct
             }
 
             enableTextChangedListener();
+
+            boolean mantainCursorPos = cursorPos >= firstVisibleIndex && cursorPos <= lastVisibleIndex;
 
             if (mantainCursorPos)
                 firstVisibleIndex = cursorPos;

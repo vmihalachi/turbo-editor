@@ -20,7 +20,15 @@
 
 <changelog bulletedList="true">
 
-    <changelogversion versionName="1.15" changeDate="Oct 30, 2014">
+    <changelogversion versionName="1.16" changeDate="Mar 14, 2015">
+        <changelogtext>Happy PI day!</changelogtext>
+        <changelogtext>Added the Accessory View (now you can input more easily special symbols!)</changelogtext>
+        <changelogtext>Added a Black theme!</changelogtext>
+        <changelogtext>Added ISO-8859-2 encoding</changelogtext>
+        <changelogtext>Bug fixes</changelogtext>
+    </changelogversion>
+
+    <changelogversion versionName="1.15" changeDate="Mar 13, 2015">
         <changelogtext>It is a "beta" release, feel free to send you feedback on github.com!</changelogtext>
         <changelogtext>Added Save As! (and rename option)</changelogtext>
         <changelogtext>Added Replace All!</changelogtext>

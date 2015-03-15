@@ -20,6 +20,8 @@
 package sharedcode.turboeditor.preferences;
 
 import android.app.Fragment;
+import android.content.Intent;
+import android.net.Uri;
 import android.os.Bundle;
 import android.support.v7.widget.SwitchCompat;
 import android.view.LayoutInflater;
@@ -32,9 +34,11 @@ import sharedcode.turboeditor.R;
 import sharedcode.turboeditor.activity.MainActivity;
 import sharedcode.turboeditor.dialogfragment.EncodingDialog;
 import sharedcode.turboeditor.dialogfragment.NumberPickerDialog;
+import sharedcode.turboeditor.dialogfragment.ThemeDialog;
+import sharedcode.turboeditor.util.ProCheckUtils;
 import sharedcode.turboeditor.util.ViewUtils;
 
-public class SettingsFragment extends Fragment implements NumberPickerDialog.INumberPickerDialog, EncodingDialog.DialogListener {
+public class SettingsFragment extends Fragment implements NumberPickerDialog.INumberPickerDialog, EncodingDialog.DialogListener, ThemeDialog.DialogListener {
 
     // Editor Variables
     private boolean sLineNumbers;
@@ -43,7 +47,6 @@ public class SettingsFragment extends Fragment implements NumberPickerDialog.INu
     private boolean sUseMonospace;
     private boolean sReadOnly;
 
-    private boolean sLightTheme;
     private boolean sSuggestions;
     private boolean sAutoSave;
     private boolean sIgnoreBackButton;
@@ -59,7 +62,6 @@ public class SettingsFragment extends Fragment implements NumberPickerDialog.INu
         sLineNumbers = PreferenceHelper.getLineNumbers(getActivity());
         sReadOnly = PreferenceHelper.getReadOnly(getActivity());
 
-        sLightTheme = PreferenceHelper.getLightTheme(getActivity());
         sSuggestions = PreferenceHelper.getSuggestionActive(getActivity());
         sAutoSave = PreferenceHelper.getAutoSave(getActivity());
         sIgnoreBackButton = PreferenceHelper.getIgnoreBackButton(getActivity());
@@ -73,7 +75,7 @@ public class SettingsFragment extends Fragment implements NumberPickerDialog.INu
         // Our custom layout
         final View rootView = inflater.inflate(R.layout.fragment_settings, container, false);
         final SwitchCompat swLineNumbers, swSyntax, swWrapContent, swMonospace, swReadOnly;
-        final SwitchCompat swLightTheme, swSuggestions, swAutoSave, swIgnoreBackButton, swSplitText, swErrorReports;
+        final SwitchCompat swSuggestions, swAutoSave, swIgnoreBackButton, swSplitText, swErrorReports;
         
         swLineNumbers = (SwitchCompat) rootView.findViewById(R.id.switch_line_numbers);
         swSyntax = (SwitchCompat) rootView.findViewById(R.id.switch_syntax);
@@ -81,7 +83,6 @@ public class SettingsFragment extends Fragment implements NumberPickerDialog.INu
         swMonospace = (SwitchCompat) rootView.findViewById(R.id.switch_monospace);
         swReadOnly = (SwitchCompat) rootView.findViewById(R.id.switch_read_only);
 
-        swLightTheme = (SwitchCompat) rootView.findViewById(R.id.switch_light_theme);
         swSuggestions = (SwitchCompat) rootView.findViewById(R.id.switch_suggestions_active);
         swAutoSave = (SwitchCompat) rootView.findViewById(R.id.switch_auto_save);
         swIgnoreBackButton = (SwitchCompat) rootView.findViewById(R.id.switch_ignore_backbutton);
@@ -94,17 +95,31 @@ public class SettingsFragment extends Fragment implements NumberPickerDialog.INu
         swMonospace.setChecked(sUseMonospace);
         swReadOnly.setChecked(sReadOnly);
 
-        swLightTheme.setChecked(sLightTheme);
         swSuggestions.setChecked(sSuggestions);
         swAutoSave.setChecked(sAutoSave);
         swIgnoreBackButton.setChecked(sIgnoreBackButton);
         swSplitText.setChecked(sSplitText);
         swErrorReports.setChecked(sErrorReports);
 
-        TextView fontSizeView, encodingView, donateView, extraOptionsView;
+        TextView fontSizeView, encodingView, extraOptionsView, themeView, goPro;
+        goPro = (TextView) rootView.findViewById(R.id.drawer_button_go_pro);
         fontSizeView = (TextView) rootView.findViewById(R.id.drawer_button_font_size);
         encodingView = (TextView) rootView.findViewById(R.id.drawer_button_encoding);
         extraOptionsView = (TextView) rootView.findViewById(R.id.drawer_button_extra_options);
+        themeView = (TextView) rootView.findViewById(R.id.drawer_button_theme);
+
+        ViewUtils.setVisible(goPro, !ProCheckUtils.isPro(getActivity()));
+        goPro.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                final String appPackageName = "com.maskyn.fileeditorpro";
+                try {
+                    startActivity(new Intent(Intent.ACTION_VIEW, Uri.parse("market://details?id=" + appPackageName)));
+                } catch (android.content.ActivityNotFoundException anfe) {
+                    startActivity(new Intent(Intent.ACTION_VIEW, Uri.parse("https://play.google.com/store/apps/details?id=" + appPackageName)));
+                }
+            }
+        });
 
         swLineNumbers.setOnCheckedChangeListener(new CompoundButton.OnCheckedChangeListener() {
             @Override
@@ -183,11 +198,12 @@ public class SettingsFragment extends Fragment implements NumberPickerDialog.INu
             }
         });
 
-        swLightTheme.setOnCheckedChangeListener(new CompoundButton.OnCheckedChangeListener() {
+        themeView.setOnClickListener(new View.OnClickListener() {
             @Override
-            public void onCheckedChanged(CompoundButton buttonView, boolean isChecked) {
-                PreferenceHelper.setLightTheme(getActivity(), isChecked);
-                ((MainActivity) getActivity()).aPreferenceValueWasChanged(PreferenceChangeType.THEME_CHANGE);
+            public void onClick(View v) {
+                ThemeDialog dialogFrag = ThemeDialog.newInstance();
+                dialogFrag.setTargetFragment(SettingsFragment.this, 0);
+                dialogFrag.show(getFragmentManager().beginTransaction(), "dialog");
             }
         });
 
@@ -241,5 +257,11 @@ public class SettingsFragment extends Fragment implements NumberPickerDialog.INu
     public void onEncodingSelected(String result) {
         PreferenceHelper.setEncoding(getActivity(), result);
         ((MainActivity) getActivity()).aPreferenceValueWasChanged(PreferenceChangeType.ENCODING);
+    }
+
+    @Override
+    public void onThemeSelected(int result) {
+        PreferenceHelper.setTheme(getActivity(), result);
+        ((MainActivity) getActivity()).aPreferenceValueWasChanged(PreferenceChangeType.THEME_CHANGE);
     }
 }

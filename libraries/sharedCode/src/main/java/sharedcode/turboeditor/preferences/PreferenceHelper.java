@@ -57,8 +57,20 @@ public final class PreferenceHelper {
         return getPrefs(context).getBoolean("editor_wrap_content", true);
     }
 
+    public static int getTheme(Context context) {
+        return getPrefs(context).getInt("theme", 0);
+    }
+
+    public static boolean getDarkTheme(Context context) {
+        return getPrefs(context).getInt("theme", 0) == 0;
+    }
+
     public static boolean getLightTheme(Context context) {
-        return getPrefs(context).getBoolean("light_theme", false);
+        return getPrefs(context).getInt("theme", 0) == 1;
+    }
+
+    public static boolean getBlackTheme(Context context) {
+        return getPrefs(context).getInt("theme", 0) == 2;
     }
 
     public static boolean getSuggestionActive(Context context) {
@@ -158,8 +170,8 @@ public final class PreferenceHelper {
         getEditor(context).putBoolean("has_donated", value).commit();
     }
 
-    public static void setLightTheme(Context context, boolean value) {
-        getEditor(context).putBoolean("light_theme", value).commit();
+    public static void setTheme(Context context, int value) {
+        getEditor(context).putInt("theme", value).commit();
     }
 
     public static void setSuggestionsActive(Context context, boolean value) {
@@ -179,7 +191,7 @@ public final class PreferenceHelper {
     }
 
     public static void setSendErrorReport(Context context, boolean value) {
-        getEditor(context).putBoolean("ignore_back_button", value).commit();
+        getEditor(context).putBoolean("send_error_reports", value).commit();
     }
 
     public static void setEncoding(Context context, String value) {

@@ -35,21 +35,16 @@ public class ThemeUtils {
         }
     }
 
-    public static void setPreferenceTheme(Activity activity){
-        boolean light = PreferenceHelper.getLightTheme(activity);
-        if (light) {
-            activity.setTheme(R.style.PreferenceLight);
-        } else {
-            activity.setTheme(R.style.PreferenceDark);
-        }
-    }
-
     public static void setWindowsBackground(Activity activity) {
         boolean whiteTheme = PreferenceHelper.getLightTheme(activity);
+        boolean darkTheme = PreferenceHelper.getDarkTheme(activity);
+        boolean blackTheme = PreferenceHelper.getBlackTheme(activity);
         if (whiteTheme) {
             activity.getWindow().setBackgroundDrawableResource(R.color.window_background_light);
-        } else {
+        } else if (darkTheme) {
             activity.getWindow().setBackgroundDrawableResource(R.color.window_background);
+        } else {
+            activity.getWindow().setBackgroundDrawableResource(android.R.color.black);
         }
     }
 }

@@ -58,7 +58,8 @@
                 android:scrollbars="vertical"
                 android:fillViewport="true"
                 android:id="@id/vertical_scroll"
-                android:background="@null">
+                android:background="@null"
+                android:layout_marginBottom="50dp">
 
                 <HorizontalScrollView
                     android:layout_height="wrap_content"
@@ -82,14 +83,14 @@
                         android:text=""
                         android:textIsSelectable="true" />
                 </HorizontalScrollView>
-            </sharedcode.turboeditor.views.GoodScrollView>
+    </sharedcode.turboeditor.views.GoodScrollView>
 
             <com.faizmalkani.floatingactionbutton.FloatingActionButton
                 android:id="@+id/fabNext"
                 android:layout_width="72dp"
                 android:layout_height="72dp"
                 android:layout_gravity="bottom|right"
-                android:layout_marginBottom="16dp"
+                android:layout_marginBottom="66dp"
                 android:layout_marginRight="16dp"
                 android:layout_marginEnd="16dp"
                 android:visibility="invisible"/>
@@ -99,11 +100,23 @@
                 android:layout_width="72dp"
                 android:layout_height="72dp"
                 android:layout_gravity="bottom|right"
-                android:layout_marginBottom="16dp"
+                android:layout_marginBottom="66dp"
                 android:layout_marginRight="100dp"
                 android:layout_marginEnd="90dp"
                 android:visibility="invisible"/>
 
+
+        <HorizontalScrollView
+            android:layout_height="50dp"
+            android:layout_width="match_parent"
+            android:scrollbars="horizontal"
+            android:layout_gravity="bottom"
+            android:fillViewport="false">
+            <sharedcode.turboeditor.util.AccessoryView
+                android:layout_width="match_parent"
+                android:layout_height="50dp"
+                android:id="@+id/accessoryView"></sharedcode.turboeditor.util.AccessoryView>
+        </HorizontalScrollView>
         </FrameLayout>
     </LinearLayout>
 
