@@ -31,6 +31,8 @@ import android.os.Environment;
 import android.provider.DocumentsContract;
 import android.provider.MediaStore;
 
+import org.apache.commons.io.FilenameUtils;
+
 import java.io.File;
 import java.io.FileInputStream;
 import java.io.IOException;
@@ -87,64 +89,113 @@ public class AccessStorageApi {
     @SuppressLint("NewApi")
     public static String getPath(final Context context, final Uri uri) {
 
-        final boolean isKitKat = Build.VERSION.SDK_INT >= Build.VERSION_CODES.KITKAT;
+        String path = "";
 
-        // DocumentProvider
-        if (isKitKat && DocumentsContract.isDocumentUri(context, uri)) {
-            // ExternalStorageProvider
-            if (isExternalStorageDocument(uri)) {
-                final String docId = DocumentsContract.getDocumentId(uri);
-                final String[] split = docId.split(":");
-                final String type = split[0];
+        if (uri == null || uri.equals(Uri.EMPTY))
+            return "";
 
-                if ("primary".equalsIgnoreCase(type)) {
-                    return Environment.getExternalStorageDirectory() + "/" + split[1];
+        try {
+            final boolean isKitKat = Build.VERSION.SDK_INT >= Build.VERSION_CODES.KITKAT;
+            // DocumentProvider
+            if (isKitKat && DocumentsContract.isDocumentUri(context, uri)) {
+                if (isTurboDocument(uri)) {
+                    final String docId = DocumentsContract.getDocumentId(uri);
+                    final String[] split = docId.split(":");
+                    path = "/" + split[1];
                 }
+                // ExternalStorageProvider
+                else if (isExternalStorageDocument(uri)) {
 
-                // TODO handle non-primary volumes
-            }
-            // DownloadsProvider
-            else if (isDownloadsDocument(uri)) {
+                    final String docId = DocumentsContract.getDocumentId(uri);
+                    final String[] split = docId.split(":");
+                    final String type = split[0];
 
-                final String id = DocumentsContract.getDocumentId(uri);
-                final Uri contentUri = ContentUris.withAppendedId(
-                        Uri.parse("content://downloads/public_downloads"), Long.valueOf(id));
+                    if ("primary".equalsIgnoreCase(type)) {
+                        path = Environment.getExternalStorageDirectory() + "/" + split[1];
+                    }
 
-                return getDataColumn(context, contentUri, null, null);
-            }
-            // MediaProvider
-            else if (isMediaDocument(uri)) {
-                final String docId = DocumentsContract.getDocumentId(uri);
-                final String[] split = docId.split(":");
-                final String type = split[0];
-
-                Uri contentUri = null;
-                if ("image".equals(type)) {
-                    contentUri = MediaStore.Images.Media.EXTERNAL_CONTENT_URI;
-                } else if ("video".equals(type)) {
-                    contentUri = MediaStore.Video.Media.EXTERNAL_CONTENT_URI;
-                } else if ("audio".equals(type)) {
-                    contentUri = MediaStore.Audio.Media.EXTERNAL_CONTENT_URI;
+                    // TODO handle non-primary volumes
                 }
+                // DownloadsProvider
+                else if (isDownloadsDocument(uri)) {
 
-                final String selection = "_id=?";
-                final String[] selectionArgs = new String[]{
-                        split[1]
-                };
+                    final String id = DocumentsContract.getDocumentId(uri);
+                    final Uri contentUri = ContentUris.withAppendedId(
+                            Uri.parse("content://downloads/public_downloads"), Long.valueOf(id));
 
-                return getDataColumn(context, contentUri, selection, selectionArgs);
+                    path = getDataColumn(context, contentUri, null, null);
+                }
+                // MediaProvider
+                else if (isMediaDocument(uri)) {
+                    final String docId = DocumentsContract.getDocumentId(uri);
+                    final String[] split = docId.split(":");
+                    final String type = split[0];
+
+                    Uri contentUri = null;
+                    if ("image".equals(type)) {
+                        contentUri = MediaStore.Images.Media.EXTERNAL_CONTENT_URI;
+                    } else if ("video".equals(type)) {
+                        contentUri = MediaStore.Video.Media.EXTERNAL_CONTENT_URI;
+                    } else if ("audio".equals(type)) {
+                        contentUri = MediaStore.Audio.Media.EXTERNAL_CONTENT_URI;
+                    }
+
+                    final String selection = "_id=?";
+                    final String[] selectionArgs = new String[]{
+                            split[1]
+                    };
+
+                    path = getDataColumn(context, contentUri, selection, selectionArgs);
+                }
             }
-        }
-        // MediaStore (and general)
-        else if ("content".equalsIgnoreCase(uri.getScheme())) {
-            return getDataColumn(context, uri, null, null);
-        }
-        // File
-        else if ("file".equalsIgnoreCase(uri.getScheme())) {
-            return uri.getPath();
+            // MediaStore (and general)
+            else if ("content".equalsIgnoreCase(uri.getScheme())) {
+                path = getDataColumn(context, uri, null, null);
+            }
+            // File
+            else if ("file".equalsIgnoreCase(uri.getScheme())) {
+                path = uri.getPath();
+            }
+        } catch (Exception ex) {
+            return "";
         }
 
-        return null;
+
+        return path;
+    }
+
+    public static String getName(Context context, Uri uri)
+    {
+
+        if (uri == null || uri.equals(Uri.EMPTY))
+            return "";
+
+        String fileName = "";
+        try {
+            String scheme = uri.getScheme();
+            if (scheme.equals("file")) {
+                fileName = uri.getLastPathSegment();
+            }
+            else if (scheme.equals("content")) {
+                String[] proj = { MediaStore.Images.Media.DISPLAY_NAME };
+                Cursor cursor = context.getContentResolver().query(uri, proj, null, null, null);
+                if (cursor != null && cursor.getCount() != 0) {
+                    int columnIndex = cursor.getColumnIndexOrThrow(MediaStore.Images.Media.DISPLAY_NAME);
+                    cursor.moveToFirst();
+                    fileName = cursor.getString(columnIndex);
+                }
+                if (cursor != null) {
+                    cursor.close();
+                }
+            }
+        } catch (Exception ex) {
+            return "";
+        }
+        return fileName;
+    }
+
+    public static String getExtension(Context context, Uri uri) {
+        return FilenameUtils.getExtension(getName(context, uri));
     }
 
     /**
@@ -205,4 +256,11 @@ public class AccessStorageApi {
         return "com.android.providers.media.documents".equals(uri.getAuthority());
     }
 
+    /**
+     * @param uri The Uri to check.
+     * @return Whether the Uri authority is Turbo Storage.
+     */
+    public static boolean isTurboDocument(Uri uri) {
+        return "sharedcode.turboeditor.util.documents".equals(uri.getAuthority());
+    }
 }

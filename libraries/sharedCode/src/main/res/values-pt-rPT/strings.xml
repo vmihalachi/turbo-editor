@@ -75,8 +75,11 @@
   <string name="new_file">Novo ficheiro</string>
   <string name="delete_current_file">Eliminar ficheiro atual</string>
   <string name="replace_all">Substituir tudo</string>
-  <string name="theme">Theme</string>
-  <string name="theme_dark">Dark theme</string>
-  <string name="theme_black">Black theme</string>
-  <string name="view_markdown_result">View markdown result</string>
+  <string name="theme"> Tema</string>
+  <string name="theme_dark">Tema escuro</string>
+  <string name="theme_black">Tema preto</string>
+  <string name="view_markdown_result">Ver resultado markdown</string>
+  <string name="accessory_view">Accessory view</string>
+  <string name="file_cannot_be_renamed">The file cannot be renamed</string>
+  <string name="use_kitkat_file_selection">Use kitkat file selection</string>
 </resources>

@@ -13,7 +13,6 @@
             <option value="$PROJECT_DIR$/app-pro" />
             <option value="$PROJECT_DIR$/libraries" />
             <option value="$PROJECT_DIR$/libraries/FloatingActionButton" />
-            <option value="$PROJECT_DIR$/libraries/RootCommands" />
             <option value="$PROJECT_DIR$/libraries/sharedCode" />
           </set>
         </option>

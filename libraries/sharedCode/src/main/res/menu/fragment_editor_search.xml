@@ -36,7 +36,7 @@
 
     <item
         android:id="@id/im_previous_item"
-        app:showAsAction="always"
+        app:showAsAction="ifRoom"
         android:title="@string/previous">
     </item>
     <item
@@ -51,7 +51,7 @@
     </item>
     <item
         android:id="@id/im_replace_all"
-        app:showAsAction="always"
+        app:showAsAction="ifRoom"
         android:title="@string/replace_all">
     </item>
     <!--<item

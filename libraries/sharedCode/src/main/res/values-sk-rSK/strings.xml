@@ -73,10 +73,13 @@
   <string name="open_a_file">Otvoriť súbor</string>
   <string name="no">Nie</string>
   <string name="new_file">Nový súbor</string>
-  <string name="delete_current_file">Delete current file</string>
-  <string name="replace_all">Replace all</string>
-  <string name="theme">Theme</string>
-  <string name="theme_dark">Dark theme</string>
-  <string name="theme_black">Black theme</string>
-  <string name="view_markdown_result">View markdown result</string>
+  <string name="delete_current_file">Vymazať aktuálny súbor</string>
+  <string name="replace_all">Nahradiť všetky</string>
+  <string name="theme">Motív</string>
+  <string name="theme_dark">Tmavá téma</string>
+  <string name="theme_black">Čierna téma</string>
+  <string name="view_markdown_result">Zobraziť označené výsledky</string>
+  <string name="accessory_view">Accessory view</string>
+  <string name="file_cannot_be_renamed">The file cannot be renamed</string>
+  <string name="use_kitkat_file_selection">Use kitkat file selection</string>
 </resources>

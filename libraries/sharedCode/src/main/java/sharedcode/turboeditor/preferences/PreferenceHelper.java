@@ -26,6 +26,8 @@ import android.preference.PreferenceManager;
 
 import java.io.File;
 
+import sharedcode.turboeditor.util.Device;
+
 public final class PreferenceHelper {
 
     //public static final String SD_CARD_ROOT = Environment.getExternalStorageDirectory().getAbsolutePath();
@@ -45,6 +47,14 @@ public final class PreferenceHelper {
 
     public static boolean getUseMonospace(Context context) {
         return getPrefs(context).getBoolean("use_monospace", false);
+    }
+
+    public static boolean getUseAccessoryView(Context context) {
+        return getPrefs(context).getBoolean("accessory_view", true);
+    }
+
+    public static boolean getUseStorageAccessFramework(Context context) {
+        return getPrefs(context).getBoolean("storage_access_framework", false);
     }
 
     public static boolean getLineNumbers(Context context) {
@@ -97,23 +107,24 @@ public final class PreferenceHelper {
 
     public static String defaultFolder(Context context) {
         String folder;
-        /*File externalFolder = context.getFilesDir();
+        File externalFolder = context.getExternalFilesDir(null);
 
-        if (externalFolder != null) {
+        if (externalFolder != null && Device.isKitKatApi()) {
             folder = externalFolder.getAbsolutePath();
         } else {
             folder = Environment.getExternalStorageDirectory().getAbsolutePath();
-        }*/
-        folder = Environment.getExternalStorageDirectory().getAbsolutePath();
+        }
+        //folder = context.getExternalFilesDir(null).getAbsolutePath();
+        //folder = Environment.getExternalStorageDirectory().getAbsolutePath();
         return folder;
     }
 
     public static String getWorkingFolder(Context context) {
-        return getPrefs(context).getString("working_folder", defaultFolder(context));
+        return getPrefs(context).getString("working_folder2", defaultFolder(context));
     }
 
     public static String[] getSavedPaths(Context context) {
-        return getPrefs(context).getString("savedPaths", "").split(",");
+        return getPrefs(context).getString("savedPaths2", "").split(",");
     }
 
     public static boolean getPageSystemButtonsPopupShown(Context context) {
@@ -145,6 +156,14 @@ public final class PreferenceHelper {
         getEditor(context).putBoolean("use_monospace", value).commit();
     }
 
+    public static void setUseAccessoryView(Context context, boolean value) {
+        getEditor(context).putBoolean("accessory_view", value).commit();
+    }
+
+    public static void setUseStorageAccessFramework(Context context, boolean value) {
+        getEditor(context).putBoolean("storage_access_framework", value).commit();
+    }
+
     public static void setLineNumbers(Context context, boolean value) {
         getEditor(context).putBoolean("editor_line_numbers", value).commit();
     }
@@ -166,11 +185,11 @@ public final class PreferenceHelper {
     }
 
     public static void setWorkingFolder(Context context, String value) {
-        getEditor(context).putString("working_folder", value).commit();
+        getEditor(context).putString("working_folder2", value).commit();
     }
 
     public static void setSavedPaths(Context context, StringBuilder stringBuilder) {
-        getEditor(context).putString("savedPaths", stringBuilder.toString()).commit();
+        getEditor(context).putString("savedPaths2", stringBuilder.toString()).commit();
     }
 
     public static void setPageSystemButtonsPopupShown(Context context, boolean value) {

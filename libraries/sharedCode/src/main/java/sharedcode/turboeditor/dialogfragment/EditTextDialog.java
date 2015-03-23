@@ -64,6 +64,9 @@ public class EditTextDialog extends DialogFragment implements TextView.OnEditorA
             case NewFolder:
                 title = getString(R.string.folder);
                 break;
+            case Rename:
+                title = getString(R.string.rinomina);
+                break;
             default:
                 title = null;
                 break;
@@ -108,7 +111,7 @@ public class EditTextDialog extends DialogFragment implements TextView.OnEditorA
         if (target == null) {
             target = (EditDialogListener) getActivity();
         }
-        target.onFinishEditDialog(this.mEditText.getText().toString(), getArguments().getString("hint"),
+        target.onEdittextDialogEnded(this.mEditText.getText().toString(), getArguments().getString("hint"),
                 (Actions) getArguments().getSerializable("action"));
         this.dismiss();
     }
@@ -123,10 +126,10 @@ public class EditTextDialog extends DialogFragment implements TextView.OnEditorA
     }
 
     public enum Actions {
-        NewFile, NewFolder
+        NewFile, NewFolder, Rename
     }
 
     public interface EditDialogListener {
-        void onFinishEditDialog(String result, String hint, Actions action);
+        void onEdittextDialogEnded(String result, String hint, Actions action);
     }
 }

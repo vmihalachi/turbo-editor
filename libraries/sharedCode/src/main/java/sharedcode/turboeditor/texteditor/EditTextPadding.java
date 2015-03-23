@@ -21,12 +21,18 @@ package sharedcode.turboeditor.texteditor;
 
 import android.content.Context;
 
+import sharedcode.turboeditor.preferences.PreferenceHelper;
 import sharedcode.turboeditor.util.PixelDipConverter;
 
 public class EditTextPadding {
 
     public static int getPaddingWithoutLineNumbers(Context context) {
         return (int) PixelDipConverter.convertDpToPixel(5, context);
+    }
+
+    public static int getPaddingBottom(Context context) {
+        boolean useAccessoryView = PreferenceHelper.getUseAccessoryView(context);
+        return (int) PixelDipConverter.convertDpToPixel(useAccessoryView ? 50 : 0, context);
     }
 
     public static int getPaddingWithLineNumbers(Context context, float fontSize) {

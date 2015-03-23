@@ -55,6 +55,11 @@
         android:title="@string/find"
         />
     <item
+        android:id="@id/im_rename"
+        app:showAsAction="never"
+        android:title="@string/rinomina"
+        />
+    <item
         android:id="@id/im_goto_line"
         app:showAsAction="never"
         android:title="@string/goto_line"
@@ -79,5 +84,10 @@
         android:id="@id/im_info"
         app:showAsAction="never"
         android:title="@string/info"
+        />
+    <item
+        android:id="@id/im_donate"
+        app:showAsAction="never"
+        android:title="@string/donation_action"
         />
 </menu>

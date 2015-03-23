@@ -19,10 +19,12 @@
 
 package sharedcode.turboeditor.dialogfragment;
 
+import android.annotation.SuppressLint;
 import android.app.AlertDialog;
 import android.app.Dialog;
 import android.app.DialogFragment;
 import android.content.DialogInterface;
+import android.net.Uri;
 import android.os.Bundle;
 import android.text.TextUtils;
 import android.view.View;
@@ -33,30 +35,32 @@ import android.widget.EditText;
 import org.apache.commons.io.FileUtils;
 
 import java.io.File;
+import java.io.IOException;
 
 import sharedcode.turboeditor.R;
 import sharedcode.turboeditor.activity.MainActivity;
 import sharedcode.turboeditor.preferences.PreferenceHelper;
 import sharedcode.turboeditor.task.SaveFileTask;
+import sharedcode.turboeditor.util.GreatUri;
 import sharedcode.turboeditor.util.ViewUtils;
 import sharedcode.turboeditor.views.DialogHelper;
 
 // ...
+@SuppressLint("ValidFragment")
 public class NewFileDetailsDialog extends DialogFragment {
 
     private EditText mName;
     private EditText mFolder;
     private CheckBox mDeleteCurrentFile;
 
-    public static NewFileDetailsDialog newInstance(String currentPath, String currentName, String fileText, String fileEncoding) {
-        final NewFileDetailsDialog f = new NewFileDetailsDialog();
-        final Bundle args = new Bundle();
-        args.putString("path", currentPath);
-        args.putString("name", currentName);
-        args.putString("fileText", fileText);
-        args.putString("fileEncoding", fileEncoding);
-        f.setArguments(args);
-        return f;
+    GreatUri currentUri;
+    String fileText;
+    String fileEncoding;
+
+    public NewFileDetailsDialog(GreatUri currentUri, String fileText, String fileEncoding) {
+        this.currentUri = currentUri;
+        this.fileText = fileText;
+        this.fileEncoding = fileEncoding;
     }
 
     @Override
@@ -70,18 +74,18 @@ public class NewFileDetailsDialog extends DialogFragment {
         this.mName = (EditText) view.findViewById(android.R.id.text1);
         this.mFolder = (EditText) view.findViewById(android.R.id.text2);
 
-        boolean noName = TextUtils.isEmpty(getArguments().getString("name"));
-        boolean noPath = TextUtils.isEmpty(getArguments().getString("path"));
+        boolean noName = TextUtils.isEmpty(currentUri.getFileName());
+        boolean noPath = TextUtils.isEmpty(currentUri.getFilePath());
 
         if (noName) {
             this.mName.setText(".txt");
         } else {
-            this.mName.setText(getArguments().getString("name"));
+            this.mName.setText(currentUri.getFileName());
         }
         if (noPath) {
             this.mFolder.setText(PreferenceHelper.getWorkingFolder(getActivity()));
         } else {
-            this.mFolder.setText(getArguments().getString("path"));
+            this.mFolder.setText(currentUri.getParentFolder());
         }
 
         this.mDeleteCurrentFile = (CheckBox) view.findViewById(R.id.delete_current_file);
@@ -100,13 +104,29 @@ public class NewFileDetailsDialog extends DialogFragment {
                             public void onClick(DialogInterface dialog, int which) {
 
                                 if (mDeleteCurrentFile.isChecked()) {
-                                    FileUtils.deleteQuietly(new File(getArguments().getString("path"), getArguments().getString("name")));
+                                    FileUtils.deleteQuietly(new File(currentUri.getFilePath()));
                                 }
 
                                 if (!mName.getText().toString().isEmpty() && !mFolder.getText().toString().isEmpty()) {
-                                    File file = new File(mFolder.getText().toString(), mName.getText().toString());
-                                    new SaveFileTask((MainActivity) getActivity(), file.getPath(), getArguments().getString("fileText"), getArguments().getString("fileEncoding")).execute();
-                                    PreferenceHelper.setWorkingFolder(getActivity(), file.getParent());
+
+                                    try {
+                                        File file = new File(mFolder.getText().toString(), mName.getText().toString());
+                                        file.getParentFile().mkdirs();
+                                        file.createNewFile();
+
+                                        final GreatUri newUri = new GreatUri(Uri.fromFile(file), file.getAbsolutePath(), file.getName(), false);
+
+                                        new SaveFileTask((MainActivity) getActivity(), newUri, fileText, fileEncoding, new SaveFileTask.SaveFileInterface() {
+                                            @Override
+                                            public void fileSaved(Boolean success) {
+                                                if (getActivity() != null) {
+                                                    ((MainActivity) getActivity()).savedAFile(newUri, true);
+                                                }
+                                            }
+                                        }).execute();
+                                    } catch (IOException e) {
+                                        e.printStackTrace();
+                                    }
                                 }
                             }
                         }

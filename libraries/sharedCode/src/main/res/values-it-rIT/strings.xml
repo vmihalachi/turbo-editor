@@ -79,4 +79,7 @@
   <string name="theme_dark">Tema Scuro</string>
   <string name="theme_black">Tema nero</string>
   <string name="view_markdown_result">Vedi il risultato markdown</string>
+  <string name="accessory_view">Barra dei simboli</string>
+  <string name="file_cannot_be_renamed">Questo file non può essere rinominato</string>
+  <string name="use_kitkat_file_selection">Use kitkat file selection</string>
 </resources>

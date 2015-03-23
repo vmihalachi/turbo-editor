@@ -21,7 +21,7 @@ package sharedcode.turboeditor.adapter;
 
 import android.content.Context;
 import android.graphics.Typeface;
-import android.text.TextUtils;
+import android.net.Uri;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -29,26 +29,26 @@ import android.widget.ArrayAdapter;
 import android.widget.ImageView;
 import android.widget.TextView;
 
-import java.io.File;
-import java.util.List;
+import java.util.LinkedList;
 
 import sharedcode.turboeditor.R;
+import sharedcode.turboeditor.util.GreatUri;
 
 public class AdapterDrawer extends
-        ArrayAdapter<File> {
+        ArrayAdapter<GreatUri> {
 
     private final Callbacks callbacks;
     // Layout Inflater
     private final LayoutInflater inflater;
     // List of file details
-    private final List<File> files;
-    private String selectedPath = "";
+    private final LinkedList<GreatUri> greatUris;
+    private GreatUri selectedGreatUri = new GreatUri(Uri.EMPTY, "", "", false);
 
     public AdapterDrawer(Context context,
-                         List<File> files,
+                         LinkedList<GreatUri> greatUris,
                          Callbacks callbacks) {
-        super(context, R.layout.item_file_list, files);
-        this.files = files;
+        super(context, R.layout.item_file_list, greatUris);
+        this.greatUris = greatUris;
         this.inflater = LayoutInflater.from(context);
         this.callbacks = callbacks;
     }
@@ -66,20 +66,21 @@ public class AdapterDrawer extends
             hold.cancelButton = (ImageView) convertView.findViewById(R.id.button_remove_from_list);
             convertView.setTag(hold);
 
-            final String fileName = files.get(position).getName();
+            final GreatUri greatUri = greatUris.get(position);
+            final String fileName = greatUri.getFileName();
             hold.nameLabel.setText(fileName);
             hold.cancelButton.setOnClickListener(new View.OnClickListener() {
                 @Override
                 public void onClick(View v) {
-                    boolean closeOpenedFile = TextUtils.equals(selectedPath, files.get(position).getAbsolutePath());
+                    boolean closeOpenedFile = selectedGreatUri.getUri().equals(greatUri.getUri());
                     callbacks.CancelItem(position, closeOpenedFile);
                     if (closeOpenedFile)
-                        selectedPath = "";
+                        selectPosition(new GreatUri(Uri.EMPTY, "", "", false));
 
                 }
             });
 
-            if (TextUtils.equals(selectedPath, files.get(position).getAbsolutePath())) {
+            if (selectedGreatUri.getUri().equals(greatUri.getUri())) {
                 hold.nameLabel.setTypeface(null, Typeface.BOLD);
             } else {
                 hold.nameLabel.setTypeface(null, Typeface.NORMAL);
@@ -87,30 +88,33 @@ public class AdapterDrawer extends
 
         } else {
             final ViewHolder hold = ((ViewHolder) convertView.getTag());
-            final String fileName = files.get(position).getName();
+            final GreatUri greatUri = greatUris.get(position);
+            final String fileName = greatUri.getFileName();
             hold.nameLabel.setText(fileName);
             hold.cancelButton.setOnClickListener(new View.OnClickListener() {
                 @Override
                 public void onClick(View v) {
-                    boolean closeOpenedFile = TextUtils.equals(selectedPath, files.get(position).getAbsolutePath());
+                    boolean closeOpenedFile = selectedGreatUri.getUri().equals(greatUri.getUri());
                     callbacks.CancelItem(position, closeOpenedFile);
                     if (closeOpenedFile)
-                        selectedPath = "";
+                        selectPosition(new GreatUri(Uri.EMPTY, "", "", false));
+
                 }
             });
 
-            if (TextUtils.equals(selectedPath, files.get(position).getAbsolutePath())) {
+            if (selectedGreatUri.getUri().equals(greatUri.getUri())) {
                 hold.nameLabel.setTypeface(null, Typeface.BOLD);
             } else {
                 hold.nameLabel.setTypeface(null, Typeface.NORMAL);
             }
+
         }
         return convertView;
     }
 
-    public void selectView(String selectedPath) {
+    public void selectPosition(GreatUri greatUri) {
         //callbacks.ItemSelected(selectedPath);
-        this.selectedPath = selectedPath;
+        this.selectedGreatUri = greatUri;
         notifyDataSetChanged();
     }
 

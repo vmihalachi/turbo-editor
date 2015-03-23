@@ -64,7 +64,7 @@
   <string name="nome_app_turbo_editor">Turbo Editor</string>
   <string name="preferenze">Настройки</string>
   <string name="salva">Сохранить</string>
-  <string name="save_as">Save as</string>
+  <string name="save_as">Сохранить как</string>
   <string name="menu_syntax_highlight">Подсветка синтаксиса</string>
   <string name="testo_indietro">Отменить</string>
   <string name="testo_rifai">Повторить</string>
@@ -73,10 +73,13 @@
   <string name="open_a_file">Открыть файл</string>
   <string name="no">Нет</string>
   <string name="new_file">Новый файл</string>
-  <string name="delete_current_file">Delete current file</string>
-  <string name="replace_all">Replace all</string>
-  <string name="theme">Theme</string>
-  <string name="theme_dark">Dark theme</string>
-  <string name="theme_black">Black theme</string>
-  <string name="view_markdown_result">View markdown result</string>
+  <string name="delete_current_file">Удалить текущий файл</string>
+  <string name="replace_all">Заменить все</string>
+  <string name="theme">Тема оформления</string>
+  <string name="theme_dark">Тёмная тема</string>
+  <string name="theme_black">Чёрная тема</string>
+  <string name="view_markdown_result">Просмотреть результат уценки</string>
+  <string name="accessory_view">Accessory view</string>
+  <string name="file_cannot_be_renamed">The file cannot be renamed</string>
+  <string name="use_kitkat_file_selection">Use kitkat file selection</string>
 </resources>

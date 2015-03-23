@@ -22,6 +22,7 @@
     <!-- menu item ids -->
     <item type="id" name="im_undo"/>
     <item type="id" name="im_redo"/>
+    <item type="id" name="im_rename"/>
     <item type="id" name="im_editor"/>
     <item type="id" name="im_remove"/>
     <item type="id" name="im_open"/>
@@ -84,6 +85,8 @@
     <item type="id" name="switch_ignore_backbutton"/>
     <item type="id" name="switch_page_system"/>
     <item type="id" name="switch_send_error_reports"/>
+    <item type="id" name="switch_accessory_view"/>
+    <item type="id" name="switch_storage_access_framework"/>
 
     <item type="id" name="drawer_button_go_pro"/>
     <item type="id" name="drawer_button_theme"/>

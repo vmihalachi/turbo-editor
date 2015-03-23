@@ -64,7 +64,7 @@
   <string name="nome_app_turbo_editor">Turbo Editor</string>
   <string name="preferenze">Beállítások</string>
   <string name="salva">Ment</string>
-  <string name="save_as">Save as</string>
+  <string name="save_as">Mentés másként</string>
   <string name="menu_syntax_highlight">Szintaxis kiemelés</string>
   <string name="testo_indietro">Visszavon</string>
   <string name="testo_rifai">Mégis</string>
@@ -73,10 +73,13 @@
   <string name="open_a_file">Fájl megnyitása</string>
   <string name="no">Nem</string>
   <string name="new_file">Új fájl</string>
-  <string name="delete_current_file">Delete current file</string>
-  <string name="replace_all">Replace all</string>
-  <string name="theme">Theme</string>
-  <string name="theme_dark">Dark theme</string>
-  <string name="theme_black">Black theme</string>
-  <string name="view_markdown_result">View markdown result</string>
+  <string name="delete_current_file">Aktuális fájl törlése</string>
+  <string name="replace_all">Az összes cseréje</string>
+  <string name="theme">Téma</string>
+  <string name="theme_dark">Sötét téma</string>
+  <string name="theme_black">Fekete téma</string>
+  <string name="view_markdown_result">Markdown eredmény megtekintése</string>
+  <string name="accessory_view">Accessory view</string>
+  <string name="file_cannot_be_renamed">The file cannot be renamed</string>
+  <string name="use_kitkat_file_selection">Use kitkat file selection</string>
 </resources>

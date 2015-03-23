@@ -17,6 +17,8 @@
  * along with this program.  If not, see <http://www.gnu.org/licenses/>.
  */
 
+import java.util.regex.Pattern
+
 buildscript {
     repositories {
         mavenCentral()
@@ -46,8 +48,8 @@ android {
         applicationId "com.maskyn.fileeditor"
         minSdkVersion 11
         targetSdkVersion 22
-        versionCode 42
-        versionName "1.17"
+        versionCode 46
+        versionName "1.18.3"
     }
     compileOptions {
         sourceCompatibility JavaVersion.VERSION_1_7
@@ -75,4 +77,19 @@ dependencies {
     compile('com.crashlytics.sdk.android:crashlytics:2.+@aar') {
         transitive = true;
     }
+}
+
+task incrementVersionCode << {
+    println(":incrementVersionCode - Incrementing Version Code...")
+    def buildGradleFile = file("build.gradle")
+    def patternVersionCode = Pattern.compile("versionCode (\\d+)")
+    def buildGradleFileText = buildGradleFile.getText()
+    def matcherVersionCode = patternVersionCode.matcher(buildGradleFileText)
+    matcherVersionCode.find()
+    def mVersionCode = Integer.parseInt(matcherVersionCode.group(1))
+    def mNextVersionCode = mVersionCode + 1
+    def manifestContent = matcherVersionCode.replaceAll("versionCode " + mNextVersionCode)
+    println(":incrementVersionCode - current versionCode=" + mVersionCode);
+    println(":incrementVersionCode - next versionCode=" + mNextVersionCode);
+    buildGradleFile.write(manifestContent)
 }

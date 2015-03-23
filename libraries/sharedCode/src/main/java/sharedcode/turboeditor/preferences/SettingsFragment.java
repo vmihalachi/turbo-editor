@@ -20,6 +20,7 @@
 package sharedcode.turboeditor.preferences;
 
 import android.app.Fragment;
+import android.content.Context;
 import android.content.Intent;
 import android.net.Uri;
 import android.os.Bundle;
@@ -46,7 +47,8 @@ public class SettingsFragment extends Fragment implements NumberPickerDialog.INu
     private boolean sWrapContent;
     private boolean sUseMonospace;
     private boolean sReadOnly;
-
+    private boolean sAccessoryView;
+    private boolean sStorageAccessFramework;
     private boolean sSuggestions;
     private boolean sAutoSave;
     private boolean sIgnoreBackButton;
@@ -56,17 +58,19 @@ public class SettingsFragment extends Fragment implements NumberPickerDialog.INu
     @Override
     public void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
-        sUseMonospace = PreferenceHelper.getUseMonospace(getActivity());
-        sColorSyntax = PreferenceHelper.getSyntaxHighlight(getActivity());
-        sWrapContent = PreferenceHelper.getWrapContent(getActivity());
-        sLineNumbers = PreferenceHelper.getLineNumbers(getActivity());
-        sReadOnly = PreferenceHelper.getReadOnly(getActivity());
-
-        sSuggestions = PreferenceHelper.getSuggestionActive(getActivity());
-        sAutoSave = PreferenceHelper.getAutoSave(getActivity());
-        sIgnoreBackButton = PreferenceHelper.getIgnoreBackButton(getActivity());
-        sSplitText = PreferenceHelper.getSplitText(getActivity());
-        sErrorReports = PreferenceHelper.getSendErrorReports(getActivity());
+        Context context = getActivity();
+        sUseMonospace = PreferenceHelper.getUseMonospace(context);
+        sColorSyntax = PreferenceHelper.getSyntaxHighlight(context);
+        sWrapContent = PreferenceHelper.getWrapContent(context);
+        sLineNumbers = PreferenceHelper.getLineNumbers(context);
+        sReadOnly = PreferenceHelper.getReadOnly(context);
+        sAccessoryView = PreferenceHelper.getUseAccessoryView(context);
+        sStorageAccessFramework = PreferenceHelper.getUseStorageAccessFramework(context);
+        sSuggestions = PreferenceHelper.getSuggestionActive(context);
+        sAutoSave = PreferenceHelper.getAutoSave(context);
+        sIgnoreBackButton = PreferenceHelper.getIgnoreBackButton(context);
+        sSplitText = PreferenceHelper.getSplitText(context);
+        sErrorReports = PreferenceHelper.getSendErrorReports(context);
     }
 
     @Override
@@ -75,7 +79,7 @@ public class SettingsFragment extends Fragment implements NumberPickerDialog.INu
         // Our custom layout
         final View rootView = inflater.inflate(R.layout.fragment_settings, container, false);
         final SwitchCompat swLineNumbers, swSyntax, swWrapContent, swMonospace, swReadOnly;
-        final SwitchCompat swSuggestions, swAutoSave, swIgnoreBackButton, swSplitText, swErrorReports;
+        final SwitchCompat swSuggestions, swAccessoryView, swStorageAccessFramework, swAutoSave, swIgnoreBackButton, swSplitText, swErrorReports;
         
         swLineNumbers = (SwitchCompat) rootView.findViewById(R.id.switch_line_numbers);
         swSyntax = (SwitchCompat) rootView.findViewById(R.id.switch_syntax);
@@ -84,6 +88,8 @@ public class SettingsFragment extends Fragment implements NumberPickerDialog.INu
         swReadOnly = (SwitchCompat) rootView.findViewById(R.id.switch_read_only);
 
         swSuggestions = (SwitchCompat) rootView.findViewById(R.id.switch_suggestions_active);
+        swAccessoryView = (SwitchCompat) rootView.findViewById(R.id.switch_accessory_view);
+        swStorageAccessFramework = (SwitchCompat) rootView.findViewById(R.id.switch_storage_access_framework);
         swAutoSave = (SwitchCompat) rootView.findViewById(R.id.switch_auto_save);
         swIgnoreBackButton = (SwitchCompat) rootView.findViewById(R.id.switch_ignore_backbutton);
         swSplitText = (SwitchCompat) rootView.findViewById(R.id.switch_page_system);
@@ -96,6 +102,8 @@ public class SettingsFragment extends Fragment implements NumberPickerDialog.INu
         swReadOnly.setChecked(sReadOnly);
 
         swSuggestions.setChecked(sSuggestions);
+        swAccessoryView.setChecked(sAccessoryView);
+        swStorageAccessFramework.setChecked(sStorageAccessFramework);
         swAutoSave.setChecked(sAutoSave);
         swIgnoreBackButton.setChecked(sIgnoreBackButton);
         swSplitText.setChecked(sSplitText);
@@ -212,6 +220,21 @@ public class SettingsFragment extends Fragment implements NumberPickerDialog.INu
             public void onCheckedChanged(CompoundButton buttonView, boolean isChecked) {
                 PreferenceHelper.setSuggestionsActive(getActivity(), isChecked);
                 ((MainActivity) getActivity()).aPreferenceValueWasChanged(PreferenceChangeType.TEXT_SUGGESTIONS);
+            }
+        });
+
+        swAccessoryView.setOnCheckedChangeListener(new CompoundButton.OnCheckedChangeListener() {
+            @Override
+            public void onCheckedChanged(CompoundButton buttonView, boolean isChecked) {
+                PreferenceHelper.setUseAccessoryView(getActivity(), isChecked);
+                ((MainActivity) getActivity()).aPreferenceValueWasChanged(PreferenceChangeType.ACCESSORY_VIEW);
+            }
+        });
+
+        swStorageAccessFramework.setOnCheckedChangeListener(new CompoundButton.OnCheckedChangeListener() {
+            @Override
+            public void onCheckedChanged(CompoundButton buttonView, boolean isChecked) {
+                PreferenceHelper.setUseStorageAccessFramework(getActivity(), isChecked);
             }
         });
 

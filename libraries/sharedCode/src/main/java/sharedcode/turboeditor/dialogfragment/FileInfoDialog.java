@@ -23,7 +23,9 @@ import android.app.AlertDialog;
 import android.app.Dialog;
 import android.app.DialogFragment;
 import android.content.DialogInterface;
+import android.net.Uri;
 import android.os.Bundle;
+import android.support.v4.provider.DocumentFile;
 import android.view.View;
 import android.widget.ListView;
 
@@ -34,15 +36,17 @@ import java.util.Date;
 
 import sharedcode.turboeditor.R;
 import sharedcode.turboeditor.adapter.AdapterTwoItem;
+import sharedcode.turboeditor.util.AccessStorageApi;
+import sharedcode.turboeditor.util.Device;
 import sharedcode.turboeditor.views.DialogHelper;
 
 // ...
 public class FileInfoDialog extends DialogFragment {
 
-    public static FileInfoDialog newInstance(String filePath) {
+    public static FileInfoDialog newInstance(Uri uri) {
         final FileInfoDialog f = new FileInfoDialog();
         final Bundle args = new Bundle();
-        args.putString("filePath", filePath);
+        args.putParcelable("uri", uri);
         f.setArguments(args);
         return f;
     }
@@ -58,7 +62,11 @@ public class FileInfoDialog extends DialogFragment {
 
         ListView list = (ListView) view.findViewById(android.R.id.list);
 
-        File file = new File(getArguments().getString("filePath"));
+        DocumentFile file = DocumentFile.fromFile(new File(AccessStorageApi.getPath(getActivity(), (Uri) getArguments().getParcelable("uri"))));
+
+        if (file == null && Device.hasKitKatApi()) {
+            file = DocumentFile.fromSingleUri(getActivity(), (Uri) getArguments().getParcelable("uri"));
+        }
 
         // Get the last modification information.
         Long lastModified = file.lastModified();
@@ -69,13 +77,13 @@ public class FileInfoDialog extends DialogFragment {
 
         String[] lines1 = {
                 getString(R.string.name),
-                getString(R.string.folder),
+                //getString(R.string.folder),
                 getString(R.string.size),
                 getString(R.string.modification_date)
         };
         String[] lines2 = {
                 file.getName(),
-                file.getParent(),
+                //file.getParent(),
                 FileUtils.byteCountToDisplaySize(file.length()),
                 date.toString()
         };

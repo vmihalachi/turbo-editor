@@ -63,20 +63,26 @@
             </intent-filter>
             <intent-filter>
                 <action android:name="android.intent.action.VIEW" />
-                <action android:name="android.intent.action.EDIT" />
-                <action android:name="android.intent.action.PICK" />
 
                 <category android:name="android.intent.category.DEFAULT" />
                 <category android:name="android.intent.category.BROWSABLE" />
 
                 <data android:scheme="file" />
-                <data android:mimeType="text/*" />
-                <data android:pathPattern="*.txt" />
-                <data android:pathPattern="*.html" />
-                <data android:pathPattern="*.css" />
-                <data android:pathPattern="*.js" />
-                <data android:pathPattern="*.md"/>
-                <data android:pathPattern="*.php" />
+                <data android:mimeType="*/*" />
+                <data android:host="*" />
+                <data android:pathPattern=".*\\.txt" />
+                <data android:pathPattern=".*\\.html" />
+                <data android:pathPattern=".*\\.css" />
+                <data android:pathPattern=".*\\.js" />
+                <data android:pathPattern=".*\\.md"/>
+                <data android:pathPattern=".*\\.php" />
+                <data android:pathPattern=".*\\.py" />
+            </intent-filter>
+            <intent-filter >
+                <action android:name="android.intent.action.VIEW" />
+                <category android:name="android.intent.category.DEFAULT" />
+                <data android:scheme="file" />
+                <data android:mimeType="text/plain" />
             </intent-filter>
             <intent-filter>
                 <action android:name="android.intent.action.SEND" />
@@ -94,16 +100,6 @@
             android:name="android.support.PARENT_ACTIVITY"
             android:value=".HomeActivity" />
         </activity>
-
-        <activity
-            android:name="sharedcode.turboeditor.preferences.ExtraSettingsActivity"
-            android:label="@string/extra_options"
-            android:parentActivityName=".HomeActivity">
-            <meta-data
-                android:name="android.support.PARENT_ACTIVITY"
-                android:value=".HomeActivity" />
-        </activity>
-
         <meta-data
             android:name="com.sec.android.support.multiwindow"
             android:value="true" />

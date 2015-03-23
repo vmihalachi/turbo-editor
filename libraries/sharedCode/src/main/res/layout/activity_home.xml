@@ -58,8 +58,7 @@
                 android:scrollbars="vertical"
                 android:fillViewport="true"
                 android:id="@id/vertical_scroll"
-                android:background="@null"
-                android:layout_marginBottom="50dp">
+                android:background="@null">
 
                 <HorizontalScrollView
                     android:layout_height="wrap_content"
@@ -111,7 +110,8 @@
             android:layout_width="match_parent"
             android:scrollbars="horizontal"
             android:layout_gravity="bottom"
-            android:fillViewport="false">
+            android:fillViewport="false"
+            android:id="@+id/parent_accessory_view">
             <sharedcode.turboeditor.util.AccessoryView
                 android:layout_width="match_parent"
                 android:layout_height="50dp"

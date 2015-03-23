@@ -19,8 +19,7 @@
   ~ along with this program.  If not, see <http://www.gnu.org/licenses/>.
   -->
 <resources>
-  <string name="close">隐藏上下文｜打开上下文
-关闭</string>
+  <string name="close">关闭</string>
   <string name="about_action">关于</string>
   <string name="about_message"><![CDATA[Turbo Editor 是一款免费并且<a href="http://github.com/vmihalachi/turbo-editor"> 开源</a> 的应用。
 Copyright 2013-2014 <a href="https://plus.google.com/+VladMihalachi">Vlad Mihalachi</a>. All Rights Reserved.<br/>
