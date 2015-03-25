@@ -30,7 +30,7 @@ import android.util.Log;
 
 /**
  * This class opens a connection to the shell and creates a consistent output stream
- * that can be read using the {@link com.spazedog.lib.rootfw4.ShellStream.OnStreamListener} interface. It also
+ * that can be read using the {@link OnStreamListener} interface. It also
  * contains an input stream that can be used to execute shell commands. 
  */
 public class ShellStream {
@@ -108,7 +108,7 @@ public class ShellStream {
 		
 		/**
 		 * This is called when the shell connection dies. 
-		 * This can either be because a command executed 'exit', or if the method {@link com.spazedog.lib.rootfw4.ShellStream#destroy()} was called.
+		 * This can either be because a command executed 'exit', or if the method {@link ShellStream#destroy()} was called. 
 		 */
 		public void onStreamDied();
 	}
@@ -138,11 +138,16 @@ public class ShellStream {
 					try {
 						while (mIsActive && (output = mStdOutput.readLine()) != null) {
 							if (mListener != null && mCounter.size() > 0) {
-								if (output.startsWith(mCommandEnd)) {
+								if (output.contains(mCommandEnd)) {
 									Integer result = 0;
 									
 									try {
-										result = Integer.parseInt(output.substring(mCommandEnd.length()+1));
+										if (output.startsWith(mCommandEnd)) {
+											result = Integer.parseInt(output.substring(mCommandEnd.length()+1));
+											
+										} else {
+											result = 1;
+										}
 										
 									} catch (Throwable e) {
 										Log.w(TAG, e.getMessage(), e);
@@ -182,7 +187,7 @@ public class ShellStream {
 	 * Send a command to the shell input stream.<br /><br />
 	 * 
 	 * This method is executed asynchronous. If you need to wait until the command finishes, 
-	 * then use {@link com.spazedog.lib.rootfw4.ShellStream#waitFor()}.
+	 * then use {@link ShellStream#waitFor()}. 
 	 * 
 	 * @param command
 	 *     The command to send to the shell
@@ -204,7 +209,7 @@ public class ShellStream {
 						mListener.onStreamStart();
 						
 						String input = command + "\n";
-						input += "echo " + mCommandEnd + " $?\n";
+						input += "    echo " + mCommandEnd + " $?\n";
 						
 						try {
 							mStdInput.write( input.getBytes() );
@@ -237,7 +242,7 @@ public class ShellStream {
 	/**
 	 * Sleeps until the shell is done with a current command and ready for new input. 
 	 * 
-	 * @see {@link com.spazedog.lib.rootfw4.ShellStream#waitFor(Integer)}
+	 * @see {@link ShellStream#waitFor(Integer)}
 	 * 
 	 * @return
 	 *     True if the shell connection is OK or false on connection error
@@ -327,7 +332,7 @@ public class ShellStream {
 	/**
 	 * Close the shell connection. <br /><br />
 	 * 
-	 * This will force close the connection. Use this only when running a consistent command (if {@link com.spazedog.lib.rootfw4.ShellStream#isRunning()} returns true).
+	 * This will force close the connection. Use this only when running a consistent command (if {@link ShellStream#isRunning()} returns true). 
 	 * When possible, sending the 'exit' command to the shell is a better choice. <br /><br />
 	 * 
 	 * This method is executed asynchronous.

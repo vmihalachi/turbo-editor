@@ -33,13 +33,11 @@ public class GreatUri {
     private Uri uri;
     private String filePath;
     private String fileName;
-    private boolean isRootRequired;
 
-    public GreatUri(Uri uri, String filePath, String fileName, boolean isRootRequired) {
+    public GreatUri(Uri uri, String filePath, String fileName) {
         this.uri = uri;
         this.filePath = filePath;
         this.fileName = fileName;
-        this.isRootRequired = isRootRequired;
     }
 
     @Override
@@ -92,11 +90,11 @@ public class GreatUri {
         this.fileName = fileName;
     }
 
-    public boolean isRootRequired() {
-        return isRootRequired;
+    public boolean isReadable() {
+        return new File(getFilePath()).canRead();
     }
 
-    public void setRootRequired(boolean isRootRequired) {
-        this.isRootRequired = isRootRequired;
+    public boolean isWritable() {
+        return new File(getFilePath()).canWrite();
     }
 }

@@ -42,7 +42,7 @@ public class AdapterDrawer extends
     private final LayoutInflater inflater;
     // List of file details
     private final LinkedList<GreatUri> greatUris;
-    private GreatUri selectedGreatUri = new GreatUri(Uri.EMPTY, "", "", false);
+    private GreatUri selectedGreatUri = new GreatUri(Uri.EMPTY, "", "");
 
     public AdapterDrawer(Context context,
                          LinkedList<GreatUri> greatUris,
@@ -75,7 +75,7 @@ public class AdapterDrawer extends
                     boolean closeOpenedFile = selectedGreatUri.getUri().equals(greatUri.getUri());
                     callbacks.CancelItem(position, closeOpenedFile);
                     if (closeOpenedFile)
-                        selectPosition(new GreatUri(Uri.EMPTY, "", "", false));
+                        selectPosition(new GreatUri(Uri.EMPTY, "", ""));
 
                 }
             });
@@ -97,7 +97,7 @@ public class AdapterDrawer extends
                     boolean closeOpenedFile = selectedGreatUri.getUri().equals(greatUri.getUri());
                     callbacks.CancelItem(position, closeOpenedFile);
                     if (closeOpenedFile)
-                        selectPosition(new GreatUri(Uri.EMPTY, "", "", false));
+                        selectPosition(new GreatUri(Uri.EMPTY, "", ""));
 
                 }
             });

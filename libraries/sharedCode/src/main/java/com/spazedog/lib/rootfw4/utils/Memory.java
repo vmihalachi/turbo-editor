@@ -1,20 +1,20 @@
 /*
- * Copyright (C) 2014 Vlad Mihalachi
+ * This file is part of the RootFW Project: https://github.com/spazedog/rootfw
+ *  
+ * Copyright (c) 2015 Daniel Bergløv
  *
- * This file is part of Turbo Editor.
- *
- * Turbo Editor is free software: you can redistribute it and/or modify
- * it under the terms of the GNU General Public License as published by
+ * RootFW is free software: you can redistribute it and/or modify
+ * it under the terms of the GNU Lesser General Public License as published by
  * the Free Software Foundation, either version 3 of the License, or
  * (at your option) any later version.
- *
- * Turbo Editor is distributed in the hope that it will be useful,
+
+ * RootFW is distributed in the hope that it will be useful,
  * but WITHOUT ANY WARRANTY; without even the implied warranty of
- * MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE. See the
- * GNU General Public License for more details.
- *
- * You should have received a copy of the GNU General Public License
- * along with this program.  If not, see <http://www.gnu.org/licenses/>.
+ * MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
+ * GNU Lesser General Public License for more details.
+
+ * You should have received a copy of the GNU Lesser General Public License
+ * along with RootFW. If not, see <http://www.gnu.org/licenses/>
  */
 
 package com.spazedog.lib.rootfw4.utils;
@@ -333,7 +333,7 @@ public class Memory {
 	}
 	
 	/**
-	 * Get a new instance of {@link com.spazedog.lib.rootfw4.utils.Memory.Swap}
+	 * Get a new instance of {@link Swap}
 	 * 
 	 * @param device
 	 *     The Swap block device
@@ -343,7 +343,7 @@ public class Memory {
 	}
 	
 	/**
-	 * Get a new instance of {@link com.spazedog.lib.rootfw4.utils.Memory.CompCache}
+	 * Get a new instance of {@link CompCache}
 	 */
 	public CompCache getCompCache() {
 		return new CompCache(mShell);
@@ -386,7 +386,7 @@ public class Memory {
 	}
 	
 	/**
-	 * This class is an extension of the {@link com.spazedog.lib.rootfw4.utils.Memory} class.
+	 * This class is an extension of the {@link Memory} class. 
 	 * This can be used to get information about-, and handle swap and CompCache/ZRam devices.
 	 */
 	public static class Swap extends Memory {
@@ -534,7 +534,7 @@ public class Memory {
 	}
 	
 	/**
-	 * This is an extension of the {@link com.spazedog.lib.rootfw4.utils.Memory.Swap} class. It's job is more CompCache/ZRam orientated.
+	 * This is an extension of the {@link Swap} class. It's job is more CompCache/ZRam orientated. 
 	 * Unlike it's parent, this class can not only switch a CompCache/ZRam device on and off, it can also 
 	 * locate the proper supported type and load it's kernel module if not already done during boot. <br /><br />
 	 * 
@@ -582,11 +582,11 @@ public class Memory {
 		/**
 		 * Enable this Swap device.<br /><br />
 		 * 
-		 * This overwrites {@link com.spazedog.lib.rootfw4.utils.Memory.Swap#setSwapOn()} to enable to feature of
+		 * This overwrites {@link Swap#setSwapOn()} to enable to feature of 
 		 * setting a cache size for the CompCache/ZRam. This method sets the size to 18% of the total device memory. <br /><br />
 		 * 
 		 * If you are sure that CompCache/ZRam is loaded and the device has been setup with size and swap partition and you don't want to change this, 
-		 * then use {@link com.spazedog.lib.rootfw4.utils.Memory.Swap#setSwapOn()} instead. But if nothing has been setup yet, it could fail as it does nothing else but try to activate the device as Swap.
+		 * then use {@link Swap#setSwapOn()} instead. But if nothing has been setup yet, it could fail as it does nothing else but try to activate the device as Swap.
 		 * 
 		 * @see #setSwapOn(Integer)
 		 */
@@ -657,7 +657,7 @@ public class Memory {
 		/**
 		 * Disable this Swap device.<br /><br />
 		 * 
-		 * This overwrites {@link com.spazedog.lib.rootfw4.utils.Memory.Swap#setSwapOff()} as this will also release the CompCache/ZRam from memory.
+		 * This overwrites {@link Swap#setSwapOff()} as this will also release the CompCache/ZRam from memory.
 		 */
 		@Override
 		public Boolean setSwapOff() {

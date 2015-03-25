@@ -49,7 +49,7 @@ public class SaveFileDialog extends DialogFragment {
         this.text = text;
         this.encoding = encoding;
         this.openNewFileAfter = false;
-        this.newUri = new GreatUri(Uri.EMPTY, "", "", false);
+        this.newUri = new GreatUri(Uri.EMPTY, "", "");
     }
 
     @SuppressLint("ValidFragment")

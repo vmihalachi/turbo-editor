@@ -1,20 +1,20 @@
 /*
- * Copyright (C) 2014 Vlad Mihalachi
+ * This file is part of the RootFW Project: https://github.com/spazedog/rootfw
+ *  
+ * Copyright (c) 2015 Daniel Bergløv
  *
- * This file is part of Turbo Editor.
- *
- * Turbo Editor is free software: you can redistribute it and/or modify
- * it under the terms of the GNU General Public License as published by
+ * RootFW is free software: you can redistribute it and/or modify
+ * it under the terms of the GNU Lesser General Public License as published by
  * the Free Software Foundation, either version 3 of the License, or
  * (at your option) any later version.
- *
- * Turbo Editor is distributed in the hope that it will be useful,
+
+ * RootFW is distributed in the hope that it will be useful,
  * but WITHOUT ANY WARRANTY; without even the implied warranty of
- * MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE. See the
- * GNU General Public License for more details.
- *
- * You should have received a copy of the GNU General Public License
- * along with this program.  If not, see <http://www.gnu.org/licenses/>.
+ * MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
+ * GNU Lesser General Public License for more details.
+
+ * You should have received a copy of the GNU Lesser General Public License
+ * along with RootFW. If not, see <http://www.gnu.org/licenses/>
  */
 
 package com.spazedog.lib.rootfw4.containers;
@@ -198,7 +198,7 @@ public class Data<DATATYPE extends Data<DATATYPE>> extends BasicContainer {
 	}
 	
 	/**
-	 * @see com.spazedog.lib.rootfw4.containers.Data#sort(Integer, Integer)
+	 * @see Data#sort(Integer, Integer)
 	 */
 	public DATATYPE sort(Integer start) {
 		return (DATATYPE) sort(start, mLines.length);
@@ -296,7 +296,7 @@ public class Data<DATATYPE extends Data<DATATYPE>> extends BasicContainer {
 	}
 	
 	/**
-	 * @see com.spazedog.lib.rootfw4.containers.Data#assort(Integer, Integer)
+	 * @see Data#assort(Integer, Integer)
 	 */
 	public DATATYPE assort(Integer start) {
 		return (DATATYPE) assort(mLines.length, start);
@@ -366,7 +366,7 @@ public class Data<DATATYPE extends Data<DATATYPE>> extends BasicContainer {
 	}
 	
 	/**  
-	 * @see com.spazedog.lib.rootfw4.containers.Data#getLine(Integer, Boolean)
+	 * @see Data#getLine(Integer, Boolean)
 	 */
 	public String getLine(Integer aLineNumber) {
 		return getLine(aLineNumber, false);

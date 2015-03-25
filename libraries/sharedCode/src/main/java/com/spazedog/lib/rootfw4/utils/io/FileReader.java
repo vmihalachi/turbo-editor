@@ -1,28 +1,25 @@
 /*
- * Copyright (C) 2014 Vlad Mihalachi
+ * This file is part of the RootFW Project: https://github.com/spazedog/rootfw
+ *  
+ * Copyright (c) 2015 Daniel Bergløv
  *
- * This file is part of Turbo Editor.
- *
- * Turbo Editor is free software: you can redistribute it and/or modify
- * it under the terms of the GNU General Public License as published by
+ * RootFW is free software: you can redistribute it and/or modify
+ * it under the terms of the GNU Lesser General Public License as published by
  * the Free Software Foundation, either version 3 of the License, or
  * (at your option) any later version.
- *
- * Turbo Editor is distributed in the hope that it will be useful,
+
+ * RootFW is distributed in the hope that it will be useful,
  * but WITHOUT ANY WARRANTY; without even the implied warranty of
- * MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE. See the
- * GNU General Public License for more details.
- *
- * You should have received a copy of the GNU General Public License
- * along with this program.  If not, see <http://www.gnu.org/licenses/>.
+ * MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
+ * GNU Lesser General Public License for more details.
+
+ * You should have received a copy of the GNU Lesser General Public License
+ * along with RootFW. If not, see <http://www.gnu.org/licenses/>
  */
 
 package com.spazedog.lib.rootfw4.utils.io;
 
-import com.spazedog.lib.rootfw4.Common;
-import com.spazedog.lib.rootfw4.Shell;
-import com.spazedog.lib.rootfw4.ShellStream;
-
+import java.io.BufferedReader;
 import java.io.DataOutputStream;
 import java.io.File;
 import java.io.FileInputStream;
@@ -32,10 +29,14 @@ import java.io.InputStreamReader;
 import java.io.Reader;
 import java.nio.CharBuffer;
 
+import com.spazedog.lib.rootfw4.Common;
+import com.spazedog.lib.rootfw4.Shell;
+import com.spazedog.lib.rootfw4.ShellStream;
+
 /**
  * This class allows you to open a file as root, if needed. 
  * Files that are not protected will be handled by a regular {@link java.io.FileReader} while protected files 
- * will use a shell streamer instead. Both of which will act as a normal reader that can be used together with other classes like {@link java.io.BufferedReader} and such. <br /><br />
+ * will use a shell streamer instead. Both of which will act as a normal reader that can be used together with other classes like {@link BufferedReader} and such. <br /><br />
  * 
  * Note that this should not be used for unending streams. This is only meant for regular files. If you need unending streams, like <code>/dev/input/event*</code>, 
  * you should use {@link ShellStream} instead. 
@@ -46,14 +47,14 @@ public class FileReader extends Reader {
 	protected InputStreamReader mStream;
 	
 	/**
-	 * Create a new {@link java.io.InputStreamReader}. However {@link com.spazedog.lib.rootfw4.utils.io.FileReader#FileReader(Shell, String)} is a better option.
+	 * Create a new {@link InputStreamReader}. However {@link FileReader#FileReader(Shell, String)} is a better option.
 	 */
 	public FileReader(String file) throws FileNotFoundException {
 		this(null, file);
 	}
 	
 	/**
-	 * Create a new {@link java.io.InputStreamReader}. If <code>shell</code> is not <code>NULL</code>, then
+	 * Create a new {@link InputStreamReader}. If <code>shell</code> is not <code>NULL</code>, then
 	 * the best match for <code>cat</code> will be located whenever a SuperUser connection is needed. This will be the best 
 	 * option for multiple environments. 
 	 */

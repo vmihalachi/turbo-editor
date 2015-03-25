@@ -19,6 +19,17 @@
 
 package com.spazedog.lib.rootfw4;
 
+import java.io.FileNotFoundException;
+import java.io.IOException;
+import java.util.ArrayList;
+import java.util.Collections;
+import java.util.HashMap;
+import java.util.HashSet;
+import java.util.List;
+import java.util.Map;
+import java.util.Set;
+import java.util.WeakHashMap;
+
 import android.os.Bundle;
 import android.util.Log;
 
@@ -34,17 +45,6 @@ import com.spazedog.lib.rootfw4.utils.Memory.CompCache;
 import com.spazedog.lib.rootfw4.utils.Memory.Swap;
 import com.spazedog.lib.rootfw4.utils.io.FileReader;
 import com.spazedog.lib.rootfw4.utils.io.FileWriter;
-
-import java.io.FileNotFoundException;
-import java.io.IOException;
-import java.util.ArrayList;
-import java.util.Collections;
-import java.util.HashMap;
-import java.util.HashSet;
-import java.util.List;
-import java.util.Map;
-import java.util.Set;
-import java.util.WeakHashMap;
 
 /**
  * This class is a front-end to {@link ShellStream} which makes it easier to work
@@ -77,7 +77,7 @@ public class Shell {
 	}
 	
 	/**
-	 * This interface is for use with {@link com.spazedog.lib.rootfw4.Shell#executeAsync(String[], com.spazedog.lib.rootfw4.Shell.OnShellResultListener)}.
+	 * This interface is for use with {@link Shell#executeAsync(String[], OnShellResultListener)}.
 	 */
 	public static interface OnShellResultListener {
 		/**
@@ -127,7 +127,7 @@ public class Shell {
 	
 	/**
 	 * This class is used to store the result from shell executions. 
-	 * It extends the {@link com.spazedog.lib.rootfw4.containers.Data} class.
+	 * It extends the {@link Data} class.
 	 */
 	public static class Result extends Data<Result> {
 		private Integer mResultCode;
@@ -150,7 +150,7 @@ public class Shell {
 		}
 
 		/**
-		 * Compare the result code with {@link com.spazedog.lib.rootfw4.Shell#addResultCode(Integer)} to determine
+		 * Compare the result code with {@link Shell#addResultCode(Integer)} to determine 
 		 * whether or not the execution was a success. 
 		 */
 		public Boolean wasSuccessful() {
@@ -172,7 +172,7 @@ public class Shell {
 	}
 	
 	/**
-	 * A class containing automatically created shell attempts and links to both {@link com.spazedog.lib.rootfw4.Shell#executeAsync(String[], Integer[], com.spazedog.lib.rootfw4.Shell.OnShellResultListener)} and {@link com.spazedog.lib.rootfw4.Shell#execute(String[], Integer[])} <br /><br />
+	 * A class containing automatically created shell attempts and links to both {@link Shell#executeAsync(String[], Integer[], OnShellResultListener)} and {@link Shell#execute(String[], Integer[])} <br /><br />
 	 * 
 	 * All attempts are created based on {@link Common#BINARIES}. <br /><br />
 	 * 
@@ -182,7 +182,7 @@ public class Shell {
 	 * 
 	 * Example: String("(%binary test -d '%binary pwd') || exit 1") would become String["(test -d 'pwd') || exit 1", "(busybox test -d 'busybox pwd') || exit 1", "(toolbox test -d 'toolbox pwd') || exit 1"]
 	 * 
-	 * @see com.spazedog.lib.rootfw4.Shell#createAttempts(String)
+	 * @see Shell#createAttempts(String)
 	 */
 	public class Attempts {
 		protected String[] mAttempts;
@@ -322,7 +322,7 @@ public class Shell {
 	/**
 	 * Execute a shell command.
 	 * 
-	 * @see com.spazedog.lib.rootfw4.Shell#execute(String[], Integer[])
+	 * @see Shell#execute(String[], Integer[])
 	 * 
 	 * @param command
 	 *     The command to execute
@@ -334,7 +334,7 @@ public class Shell {
 	/**
 	 * Execute a range of commands until one is successful.
 	 * 
-	 * @see com.spazedog.lib.rootfw4.Shell#execute(String[], Integer[])
+	 * @see Shell#execute(String[], Integer[])
 	 * 
 	 * @param commands
 	 *     The commands to try
@@ -351,17 +351,17 @@ public class Shell {
 	 * 
 	 * <code>Shell.execute( new String(){"cat file", "toolbox cat file", "busybox cat file"} );</code><br /><br />
 	 * 
-	 * Whether or not a command was successful, depends on {@link com.spazedog.lib.rootfw4.Shell#addResultCode(Integer)} which by default only contains '0'.
-	 * The command number that was successful can be checked using {@link com.spazedog.lib.rootfw4.Shell.Result#getCommandNumber()}.
+	 * Whether or not a command was successful, depends on {@link Shell#addResultCode(Integer)} which by default only contains '0'. 
+	 * The command number that was successful can be checked using {@link Result#getCommandNumber()}.
 	 * 
 	 * @param commands
 	 *     The commands to try
 	 *     
 	 * @param resultCodes
-	 *     Result Codes representing successful execution. These will be temp. merged with {@link com.spazedog.lib.rootfw4.Shell#addResultCode(Integer)}.
+	 *     Result Codes representing successful execution. These will be temp. merged with {@link Shell#addResultCode(Integer)}. 
 	 *     
 	 * @param validater
-	 *     A {@link com.spazedog.lib.rootfw4.Shell.OnShellValidateListener} instance or NULL
+	 *     A {@link OnShellValidateListener} instance or NULL
 	 */
 	public Result execute(String[] commands, Integer[] resultCodes, OnShellValidateListener validater) {
 		synchronized(mLock) {
@@ -399,7 +399,9 @@ public class Shell {
 					cmdCount += 1;
 				}
 				
-				return new Result(mOutput.toArray(new String[mOutput.size()]), mResultCode, codes.toArray(new Integer[codes.size()]), cmdCount);
+				if (mOutput != null) {
+					return new Result(mOutput.toArray(new String[mOutput.size()]), mResultCode, codes.toArray(new Integer[codes.size()]), cmdCount);
+				}
 			}
 			
 			return null;
@@ -409,13 +411,13 @@ public class Shell {
 	/**
 	 * Execute a shell command asynchronous.
 	 * 
-	 * @see com.spazedog.lib.rootfw4.Shell#executeAsync(String[], Integer[], com.spazedog.lib.rootfw4.Shell.OnShellResultListener)
+	 * @see Shell#executeAsync(String[], Integer[], OnShellResultListener)
 	 * 
 	 * @param command
 	 *     The command to execute
 	 * 
 	 * @param listener
-	 *     A {@link com.spazedog.lib.rootfw4.Shell.OnShellResultListener} callback instance
+	 *     A {@link OnShellResultListener} callback instance
 	 */
 	public void executeAsync(String command, OnShellResultListener listener) {
 		executeAsync(new String[]{command}, null, null, listener);
@@ -424,13 +426,13 @@ public class Shell {
 	/**
 	 * Execute a range of commands asynchronous until one is successful.
 	 * 
-	 * @see com.spazedog.lib.rootfw4.Shell#executeAsync(String[], Integer[], com.spazedog.lib.rootfw4.Shell.OnShellResultListener)
+	 * @see Shell#executeAsync(String[], Integer[], OnShellResultListener)
 	 * 
 	 * @param commands
 	 *     The commands to try
 	 * 
 	 * @param listener
-	 *     A {@link com.spazedog.lib.rootfw4.Shell.OnShellResultListener} callback instance
+	 *     A {@link OnShellResultListener} callback instance
 	 */
 	public void executeAsync(String[] commands, OnShellResultListener listener) {
 		executeAsync(commands, null, null, listener);
@@ -439,19 +441,19 @@ public class Shell {
 	/**
 	 * Execute a range of commands asynchronous until one is successful.
 	 * 
-	 * @see com.spazedog.lib.rootfw4.Shell#execute(String[], Integer[])
+	 * @see Shell#execute(String[], Integer[])
 	 * 
 	 * @param commands
 	 *     The commands to try
 	 *     
 	 * @param resultCodes
-	 *     Result Codes representing successful execution. These will be temp. merged with {@link com.spazedog.lib.rootfw4.Shell#addResultCode(Integer)}.
+	 *     Result Codes representing successful execution. These will be temp. merged with {@link Shell#addResultCode(Integer)}.
 	 *     
 	 * @param validater
-	 *     A {@link com.spazedog.lib.rootfw4.Shell.OnShellValidateListener} instance or NULL
+	 *     A {@link OnShellValidateListener} instance or NULL
 	 * 
 	 * @param listener
-	 *     A {@link com.spazedog.lib.rootfw4.Shell.OnShellResultListener} callback instance
+	 *     A {@link OnShellResultListener} callback instance
 	 */
 	public synchronized void executeAsync(final String[] commands, final Integer[] resultCodes, final OnShellValidateListener validater, final OnShellResultListener listener) {
 		if(Common.DEBUG)Log.d(TAG, "executeAsync: Starting an async shell execution");
@@ -521,7 +523,7 @@ public class Shell {
 	 * the shell changes. 
 	 * 
 	 * @param listener
-	 *     A {@link com.spazedog.lib.rootfw4.Shell.OnShellConnectionListener} callback instance
+	 *     A {@link OnShellConnectionListener} callback instance
 	 */
 	public void addShellConnectionListener(OnShellConnectionListener listener) {
 		mConnectionRecievers.add(listener);
@@ -531,7 +533,7 @@ public class Shell {
 	 * Remove a shell connection listener from the stack. 
 	 * 
 	 * @param listener
-	 *     A {@link com.spazedog.lib.rootfw4.Shell.OnShellConnectionListener} callback instance
+	 *     A {@link OnShellConnectionListener} callback instance
 	 */
 	public void removeShellConnectionListener(OnShellConnectionListener listener) {
 		mConnectionRecievers.remove(listener);
@@ -583,7 +585,7 @@ public class Shell {
 	/**
 	 * Remove a result code from the stack.
 	 * 
-	 * @see com.spazedog.lib.rootfw4.Shell#addResultCode(Integer)
+	 * @see Shell#addResultCode(Integer)
 	 * 
 	 * @param resultCode
 	 *     The result code to remove from the stack
@@ -595,7 +597,7 @@ public class Shell {
 	/**
 	 * Reset the stack containing result codes and set it back to default only containing '0'.
 	 * 
-	 * @see com.spazedog.lib.rootfw4.Shell#addResultCode(Integer)
+	 * @see Shell#addResultCode(Integer)
 	 */
 	public void resetResultCodes() {
 		mResultCodes.clear();
@@ -654,7 +656,7 @@ public class Shell {
 	}
 	
 	/**
-	 * Create a new instance of {@link com.spazedog.lib.rootfw4.Shell.Attempts}
+	 * Create a new instance of {@link Attempts}
 	 * 
 	 * @param command
 	 *     The command to convert into multiple attempts
@@ -668,7 +670,7 @@ public class Shell {
 	}
 	
 	/**
-	 * Open a new RootFW {@link com.spazedog.lib.rootfw4.utils.io.FileReader}. This is the same as {@link com.spazedog.lib.rootfw4.utils.io.FileReader#FileReader(com.spazedog.lib.rootfw4.Shell, String)}.
+	 * Open a new RootFW {@link FileReader}. This is the same as {@link FileReader#FileReader(Shell, String)}.
 	 * 
 	 * @param file
 	 *     Path to the file
@@ -686,7 +688,7 @@ public class Shell {
 	}
 	
 	/**
-	 * Open a new RootFW {@link com.spazedog.lib.rootfw4.utils.io.FileWriter}. This is the same as {@link com.spazedog.lib.rootfw4.utils.io.FileWriter#FileWriter(com.spazedog.lib.rootfw4.Shell, String, boolean)}.
+	 * Open a new RootFW {@link FileWriter}. This is the same as {@link FileWriter#FileWriter(Shell, String, boolean)}.
 	 * 
 	 * @param file
 	 *     Path to the file
@@ -707,7 +709,7 @@ public class Shell {
 	}
 	
 	/**
-	 * Get a new {@link com.spazedog.lib.rootfw4.utils.File} instance.
+	 * Get a new {@link File} instance.
 	 * 
 	 * @param file
 	 *     Path to the file or directory
@@ -717,14 +719,14 @@ public class Shell {
 	}
 	
 	/**
-	 * Get a new {@link com.spazedog.lib.rootfw4.utils.Filesystem} instance.
+	 * Get a new {@link Filesystem} instance.
 	 */
 	public Filesystem getFilesystem() {
 		return new Filesystem(this);
 	}
 	
 	/**
-	 * Get a new {@link com.spazedog.lib.rootfw4.utils.Filesystem.Disk} instance.
+	 * Get a new {@link Disk} instance.
 	 * 
 	 * @param disk
 	 *     Path to a disk, partition or a mount point
@@ -735,14 +737,14 @@ public class Shell {
 	
 	
 	/**
-	 * Get a new {@link com.spazedog.lib.rootfw4.utils.Device} instance.
+	 * Get a new {@link Device} instance.
 	 */
 	public Device getDevice() {
 		return new Device(this);
 	}
 	
 	/**
-	 * Get a new {@link com.spazedog.lib.rootfw4.utils.Device.Process} instance.
+	 * Get a new {@link Process} instance.
 	 * 
 	 * @param process
 	 *     The name of the process
@@ -752,7 +754,7 @@ public class Shell {
 	}
 	
 	/**
-	 * Get a new {@link com.spazedog.lib.rootfw4.utils.Device.Process} instance.
+	 * Get a new {@link Process} instance.
 	 * 
 	 * @param pid
 	 *     The process id
@@ -762,21 +764,21 @@ public class Shell {
 	}
 	
 	/**
-	 * Get a new {@link com.spazedog.lib.rootfw4.utils.Memory} instance.
+	 * Get a new {@link Memory} instance.
 	 */
 	public Memory getMemory() {
 		return new Memory(this);
 	}
 	
 	/**
-	 * Get a new {@link com.spazedog.lib.rootfw4.utils.Memory.CompCache} instance.
+	 * Get a new {@link CompCache} instance.
 	 */
 	public CompCache getCompCache() {
 		return new CompCache(this);
 	}
 	
 	/**
-	 * Get a new {@link com.spazedog.lib.rootfw4.utils.Memory.Swap} instance.
+	 * Get a new {@link Swap} instance.
 	 * 
 	 * @param device
 	 *     The /dev/ swap device

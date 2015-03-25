@@ -27,6 +27,7 @@ import android.widget.Toast;
 
 import com.spazedog.lib.rootfw4.RootFW;
 import com.spazedog.lib.rootfw4.utils.File;
+import com.spazedog.lib.rootfw4.utils.Filesystem;
 
 import org.apache.commons.io.FileUtils;
 
@@ -75,14 +76,7 @@ public class SaveFileTask extends AsyncTask<Void, Void, Void> {
             if (TextUtils.isEmpty(filePath)) {
                writeUri(uri.getUri(), newContent, encoding);
             } else {
-                if (uri.isRootRequired()) {
-                    if (RootFW.connect()) {
-                        File file = RootFW.getFile(filePath);
-                        file.write(newContent);
-                    }
-                }
-                // if we can read the file associated with the uri
-                else {
+                if (uri.isWritable()) {
                     if (Device.hasKitKatApi())
                         writeUri(uri.getUri(), newContent, encoding);
                     else {
@@ -91,6 +85,21 @@ public class SaveFileTask extends AsyncTask<Void, Void, Void> {
                                 encoding);
                     }
                 }
+                // if we can read the file associated with the uri
+                else {
+
+                    if (RootFW.connect()) {
+                        Filesystem.Disk systemPart = RootFW.getDisk(uri.getParentFolder());
+                        systemPart.mount(new String[]{"rw"});
+
+                        File file = RootFW.getFile(uri.getFilePath());
+                        file.write(newContent);
+
+                        RootFW.disconnect();
+                    }
+
+                }
+
             }
 
             message = positiveMessage;

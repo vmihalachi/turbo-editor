@@ -1,20 +1,20 @@
 /*
- * Copyright (C) 2014 Vlad Mihalachi
+ * This file is part of the RootFW Project: https://github.com/spazedog/rootfw
+ *  
+ * Copyright (c) 2015 Daniel Bergløv
  *
- * This file is part of Turbo Editor.
- *
- * Turbo Editor is free software: you can redistribute it and/or modify
- * it under the terms of the GNU General Public License as published by
+ * RootFW is free software: you can redistribute it and/or modify
+ * it under the terms of the GNU Lesser General Public License as published by
  * the Free Software Foundation, either version 3 of the License, or
  * (at your option) any later version.
- *
- * Turbo Editor is distributed in the hope that it will be useful,
+
+ * RootFW is distributed in the hope that it will be useful,
  * but WITHOUT ANY WARRANTY; without even the implied warranty of
- * MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE. See the
- * GNU General Public License for more details.
- *
- * You should have received a copy of the GNU General Public License
- * along with this program.  If not, see <http://www.gnu.org/licenses/>.
+ * MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
+ * GNU Lesser General Public License for more details.
+
+ * You should have received a copy of the GNU Lesser General Public License
+ * along with RootFW. If not, see <http://www.gnu.org/licenses/>
  */
 
 package com.spazedog.lib.rootfw4.utils;
@@ -218,7 +218,7 @@ public class File {
 	 * size (on files), path to linked file (on links), permissions, group, user etc.
 	 * 
 	 * @return
-	 *     A new {@link com.spazedog.lib.rootfw4.utils.File.FileStat} object with all the file information
+	 *     A new {@link FileStat} object with all the file information
 	 */
 	public FileStat getDetails() {
 		synchronized (mLock) {
@@ -273,7 +273,7 @@ public class File {
 	 *     The max amount of lines to return. This also excepts negative numbers. 0 equals all lines.
 	 * 
 	 * @return
-	 *     An array of {@link com.spazedog.lib.rootfw4.utils.File.FileStat} object
+	 *     An array of {@link FileStat} object
 	 */
 	public FileStat[] getDetailedList(Integer maxLines) {
 		synchronized (mLock) {
@@ -432,7 +432,7 @@ public class File {
 	 * Extract the content from the file and return it.
 	 * 
 	 * @return
-	 *     The entire file content wrapped in a {@link com.spazedog.lib.rootfw4.utils.File.FileData} object
+	 *     The entire file content wrapped in a {@link FileData} object
 	 */
 	public FileData read() {
 		synchronized (mLock) {
@@ -473,7 +473,7 @@ public class File {
 	 *     Whether or not to return the non-matching lines instead
 	 * 
 	 * @return
-	 *     All of the matched or non-matched lines wrapped in a {@link com.spazedog.lib.rootfw4.utils.File.FileData} object
+	 *     All of the matched or non-matched lines wrapped in a {@link FileData} object
 	 */
 	public FileData readMatch(final String match, final Boolean invert) {
 		synchronized (mLock) {
@@ -589,9 +589,10 @@ public class File {
 					for (String line : input) {
 						String escapedInput = oPatternEscape.matcher(line).replaceAll("\\\\$1");
 						Attempts attempts = mShell.createAttempts("echo '" + escapedInput + "' " + redirect + " '" + path + "' 2> /dev/null");
-						
-						if (!(status = attempts.execute().wasSuccessful())) {
-							break;
+
+						Result result = attempts.execute();
+						if (result != null && !(status = result.wasSuccessful())) {
+								break;
 						}
 						
 						redirect = ">>";
@@ -1092,6 +1093,8 @@ public class File {
 			}
 			
 			if (builder.length() > 0) {
+				builder.append(" '" + getAbsolutePath() + "'");
+				
 				Result result = mShell.createAttempts(builder.toString()).execute();
 				
 				if (result != null && result.wasSuccessful()) {
@@ -1200,7 +1203,7 @@ public class File {
 	 * if it is not already mounted.
 	 * 
 	 * @param context
-	 *     A {@link android.content.Context} that can be used together with the Android <code>REBOOT</code> permission
+	 *     A {@link Context} that can be used together with the Android <code>REBOOT</code> permission 
 	 *     to use the <code>PowerManager</code> to reboot into recovery. This can be set to NULL 
 	 *     if you want to just use the <code>toolbox reboot</code> command, however do note that not all 
 	 *     toolbox versions support this command. 
@@ -1356,7 +1359,7 @@ public class File {
 	}
 	
 	/**
-	 * Get a {@link com.spazedog.lib.rootfw4.utils.io.FileWriter} pointing at this file
+	 * Get a {@link FileWriter} pointing at this file
 	 */
 	public FileWriter getFileWriter() {
 		if (isFile()) {
@@ -1372,7 +1375,7 @@ public class File {
 	}
 	
 	/**
-	 * Get a {@link com.spazedog.lib.rootfw4.utils.io.FileReader} pointing at this file
+	 * Get a {@link FileReader} pointing at this file
 	 */
 	public FileReader getFileReader() {
 		if (isFile()) {
@@ -1632,7 +1635,7 @@ public class File {
 	}
 	
 	/**
-	 * Open a new {@link com.spazedog.lib.rootfw4.utils.File} object pointed at another file.
+	 * Open a new {@link File} object pointed at another file.
 	 * 
 	 * @param fileName
 	 *     The file to point at
@@ -1645,7 +1648,7 @@ public class File {
 	}
 	
 	/**
-	 * Open a new {@link com.spazedog.lib.rootfw4.utils.File} object with the parent of this file.
+	 * Open a new {@link File} object with the parent of this file.
 	 * 
 	 * @return
 	 *     A new instance of this class representing the parent directory
@@ -1655,7 +1658,7 @@ public class File {
 	}
 	
 	/**
-	 * If this is a link, this method will return a new {@link com.spazedog.lib.rootfw4.utils.File} object with the real path attached.
+	 * If this is a link, this method will return a new {@link File} object with the real path attached. 
 	 * 
 	 * @return
 	 *     A new instance of this class representing the real path of a possible link

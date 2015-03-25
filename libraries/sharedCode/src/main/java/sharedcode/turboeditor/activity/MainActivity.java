@@ -166,7 +166,7 @@ public abstract class MainActivity extends ActionBarActivity implements IHomeAct
     */
     private CustomDrawerLayout mDrawerLayout;
     private static GoodScrollView verticalScroll;
-    private static GreatUri greatUri = new GreatUri(Uri.EMPTY, "", "", false);
+    private static GreatUri greatUri = new GreatUri(Uri.EMPTY, "", "");
     private Editor mEditor;
     private HorizontalScrollView horizontalScroll;
     private static SearchResult searchResult;
@@ -332,13 +332,13 @@ public abstract class MainActivity extends ActionBarActivity implements IHomeAct
             if (requestCode == SELECT_FILE_CODE) {
 
                 final Uri data = intent.getData();
-                final GreatUri newUri = new GreatUri(data, AccessStorageApi.getPath(this, data), AccessStorageApi.getName(this, data), false);
+                final GreatUri newUri = new GreatUri(data, AccessStorageApi.getPath(this, data), AccessStorageApi.getName(this, data));
 
                 newFileToOpen(newUri, "");
             } else {
 
                 final Uri data = intent.getData();
-                final GreatUri newUri = new GreatUri(data, AccessStorageApi.getPath(this, data), AccessStorageApi.getName(this, data), false);
+                final GreatUri newUri = new GreatUri(data, AccessStorageApi.getPath(this, data), AccessStorageApi.getName(this, data));
 
                // grantUriPermission(getPackageName(), data, Intent.FLAG_GRANT_READ_URI_PERMISSION);
                 final int takeFlags = intent.getFlags()
@@ -757,11 +757,11 @@ public abstract class MainActivity extends ActionBarActivity implements IHomeAct
            //newFileToOpen(new File(intent
            //        .getData().getPath()), "");
             Uri uri = intent.getData();
-            GreatUri newUri = new GreatUri(uri, AccessStorageApi.getPath(this, uri), AccessStorageApi.getName(this, uri), false);
+            GreatUri newUri = new GreatUri(uri, AccessStorageApi.getPath(this, uri), AccessStorageApi.getName(this, uri));
             newFileToOpen(newUri, "");
         } else if (Intent.ACTION_SEND.equals(action) && type != null) {
             if ("text/plain".equals(type)) {
-                newFileToOpen(new GreatUri(Uri.EMPTY, "", "", false), intent.getStringExtra(Intent.EXTRA_TEXT));
+                newFileToOpen(new GreatUri(Uri.EMPTY, "", ""), intent.getStringExtra(Intent.EXTRA_TEXT));
             }
         }
     }
@@ -843,7 +843,7 @@ public abstract class MainActivity extends ActionBarActivity implements IHomeAct
                         good = false;
                 }
                 if (good) {
-                    greatUris.addFirst(new GreatUri(particularUri, AccessStorageApi.getPath(this, particularUri), name, false));
+                    greatUris.addFirst(new GreatUri(particularUri, AccessStorageApi.getPath(this, particularUri), name));
                     sb.append(savedPaths[i]).append(",");
                 }
             }
@@ -914,10 +914,9 @@ public abstract class MainActivity extends ActionBarActivity implements IHomeAct
                             fileName = FilenameUtils.getName(filePath);
                             fileExtension = FilenameUtils.getExtension(fileName).toLowerCase();
 
-                            isRootRequired = !(new File(filePath).canRead());
+                            isRootRequired = !newUri.isReadable();
                             // if we cannot read the file, root permission required
                             if (isRootRequired) {
-                               newUri.setRootRequired(true);
                                readUri(newUri.getUri(), filePath, true);
                             }
                             // if we can read the file associated with the uri
@@ -987,6 +986,8 @@ public abstract class MainActivity extends ActionBarActivity implements IHomeAct
                     fileText = stringBuilder.toString();
                 }
 
+                if (isRootRequired)
+                    RootFW.disconnect();
             }
 
             @Override
@@ -1160,7 +1161,7 @@ public abstract class MainActivity extends ActionBarActivity implements IHomeAct
     }
 
     void closedTheFile() {
-        arrayAdapter.selectPosition(new GreatUri(Uri.EMPTY, "", "", false));
+        arrayAdapter.selectPosition(new GreatUri(Uri.EMPTY, "", ""));
     }
     //endregion
 
@@ -1197,7 +1198,7 @@ public abstract class MainActivity extends ActionBarActivity implements IHomeAct
             //intent.putExtra(Intent.EXTRA_TITLE, ".txt");
             startActivityForResult(intent, CREATE_REQUEST_CODE);
         } else {
-            newFileToOpen(new GreatUri(Uri.EMPTY, "", "", false), "");
+            newFileToOpen(new GreatUri(Uri.EMPTY, "", ""), "");
         }
     }
 

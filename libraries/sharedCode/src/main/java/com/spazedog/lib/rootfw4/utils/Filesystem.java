@@ -19,14 +19,6 @@
 
 package com.spazedog.lib.rootfw4.utils;
 
-import java.util.ArrayList;
-import java.util.Arrays;
-import java.util.HashSet;
-import java.util.List;
-import java.util.Locale;
-import java.util.Set;
-import java.util.regex.Pattern;
-
 import android.text.TextUtils;
 
 import com.spazedog.lib.rootfw4.Common;
@@ -34,6 +26,14 @@ import com.spazedog.lib.rootfw4.Shell;
 import com.spazedog.lib.rootfw4.Shell.Result;
 import com.spazedog.lib.rootfw4.containers.BasicContainer;
 import com.spazedog.lib.rootfw4.utils.File.FileData;
+
+import java.util.ArrayList;
+import java.util.Arrays;
+import java.util.HashSet;
+import java.util.List;
+import java.util.Locale;
+import java.util.Set;
+import java.util.regex.Pattern;
 
 public class Filesystem {
 	public static final String TAG = Common.TAG + ".Filesystem";
@@ -162,7 +162,7 @@ public class Filesystem {
 	 * Or perhaps you need the original device of a specific mount location.
 	 *     
 	 * @return
-	 *     An array of {@link com.spazedog.lib.rootfw4.utils.Filesystem.MountStat} objects
+	 *     An array of {@link MountStat} objects
 	 */
 	public MountStat[] getFsList() {
 		synchronized(oFstabLock) {
@@ -235,7 +235,7 @@ public class Filesystem {
 	 * device path, mount location, file system type and mount options.
 	 *     
 	 * @return
-	 *     An array of {@link com.spazedog.lib.rootfw4.utils.Filesystem.MountStat} objects
+	 *     An array of {@link MountStat} objects
 	 */
 	public MountStat[] getMountList() {
 		FileData data = mShell.getFile("/proc/mounts").read();
@@ -264,7 +264,7 @@ public class Filesystem {
 	}
 	
 	/**
-	 * Get an instance of the {@link com.spazedog.lib.rootfw4.utils.Filesystem.Disk} class.
+	 * Get an instance of the {@link Disk} class.
 	 * 
 	 * @param disk
 	 *     The location to the disk, partition or folder
@@ -528,7 +528,7 @@ public class Filesystem {
 		 * only this method will just return the mount information for this specific device or mount location. 
 		 *     
 		 * @return
-		 *     A single {@link com.spazedog.lib.rootfw4.utils.Filesystem.MountStat} object
+		 *     A single {@link MountStat} object
 		 */
 		public MountStat getMountDetails() {
 			MountStat[] list = getMountList();
@@ -563,7 +563,7 @@ public class Filesystem {
 		 * only this method will just return the mount information for this specific device or mount location. 
 		 *     
 		 * @return
-		 *     A single {@link com.spazedog.lib.rootfw4.utils.Filesystem.MountStat} object
+		 *     A single {@link MountStat} object
 		 */
 		public MountStat getFsDetails() {
 			MountStat[] list = getFsList();
@@ -599,7 +599,7 @@ public class Filesystem {
 		 * information about the disk size, remaining bytes, used bytes and usage percentage. 
 		 *     
 		 * @return
-		 *     A single {@link com.spazedog.lib.rootfw4.utils.Filesystem.DiskStat} object
+		 *     A single {@link DiskStat} object
 		 */
 		public DiskStat getDiskDetails() {
 			String[] commands = new String[]{"df -k '" + mFile.getAbsolutePath() + "'", "df '" + mFile.getAbsolutePath() + "'"};

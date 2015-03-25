@@ -114,7 +114,7 @@ public class NewFileDetailsDialog extends DialogFragment {
                                         file.getParentFile().mkdirs();
                                         file.createNewFile();
 
-                                        final GreatUri newUri = new GreatUri(Uri.fromFile(file), file.getAbsolutePath(), file.getName(), false);
+                                        final GreatUri newUri = new GreatUri(Uri.fromFile(file), file.getAbsolutePath(), file.getName());
 
                                         new SaveFileTask((MainActivity) getActivity(), newUri, fileText, fileEncoding, new SaveFileTask.SaveFileInterface() {
                                             @Override

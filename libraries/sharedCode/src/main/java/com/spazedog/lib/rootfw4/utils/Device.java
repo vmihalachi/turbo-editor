@@ -1,20 +1,20 @@
 /*
- * Copyright (C) 2014 Vlad Mihalachi
+ * This file is part of the RootFW Project: https://github.com/spazedog/rootfw
+ *  
+ * Copyright (c) 2015 Daniel Bergløv
  *
- * This file is part of Turbo Editor.
- *
- * Turbo Editor is free software: you can redistribute it and/or modify
- * it under the terms of the GNU General Public License as published by
+ * RootFW is free software: you can redistribute it and/or modify
+ * it under the terms of the GNU Lesser General Public License as published by
  * the Free Software Foundation, either version 3 of the License, or
  * (at your option) any later version.
- *
- * Turbo Editor is distributed in the hope that it will be useful,
+
+ * RootFW is distributed in the hope that it will be useful,
  * but WITHOUT ANY WARRANTY; without even the implied warranty of
- * MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE. See the
- * GNU General Public License for more details.
- *
- * You should have received a copy of the GNU General Public License
- * along with this program.  If not, see <http://www.gnu.org/licenses/>.
+ * MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
+ * GNU Lesser General Public License for more details.
+
+ * You should have received a copy of the GNU Lesser General Public License
+ * along with RootFW. If not, see <http://www.gnu.org/licenses/>
  */
 
 package com.spazedog.lib.rootfw4.utils;
@@ -159,15 +159,15 @@ public class Device {
 	/**
 	 * Reboots the device into the recovery.<br /><br />
 	 * 
-	 * This method first tries using the {@link android.os.PowerManager}, if that fails it fallbacks on using the reboot command from toolbox.<br /><br />
+	 * This method first tries using the {@link PowerManager}, if that fails it fallbacks on using the reboot command from toolbox.<br /><br />
 	 * 
-	 * Note that using the {@link android.os.PowerManager} requires your app to optain the 'REBOOT' permission. If you don't want this, just parse NULL as {@link android.content.Context}
+	 * Note that using the {@link PowerManager} requires your app to optain the 'REBOOT' permission. If you don't want this, just parse NULL as {@link Context} 
 	 * and the method will use the fallback. This however is more likely to fail, as many toolbox versions does not support the reboot command. 
 	 * And since only the kernel can write to the CBC, we need a native caller to invoke this. So there is no fallback for missing toolbox support when it comes 
 	 * to rebooting into the recovery. 
 	 * 
 	 * @param context
-	 *     A {@link android.content.Context} or NULL to skip using the {@link android.os.PowerManager}
+	 *     A {@link Context} or NULL to skip using the {@link PowerManager}
 	 */
 	public Boolean rebootRecovery(Context context) {
 		if (context != null) {
@@ -230,7 +230,7 @@ public class Device {
 	}
 	
 	/**
-	 * Get a new {@link com.spazedog.lib.rootfw4.utils.Device.Process} instance
+	 * Get a new {@link Process} instance
 	 * 
 	 * @param process
 	 *     The name of the process
@@ -240,7 +240,7 @@ public class Device {
 	}
 	
 	/**
-	 * Get a new {@link com.spazedog.lib.rootfw4.utils.Device.Process} instance
+	 * Get a new {@link Process} instance
 	 * 
 	 * @param pid
 	 *     The process id

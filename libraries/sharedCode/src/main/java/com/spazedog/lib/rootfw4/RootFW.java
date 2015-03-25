@@ -1,20 +1,20 @@
 /*
- * Copyright (C) 2014 Vlad Mihalachi
+ * This file is part of the RootFW Project: https://github.com/spazedog/rootfw
+ *  
+ * Copyright (c) 2015 Daniel Bergløv
  *
- * This file is part of Turbo Editor.
- *
- * Turbo Editor is free software: you can redistribute it and/or modify
- * it under the terms of the GNU General Public License as published by
+ * RootFW is free software: you can redistribute it and/or modify
+ * it under the terms of the GNU Lesser General Public License as published by
  * the Free Software Foundation, either version 3 of the License, or
  * (at your option) any later version.
- *
- * Turbo Editor is distributed in the hope that it will be useful,
+
+ * RootFW is distributed in the hope that it will be useful,
  * but WITHOUT ANY WARRANTY; without even the implied warranty of
- * MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE. See the
- * GNU General Public License for more details.
- *
- * You should have received a copy of the GNU General Public License
- * along with this program.  If not, see <http://www.gnu.org/licenses/>.
+ * MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
+ * GNU Lesser General Public License for more details.
+
+ * You should have received a copy of the GNU Lesser General Public License
+ * along with RootFW. If not, see <http://www.gnu.org/licenses/>
  */
 
 package com.spazedog.lib.rootfw4;
@@ -39,7 +39,7 @@ import com.spazedog.lib.rootfw4.utils.io.FileReader;
 import com.spazedog.lib.rootfw4.utils.io.FileWriter;
 
 /**
- * This is a global static front-end to {@link com.spazedog.lib.rootfw4.Shell}. It allows one global shell connection to be
+ * This is a global static front-end to {@link Shell}. It allows one global shell connection to be 
  * easily shared across classes and threads without having to create multiple connections. 
  */
 public class RootFW {
@@ -53,7 +53,7 @@ public class RootFW {
 	/**
 	 * An interface that can be used to monitor the current state of the global connection.
 	 * 
-	 * @see #addConnectionListener(com.spazedog.lib.rootfw4.RootFW.OnConnectionListener)
+	 * @see #addConnectionListener(OnConnectionListener)
 	 */
 	public static interface OnConnectionListener extends OnShellConnectionListener {
 		/**
@@ -164,9 +164,9 @@ public class RootFW {
 	}
 	
 	/**
-	 * Add a new {@link com.spazedog.lib.rootfw4.RootFW.OnConnectionListener} to the global shell
+	 * Add a new {@link OnConnectionListener} to the global shell
 	 * 
-	 * @see #removeConnectionListener(com.spazedog.lib.rootfw4.RootFW.OnConnectionListener)
+	 * @see #removeConnectionListener(OnConnectionListener)
 	 */
 	public static void addConnectionListener(OnConnectionListener listener) {
 		synchronized(mLock) {
@@ -175,9 +175,9 @@ public class RootFW {
 	}
 	
 	/**
-	 * Remove a {@link com.spazedog.lib.rootfw4.RootFW.OnConnectionListener} from the global shell
+	 * Remove a {@link OnConnectionListener} from the global shell
 	 * 
-	 * @see #addConnectionListener(com.spazedog.lib.rootfw4.RootFW.OnConnectionListener)
+	 * @see #addConnectionListener(OnConnectionListener)
 	 */
 	public static void removeConnectionListener(OnConnectionListener listener) {
 		synchronized(mLock) {
@@ -186,161 +186,161 @@ public class RootFW {
 	}
 	
 	/**
-	 * @see com.spazedog.lib.rootfw4.Shell#execute(String)
+	 * @see Shell#execute(String)
 	 */
 	public static Result execute(String command) {
 		return mShell.execute(command);
 	}
 	
 	/**
-	 * @see com.spazedog.lib.rootfw4.Shell#execute(String[])
+	 * @see Shell#execute(String[])
 	 */
 	public static Result execute(String[] commands) {
 		return mShell.execute(commands);
 	}
 	
 	/**
-	 * @see com.spazedog.lib.rootfw4.Shell#execute(String[], Integer[], com.spazedog.lib.rootfw4.Shell.OnShellValidateListener)
+	 * @see Shell#execute(String[], Integer[], OnShellValidateListener)
 	 */
 	public static Result execute(String[] commands, Integer[] resultCodes, OnShellValidateListener validater) {
 		return mShell.execute(commands, resultCodes, validater);
 	}
 	
 	/**
-	 * @see com.spazedog.lib.rootfw4.Shell#executeAsync(String, com.spazedog.lib.rootfw4.Shell.OnShellResultListener)
+	 * @see Shell#executeAsync(String, OnShellResultListener)
 	 */
 	public static void executeAsync(String command, OnShellResultListener listener) {
 		mShell.executeAsync(command, listener);
 	}
 	
 	/**
-	 * @see com.spazedog.lib.rootfw4.Shell#executeAsync(String[], com.spazedog.lib.rootfw4.Shell.OnShellResultListener)
+	 * @see Shell#executeAsync(String[], OnShellResultListener)
 	 */
 	public static void executeAsync(String[] commands, OnShellResultListener listener) {
 		mShell.executeAsync(commands, listener);
 	}
 	
 	/**
-	 * @see com.spazedog.lib.rootfw4.Shell#executeAsync(String[], Integer[], com.spazedog.lib.rootfw4.Shell.OnShellValidateListener, com.spazedog.lib.rootfw4.Shell.OnShellResultListener)
+	 * @see Shell#executeAsync(String[], Integer[], OnShellValidateListener, OnShellResultListener)
 	 */
 	public static void executeAsync(String[] commands, Integer[] resultCodes, OnShellValidateListener validater, OnShellResultListener listener) {
 		mShell.executeAsync(commands, resultCodes, validater, listener);
 	}
 	
 	/**
-	 * @see com.spazedog.lib.rootfw4.Shell#isRoot()
+	 * @see Shell#isRoot()
 	 */
 	public static Boolean isRoot() {
 		return mShell.isRoot();
 	}
 	
 	/**
-	 * @see com.spazedog.lib.rootfw4.Shell#isConnected()
+	 * @see Shell#isConnected()
 	 */
 	public static Boolean isConnected() {
 		return mShell != null && mShell.isConnected();
 	}
 	
 	/**
-	 * @see com.spazedog.lib.rootfw4.Shell#getTimeout()
+	 * @see Shell#getTimeout()
 	 */
 	public static Integer getTimeout() {
 		return mShell.getTimeout();
 	}
 	
 	/**
-	 * @see com.spazedog.lib.rootfw4.Shell#setTimeout(Integer)
+	 * @see Shell#setTimeout(Integer)
 	 */
 	public static void setTimeout(Integer timeout) {
 		mShell.setTimeout(timeout);
 	}
 	
 	/**
-	 * @see com.spazedog.lib.rootfw4.Shell#getBinary(String)
+	 * @see Shell#getBinary(String)
 	 */
 	public static String findCommand(String bin) {
 		return mShell.findCommand(bin);
 	}
 	
 	/**
-	 * @see com.spazedog.lib.rootfw4.Shell#createAttempts(String)
+	 * @see Shell#createAttempts(String)
 	 */
 	public static Attempts createAttempts(String command) {
 		return mShell.createAttempts(command);
 	}
 	
 	/**
-	 * @see com.spazedog.lib.rootfw4.Shell#getFileReader(String)
+	 * @see Shell#getFileReader(String)
 	 */
 	public static FileReader getFileReader(String file) {
 		return mShell.getFileReader(file);
 	}
 	
 	/**
-	 * @see com.spazedog.lib.rootfw4.Shell#getFileWriter(String, Boolean)
+	 * @see Shell#getFileWriter(String, Boolean)
 	 */
 	public static FileWriter getFileWriter(String file, Boolean append) {
 		return mShell.getFileWriter(file, append);
 	}
 	
 	/**
-	 * @see com.spazedog.lib.rootfw4.Shell#getFile(String)
+	 * @see Shell#getFile(String)
 	 */
 	public static File getFile(String file) {
 		return mShell.getFile(file);
 	}
 	
 	/**
-	 * @see com.spazedog.lib.rootfw4.Shell#getFilesystem()
+	 * @see Shell#getFilesystem()
 	 */
 	public static Filesystem getFilesystem() {
 		return mShell.getFilesystem();
 	}
 	
 	/**
-	 * @see com.spazedog.lib.rootfw4.Shell#getDisk(String)
+	 * @see Shell#getDisk(String)
 	 */
 	public static Disk getDisk(String disk) {
 		return mShell.getDisk(disk);
 	}
 	
 	/**
-	 * @see com.spazedog.lib.rootfw4.Shell#getDevice()
+	 * @see Shell#getDevice()
 	 */
 	public static Device getDevice() {
 		return mShell.getDevice();
 	}
 	
 	/**
-	 * @see com.spazedog.lib.rootfw4.Shell#getProcess(String)
+	 * @see Shell#getProcess(String)
 	 */
 	public static Process getProcess(String process) {
 		return mShell.getProcess(process);
 	}
 	
 	/**
-	 * @see com.spazedog.lib.rootfw4.Shell#getProcess(Integer)
+	 * @see Shell#getProcess(Integer)
 	 */
 	public static Process getProcess(Integer pid) {
 		return mShell.getProcess(pid);
 	}
 	
 	/**
-	 * @see com.spazedog.lib.rootfw4.Shell#getMemory()
+	 * @see Shell#getMemory()
 	 */
 	public static Memory getMemory() {
 		return mShell.getMemory();
 	}
 	
 	/**
-	 * @see com.spazedog.lib.rootfw4.Shell#getCompCache()
+	 * @see Shell#getCompCache()
 	 */
 	public static CompCache getCompCache() {
 		return mShell.getCompCache();
 	}
 	
 	/**
-	 * @see com.spazedog.lib.rootfw4.Shell#getSwap(String device)
+	 * @see Shell#getSwap(String device)
 	 */
 	public static Swap getSwap(String device) {
 		return mShell.getSwap(device);
