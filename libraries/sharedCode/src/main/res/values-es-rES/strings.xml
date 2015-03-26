@@ -81,5 +81,5 @@
   <string name="view_markdown_result">Ver resultado marcado</string>
   <string name="accessory_view">Accessory view</string>
   <string name="file_cannot_be_renamed">The file cannot be renamed</string>
-  <string name="use_kitkat_file_selection">Use kitkat file selection</string>
+  <string name="use_storage_access_framework">Use the \"Storage Access Framework\"</string>
 </resources>

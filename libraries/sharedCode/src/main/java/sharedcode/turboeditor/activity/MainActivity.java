@@ -874,10 +874,9 @@ public abstract class MainActivity extends ActionBarActivity implements IHomeAct
         new AsyncTask<Void, Void, Void>() {
 
             String message = "";
-            String fileText;
-            String filePath = "";
+            String fileText = "";
             String fileName = "";
-            String encoding;
+            String encoding = "UTF-16";
             boolean isRootRequired = false;
             ProgressDialog progressDialog;
 
@@ -900,7 +899,7 @@ public abstract class MainActivity extends ActionBarActivity implements IHomeAct
                         fileExtension = "txt";
                         fileText = newFileText;
                     } else {
-                        filePath = newUri.getFilePath();
+                        String filePath = newUri.getFilePath();
 
                         // if the uri has no path
                         if (TextUtils.isEmpty(filePath)) {
@@ -1024,6 +1023,8 @@ public abstract class MainActivity extends ActionBarActivity implements IHomeAct
     public void savedAFile(GreatUri uri, boolean updateList) {
 
         if (uri != null) {
+
+            greatUri = uri;
 
             String name = uri.getFileName();
             fileExtension = FilenameUtils.getExtension(name).toLowerCase();

@@ -58,13 +58,13 @@
   <string name="extra_options">Tuỳ chọn bổ sung</string>
   <string name="split_text_if_too_long">Tách văn bản nếu quá dài</string>
   <string name="ignore_back_button">Bỏ qua nút quay lại</string>
-  <string name="codifica">Đang mã hoá</string>
+  <string name="codifica">Mã hoá</string>
   <string name="condividi">Chia sẻ</string>
   <string name="info">Thông tin</string>
   <string name="nome_app_turbo_editor">Turbo Editor</string>
   <string name="preferenze">Tuỳ chỉnh</string>
   <string name="salva">Lưu</string>
-  <string name="save_as">Lưu như</string>
+  <string name="save_as">Lưu thành</string>
   <string name="menu_syntax_highlight">Tô sáng cú pháp</string>
   <string name="testo_indietro">Trở lại</string>
   <string name="testo_rifai">Đi tới</string>
@@ -75,11 +75,11 @@
   <string name="new_file">Tập tin mới</string>
   <string name="delete_current_file">Xoá tập tin hiện tại</string>
   <string name="replace_all">Thay thế tất cả</string>
-  <string name="theme">Theme</string>
-  <string name="theme_dark">Dark theme</string>
-  <string name="theme_black">Black theme</string>
+  <string name="theme">Chủ đề</string>
+  <string name="theme_dark">Chủ đề tối</string>
+  <string name="theme_black">Chủ đề đen</string>
   <string name="view_markdown_result">View markdown result</string>
-  <string name="accessory_view">Accessory view</string>
-  <string name="file_cannot_be_renamed">The file cannot be renamed</string>
-  <string name="use_kitkat_file_selection">Use kitkat file selection</string>
+  <string name="accessory_view">Thanh ký hiệu đặc biệt</string>
+  <string name="file_cannot_be_renamed">Không thể đổi tên tập tin này</string>
+  <string name="use_storage_access_framework">Use the \"Storage Access Framework\"</string>
 </resources>

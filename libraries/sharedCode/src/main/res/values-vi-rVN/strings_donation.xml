@@ -20,18 +20,15 @@
   -->
 <resources>
   <string name="donation_action">Đóng góp</string>
-  <string name="donation_title">Dóng góp cho nhà phát triển</string>
-  <string name="donation_info"><![CDATA[
-        Turbo Editor is a free and <a href="http://github.com/vmihalachi/turbo-editor/">open source</a> app.
-        You can show your appreciation and support development by donating:
-    ]]></string>
-  <string name="donation_item_bought">You\'ve donated for this item already.</string>
-  <string name="donation_2">An ice cream</string>
-  <string name="donation_4">Cup of coffee</string>
-  <string name="donation_10">Electricity bills</string>
+  <string name="donation_title">Đóng góp cho tác giả</string>
+  <string name="donation_info"><![CDATA[Turbo Editor là một ứng dụng miễn phí và <a href="http://github.com/vmihalachi/turbo-editor/">mã nguồn mở</a>. Bạn có thể thấy sự đánh giá của bạn và hỗ trợ phát triển bằng cách tặng:     ]]></string>
+  <string name="donation_item_bought">Bạn đã đóng góp cho khoản mục này.</string>
+  <string name="donation_2">Một kem</string>
+  <string name="donation_4">Tách cà phê</string>
+  <string name="donation_10">Hoá đơn điện</string>
   <string name="donation_20">The right pillow</string>
   <string name="donation_50">Solid-state drive</string>
-  <string name="donation_99">Sound system</string>
-  <string name="donation_error_iab_setup">Failed to setup in-app-billing service!</string>
-  <string name="donation_no_responsibility">Notice that Google is not responsible for that payments method.</string>
+  <string name="donation_99">Hệ thống âm thanh</string>
+  <string name="donation_error_iab_setup">Không thể thiết lập dịch vụ thanh toán trong ứng dụng!</string>
+  <string name="donation_no_responsibility">Nhận thấy rằng Google không chịu trách nhiệm về phương pháp thanh toán này.</string>
 </resources>

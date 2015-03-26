@@ -75,11 +75,11 @@
   <string name="new_file">Neue Datei</string>
   <string name="delete_current_file">Aktuelle Datei löschen</string>
   <string name="replace_all">Alle ersetzen</string>
-  <string name="theme">Theme</string>
-  <string name="theme_dark">Dark theme</string>
-  <string name="theme_black">Black theme</string>
+  <string name="theme">Design</string>
+  <string name="theme_dark">Dunkles Design</string>
+  <string name="theme_black">Schwarzes Design</string>
   <string name="view_markdown_result">View markdown result</string>
   <string name="accessory_view">Accessory view</string>
-  <string name="file_cannot_be_renamed">The file cannot be renamed</string>
-  <string name="use_kitkat_file_selection">Use kitkat file selection</string>
+  <string name="file_cannot_be_renamed">Die Datei kann nicht umbenannt werden</string>
+  <string name="use_storage_access_framework">Use the \"Storage Access Framework\"</string>
 </resources>

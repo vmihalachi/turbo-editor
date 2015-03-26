@@ -58,13 +58,13 @@
   <string name="extra_options">Додаткові опції</string>
   <string name="split_text_if_too_long">Розділення тексту, якщо занадто довгий</string>
   <string name="ignore_back_button">Ігнорувати кнопку Назад</string>
-  <string name="donate">Пожертвувати</string>
   <string name="codifica">Кодування</string>
   <string name="condividi">Поділитись</string>
   <string name="info">Інформація</string>
   <string name="nome_app_turbo_editor">Turbo Editor</string>
   <string name="preferenze">Налаштування</string>
   <string name="salva">Зберегти</string>
+  <string name="save_as">Зберегти як</string>
   <string name="menu_syntax_highlight">Підсвітка синтаксису</string>
   <string name="testo_indietro">Скасувати</string>
   <string name="testo_rifai">Повторити</string>
@@ -73,4 +73,13 @@
   <string name="open_a_file">Відкрити файл</string>
   <string name="no">Ні</string>
   <string name="new_file">Новий файл</string>
+  <string name="delete_current_file">Видалити поточний файл</string>
+  <string name="replace_all">Замінити всі</string>
+  <string name="theme">Тема оформлення</string>
+  <string name="theme_dark">Темна тема</string>
+  <string name="theme_black">Чорна тема</string>
+  <string name="view_markdown_result">Переглянути результат уцінки</string>
+  <string name="accessory_view">Accessory view</string>
+  <string name="file_cannot_be_renamed">The file cannot be renamed</string>
+  <string name="use_storage_access_framework">Use the \"Storage Access Framework\"</string>
 </resources>

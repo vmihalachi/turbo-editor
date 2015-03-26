@@ -26,6 +26,7 @@ import android.text.TextUtils;
 import android.widget.Toast;
 
 import com.spazedog.lib.rootfw4.RootFW;
+import com.spazedog.lib.rootfw4.Shell;
 import com.spazedog.lib.rootfw4.utils.File;
 import com.spazedog.lib.rootfw4.utils.Filesystem;
 
@@ -47,7 +48,7 @@ public class SaveFileTask extends AsyncTask<Void, Void, Void> {
     private final String newContent;
     private final String encoding;
     private String message;
-    private String positiveMessage;
+    private String positiveMessage, negativeMessage;
     private SaveFileInterface mCompletionHandler;
 
     public SaveFileTask(MainActivity activity, GreatUri uri, String newContent, String encoding, SaveFileInterface mCompletionHandler) {
@@ -62,6 +63,7 @@ public class SaveFileTask extends AsyncTask<Void, Void, Void> {
     protected void onPreExecute() {
         super.onPreExecute();
         positiveMessage = String.format(activity.getString(R.string.file_saved_with_success), uri.getFileName());
+        negativeMessage = activity.getString(R.string.err_occured);
     }
 
     /**
@@ -70,13 +72,17 @@ public class SaveFileTask extends AsyncTask<Void, Void, Void> {
     @Override
     protected Void doInBackground(final Void... voids) {
 
+        boolean isRootNeeded = false;
+        Shell.Result resultRoot = null;
+
         try {
             String filePath = uri.getFilePath();
             // if the uri has no path
             if (TextUtils.isEmpty(filePath)) {
                writeUri(uri.getUri(), newContent, encoding);
             } else {
-                if (uri.isWritable()) {
+                isRootNeeded = !uri.isWritable();
+                if (isRootNeeded == false) {
                     if (Device.hasKitKatApi())
                         writeUri(uri.getUri(), newContent, encoding);
                     else {
@@ -93,7 +99,7 @@ public class SaveFileTask extends AsyncTask<Void, Void, Void> {
                         systemPart.mount(new String[]{"rw"});
 
                         File file = RootFW.getFile(uri.getFilePath());
-                        file.write(newContent);
+                        resultRoot = file.writeResult(newContent);
 
                         RootFW.disconnect();
                     }
@@ -102,8 +108,21 @@ public class SaveFileTask extends AsyncTask<Void, Void, Void> {
 
             }
 
-            message = positiveMessage;
+
+            if (isRootNeeded) {
+                if (resultRoot != null && resultRoot.wasSuccessful()) {
+                    message = positiveMessage;
+                }
+                else if (resultRoot != null) {
+                    message = negativeMessage + " command number: " + resultRoot.getCommandNumber() + " result code: " + resultRoot.getResultCode() + " error lines: " + resultRoot.getString();
+                }
+                else
+                    message = negativeMessage;
+            }
+            else
+                message = positiveMessage;
         } catch (Exception e) {
+            e.printStackTrace();
             message = e.getMessage();
         }
         return null;
@@ -125,11 +144,15 @@ public class SaveFileTask extends AsyncTask<Void, Void, Void> {
         super.onPostExecute(aVoid);
         Toast.makeText(activity, message, Toast.LENGTH_LONG).show();
 
+        /*android.content.ClipboardManager clipboard = (android.content.ClipboardManager) activity.getSystemService(Context.CLIPBOARD_SERVICE);
+        android.content.ClipData clip = android.content.ClipData.newPlainText("Clip",message);
+        clipboard.setPrimaryClip(clip);*/
+
         if (mCompletionHandler != null)
             mCompletionHandler.fileSaved(message.equals(positiveMessage));
     }
 
     public interface SaveFileInterface {
-        public void fileSaved(Boolean success);
+        void fileSaved(Boolean success);
     }
 }

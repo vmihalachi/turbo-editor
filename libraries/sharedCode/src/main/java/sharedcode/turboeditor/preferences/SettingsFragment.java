@@ -36,6 +36,7 @@ import sharedcode.turboeditor.activity.MainActivity;
 import sharedcode.turboeditor.dialogfragment.EncodingDialog;
 import sharedcode.turboeditor.dialogfragment.NumberPickerDialog;
 import sharedcode.turboeditor.dialogfragment.ThemeDialog;
+import sharedcode.turboeditor.util.Device;
 import sharedcode.turboeditor.util.ProCheckUtils;
 import sharedcode.turboeditor.util.ViewUtils;
 
@@ -117,6 +118,8 @@ public class SettingsFragment extends Fragment implements NumberPickerDialog.INu
         themeView = (TextView) rootView.findViewById(R.id.drawer_button_theme);
 
         ViewUtils.setVisible(goPro, !ProCheckUtils.isPro(getActivity()));
+        ViewUtils.setVisible(swStorageAccessFramework, Device.hasKitKatApi());
+
         goPro.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {

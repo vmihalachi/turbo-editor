@@ -1,31 +1,23 @@
 /*
- * Copyright (C) 2014 Vlad Mihalachi
+ * This file is part of the RootFW Project: https://github.com/spazedog/rootfw
+ *  
+ * Copyright (c) 2015 Daniel Bergløv
  *
- * This file is part of Turbo Editor.
- *
- * Turbo Editor is free software: you can redistribute it and/or modify
- * it under the terms of the GNU General Public License as published by
+ * RootFW is free software: you can redistribute it and/or modify
+ * it under the terms of the GNU Lesser General Public License as published by
  * the Free Software Foundation, either version 3 of the License, or
  * (at your option) any later version.
- *
- * Turbo Editor is distributed in the hope that it will be useful,
+
+ * RootFW is distributed in the hope that it will be useful,
  * but WITHOUT ANY WARRANTY; without even the implied warranty of
- * MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE. See the
- * GNU General Public License for more details.
- *
- * You should have received a copy of the GNU General Public License
- * along with this program.  If not, see <http://www.gnu.org/licenses/>.
+ * MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
+ * GNU Lesser General Public License for more details.
+
+ * You should have received a copy of the GNU Lesser General Public License
+ * along with RootFW. If not, see <http://www.gnu.org/licenses/>
  */
 
 package com.spazedog.lib.rootfw4.utils;
-
-import android.text.TextUtils;
-
-import com.spazedog.lib.rootfw4.Common;
-import com.spazedog.lib.rootfw4.Shell;
-import com.spazedog.lib.rootfw4.Shell.Result;
-import com.spazedog.lib.rootfw4.containers.BasicContainer;
-import com.spazedog.lib.rootfw4.utils.File.FileData;
 
 import java.util.ArrayList;
 import java.util.Arrays;
@@ -34,6 +26,14 @@ import java.util.List;
 import java.util.Locale;
 import java.util.Set;
 import java.util.regex.Pattern;
+
+import android.text.TextUtils;
+
+import com.spazedog.lib.rootfw4.Common;
+import com.spazedog.lib.rootfw4.Shell;
+import com.spazedog.lib.rootfw4.Shell.Result;
+import com.spazedog.lib.rootfw4.containers.BasicContainer;
+import com.spazedog.lib.rootfw4.utils.File.FileData;
 
 public class Filesystem {
 	public static final String TAG = Common.TAG + ".Filesystem";

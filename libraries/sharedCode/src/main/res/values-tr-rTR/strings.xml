@@ -79,7 +79,7 @@
   <string name="theme_dark">Karanlık tema</string>
   <string name="theme_black">Siyah tema</string>
   <string name="view_markdown_result">Etiketleme sonucunu göster</string>
-  <string name="accessory_view">Accessory view</string>
-  <string name="file_cannot_be_renamed">The file cannot be renamed</string>
-  <string name="use_kitkat_file_selection">Use kitkat file selection</string>
+  <string name="accessory_view">Aksesuar görünümü</string>
+  <string name="file_cannot_be_renamed">Dosya yeniden adlandırılamıyor</string>
+  <string name="use_storage_access_framework">\"Depolama Erişimi Framework\"ünü kullan</string>
 </resources>

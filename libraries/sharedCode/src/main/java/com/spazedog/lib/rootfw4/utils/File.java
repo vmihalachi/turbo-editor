@@ -19,6 +19,19 @@
 
 package com.spazedog.lib.rootfw4.utils;
 
+import java.io.BufferedReader;
+import java.io.BufferedWriter;
+import java.io.FileInputStream;
+import java.io.FileOutputStream;
+import java.io.InputStream;
+import java.io.OutputStream;
+import java.util.ArrayList;
+import java.util.HashMap;
+import java.util.List;
+import java.util.Map;
+import java.util.Set;
+import java.util.regex.Pattern;
+
 import android.content.Context;
 import android.os.Bundle;
 import android.text.TextUtils;
@@ -38,19 +51,6 @@ import com.spazedog.lib.rootfw4.utils.Filesystem.DiskStat;
 import com.spazedog.lib.rootfw4.utils.Filesystem.MountStat;
 import com.spazedog.lib.rootfw4.utils.io.FileReader;
 import com.spazedog.lib.rootfw4.utils.io.FileWriter;
-
-import java.io.BufferedReader;
-import java.io.BufferedWriter;
-import java.io.FileInputStream;
-import java.io.FileOutputStream;
-import java.io.InputStream;
-import java.io.OutputStream;
-import java.util.ArrayList;
-import java.util.HashMap;
-import java.util.List;
-import java.util.Map;
-import java.util.Set;
-import java.util.regex.Pattern;
 
 public class File {
 	public static final String TAG = Common.TAG + ".File";
@@ -589,10 +589,10 @@ public class File {
 					for (String line : input) {
 						String escapedInput = oPatternEscape.matcher(line).replaceAll("\\\\$1");
 						Attempts attempts = mShell.createAttempts("echo '" + escapedInput + "' " + redirect + " '" + path + "' 2> /dev/null");
-
 						Result result = attempts.execute();
+						
 						if (result != null && !(status = result.wasSuccessful())) {
-								break;
+							break;
 						}
 						
 						redirect = ">>";
@@ -612,6 +612,63 @@ public class File {
 			}
 			
 			return status;
+		}
+	}
+
+	/**
+	 * @see #write(String[], Boolean)
+	 */
+	public Result writeResult(String input) {
+		return writeResult(input.trim().split("\n"), false);
+	}
+
+	public Result writeResult(String[] input, Boolean append) {
+		synchronized (mLock) {
+			Boolean status = false;
+			Result result = null;
+
+			if (input != null && !isDirectory()) {
+				try {
+					BufferedWriter output = new BufferedWriter(new java.io.FileWriter(mFile, append));
+
+					for (String line : input) {
+						output.write(line);
+						output.newLine();
+					}
+
+					output.close();
+					status = true;
+
+				} catch(Throwable e) {
+					String redirect = append ? ">>" : ">";
+					String path = getAbsolutePath();
+
+					for (String line : input) {
+						String escapedInput = oPatternEscape.matcher(line).replaceAll("\\\\$1");
+						Attempts attempts = mShell.createAttempts("echo '" + escapedInput + "' " + redirect + " '" + path + "' 2> /dev/null");
+						result = attempts.execute();
+
+						if (result != null && !(status = result.wasSuccessful())) {
+							break;
+						}
+
+						redirect = ">>";
+					}
+				}
+
+				/*
+				 * Alert other instances using this file, that the state might have changed.
+				 */
+				if (status) {
+					Bundle bundle = new Bundle();
+					bundle.putString("action", "exists");
+					bundle.putString("location", getAbsolutePath());
+
+					Shell.sendBroadcast("file", bundle);
+				}
+			}
+
+			return result;
 		}
 	}
 	

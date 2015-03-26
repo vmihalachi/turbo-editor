@@ -67,7 +67,6 @@
     <item type="id" name="text_editor"/>
     <item type="id" name="no_file_opened_messagge"/>
 
-    <item type="id" name="delete_current_file"/>
     <item type="id" name="regex_check"/>
     <item type="id" name="replace_check"/>
     <item type="id" name="match_case_check"/>

@@ -29,10 +29,7 @@ import android.os.Bundle;
 import android.text.TextUtils;
 import android.view.View;
 import android.view.WindowManager;
-import android.widget.CheckBox;
 import android.widget.EditText;
-
-import org.apache.commons.io.FileUtils;
 
 import java.io.File;
 import java.io.IOException;
@@ -42,7 +39,6 @@ import sharedcode.turboeditor.activity.MainActivity;
 import sharedcode.turboeditor.preferences.PreferenceHelper;
 import sharedcode.turboeditor.task.SaveFileTask;
 import sharedcode.turboeditor.util.GreatUri;
-import sharedcode.turboeditor.util.ViewUtils;
 import sharedcode.turboeditor.views.DialogHelper;
 
 // ...
@@ -51,7 +47,6 @@ public class NewFileDetailsDialog extends DialogFragment {
 
     private EditText mName;
     private EditText mFolder;
-    private CheckBox mDeleteCurrentFile;
 
     GreatUri currentUri;
     String fileText;
@@ -88,9 +83,6 @@ public class NewFileDetailsDialog extends DialogFragment {
             this.mFolder.setText(currentUri.getParentFolder());
         }
 
-        this.mDeleteCurrentFile = (CheckBox) view.findViewById(R.id.delete_current_file);
-        ViewUtils.setVisible(mDeleteCurrentFile, !noName);
-
         // Show soft keyboard automatically
         this.mName.requestFocus();
         this.mName.setSelection(0);
@@ -103,30 +95,26 @@ public class NewFileDetailsDialog extends DialogFragment {
                             @Override
                             public void onClick(DialogInterface dialog, int which) {
 
-                                if (mDeleteCurrentFile.isChecked()) {
-                                    FileUtils.deleteQuietly(new File(currentUri.getFilePath()));
-                                }
-
                                 if (!mName.getText().toString().isEmpty() && !mFolder.getText().toString().isEmpty()) {
 
+                                    File file = new File(mFolder.getText().toString(), mName.getText().toString());
                                     try {
-                                        File file = new File(mFolder.getText().toString(), mName.getText().toString());
                                         file.getParentFile().mkdirs();
                                         file.createNewFile();
-
-                                        final GreatUri newUri = new GreatUri(Uri.fromFile(file), file.getAbsolutePath(), file.getName());
-
-                                        new SaveFileTask((MainActivity) getActivity(), newUri, fileText, fileEncoding, new SaveFileTask.SaveFileInterface() {
-                                            @Override
-                                            public void fileSaved(Boolean success) {
-                                                if (getActivity() != null) {
-                                                    ((MainActivity) getActivity()).savedAFile(newUri, true);
-                                                }
-                                            }
-                                        }).execute();
                                     } catch (IOException e) {
                                         e.printStackTrace();
                                     }
+
+                                    final GreatUri newUri = new GreatUri(Uri.fromFile(file), file.getAbsolutePath(), file.getName());
+
+                                    new SaveFileTask((MainActivity) getActivity(), newUri, fileText, fileEncoding, new SaveFileTask.SaveFileInterface() {
+                                        @Override
+                                        public void fileSaved(Boolean success) {
+                                            if (getActivity() != null) {
+                                                ((MainActivity) getActivity()).savedAFile(newUri, true);
+                                            }
+                                        }
+                                    }).execute();
                                 }
                             }
                         }
