@@ -19,19 +19,19 @@
   ~ along with this program.  If not, see <http://www.gnu.org/licenses/>.
   -->
 <resources>
-  <string name="donation_action">Donate</string>
-  <string name="donation_title">Donate to developer</string>
+  <string name="donation_action">Пожертвувати</string>
+  <string name="donation_title">Пожертва розробнику</string>
   <string name="donation_info"><![CDATA[
-        Turbo Editor is a free and <a href="http://github.com/vmihalachi/turbo-editor/">open source</a> app.
-        You can show your appreciation and support development by donating:
+        Turbo Editor це безкоштовна програма з <a href="http://github.com/vmihalachi/turbo-editor/        ">відкритим вихідним кодом</a>.
+        Ви можете показати вашу вдячність і підтримати проект пожертвами:
     ]]></string>
-  <string name="donation_item_bought">You\'ve donated for this item already.</string>
-  <string name="donation_2">An ice cream</string>
-  <string name="donation_4">Cup of coffee</string>
-  <string name="donation_10">Electricity bills</string>
-  <string name="donation_20">The right pillow</string>
-  <string name="donation_50">Solid-state drive</string>
-  <string name="donation_99">Sound system</string>
-  <string name="donation_error_iab_setup">Failed to setup in-app-billing service!</string>
-  <string name="donation_no_responsibility">Notice that Google is not responsible for that payments method.</string>
+  <string name="donation_item_bought">Ви вже пожертвували.</string>
+  <string name="donation_2">Морозиво</string>
+  <string name="donation_4">Чашка кави</string>
+  <string name="donation_10">Рахунки за електрику</string>
+  <string name="donation_20">Хорошу подушку</string>
+  <string name="donation_50">SSD диск</string>
+  <string name="donation_99">Аудіо систему</string>
+  <string name="donation_error_iab_setup">Не вдалося виконати in-app-billing сервіс!</string>
+  <string name="donation_no_responsibility">Зверніть увагу, що Google не відповідає за цей метод платежу.</string>
 </resources>

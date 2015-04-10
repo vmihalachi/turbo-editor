@@ -26,8 +26,8 @@
         Bağış yaparak gelişimini destekleyebilir ve beğeninizi gösterebilirsiniz:
     ]]></string>
   <string name="donation_item_bought">Zaten bu öğe için bağış yaptınız.</string>
-  <string name="donation_2">Bir dondurma</string>
-  <string name="donation_4">Bir fincan kahve</string>
+  <string name="donation_2">Dondurma</string>
+  <string name="donation_4">Kahve</string>
   <string name="donation_10">Elektrik faturaları</string>
   <string name="donation_20">Ortopedik yastık</string>
   <string name="donation_50">Solid-state sürücü</string>

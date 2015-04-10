@@ -28,7 +28,7 @@
   <string name="wrap_content">Ajuste de línea</string>
   <string name="view_it_on_the_web">Ver en la web</string>
   <string name="file">Archivo</string>
-  <string name="folder">archivo</string>
+  <string name="folder">Carpeta</string>
   <string name="light_theme">Tema claro</string>
   <string name="goto_line">Ir a línea</string>
   <string name="goto_page">Ir a página&#8230;</string>
@@ -58,13 +58,13 @@
   <string name="extra_options">Opciones extra</string>
   <string name="split_text_if_too_long">Partir el texto si es muy largo</string>
   <string name="ignore_back_button">Ignorar el botón de regreso</string>
-  <string name="donate">Donar</string>
   <string name="codifica">Codificación</string>
   <string name="condividi">Compartir</string>
   <string name="info">Información</string>
   <string name="nome_app_turbo_editor">Turbo Editor</string>
   <string name="preferenze">Preferencias</string>
   <string name="salva">Guardar</string>
+  <string name="save_as">Guardar como</string>
   <string name="menu_syntax_highlight">Resaltado de sintaxis</string>
   <string name="testo_indietro">Deshacer</string>
   <string name="testo_rifai">Rehacer</string>
@@ -73,4 +73,13 @@
   <string name="open_a_file">Abrir archivo</string>
   <string name="no">No</string>
   <string name="new_file">Nuevo archivo</string>
+  <string name="delete_current_file">Eliminar archivo actual</string>
+  <string name="replace_all">Reemplazar todo</string>
+  <string name="theme">Tema</string>
+  <string name="theme_dark">Tema Oscuro</string>
+  <string name="theme_black">Tema Negro</string>
+  <string name="view_markdown_result">Ver resultado marcado</string>
+  <string name="accessory_view">Accessory view</string>
+  <string name="file_cannot_be_renamed">The file cannot be renamed</string>
+  <string name="use_storage_access_framework">Use the \"Storage Access Framework\"</string>
 </resources>

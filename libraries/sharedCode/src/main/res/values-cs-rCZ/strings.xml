@@ -58,13 +58,13 @@
   <string name="extra_options">Další možnosti</string>
   <string name="split_text_if_too_long">Rozdělit text, pokud je příliš dlouhý</string>
   <string name="ignore_back_button">Ignorovat tlačítko zpět</string>
-  <string name="donate">Podpořit</string>
   <string name="codifica">Kódování</string>
   <string name="condividi">Sdílet</string>
   <string name="info">Info</string>
   <string name="nome_app_turbo_editor">Turbo Editor</string>
   <string name="preferenze">Předvolby</string>
   <string name="salva">Uložit</string>
+  <string name="save_as">Save as</string>
   <string name="menu_syntax_highlight">Zvýraznění syntaxe</string>
   <string name="testo_indietro">Vrátit zpět</string>
   <string name="testo_rifai">Vykonat znovu</string>
@@ -73,4 +73,13 @@
   <string name="open_a_file">Otevřít soubor</string>
   <string name="no">No</string>
   <string name="new_file">New file</string>
+  <string name="delete_current_file">Delete current file</string>
+  <string name="replace_all">Replace all</string>
+  <string name="theme">Theme</string>
+  <string name="theme_dark">Dark theme</string>
+  <string name="theme_black">Black theme</string>
+  <string name="view_markdown_result">View markdown result</string>
+  <string name="accessory_view">Accessory view</string>
+  <string name="file_cannot_be_renamed">The file cannot be renamed</string>
+  <string name="use_storage_access_framework">Use the \"Storage Access Framework\"</string>
 </resources>

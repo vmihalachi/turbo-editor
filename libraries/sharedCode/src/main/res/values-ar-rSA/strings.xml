@@ -58,13 +58,13 @@
   <string name="extra_options">خيارات إضافية</string>
   <string name="split_text_if_too_long">تقسيم النص إذا كان طويلاً جداً</string>
   <string name="ignore_back_button">تجاهل زر الرجوع</string>
-  <string name="donate">Donate</string>
   <string name="codifica">الترميز</string>
   <string name="condividi">مشاركة</string>
   <string name="info">معلومات</string>
   <string name="nome_app_turbo_editor">محرر توربو</string>
   <string name="preferenze">خيارات</string>
   <string name="salva">حفظ</string>
+  <string name="save_as">Save as</string>
   <string name="menu_syntax_highlight">تسليط الضوء على بناء الجملة</string>
   <string name="testo_indietro">التراجع عن</string>
   <string name="testo_rifai">الإعادة</string>
@@ -73,4 +73,13 @@
   <string name="open_a_file">فتح ملف</string>
   <string name="no">No</string>
   <string name="new_file">New file</string>
+  <string name="delete_current_file">Delete current file</string>
+  <string name="replace_all">Replace all</string>
+  <string name="theme">Theme</string>
+  <string name="theme_dark">Dark theme</string>
+  <string name="theme_black">Black theme</string>
+  <string name="view_markdown_result">View markdown result</string>
+  <string name="accessory_view">Accessory view</string>
+  <string name="file_cannot_be_renamed">The file cannot be renamed</string>
+  <string name="use_storage_access_framework">Use the \"Storage Access Framework\"</string>
 </resources>

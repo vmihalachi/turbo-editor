@@ -20,6 +20,54 @@
 
 <changelog bulletedList="true">
 
+    <changelogversion versionName="1.19" changeDate="Mar 22, 2015">
+        <changelogtext>Storage Access Framework is now by default false, go to the preferences to activate it!</changelogtext>
+        <changelogtext>Added some extensions as openable by the app</changelogtext>
+        <changelogtext>Important fixes on saving files</changelogtext>
+        <changelogtext>Updated the translations</changelogtext>
+    </changelogversion>
+
+
+    <changelogversion versionName="1.18.2" changeDate="Mar 22, 2015">
+        <changelogtext>Fixed some important issues, I am really sorry!</changelogtext>
+    </changelogversion>
+
+    <changelogversion versionName="1.18" changeDate="Mar 21, 2015">
+        <changelogtext>[b]Please read this![/b] The file selection starting from kitkat has changed, now you can open Google Drive files! [b]if you want to disable it[/b] go into the preferences and switch off the option.</changelogtext>
+        <changelogtext>[b]New![/b] Now you can rename files</changelogtext>
+        <changelogtext>Fixed a bug with the cursor</changelogtext>
+        <changelogtext>Now you can disable the accessory view</changelogtext>
+        <changelogtext>Updated translations</changelogtext>
+    </changelogversion>
+
+    <changelogversion versionName="1.17" changeDate="Mar 15, 2015">
+        <changelogtext>Added a markdown viewer!</changelogtext>
+        <changelogtext>Fixed a bug with Copy, Paste, Cut buttons</changelogtext>
+        <changelogtext>Updated translations</changelogtext>
+    </changelogversion>
+
+    <changelogversion versionName="1.16" changeDate="Mar 14, 2015">
+        <changelogtext>Added the Accessory View (now you can input more easily special symbols!)</changelogtext>
+        <changelogtext>Added a Black theme!</changelogtext>
+        <changelogtext>Added ISO-8859-2 encoding</changelogtext>
+        <changelogtext>Bug fixes</changelogtext>
+    </changelogversion>
+
+    <changelogversion versionName="1.15" changeDate="Mar 13, 2015">
+        <changelogtext>It is a "beta" release, feel free to send you feedback on github.com!</changelogtext>
+        <changelogtext>Added Save As! (and rename option)</changelogtext>
+        <changelogtext>Added Replace All!</changelogtext>
+        <changelogtext>Initial support to cloud files</changelogtext>
+        <changelogtext>The default encoding now is UTF-16</changelogtext>
+        <changelogtext>Removed donations items, if you want to donate please buy the pro version!</changelogtext>
+        <changelogtext>Minor bug fixes</changelogtext>
+    </changelogversion>
+
+    <changelogversion versionName="1.14" changeDate="Oct 30, 2014">
+        <changelogtext>Removed the ads because HAPPY NEW YEAR!!!</changelogtext>
+        <changelogtext>Minor bug fixes</changelogtext>
+    </changelogversion>
+
     <changelogversion versionName="1.13.1" changeDate="Oct 30, 2014">
         <changelogtext>Manly bug fixes</changelogtext>
     </changelogversion>

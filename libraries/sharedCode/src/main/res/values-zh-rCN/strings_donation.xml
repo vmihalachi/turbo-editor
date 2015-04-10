@@ -20,18 +20,15 @@
   -->
 <resources>
   <string name="donation_action">捐赠</string>
-  <string name="donation_title">Donate to developer</string>
-  <string name="donation_info"><![CDATA[
-        Turbo Editor is a free and <a href="http://github.com/vmihalachi/turbo-editor/">open source</a> app.
-        You can show your appreciation and support development by donating:
-    ]]></string>
-  <string name="donation_item_bought">You\'ve donated for this item already.</string>
-  <string name="donation_2">An ice cream</string>
-  <string name="donation_4">Cup of coffee</string>
-  <string name="donation_10">Electricity bills</string>
-  <string name="donation_20">The right pillow</string>
-  <string name="donation_50">Solid-state drive</string>
-  <string name="donation_99">Sound system</string>
+  <string name="donation_title">捐赠开发者</string>
+  <string name="donation_info"><![CDATA[Turbo Editor 是一个自由和 <a href="http://github.com/vmihalachi/turbo-editor/"> 开放源码</a> 的应用程序。你想表达你的感谢或支持开发，可以捐赠我们：]]></string>
+  <string name="donation_item_bought">你已经为这个项目捐赠过了。</string>
+  <string name="donation_2">一支冰淇淋</string>
+  <string name="donation_4">一杯咖啡</string>
+  <string name="donation_10">电费账单</string>
+  <string name="donation_20">舒适的枕头</string>
+  <string name="donation_50">固态硬盘</string>
+  <string name="donation_99">音响系统</string>
   <string name="donation_error_iab_setup">Failed to setup in-app-billing service!</string>
   <string name="donation_no_responsibility">Notice that Google is not responsible for that payments method.</string>
 </resources>

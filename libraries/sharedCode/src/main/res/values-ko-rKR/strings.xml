@@ -58,13 +58,13 @@
   <string name="extra_options">Extra options</string>
   <string name="split_text_if_too_long">Split the text if too long</string>
   <string name="ignore_back_button">Ignore back button</string>
-  <string name="donate">Donate</string>
   <string name="codifica">인코딩</string>
   <string name="condividi">공유</string>
   <string name="info">정보</string>
   <string name="nome_app_turbo_editor">터보 에디터</string>
   <string name="preferenze">환경 설정</string>
   <string name="salva">저장</string>
+  <string name="save_as">Save as</string>
   <string name="menu_syntax_highlight">구문 하이라이트</string>
   <string name="testo_indietro">실행 취소</string>
   <string name="testo_rifai">다시 실행</string>
@@ -73,4 +73,13 @@
   <string name="open_a_file">파일 열기</string>
   <string name="no">No</string>
   <string name="new_file">New file</string>
+  <string name="delete_current_file">Delete current file</string>
+  <string name="replace_all">Replace all</string>
+  <string name="theme">Theme</string>
+  <string name="theme_dark">Dark theme</string>
+  <string name="theme_black">Black theme</string>
+  <string name="view_markdown_result">View markdown result</string>
+  <string name="accessory_view">Accessory view</string>
+  <string name="file_cannot_be_renamed">The file cannot be renamed</string>
+  <string name="use_storage_access_framework">Use the \"Storage Access Framework\"</string>
 </resources>

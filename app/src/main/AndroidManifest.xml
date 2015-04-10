@@ -23,10 +23,8 @@
     android:installLocation="auto">
 
     <uses-permission android:name="android.permission.WRITE_EXTERNAL_STORAGE" />
-    <uses-permission android:name="android.permission.ACCESS_SUPERUSER" />
     <uses-permission android:name="android.permission.INTERNET" />
     <uses-permission android:name="android.permission.ACCESS_NETWORK_STATE" />
-    <uses-permission android:name="com.android.vending.BILLING" />
 
     <supports-screens
         android:anyDensity="true"
@@ -48,8 +46,8 @@
 
         <!-- android:alwaysRetainTaskState="true" -->
 
-        <meta-data android:name="com.google.android.gms.version"
-            android:value="@integer/google_play_services_version"/>
+        <!--<meta-data android:name="com.google.android.gms.version"
+            android:value="@integer/google_play_services_version"/>-->
         <activity
             android:name=".HomeActivity"
             android:configChanges="fontScale|keyboard|keyboardHidden|locale|mnc|mcc|navigation|orientation|screenLayout|screenSize|smallestScreenSize|uiMode|touchscreen"
@@ -64,20 +62,26 @@
             </intent-filter>
             <intent-filter>
                 <action android:name="android.intent.action.VIEW" />
-                <action android:name="android.intent.action.EDIT" />
-                <action android:name="android.intent.action.PICK" />
 
                 <category android:name="android.intent.category.DEFAULT" />
                 <category android:name="android.intent.category.BROWSABLE" />
 
                 <data android:scheme="file" />
-                <data android:mimeType="text/*" />
-                <data android:pathPattern="*.txt" />
-                <data android:pathPattern="*.html" />
-                <data android:pathPattern="*.css" />
-                <data android:pathPattern="*.js" />
-                <data android:pathPattern="*.md"/>
-                <data android:pathPattern="*.php" />
+                <data android:mimeType="*/*" />
+                <data android:host="*" />
+                <data android:pathPattern=".*\\.txt" />
+                <data android:pathPattern=".*\\.html" />
+                <data android:pathPattern=".*\\.css" />
+                <data android:pathPattern=".*\\.js" />
+                <data android:pathPattern=".*\\.md"/>
+                <data android:pathPattern=".*\\.php" />
+                <data android:pathPattern=".*\\.py" />
+            </intent-filter>
+            <intent-filter >
+                <action android:name="android.intent.action.VIEW" />
+                <category android:name="android.intent.category.DEFAULT" />
+                <data android:scheme="file" />
+                <data android:mimeType="text/plain" />
             </intent-filter>
             <intent-filter>
                 <action android:name="android.intent.action.SEND" />
@@ -95,16 +99,6 @@
             android:name="android.support.PARENT_ACTIVITY"
             android:value=".HomeActivity" />
         </activity>
-
-        <activity
-            android:name="sharedcode.turboeditor.preferences.ExtraSettingsActivity"
-            android:label="@string/extra_options"
-            android:parentActivityName=".HomeActivity">
-            <meta-data
-                android:name="android.support.PARENT_ACTIVITY"
-                android:value=".HomeActivity" />
-        </activity>
-
         <meta-data
             android:name="com.sec.android.support.multiwindow"
             android:value="true" />
@@ -121,8 +115,9 @@
             android:name="com.sec.android.multiwindow.MINIMUM_SIZE_H"
             android:value="598.0dip" />
 
-        <activity android:name="com.google.android.gms.ads.AdActivity"
-            android:configChanges="keyboard|keyboardHidden|orientation|screenLayout|uiMode|screenSize|smallestScreenSize"/>
+        <activity android:name="sharedcode.turboeditor.activity.MarkdownActivity" />
+        <!--<activity android:name="com.google.android.gms.ads.AdActivity"
+            android:configChanges="keyboard|keyboardHidden|orientation|screenLayout|uiMode|screenSize|smallestScreenSize"/>-->
         <meta-data android:name="com.crashlytics.ApiKey" android:value="672ab7531ce1e2e83c2ec6d84e8e94f2fa692c2a"/>
     </application>
 

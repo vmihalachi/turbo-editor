@@ -18,16 +18,11 @@
   ~ You should have received a copy of the GNU General Public License
   ~ along with this program.  If not, see <http://www.gnu.org/licenses/>.
   -->
-<LinearLayout
-    xmlns:android="http://schemas.android.com/apk/res/android"
-    android:layout_width="match_parent"
-    android:layout_height="match_parent"
-    android:orientation="vertical">
 
-    <include layout="@layout/toolbar"/>
+
 
 <sharedcode.turboeditor.views.CustomDrawerLayout
-
+    xmlns:android="http://schemas.android.com/apk/res/android"
     android:id="@id/drawer_layout"
     android:layout_width="match_parent"
     android:layout_height="match_parent">
@@ -42,6 +37,14 @@
         android:background="@null"
         android:textColor="@android:color/secondary_text_dark"
         android:id="@id/no_file_opened_messagge"/>
+
+    <LinearLayout
+
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        android:orientation="vertical">
+
+    <include layout="@layout/toolbar"/>
 
     <FrameLayout
             android:layout_width="match_parent"
@@ -79,14 +82,14 @@
                         android:text=""
                         android:textIsSelectable="true" />
                 </HorizontalScrollView>
-            </sharedcode.turboeditor.views.GoodScrollView>
+    </sharedcode.turboeditor.views.GoodScrollView>
 
             <com.faizmalkani.floatingactionbutton.FloatingActionButton
                 android:id="@+id/fabNext"
                 android:layout_width="72dp"
                 android:layout_height="72dp"
                 android:layout_gravity="bottom|right"
-                android:layout_marginBottom="16dp"
+                android:layout_marginBottom="66dp"
                 android:layout_marginRight="16dp"
                 android:layout_marginEnd="16dp"
                 android:visibility="invisible"/>
@@ -96,13 +99,26 @@
                 android:layout_width="72dp"
                 android:layout_height="72dp"
                 android:layout_gravity="bottom|right"
-                android:layout_marginBottom="16dp"
+                android:layout_marginBottom="66dp"
                 android:layout_marginRight="100dp"
                 android:layout_marginEnd="90dp"
                 android:visibility="invisible"/>
 
-        </FrameLayout>
 
+        <HorizontalScrollView
+            android:layout_height="50dp"
+            android:layout_width="match_parent"
+            android:scrollbars="horizontal"
+            android:layout_gravity="bottom"
+            android:fillViewport="false"
+            android:id="@+id/parent_accessory_view">
+            <sharedcode.turboeditor.util.AccessoryView
+                android:layout_width="match_parent"
+                android:layout_height="50dp"
+                android:id="@+id/accessoryView"></sharedcode.turboeditor.util.AccessoryView>
+        </HorizontalScrollView>
+        </FrameLayout>
+    </LinearLayout>
 
 
     <RelativeLayout
@@ -141,7 +157,7 @@
 
         <LinearLayout
             android:layout_width="match_parent"
-            android:layout_height="192dp"
+            android:layout_height="216dp"
             android:id="@id/drawer_buttons"
             android:layout_alignParentBottom="true"
             android:orientation="vertical">
@@ -153,7 +169,7 @@
 
             <TextView
                 android:layout_width="match_parent"
-                android:layout_height="48dp"
+                android:layout_height="54dp"
                 android:text="@string/new_file"
                 android:gravity="center_vertical"
                 android:paddingStart="20dp"
@@ -168,7 +184,7 @@
 
             <TextView
                 android:layout_width="match_parent"
-                android:layout_height="48dp"
+                android:layout_height="54dp"
                 android:text="@string/open_a_file"
                 android:gravity="center_vertical"
                 android:paddingStart="20dp"
@@ -183,7 +199,7 @@
 
             <TextView
                 android:layout_width="match_parent"
-                android:layout_height="48dp"
+                android:layout_height="54dp"
                 android:text="@string/preferenze"
                 android:gravity="center_vertical"
                 android:paddingStart="20dp"
@@ -349,5 +365,3 @@
 
 
 </sharedcode.turboeditor.views.CustomDrawerLayout>
-
-</LinearLayout>

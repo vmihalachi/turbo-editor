@@ -130,11 +130,10 @@
         android:text="@string/font_size"
         android:paddingStart="16dp"
         android:paddingEnd="16dp"
-            android:paddingLeft="16dp"
-            android:paddingRight="16dp"
+        android:paddingLeft="16dp"
+        android:paddingRight="16dp"
         android:gravity="center_vertical"
         android:textSize="12sp"
-        
         android:clickable="true"
         android:background="?selectableItemBackground"
         android:textColor="@color/navigation_drawer_button_text_color_inverted"/>
@@ -162,13 +161,42 @@
         android:visibility="gone"
         android:orientation="vertical">
 
+        <TextView
+            android:id="@id/drawer_button_theme"
+            android:layout_width="match_parent"
+            android:layout_height="56dp"
+            android:text="@string/theme"
+            android:paddingStart="16dp"
+            android:paddingEnd="16dp"
+            android:paddingLeft="16dp"
+            android:paddingRight="16dp"
+            android:gravity="center_vertical"
+            android:textSize="12sp"
+            android:clickable="true"
+            android:background="?selectableItemBackground"
+            android:textColor="@color/navigation_drawer_button_text_color_inverted"/>
+
         <android.support.v7.widget.SwitchCompat
             android:gravity="center_vertical"
             android:layout_width="match_parent"
             android:layout_height="56dp"
-            android:text="@string/light_theme"
+            android:text="@string/accessory_view"
             android:textSize="12sp"
-            android:id="@id/switch_light_theme"
+            android:id="@id/switch_accessory_view"
+            android:layout_gravity="center_horizontal"
+            android:paddingEnd="16dp"
+            android:paddingStart="16dp"
+            android:paddingLeft="16dp"
+            android:paddingRight="16dp"
+            android:textColor="@color/navigation_drawer_button_text_color_inverted"/>
+
+        <android.support.v7.widget.SwitchCompat
+            android:gravity="center_vertical"
+            android:layout_width="match_parent"
+            android:layout_height="56dp"
+            android:text="@string/use_storage_access_framework"
+            android:textSize="12sp"
+            android:id="@id/switch_storage_access_framework"
             android:layout_gravity="center_horizontal"
             android:paddingEnd="16dp"
             android:paddingStart="16dp"

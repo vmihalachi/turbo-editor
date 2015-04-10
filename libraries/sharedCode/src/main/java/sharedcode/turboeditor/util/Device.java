@@ -55,6 +55,14 @@ public class Device {
 
     /**
      * @return {@code true} if device is running
+     * {@link android.os.Build.VERSION_CODES#KITKAT KitKat} {@code false} otherwise.
+     */
+    public static boolean isKitKatApi() {
+        return Build.VERSION.SDK_INT == Build.VERSION_CODES.KITKAT;
+    }
+
+    /**
+     * @return {@code true} if device is running
      * {@link android.os.Build.VERSION_CODES#JELLY_BEAN_MR2 Jelly Bean 4.3} or higher, {@code false} otherwise.
      */
     public static boolean hasJellyBeanMR2Api() {

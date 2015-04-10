@@ -35,10 +35,8 @@ public class Patterns {
     // Strings
     public static final Pattern GENERAL_STRINGS = Pattern.compile("\"(.*?)\"|'(.*?)'");
 
-    public static final Pattern HTML_OPEN_TAGS = Pattern.compile(
-            "<([A-Za-z][A-Za-z0-9]*)\\b[^>]*>");
-    public static final Pattern HTML_CLOSE_TAGS = Pattern.compile(
-            "</([A-Za-z][A-Za-z0-9]*)\\b[^>]*>");
+    public static final Pattern HTML_TAGS = Pattern.compile(
+            "<([A-Za-z][A-Za-z0-9]*)\\b[^>]*>|</([A-Za-z][A-Za-z0-9]*)\\b[^>]*>");
     public static final Pattern HTML_ATTRS = Pattern.compile(
             "(\\S+)=[\"']?((?:.(?![\"']?\\s+(?:\\S+)=|[>\"']))+.)[\"']?");
 
@@ -54,20 +52,23 @@ public class Patterns {
     //public static final Pattern CSS_NUMBERS = Pattern.compile(
     //        "/^auto$|^[+-]?[0-9]+\\.?([0-9]+)?(px|em|ex|%|in|cm|mm|pt|pc)?$/ig");
     public static final Pattern SYMBOLS = Pattern.compile(
-            "(!|,|\\(|\\)|\\+|\\-|\\*|<|>|=|\\.|\\?|;|\\{|\\}|\\[|\\])");
+            "(!|,|\\(|\\)|\\+|\\-|\\*|<|>|=|\\.|\\?|;|\\{|\\}|\\[|\\]|\\|)");
     public static final Pattern NUMBERS_OR_SYMBOLS = Pattern.compile(NUMBERS.pattern()+"|"+SYMBOLS.pattern());
     public static final Pattern GENERAL_KEYWORDS = Pattern.compile(
-            "\\b(alignas|alignof|and|and_eq|asm|auto|bitand|bitorbool|break|case|catch|char|"
-                    + "char16_t|char32_t|class|compl|const|constexpr|const_cast|continue|decltype"
-                    + "|default|delete|do|double|dynamic_cast|echo|else|enum|explicit|export|extern|"
-                    + "false|float|for|friend|function|goto|if|inline|int|mutable|namespace|new|noexcept|"
-                    + "not|not_eq|null|nullptr|operator|or|or_eq|private|protected|public|register|"
-                    + "reinterpret_cast|return|short|signed|sizeof|static|static_assert|static_cast"
-                    + "|struct|switch|template|this|thread_local|throw|true|try|typedef|typeid|typename|undefined"
-                    + "|union|unsigned|using|var|virtual|void|volatile|wchar_t|while|xor|xor_eq|)\\b", Pattern.CASE_INSENSITIVE);
+            "(?<=\\b)((alignas)|(alignof)|(and)|(and_eq)|(asm)|(auto)|(bitand)|(bitorbool)|(break)|(case)|(catch)|(char)|("
+                    + "char16_t)|(char32_t)|(class)|(compl)|(const)|(constexpr)|(const_cast)|(continue)|(decltype"
+                    + ")|(default)|(delete)|(do)|(double)|(dynamic_cast)|(echo)|(else)|(enum)|(explicit)|(export)|(extern)|("
+                    + "false)|(float)|(for)|(friend)|(function)|(goto)|(if)|(inline)|(int)|(mutable)|(namespace)|(new)|(noexcept)|("
+                    + "not)|(not_eq)|(null)|(nullptr)|(operator)|(or)|(or_eq)|(private)|(protected)|(public)|(register)|("
+                    + "reinterpret_cast)|(return)|(short)|(signed)|(sizeof)|(static)|(static_assert)|(static_cast"
+                    + ")|(struct)|(switch)|(template)|(this)|(thread_local)|(throw)|(true)|(try)|(typedef)|(typeid)|(typename)|(undefined"
+                    + ")|(union)|(unsigned)|(using)|(var)|(virtual)|(void)|(volatile)|(wchar_t)|(while)|(xor)|(xor_eq))(?=\\b)", Pattern.CASE_INSENSITIVE);
 
     public static final Pattern PY_KEYWORDS = Pattern.compile(
-            "\\b(int|float|long|complex|str|unicode|list|tuple|bytearray|buffer|xrange|set|frozenset|dict|bool)|(True|False|None|self|NotImplemented|Ellipsis|__debug__|__file__)|(and|del|from|not|while|as|elif|global|or|with|assert|else|if|pass|yield|break|except|import|print|class|exec|in|raise|continue|finally|is|return|def|for|lambda|try)|(ArithmeticError|AssertionError|AttributeError|BaseException|DeprecationWarning|EnvironmentError|EOFError|Exception|FloatingPointError|FutureWarning|GeneratorExit|IOError|ImportError|ImportWarning|IndexError|KeyError|KeyboardInterrupt|LookupError|MemoryError|NameError|NotImplementedError|OSError|OverflowError|PendingDeprecationWarning|ReferenceError|RuntimeError|RuntimeWarning|StandardError|StopIteration|SyntaxError|SyntaxWarning|SystemError|SystemExit|TypeError|UnboundLocalError|UserWarning|UnicodeError|UnicodeWarning|UnicodeEncodeError|UnicodeDecodeError|UnicodeTranslateError|ValueError|Warning|WindowsError|ZeroDivisionError)\\b", Pattern.CASE_INSENSITIVE);
+            "(?<=\\b)((int)|(float)|(long)|(complex)|(str)|(unicode)|(list)|(tuple)|(bytearray)|(buffer)|(xrange)|(set)|(frozenset)|(dict)|(bool)" +
+                    "|(True)|(False)|(None)|(self)|(NotImplemented)|(Ellipsis)|(__debug__)|(__file__)" +
+                    "|(and)|(del)|(from)|(not)|(while)|(as)|(elif)|(global)|(or)|(with)|(assert)|(else)|(if)|(pass)|(yield)|(break)|(except)|(import)|(print)|(class)|(exec)|(in)|(raise)|(continue)|(finally)|(is)|(return)|(def)|(for)|(lambda)|(try)" +
+                    "|(ArithmeticError)|(AssertionError)|(AttributeError)|(BaseException)|(DeprecationWarning)|(EnvironmentError)|(EOFError)|(Exception)|(FloatingPointError)|(FutureWarning)|(GeneratorExit)|(IOError)|(ImportError)|(ImportWarning)|(IndexError)|(KeyError)|(KeyboardInterrupt)|(LookupError)|(MemoryError)|(NameError)|(NotImplementedError)|(OSError)|(OverflowError)|(PendingDeprecationWarning)|(ReferenceError)|(RuntimeError)|(RuntimeWarning)|(StandardError)|(StopIteration)|(SyntaxError)|(SyntaxWarning)|(SystemError)|(SystemExit)|(TypeError)|(UnboundLocalError)|(UserWarning)|(UnicodeError)|(UnicodeWarning)|(UnicodeEncodeError)|(UnicodeDecodeError)|(UnicodeTranslateError)|(ValueError)|(Warning)|(WindowsError)|(ZeroDivisionError))(?=\\b)", Pattern.CASE_INSENSITIVE);
 
     public static final Pattern LUA_KEYWORDS = Pattern.compile(
             "@[A-Za-z0-9_\\.]*|\\b(local|global|boolean|number|userdata)\\b|\\b(true|false|nil)\\b|\\b(return|then|while|and|break|do|else|elseif|end|for|function|if|in|not|or|repeat|until|thread|table)\\b" +
@@ -84,7 +85,7 @@ public class Patterns {
     public static final Pattern GENERAL_COMMENTS_NO_SLASH = Pattern.compile(
             "/\\*(?:.|[\\n\\r])*?\\*/|#.*");
     public static final Pattern SQL_KEYWORDS = Pattern.compile(
-            "\\b(ADD|EXCEPT|PERCENT|ALL|EXEC|PLAN|ALTER|EXECUTE|PRECISION|AND|EXISTS|PRIMARY|ANY|EXIT|PRINT|AS|FETCH|PROC|ASC|FILE|PROCEDURE|AUTHORIZATION|FILLFACTOR|PUBLIC|BACKUP|FOR|RAISERROR|BEGIN|FOREIGN|READ|BETWEEN|FREETEXT|READTEXT|BREAK|FREETEXTTABLE|RECONFIGURE|BROWSE|FROM|REFERENCES|BULK|FULL|REPLICATION|BY|FUNCTION|RESTORE|CASCADE|GOTO|RESTRICT|CASE|GRANT|RETURN|CHECK|GROUP|REVOKE|CHECKPOINT|HAVING|RIGHT|CLOSE|HOLDLOCK|ROLLBACK|CLUSTERED|IDENTITY|ROWCOUNT|COALESCE|IDENTITY_INSERT|ROWGUIDCOL|COLLATE|IDENTITYCOL|RULE|COLUMN|IF|SAVE|COMMIT|IN|SCHEMA|COMPUTE|INDEX|SELECT|CONSTRAINT|INNER|SESSION_USER|CONTAINS|INSERT|SET|CONTAINSTABLE|INTERSECT|SETUSER|CONTINUE|INTO|SHUTDOWN|CONVERT|IS|SOME|CREATE|JOIN|STATISTICS|CROSS|KEY|SYSTEM_USER|CURRENT|KILL|TABLE|CURRENT_DATE|LEFT|TEXTSIZE|CURRENT_TIME|LIKE|THEN|CURRENT_TIMESTAMP|LINENO|TO|CURRENT_USER|LOAD|TOP|CURSOR|NATIONAL|TRAN|DATABASE|NOCHECK|TRANSACTION|DBCC|NONCLUSTERED|TRIGGER|DEALLOCATE|NOT|TRUNCATE|DECLARE|NULL|TSEQUAL|DEFAULT|NULLIF|UNION|DELETE|OF|UNIQUE|DENY|OFF|UPDATE|DESC|OFFSETS|UPDATETEXT|DISK|ON|USE|DISTINCT|OPEN|USER|DISTRIBUTED|OPENDATASOURCE|VALUES|DOUBLE|OPENQUERY|VARYING|DROP|OPENROWSET|VIEW|DUMMY|OPENXML|WAITFOR|DUMP|OPTION|WHEN|ELSE|OR|WHERE|END|ORDER|WHILE|ERRLVL|OUTER|WITH|ESCAPE|OVER|WRITETEXT)\\b", Pattern.CASE_INSENSITIVE);
+            "(?<=\\b)((ADD)|(EXCEPT)|(PERCENT)|(ALL)|(EXEC)|(PLAN)|(ALTER)|(EXECUTE)|(PRECISION)|(AND)|(EXISTS)|(PRIMARY)|(ANY)|(EXIT)|(PRINT)|(AS)|(FETCH)|(PROC)|(ASC)|(FILE)|(PROCEDURE)|(AUTHORIZATION)|(FILLFACTOR)|(PUBLIC)|(BACKUP)|(FOR)|(RAISERROR)|(BEGIN)|(FOREIGN)|(READ)|(BETWEEN)|(FREETEXT)|(READTEXT)|(BREAK)|(FREETEXTTABLE)|(RECONFIGURE)|(BROWSE)|(FROM)|(REFERENCES)|(BULK)|(FULL)|(REPLICATION)|(BY)|(FUNCTION)|(RESTORE)|(CASCADE)|(GOTO)|(RESTRICT)|(CASE)|(GRANT)|(RETURN)|(CHECK)|(GROUP)|(REVOKE)|(CHECKPOINT)|(HAVING)|(RIGHT)|(CLOSE)|(HOLDLOCK)|(ROLLBACK)|(CLUSTERED)|(IDENTITY)|(ROWCOUNT)|(COALESCE)|(IDENTITY_INSERT)|(ROWGUIDCOL)|(COLLATE)|(IDENTITYCOL)|(RULE)|(COLUMN)|(IF)|(SAVE)|(COMMIT)|(IN)|(SCHEMA)|(COMPUTE)|(INDEX)|(SELECT)|(CONSTRAINT)|(INNER)|(SESSION_USER)|(CONTAINS)|(INSERT)|(SET)|(CONTAINSTABLE)|(INTERSECT)|(SETUSER)|(CONTINUE)|(INTO)|(SHUTDOWN)|(CONVERT)|(IS)|(SOME)|(CREATE)|(JOIN)|(STATISTICS)|(CROSS)|(KEY)|(SYSTEM_USER)|(CURRENT)|(KILL)|(TABLE)|(CURRENT_DATE)|(LEFT)|(TEXTSIZE)|(CURRENT_TIME)|(LIKE)|(THEN)|(CURRENT_TIMESTAMP)|(LINENO)|(TO)|(CURRENT_USER)|(LOAD)|(TOP)|(CURSOR)|(NATIONAL)|(TRAN)|(DATABASE)|(NOCHECK)|(TRANSACTION)|(DBCC)|(NONCLUSTERED)|(TRIGGER)|(DEALLOCATE)|(NOT)|(TRUNCATE)|(DECLARE)|(NULL)|(TSEQUAL)|(DEFAULT)|(NULLIF)|(UNION)|(DELETE)|(OF)|(UNIQUE)|(DENY)|(OFF)|(UPDATE)|(DESC)|(OFFSETS)|(UPDATETEXT)|(DISK)|(ON)|(USE)|(DISTINCT)|(OPEN)|(USER)|(DISTRIBUTED)|(OPENDATASOURCE)|(VALUES)|(DOUBLE)|(OPENQUERY)|(VARYING)|(DROP)|(OPENROWSET)|(VIEW)|(DUMMY)|(OPENXML)|(WAITFOR)|(DUMP)|(OPTION)|(WHEN)|(ELSE)|(OR)|(WHERE)|(END)|(ORDER)|(WHILE)|(ERRLVL)|(OUTER)|(WITH)|(ESCAPE)|(OVER)|(WRITETEXT))(?=\\b)", Pattern.CASE_INSENSITIVE);
 
 
     public static final Pattern LINK = android.util.Patterns.WEB_URL;

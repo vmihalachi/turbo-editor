@@ -58,13 +58,13 @@
   <string name="extra_options">Altre opzioni</string>
   <string name="split_text_if_too_long">Dividi il testo se troppo lungo</string>
   <string name="ignore_back_button">Ignora il tasto indietro</string>
-  <string name="donate">Dona</string>
   <string name="codifica">Codifica</string>
   <string name="condividi">Condividi</string>
   <string name="info">Informazioni</string>
   <string name="nome_app_turbo_editor">Turbo Editor</string>
   <string name="preferenze">Preferenze</string>
   <string name="salva">Salva</string>
+  <string name="save_as">Salva con nome</string>
   <string name="menu_syntax_highlight">Colora la sinstassi</string>
   <string name="testo_indietro">Annulla</string>
   <string name="testo_rifai">Rifai</string>
@@ -73,4 +73,13 @@
   <string name="open_a_file">Apri un file</string>
   <string name="no">No</string>
   <string name="new_file">Nuovo file</string>
+  <string name="delete_current_file">Elimina il file corrente</string>
+  <string name="replace_all">Sostituisci Tutti</string>
+  <string name="theme">Tema</string>
+  <string name="theme_dark">Tema Scuro</string>
+  <string name="theme_black">Tema nero</string>
+  <string name="view_markdown_result">Vedi il risultato markdown</string>
+  <string name="accessory_view">Barra dei simboli</string>
+  <string name="file_cannot_be_renamed">Questo file non può essere rinominato</string>
+  <string name="use_storage_access_framework">Utilizza il \"Storage Access Framework\"</string>
 </resources>

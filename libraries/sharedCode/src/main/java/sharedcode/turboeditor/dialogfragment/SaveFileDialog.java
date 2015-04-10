@@ -19,54 +19,55 @@
 
 package sharedcode.turboeditor.dialogfragment;
 
+import android.annotation.SuppressLint;
 import android.app.AlertDialog;
 import android.app.Dialog;
 import android.app.DialogFragment;
 import android.content.DialogInterface;
+import android.net.Uri;
 import android.os.Bundle;
 import android.view.View;
-
-import org.apache.commons.io.FilenameUtils;
-
-import java.io.File;
 
 import sharedcode.turboeditor.R;
 import sharedcode.turboeditor.activity.MainActivity;
 import sharedcode.turboeditor.task.SaveFileTask;
+import sharedcode.turboeditor.util.GreatUri;
 import sharedcode.turboeditor.views.DialogHelper;
 
+@SuppressLint("ValidFragment")
 public class SaveFileDialog extends DialogFragment {
 
-    public static SaveFileDialog newInstance(String filePath, String text, String encoding) {
-        return newInstance(filePath, text, encoding, false, "");
+    GreatUri uri;
+    String text;
+    String encoding;
+    boolean openNewFileAfter;
+    GreatUri newUri;
+
+    @SuppressLint("ValidFragment")
+    public SaveFileDialog(GreatUri uri, String text, String encoding) {
+        this.uri = uri;
+        this.text = text;
+        this.encoding = encoding;
+        this.openNewFileAfter = false;
+        this.newUri = new GreatUri(Uri.EMPTY, "", "");
     }
 
-    public static SaveFileDialog newInstance(String filePath, String text, String encoding, boolean openNewFileAfter, String pathOfNewFile) {
-        SaveFileDialog frag = new SaveFileDialog();
-        Bundle args = new Bundle();
-        args.putString("filePath", filePath);
-        args.putString("text", text);
-        args.putString("encoding", encoding);
-        args.putBoolean("openNewFileAfter", openNewFileAfter);
-        args.putString("pathOfNewFile", pathOfNewFile);
-        frag.setArguments(args);
-        return frag;
+    @SuppressLint("ValidFragment")
+    public SaveFileDialog(GreatUri uri, String text, String encoding, boolean openNewFileAfter, GreatUri newUri) {
+        this.uri = uri;
+        this.text = text;
+        this.encoding = encoding;
+        this.openNewFileAfter = openNewFileAfter;
+        this.newUri = newUri;
     }
-
-
 
     @Override
     public Dialog onCreateDialog(Bundle savedInstanceState) {
-        final String filePath = getArguments().getString("filePath");
-        final String text = getArguments().getString("text");
-        final String encoding = getArguments().getString("encoding");
-        final String fileName = FilenameUtils.getName(filePath);
-        final File file = new File(filePath);
 
         View view = new DialogHelper.Builder(getActivity())
                 .setIcon(getResources().getDrawable(R.drawable.ic_action_save))
                 .setTitle(R.string.salva)
-                .setMessage(String.format(getString(R.string.save_changes), fileName))
+                .setMessage(String.format(getString(R.string.save_changes), uri.getFileName()))
                 .createCommonView();
 
         return new AlertDialog.Builder(getActivity())
@@ -75,15 +76,22 @@ public class SaveFileDialog extends DialogFragment {
                         new DialogInterface.OnClickListener() {
                             @Override
                             public void onClick(DialogInterface dialog, int which) {
-                                if (!fileName.isEmpty())
-                                    new SaveFileTask((MainActivity) getActivity(), filePath, text,
-                                            encoding).execute();
-                                else {
+                                if (uri.getFileName().isEmpty()) {
                                     NewFileDetailsDialog dialogFrag =
-                                            NewFileDetailsDialog.newInstance(text,
+                                            new NewFileDetailsDialog(uri,text,
                                                     encoding);
                                     dialogFrag.show(getFragmentManager().beginTransaction(),
                                             "dialog");
+                                } else {
+                                    new SaveFileTask((MainActivity) getActivity(), uri, text,
+                                            encoding, new SaveFileTask.SaveFileInterface() {
+                                        @Override
+                                        public void fileSaved(Boolean success) {
+                                            if (getActivity() != null) {
+                                                ((MainActivity) getActivity()).savedAFile(uri, true);
+                                            }
+                                        }
+                                    }).execute();
                                 }
                             }
                         }
@@ -98,8 +106,7 @@ public class SaveFileDialog extends DialogFragment {
                                     target = (ISaveDialog) getActivity();
                                 }
                                 target.userDoesntWantToSave(
-                                        getArguments().getBoolean("openNewFileAfter"),
-                                        getArguments().getString("pathOfNewFile")
+                                        openNewFileAfter, newUri
                                 );
                             }
                         }
@@ -108,6 +115,6 @@ public class SaveFileDialog extends DialogFragment {
     }
 
     public interface ISaveDialog {
-        void userDoesntWantToSave(boolean openNewFile, String pathOfNewFile);
+        void userDoesntWantToSave(boolean openNewFile, GreatUri newUri);
     }
 }

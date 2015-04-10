@@ -30,7 +30,7 @@
   <string name="file">Tiedosto</string>
   <string name="folder">Kansio</string>
   <string name="light_theme">Vaalea teema</string>
-  <string name="goto_line">Siirry riville</string>
+  <string name="goto_line">Siirry riville&#8230;</string>
   <string name="goto_page">Siirry sivulle&#8230;</string>
   <string name="find">Löydä</string>
   <string name="replace">Korvaa</string>
@@ -51,20 +51,20 @@
   <string name="translate_the_app">Auta kääntämisessä</string>
   <string name="changelog">Muutosloki</string>
   <string name="match_case">Sama kirjainkoko</string>
-  <string name="long_click_for_more_options">Saat lisää vaihtoehtoja napsauttamalla</string>
+  <string name="long_click_for_more_options">Saat lisää vaihtoehtoja pitkällä painalluksella</string>
   <string name="auto_save">Automaattinen tallennus</string>
   <string name="read_only">Vain luku</string>
   <string name="send_error_reports">Lähetä virheraportit</string>
   <string name="extra_options">Lisäasetukset</string>
   <string name="split_text_if_too_long">Jaa liian pitkä teksti</string>
   <string name="ignore_back_button">Ohita Takaisin-painike</string>
-  <string name="donate">Lahjoita</string>
   <string name="codifica">Koodaus</string>
   <string name="condividi">Jaa</string>
   <string name="info">Tiedot</string>
   <string name="nome_app_turbo_editor">Turbo Editor</string>
   <string name="preferenze">Asetukset</string>
   <string name="salva">Tallenna</string>
+  <string name="save_as">Tallenna nimellä</string>
   <string name="menu_syntax_highlight">Syntaksikorostus</string>
   <string name="testo_indietro">Kumoa</string>
   <string name="testo_rifai">Tee uudelleen</string>
@@ -73,4 +73,13 @@
   <string name="open_a_file">Avaa tiedosto</string>
   <string name="no">Ei</string>
   <string name="new_file">Uusi tiedosto</string>
+  <string name="delete_current_file">Poista nykyinen tiedosto</string>
+  <string name="replace_all">Korvaa kaikki</string>
+  <string name="theme">Teema</string>
+  <string name="theme_dark">Tumma teema</string>
+  <string name="theme_black">Musta teema</string>
+  <string name="view_markdown_result">Näytä Markdown-tulos</string>
+  <string name="accessory_view">Erikoismerkit</string>
+  <string name="file_cannot_be_renamed">Tiedostoa ei voida nimetä uudestaan</string>
+  <string name="use_storage_access_framework">Use the \"Storage Access Framework\"</string>
 </resources>

@@ -34,6 +34,7 @@ import android.os.Bundle;
 import android.os.Handler;
 import android.os.IBinder;
 import android.preference.PreferenceManager;
+import android.provider.DocumentsContract;
 import android.support.annotation.NonNull;
 import android.support.annotation.Nullable;
 import android.support.v4.view.MenuItemCompat;
@@ -57,7 +58,6 @@ import android.view.KeyEvent;
 import android.view.Menu;
 import android.view.MenuItem;
 import android.view.View;
-import android.view.WindowManager;
 import android.view.inputmethod.InputMethodManager;
 import android.widget.AdapterView;
 import android.widget.EditText;
@@ -66,27 +66,35 @@ import android.widget.ListView;
 import android.widget.Toast;
 
 import com.faizmalkani.floatingactionbutton.FloatingActionButton;
+import com.spazedog.lib.rootfw4.RootFW;
+import com.spazedog.lib.rootfw4.utils.io.FileReader;
 
 import org.apache.commons.io.FilenameUtils;
 import org.apache.commons.lang3.ArrayUtils;
-import org.sufficientlysecure.rootcommands.Shell;
-import org.sufficientlysecure.rootcommands.Toolbox;
 
+import java.io.BufferedReader;
 import java.io.File;
+import java.io.IOException;
+import java.io.InputStream;
+import java.io.InputStreamReader;
 import java.io.UnsupportedEncodingException;
+import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.LinkedList;
+import java.util.List;
 import java.util.regex.Matcher;
 import java.util.regex.Pattern;
 
 import sharedcode.turboeditor.R;
 import sharedcode.turboeditor.adapter.AdapterDrawer;
 import sharedcode.turboeditor.dialogfragment.ChangelogDialog;
+import sharedcode.turboeditor.dialogfragment.EditTextDialog;
 import sharedcode.turboeditor.dialogfragment.FileInfoDialog;
 import sharedcode.turboeditor.dialogfragment.FindTextDialog;
 import sharedcode.turboeditor.dialogfragment.NewFileDetailsDialog;
 import sharedcode.turboeditor.dialogfragment.NumberPickerDialog;
 import sharedcode.turboeditor.dialogfragment.SaveFileDialog;
+import sharedcode.turboeditor.preferences.PreferenceChangeType;
 import sharedcode.turboeditor.preferences.PreferenceHelper;
 import sharedcode.turboeditor.task.SaveFileTask;
 import sharedcode.turboeditor.texteditor.EditTextPadding;
@@ -97,88 +105,81 @@ import sharedcode.turboeditor.texteditor.PageSystemButtons;
 import sharedcode.turboeditor.texteditor.Patterns;
 import sharedcode.turboeditor.texteditor.SearchResult;
 import sharedcode.turboeditor.util.AccessStorageApi;
+import sharedcode.turboeditor.util.AccessoryView;
 import sharedcode.turboeditor.util.AnimationUtils;
 import sharedcode.turboeditor.util.AppInfoHelper;
-import sharedcode.turboeditor.util.EventBusEvents;
+import sharedcode.turboeditor.util.Device;
+import sharedcode.turboeditor.util.GreatUri;
 import sharedcode.turboeditor.util.IHomeActivity;
 import sharedcode.turboeditor.util.MimeTypes;
 import sharedcode.turboeditor.util.ProCheckUtils;
 import sharedcode.turboeditor.util.ThemeUtils;
+import sharedcode.turboeditor.util.ViewUtils;
 import sharedcode.turboeditor.views.CustomDrawerLayout;
 import sharedcode.turboeditor.views.DialogHelper;
 import sharedcode.turboeditor.views.GoodScrollView;
 
-import static sharedcode.turboeditor.util.EventBusEvents.APreferenceValueWasChanged.Type.ENCODING;
-import static sharedcode.turboeditor.util.EventBusEvents.APreferenceValueWasChanged.Type.FONT_SIZE;
-import static sharedcode.turboeditor.util.EventBusEvents.APreferenceValueWasChanged.Type.LINE_NUMERS;
-import static sharedcode.turboeditor.util.EventBusEvents.APreferenceValueWasChanged.Type.MONOSPACE;
-import static sharedcode.turboeditor.util.EventBusEvents.APreferenceValueWasChanged.Type.READ_ONLY;
-import static sharedcode.turboeditor.util.EventBusEvents.APreferenceValueWasChanged.Type.SYNTAX;
-import static sharedcode.turboeditor.util.EventBusEvents.APreferenceValueWasChanged.Type.TEXT_SUGGESTIONS;
-import static sharedcode.turboeditor.util.EventBusEvents.APreferenceValueWasChanged.Type.THEME_CHANGE;
-import static sharedcode.turboeditor.util.EventBusEvents.APreferenceValueWasChanged.Type.WRAP_CONTENT;
-
 public abstract class MainActivity extends ActionBarActivity implements IHomeActivity, FindTextDialog
         .SearchDialogInterface, GoodScrollView.ScrollInterface, PageSystem.PageSystemInterface,
         PageSystemButtons.PageButtonsInterface, NumberPickerDialog.INumberPickerDialog, SaveFileDialog.ISaveDialog,
-        AdapterView.OnItemClickListener, AdapterDrawer.Callbacks{
+        AdapterView.OnItemClickListener, AdapterDrawer.Callbacks, AccessoryView.IAccessoryView, EditTextDialog.EditDialogListener{
 
     //region VARIABLES
-    private static final int
-            ID_SELECT_ALL = android.R.id.selectAll;
-    private static final int ID_CUT = android.R.id.cut;
-    private static final int ID_COPY = android.R.id.copy;
-    private static final int ID_PASTE = android.R.id.paste;
-    private static final int SELECT_FILE_CODE = 121;
-    private static final int KITKAT_OPEN_REQUEST_CODE = 41;
-    private static final int SYNTAX_DELAY_MILLIS_SHORT = 250;
-    private static final int SYNTAX_DELAY_MILLIS_LONG = 1500;
-    private static final int ID_UNDO = R.id.im_undo;
-    private static final int ID_REDO = R.id.im_redo;
-    private static final int CHARS_TO_COLOR = 2500;
-    private static  final Handler updateHandler = new Handler();
-    private static final Runnable colorRunnable_duringEditing =
+    private static final int READ_REQUEST_CODE = 42,
+            CREATE_REQUEST_CODE = 43,
+            SAVE_AS_REQUEST_CODE = 44,
+            ID_SELECT_ALL = android.R.id.selectAll,
+            ID_CUT = android.R.id.cut,
+            ID_COPY = android.R.id.copy,
+            ID_PASTE = android.R.id.paste,
+            SELECT_FILE_CODE = 121,
+            SYNTAX_DELAY_MILLIS_SHORT = 250,
+            SYNTAX_DELAY_MILLIS_LONG = 1500,
+            ID_UNDO = R.id.im_undo,
+            ID_REDO = R.id.im_redo,
+            CHARS_TO_COLOR = 2500;
+    private final Handler updateHandler = new Handler();
+    private final Runnable colorRunnable_duringEditing =
             new Runnable() {
                 @Override
                 public void run() {
-                    mEditor.replaceTextKeepCursor(null, true);
+                    mEditor.replaceTextKeepCursor(null);
                 }
             };
-    private static final Runnable colorRunnable_duringScroll =
+    private final Runnable colorRunnable_duringScroll =
             new Runnable() {
                 @Override
                 public void run() {
-                    mEditor.replaceTextKeepCursor(null, false);
+                    mEditor.replaceTextKeepCursor(null);
                 }
             };
-    private static boolean fileOpened = false;
-    private static String fileExtension;
+    private boolean fileOpened = false;
+    private static String fileExtension = "";
     /*
     * This class provides a handy way to tie together the functionality of
     * {@link DrawerLayout} and the framework <code>ActionBar</code> to implement the recommended
     * design for navigation drawers.
     */
-    private static ActionBarDrawerToggle mDrawerToggle;
+    private ActionBarDrawerToggle mDrawerToggle;
     /*
     * The Drawer Layout
     */
-    private static CustomDrawerLayout mDrawerLayout;
+    private CustomDrawerLayout mDrawerLayout;
     private static GoodScrollView verticalScroll;
-    private static String sFilePath = "";
-    private static Editor mEditor;
-    private static HorizontalScrollView horizontalScroll;
-    private boolean searchingText;
+    private static GreatUri greatUri = new GreatUri(Uri.EMPTY, "", "");
+    private Editor mEditor;
+    private HorizontalScrollView horizontalScroll;
     private static SearchResult searchResult;
     private static PageSystem pageSystem;
-    private static PageSystemButtons pageSystemButtons;
-    private static String currentEncoding = "UTF-8";
-    private static Toolbar toolbar;
+    private PageSystemButtons pageSystemButtons;
+    private static String currentEncoding = "UTF-16";
+    private Toolbar toolbar;
 
     /*
     Navigation Drawer
      */
-    private static AdapterDrawer arrayAdapter;
-    private static LinkedList<File> files;
+    private AdapterDrawer arrayAdapter;
+    private LinkedList<GreatUri> greatUris;
     //endregion
 
     //region Activity facts
@@ -236,7 +237,7 @@ public abstract class MainActivity extends ActionBarActivity implements IHomeAct
         super.onPause();
 
         if (PreferenceHelper.getAutoSave(getBaseContext()) && mEditor.canSaveFile()) {
-            saveTheFile();
+            saveTheFile(false);
             mEditor.fileSaved(); // so it doesn't ask to save in onDetach
         }
     }
@@ -300,7 +301,7 @@ public abstract class MainActivity extends ActionBarActivity implements IHomeAct
             } else if (mDrawerLayout.isDrawerOpen(Gravity.END) && fileOpened) {
                 mDrawerLayout.closeDrawer(Gravity.END);
             } else if (fileOpened && mEditor.canSaveFile()) {
-                SaveFileDialog.newInstance(sFilePath, pageSystem.getAllText(mEditor
+                new SaveFileDialog(greatUri, pageSystem.getAllText(mEditor
                         .getText().toString()), currentEncoding).show(getFragmentManager(),
                         "dialog");
             } else if (fileOpened) {
@@ -311,7 +312,7 @@ public abstract class MainActivity extends ActionBarActivity implements IHomeAct
                 // Set the default title
                 getSupportActionBar().setTitle(getString(R.string.nome_app_turbo_editor));
 
-                onEvent(new EventBusEvents.ClosedAFile());
+                closedTheFile();
 
                 mDrawerLayout.openDrawer(Gravity.START);
                 mDrawerLayout.closeDrawer(Gravity.END);
@@ -325,37 +326,50 @@ public abstract class MainActivity extends ActionBarActivity implements IHomeAct
     }
 
     @Override
-    protected void onActivityResult(int requestCode, int resultCode, Intent data) {
-        super.onActivityResult(requestCode, resultCode, data);
+    protected void onActivityResult(int requestCode, int resultCode, final Intent intent) {
+        super.onActivityResult(requestCode, resultCode, intent);
         if (resultCode == RESULT_OK) {
-            String path = "";
             if (requestCode == SELECT_FILE_CODE) {
-                path = data.getStringExtra("path");
-                if(TextUtils.isEmpty(path))
-                    path = AccessStorageApi.getPath(getBaseContext(), data.getData());
-            }
 
-            if (requestCode == KITKAT_OPEN_REQUEST_CODE) {
-                path = AccessStorageApi.getPath(getBaseContext(), data.getData());
-            }
+                final Uri data = intent.getData();
+                final GreatUri newUri = new GreatUri(data, AccessStorageApi.getPath(this, data), AccessStorageApi.getName(this, data));
 
-            if (!TextUtils.isEmpty(path)) {
-                File file = new File(path);
-                if (file.isFile() && file.exists()) {
-                    onEvent(new EventBusEvents.NewFileToOpen(new File
-                            (path)));
+                newFileToOpen(newUri, "");
+            } else {
+
+                final Uri data = intent.getData();
+                final GreatUri newUri = new GreatUri(data, AccessStorageApi.getPath(this, data), AccessStorageApi.getName(this, data));
+
+               // grantUriPermission(getPackageName(), data, Intent.FLAG_GRANT_READ_URI_PERMISSION);
+                final int takeFlags = intent.getFlags()
+                        & (Intent.FLAG_GRANT_READ_URI_PERMISSION
+                        | Intent.FLAG_GRANT_WRITE_URI_PERMISSION);
+                // Check for the freshest data.
+                getContentResolver().takePersistableUriPermission(data, takeFlags);
+
+                if (requestCode == READ_REQUEST_CODE || requestCode == CREATE_REQUEST_CODE) {
+
+                    newFileToOpen(newUri, "");
+                }
+
+                if (requestCode == SAVE_AS_REQUEST_CODE) {
+
+                    new SaveFileTask(this, newUri, pageSystem.getAllText(mEditor.getText().toString()), currentEncoding, new SaveFileTask.SaveFileInterface() {
+                        @Override
+                        public void fileSaved(Boolean success) {
+                            savedAFile(greatUri, false);
+                            newFileToOpen(newUri, "");
+                        }
+                    }).execute();
                 }
             }
-
         }
     }
 
     @Override
     public void onItemClick(AdapterView<?> parent, View view, int position, long id) {
-        // Path of the file selected
-        String filePath = files.get(position).getAbsolutePath();
         // Send the event that a file was selected
-        onEvent(new EventBusEvents.NewFileToOpen(new File(filePath)));
+        newFileToOpen(greatUris.get(position), "");
     }
 
     //endregion
@@ -364,7 +378,7 @@ public abstract class MainActivity extends ActionBarActivity implements IHomeAct
 
     @Override
     public boolean onCreateOptionsMenu(Menu menu) {
-        if (fileOpened && searchingText)
+        if (fileOpened && searchResult != null)
             getMenuInflater().inflate(R.menu.fragment_editor_search, menu);
         else if (fileOpened)
             getMenuInflater().inflate(R.menu.fragment_editor, menu);
@@ -374,13 +388,17 @@ public abstract class MainActivity extends ActionBarActivity implements IHomeAct
     @Override
     public boolean onPrepareOptionsMenu(Menu menu) {
 
-        if (fileOpened && searchingText) {
+        if (fileOpened && searchResult != null) {
             MenuItem imReplace = menu.findItem(R.id.im_replace);
+            MenuItem imReplaceAll = menu.findItem(R.id.im_replace_all);
             MenuItem imPrev = menu.findItem(R.id.im_previous_item);
             MenuItem imNext = menu.findItem(R.id.im_next_item);
 
             if (imReplace != null)
                 imReplace.setVisible(searchResult.canReplaceSomething());
+
+            if (imReplaceAll != null)
+                imReplaceAll.setVisible(searchResult.canReplaceSomething());
 
             if (imPrev != null)
                 imPrev.setVisible(searchResult.hasPrevious());
@@ -393,6 +411,7 @@ public abstract class MainActivity extends ActionBarActivity implements IHomeAct
             MenuItem imSave = menu.findItem(R.id.im_save);
             MenuItem imUndo = menu.findItem(R.id.im_undo);
             MenuItem imRedo = menu.findItem(R.id.im_redo);
+
             if (mEditor != null) {
                 if (imSave != null)
                     imSave.setVisible(mEditor.canSaveFile());
@@ -406,15 +425,21 @@ public abstract class MainActivity extends ActionBarActivity implements IHomeAct
                 imRedo.setVisible(false);
             }
 
-            MenuItem item = menu.findItem(R.id.im_share);
-            ShareActionProvider shareAction = (ShareActionProvider) MenuItemCompat
-                    .getActionProvider(item);
-            File f = new File(sFilePath);
-            Intent shareIntent = new Intent();
-            shareIntent.setAction(Intent.ACTION_SEND);
-            shareIntent.putExtra(Intent.EXTRA_STREAM, Uri.fromFile(f));
-            shareIntent.setType("text/plain");
-            shareAction.setShareIntent(shareIntent);
+            MenuItem imMarkdown = menu.findItem(R.id.im_view_markdown);
+            boolean isMarkdown = Arrays.asList(MimeTypes.MIME_MARKDOWN).contains(FilenameUtils.getExtension(greatUri.getFileName()));
+            if (imMarkdown != null)
+                imMarkdown.setVisible(isMarkdown);
+
+            MenuItem imShare = menu.findItem(R.id.im_share);
+            if (imMarkdown != null) {
+                ShareActionProvider shareAction = (ShareActionProvider) MenuItemCompat
+                        .getActionProvider(imShare);
+                Intent shareIntent = new Intent();
+                shareIntent.setAction(Intent.ACTION_SEND);
+                shareIntent.putExtra(Intent.EXTRA_STREAM, greatUri.getUri());
+                shareIntent.setType("text/plain");
+                shareAction.setShareIntent(shareIntent);
+            }
         }
 
         MenuItem imDonate = menu.findItem(R.id.im_donate);
@@ -432,9 +457,14 @@ public abstract class MainActivity extends ActionBarActivity implements IHomeAct
             Toast.makeText(getBaseContext(), "drawer click", Toast.LENGTH_SHORT).show();
             mDrawerLayout.closeDrawer(Gravity.END);
             return true;
-        } else if (i == R.id.im_save) {
-            saveTheFile();
+        } else if (i == R.id.im_save_normaly) {
+            saveTheFile(false);
 
+        }  else if (i == R.id.im_save_as) {
+            saveTheFile(true);
+
+        } else if (i == R.id.im_rename) {
+            EditTextDialog.newInstance(EditTextDialog.Actions.Rename, greatUri.getFileName()).show(getFragmentManager().beginTransaction(), "dialog");
         } else if (i == R.id.im_undo) {
             mEditor.onTextContextMenuItem(ID_UNDO);
 
@@ -445,11 +475,14 @@ public abstract class MainActivity extends ActionBarActivity implements IHomeAct
             FindTextDialog.newInstance(mEditor.getText().toString()).show(getFragmentManager()
                     .beginTransaction(), "dialog");
         } else if (i == R.id.im_cancel) {
-            searchingText = false;
+            searchResult = null;
             invalidateOptionsMenu();
 
         } else if (i == R.id.im_replace) {
-            replaceText();
+            replaceText(false);
+
+        } else if (i == R.id.im_replace_all) {
+            replaceText(true);
 
         } else if (i == R.id.im_next_item) {
             nextResult();
@@ -466,36 +499,50 @@ public abstract class MainActivity extends ActionBarActivity implements IHomeAct
             Intent browserIntent;
             try {
                 browserIntent = new Intent(Intent.ACTION_VIEW);
-                browserIntent.setDataAndType(Uri.fromFile(new File(sFilePath)), "text/*");
+                browserIntent.setDataAndType(greatUri.getUri(), "*/*");
                 startActivity(browserIntent);
             } catch (ActivityNotFoundException ex2) {
                 //
             }
 
+        } else if (i == R.id.im_view_markdown) {
+            Intent browserIntent = new Intent(MainActivity.this, MarkdownActivity.class);
+            browserIntent.putExtra("text", pageSystem.getAllText(mEditor.getText().toString()));
+            startActivity(browserIntent);
         } else if (i == R.id.im_info) {
-            FileInfoDialog.newInstance(sFilePath).show(getFragmentManager().beginTransaction(), "dialog");
-        }
-
-        else if (i == R.id.im_donate) {
-            DialogHelper.showDonateDialog(this);
+            FileInfoDialog.newInstance(greatUri.getUri()).show(getFragmentManager().beginTransaction(), "dialog");
+        } else if (i == R.id.im_donate) {
+            final String appPackageName = "com.maskyn.fileeditorpro";
+            try {
+                startActivity(new Intent(Intent.ACTION_VIEW, Uri.parse("market://details?id=" + appPackageName)));
+            } catch (android.content.ActivityNotFoundException anfe) {
+                startActivity(new Intent(Intent.ACTION_VIEW, Uri.parse("https://play.google.com/store/apps/details?id=" + appPackageName)));
+            }
         }
         return super.onOptionsItemSelected(item);
     }
     //endregion
 
     // region OTHER THINGS
-    void replaceText() {
-        int start = searchResult.foundIndex.get(searchResult.index);
-        int end = start + searchResult.textLength;
-        mEditor.setText(mEditor.getText().replace(start, end, searchResult.textToReplace));
-        searchResult.doneReplace();
+    void replaceText(boolean all) {
+        if (all) {
+            mEditor.setText(pageSystem.getAllText(mEditor.getText().toString()).replaceAll(searchResult.whatToSearch, searchResult.textToReplace));
 
-        invalidateOptionsMenu();
+            searchResult = null;
+            invalidateOptionsMenu();
+        } else {
+            int start = searchResult.foundIndex.get(searchResult.index);
+            int end = start + searchResult.textLength;
+            mEditor.setText(mEditor.getText().replace(start, end, searchResult.textToReplace));
+            searchResult.doneReplace();
 
-        if (searchResult.hasNext())
-            nextResult();
-        else if (searchResult.hasPrevious())
-            previousResult();
+            invalidateOptionsMenu();
+
+            if (searchResult.hasNext())
+                nextResult();
+            else if (searchResult.hasPrevious())
+                previousResult();
+        }
     }
 
     void nextResult() {
@@ -561,14 +608,29 @@ public abstract class MainActivity extends ActionBarActivity implements IHomeAct
         invalidateOptionsMenu();
     }
 
-    private void saveTheFile() {
-        File file = new File(sFilePath);
-        if (!file.getName().isEmpty())
-            new SaveFileTask(this, sFilePath, pageSystem.getAllText(mEditor.getText()
-                    .toString()), currentEncoding).execute();
+    private void saveTheFile(boolean saveAs) {
+        if (!saveAs && greatUri != null && greatUri.getUri() != null && greatUri.getUri() != Uri.EMPTY)
+            new SaveFileTask(this, greatUri, pageSystem.getAllText(mEditor.getText()
+                    .toString()), currentEncoding, new SaveFileTask.SaveFileInterface() {
+                @Override
+                public void fileSaved(Boolean success) {
+                    savedAFile(greatUri, true);
+                }
+            }).execute();
         else {
-            NewFileDetailsDialog.newInstance
-                    (pageSystem.getAllText(mEditor.getText().toString()), currentEncoding).show(getFragmentManager().beginTransaction(), "dialog");
+            if (Device.hasKitKatApi() && PreferenceHelper.getUseStorageAccessFramework(this)) {
+                Intent intent = new Intent(Intent.ACTION_CREATE_DOCUMENT);
+                intent.setType("*/*");
+                intent.putExtra(Intent.EXTRA_TITLE, greatUri.getFileName());
+                startActivityForResult(intent, SAVE_AS_REQUEST_CODE);
+            } else {
+                new NewFileDetailsDialog(
+                        greatUri,
+                        pageSystem.getAllText(mEditor.getText().toString()),
+                        currentEncoding
+                ).show(getFragmentManager().beginTransaction(), "dialog");
+            }
+
         }
     }
 
@@ -611,8 +673,8 @@ public abstract class MainActivity extends ActionBarActivity implements IHomeAct
 
         ListView listView = (ListView) findViewById(android.R.id.list);
         listView.setEmptyView(findViewById(android.R.id.empty));
-        files = new LinkedList<>();
-        arrayAdapter = new AdapterDrawer(this, files, this);
+        greatUris = new LinkedList<>();
+        arrayAdapter = new AdapterDrawer(this, greatUris, this);
         listView.setAdapter(arrayAdapter);
         listView.setOnItemClickListener(this);
     }
@@ -623,7 +685,12 @@ public abstract class MainActivity extends ActionBarActivity implements IHomeAct
         horizontalScroll = (HorizontalScrollView) findViewById(R.id.horizontal_scroll);
         mEditor = (Editor) findViewById(R.id.editor);
 
-        //mEditor.setLayerType(View.LAYER_TYPE_NONE, null);
+        AccessoryView accessoryView = (AccessoryView) findViewById(R.id.accessoryView);
+        accessoryView.setInterface(this);
+
+        HorizontalScrollView parentAccessoryView = (HorizontalScrollView) findViewById(R.id.parent_accessory_view);
+        ViewUtils.setVisible(parentAccessoryView, PreferenceHelper.getUseAccessoryView(this));
+
 
         if (PreferenceHelper.getWrapContent(this)) {
             horizontalScroll.removeView(mEditor);
@@ -631,19 +698,15 @@ public abstract class MainActivity extends ActionBarActivity implements IHomeAct
             verticalScroll.addView(mEditor);
         }
 
-        if (PreferenceHelper.getReadOnly(this)) {
-            getWindow().setSoftInputMode(WindowManager.LayoutParams.SOFT_INPUT_STATE_ALWAYS_HIDDEN);
-        } else {
-            getWindow().setSoftInputMode(WindowManager.LayoutParams.SOFT_INPUT_STATE_UNSPECIFIED);
-        }
-
         verticalScroll.setScrollInterface(this);
 
-        pageSystem = new PageSystem(this, this, "", null);
+        pageSystem = new PageSystem(this, this, "");
 
         pageSystemButtons = new PageSystemButtons(this, this,
                 (FloatingActionButton) findViewById(R.id.fabPrev),
                 (FloatingActionButton) findViewById(R.id.fabNext));
+
+        mEditor.setupEditor();
     }
 
     private void showTextEditor() {
@@ -655,12 +718,11 @@ public abstract class MainActivity extends ActionBarActivity implements IHomeAct
 
         mEditor.resetVariables();
         searchResult = null;
-        searchingText = false;
 
         invalidateOptionsMenu();
 
         mEditor.disableTextChangedListener();
-        mEditor.replaceTextKeepCursor(pageSystem.getCurrentPageText(), false);
+        mEditor.replaceTextKeepCursor(pageSystem.getCurrentPageText());
         mEditor.enableTextChangedListener();
     }
 
@@ -673,7 +735,7 @@ public abstract class MainActivity extends ActionBarActivity implements IHomeAct
             findViewById(R.id.no_file_opened_messagge).setVisibility(View.VISIBLE);
 
             mEditor.disableTextChangedListener();
-            mEditor.replaceTextKeepCursor("", false);
+            mEditor.replaceTextKeepCursor("");
             mEditor.enableTextChangedListener();
         } catch (Exception e) {
             // lol
@@ -692,11 +754,14 @@ public abstract class MainActivity extends ActionBarActivity implements IHomeAct
                 || Intent.ACTION_PICK.equals(action)
                 && type != null) {
             // Post event
-            onEvent(new EventBusEvents.NewFileToOpen(new File(intent
-                    .getData().getPath())));
+           //newFileToOpen(new File(intent
+           //        .getData().getPath()), "");
+            Uri uri = intent.getData();
+            GreatUri newUri = new GreatUri(uri, AccessStorageApi.getPath(this, uri), AccessStorageApi.getName(this, uri));
+            newFileToOpen(newUri, "");
         } else if (Intent.ACTION_SEND.equals(action) && type != null) {
             if ("text/plain".equals(type)) {
-                onEvent(new EventBusEvents.NewFileToOpen(intent.getStringExtra(Intent.EXTRA_TEXT)));
+                newFileToOpen(new GreatUri(Uri.EMPTY, "", ""), intent.getStringExtra(Intent.EXTRA_TEXT));
             }
         }
     }
@@ -744,7 +809,7 @@ public abstract class MainActivity extends ActionBarActivity implements IHomeAct
         refreshList(null, false, false);
     }
 
-    private void refreshList(@Nullable String path, boolean add, boolean delete) {
+    private void refreshList(@Nullable GreatUri thisUri, boolean add, boolean delete) {
         int max_recent_files = 15;
         if(add)
             max_recent_files--;
@@ -754,27 +819,40 @@ public abstract class MainActivity extends ActionBarActivity implements IHomeAct
         int first_index_of_array = savedPaths.length > max_recent_files ? savedPaths.length - max_recent_files : 0;
         savedPaths = ArrayUtils.subarray(savedPaths, first_index_of_array, savedPaths.length);
         // File names for the list
-        files.clear();
+        greatUris.clear();
         // StringBuilder that will contain the file paths
         StringBuilder sb = new StringBuilder();
-        // for cycle to convert paths to names
 
+        // for cycle to convert paths to names
         for(int i = 0; i < savedPaths.length; i++){
-            String savedPath = savedPaths[i];
-            File file = new File(savedPath);
+            Uri particularUri = Uri.parse(savedPaths[i]);
+            String name = AccessStorageApi.getName(this, particularUri);
             // Check that the file exist
-            if (file.exists()) {
-                if(path != null && path.equals(savedPath) && delete)
-                    continue;
+            // if is null or empty the particular url we dont use it
+            if (particularUri != null && !particularUri.equals(Uri.EMPTY) && !TextUtils.isEmpty(name)) {
+                // if the particular uri is good
+                boolean good = false;
+                if (thisUri == null || thisUri.getUri() == null || thisUri.getUri() == Uri.EMPTY)
+                    good = true;
                 else {
-                    files.addFirst(file);
-                    sb.append(savedPath).append(",");
+                    if (delete == false)
+                        good = true;
+                    else if (!thisUri.getUri().equals(particularUri))
+                        good = true;
+                    else
+                        good = false;
+                }
+                if (good) {
+                    greatUris.addFirst(new GreatUri(particularUri, AccessStorageApi.getPath(this, particularUri), name));
+                    sb.append(savedPaths[i]).append(",");
                 }
             }
+            //}
         }
-        if(path != null && !path.isEmpty() && add && !ArrayUtils.contains(savedPaths, path)) {
-            sb.append(path).append(",");
-            files.addFirst(new File(path));
+        // if is not null, empty, we have to add something and we dont already have this uri
+        if(thisUri != null && !thisUri.getUri().equals(Uri.EMPTY) && add && !ArrayUtils.contains(savedPaths, thisUri.getUri().toString())) {
+            sb.append(thisUri.getUri().toString()).append(",");
+            greatUris.addFirst(thisUri);
         }
         // save list without empty or non existed files
         PreferenceHelper.setSavedPaths(this, sb);
@@ -784,21 +862,22 @@ public abstract class MainActivity extends ActionBarActivity implements IHomeAct
     //endregion
 
     //region EVENTBUS
-    void onEvent(final EventBusEvents.NewFileToOpen event) {
+    void newFileToOpen(final GreatUri newUri, final String newFileText) {
 
-        if (fileOpened && mEditor.canSaveFile()) {
-            SaveFileDialog.newInstance(sFilePath, pageSystem.getAllText(mEditor
-                    .getText().toString()), currentEncoding, true, event.getFile().getAbsolutePath()).show(getFragmentManager(),
+        if (fileOpened && mEditor != null && mEditor.canSaveFile() && greatUri != null && pageSystem != null && currentEncoding != null) {
+            new SaveFileDialog(greatUri, pageSystem.getAllText(mEditor
+                    .getText().toString()), currentEncoding, true, newUri).show(getFragmentManager(),
                     "dialog");
             return;
         }
 
         new AsyncTask<Void, Void, Void>() {
 
-            File file;
             String message = "";
-            String fileText;
-            String encoding;
+            String fileText = "";
+            String fileName = "";
+            String encoding = "UTF-16";
+            boolean isRootRequired = false;
             ProgressDialog progressDialog;
 
             @Override
@@ -814,49 +893,40 @@ public abstract class MainActivity extends ActionBarActivity implements IHomeAct
 
             @Override
             protected Void doInBackground(Void... params) {
-                file = event.getFile();
                 try {
-                    if (!file.exists() || !file.isFile()) {
-                        fileText = event.getFileText();
-                        sFilePath = file.getAbsolutePath();
+                    // if no new uri
+                    if (newUri == null || newUri.getUri() == null || newUri.getUri() == Uri.EMPTY) {
                         fileExtension = "txt";
-                        return null;
-                    }
-
-                    file = file.getCanonicalFile();
-                    sFilePath = file.getAbsolutePath();
-                    fileExtension = FilenameUtils.getExtension(sFilePath).toLowerCase();
-
-                    boolean isRoot;
-
-                    if (!file.canRead()) {
-                        Shell shell;
-                        shell = Shell.startRootShell();
-                        Toolbox tb = new Toolbox(shell);
-                        isRoot = tb.isRootAccessGiven();
-
-                        if (isRoot) {
-                            File tempFile = new File(getFilesDir(), "temp.root.file");
-                            if (!tempFile.exists())
-                                tempFile.createNewFile();
-                            tb.copyFile(event.getFile().getAbsolutePath(),
-                                    tempFile.getAbsolutePath(), false, false);
-                            file = new File(tempFile.getAbsolutePath());
-                        }
-                    }
-
-                    boolean autoencoding = PreferenceHelper.getAutoEncoding(MainActivity.this);
-                    if (autoencoding) {
-
-                        encoding = FileUtils.getDetectedEncoding(file);
-                        if (encoding.isEmpty()) {
-                            encoding = PreferenceHelper.getEncoding(MainActivity.this);
-                        }
+                        fileText = newFileText;
                     } else {
-                        encoding = PreferenceHelper.getEncoding(MainActivity.this);
+                        String filePath = newUri.getFilePath();
+
+                        // if the uri has no path
+                        if (TextUtils.isEmpty(filePath)) {
+                            fileName = newUri.getFileName();
+                            fileExtension = FilenameUtils.getExtension(fileName).toLowerCase();
+
+                            readUri(newUri.getUri(), filePath, false);
+                        }
+                        // if the uri has a path
+                        else {
+                            fileName = FilenameUtils.getName(filePath);
+                            fileExtension = FilenameUtils.getExtension(fileName).toLowerCase();
+
+                            isRootRequired = !newUri.isReadable();
+                            // if we cannot read the file, root permission required
+                            if (isRootRequired) {
+                               readUri(newUri.getUri(), filePath, true);
+                            }
+                            // if we can read the file associated with the uri
+                            else {
+                                readUri(newUri.getUri(), filePath, false);
+                            }
+                        }
+
                     }
 
-                    fileText = org.apache.commons.io.FileUtils.readFileToString(file, encoding);
+                    greatUri = newUri;
                 } catch (Exception e) {
                     message = e.getMessage();
                     fileText = "";
@@ -872,31 +942,77 @@ public abstract class MainActivity extends ActionBarActivity implements IHomeAct
                 return null;
             }
 
+            private void readUri(Uri uri, String path, boolean asRoot) throws IOException {
+
+
+                BufferedReader buffer = null;
+                StringBuilder stringBuilder = new StringBuilder();
+                String line;
+
+                if (asRoot) {
+
+                    encoding = "UTF-8";
+
+                    // Connect the shared connection
+                    if (RootFW.connect()) {
+                        FileReader reader = RootFW.getFileReader(path);
+                        buffer = new BufferedReader(reader);
+                    }
+                } else {
+
+                    boolean autoencoding = PreferenceHelper.getAutoEncoding(MainActivity.this);
+                    if (autoencoding) {
+                        encoding = FileUtils.getDetectedEncoding(getContentResolver().openInputStream(uri));
+                        if (encoding.isEmpty()) {
+                            encoding = PreferenceHelper.getEncoding(MainActivity.this);
+                        }
+                    } else {
+                        encoding = PreferenceHelper.getEncoding(MainActivity.this);
+                    }
+
+                    InputStream inputStream = getContentResolver().openInputStream(uri);
+                    if(inputStream != null) {
+                        buffer = new BufferedReader(new InputStreamReader(inputStream, encoding));
+                    }
+                }
+
+                if (buffer != null) {
+                    while((line = buffer.readLine()) != null) {
+                        stringBuilder.append(line);
+                        stringBuilder.append("\n");
+                    }
+                    buffer.close();
+                    fileText = stringBuilder.toString();
+                }
+
+                if (isRootRequired)
+                    RootFW.disconnect();
+            }
+
             @Override
             protected void onPostExecute(Void result) {
                 super.onPostExecute(result);
                 progressDialog.hide();
 
-                if (!message.isEmpty()) {
+                if (!TextUtils.isEmpty(message)) {
                     Toast.makeText(MainActivity.this, message, Toast.LENGTH_LONG).show();
-                    onEvent(new EventBusEvents.CannotOpenAFile());
+                    cannotOpenFile();
                 } else {
 
-                    pageSystem = new PageSystem(MainActivity.this, MainActivity.this, fileText, new File(sFilePath));
+                    pageSystem = new PageSystem(MainActivity.this, MainActivity.this, fileText);
                     currentEncoding = encoding;
 
-                    onEvent(new EventBusEvents.AFileIsSelected(sFilePath));
+                    aFileWasSelected(greatUri);
 
                     showTextEditor();
 
-                    String name = FilenameUtils.getName(sFilePath);
-                    if (name.isEmpty())
+                    if (fileName.isEmpty())
                         getSupportActionBar().setTitle(R.string.new_file);
                     else
-                        getSupportActionBar().setTitle(name);
+                        getSupportActionBar().setTitle(fileName);
 
-                    if(!name.isEmpty()) {
-                        refreshList(sFilePath, true, false);
+                    if(greatUri != null) {
+                        refreshList(greatUri, true, false);
                     }
                 }
 
@@ -904,10 +1020,21 @@ public abstract class MainActivity extends ActionBarActivity implements IHomeAct
         }.execute();
     }
 
-    public void onEvent(EventBusEvents.SavedAFile event) {
+    public void savedAFile(GreatUri uri, boolean updateList) {
 
-        sFilePath = event.getPath();
-        fileExtension = FilenameUtils.getExtension(sFilePath).toLowerCase();
+        if (uri != null) {
+
+            greatUri = uri;
+
+            String name = uri.getFileName();
+            fileExtension = FilenameUtils.getExtension(name).toLowerCase();
+            toolbar.setTitle(name);
+
+            if (updateList) {
+                refreshList(uri, true, false);
+                arrayAdapter.selectPosition(uri);
+            }
+        }
 
         mEditor.clearHistory();
         mEditor.fileSaved();
@@ -918,11 +1045,6 @@ public abstract class MainActivity extends ActionBarActivity implements IHomeAct
         } catch (NullPointerException e) {
             e.printStackTrace();
         }
-
-        refreshList(event.getPath(), true, false);
-        arrayAdapter.selectView(event.getPath());
-
-        showInterstitial();
     }
 
     /**
@@ -931,7 +1053,7 @@ public abstract class MainActivity extends ActionBarActivity implements IHomeAct
      *
      * @param event The event called
      */
-    void onEvent(EventBusEvents.CannotOpenAFile event) {
+    void cannotOpenFile() {
         //
         mDrawerLayout.openDrawer(Gravity.LEFT);
         //
@@ -942,13 +1064,21 @@ public abstract class MainActivity extends ActionBarActivity implements IHomeAct
         hideTextEditor();
     }
 
-    public void onEvent(EventBusEvents.APreferenceValueWasChanged event) {
+    public void aPreferenceValueWasChanged(final PreferenceChangeType type) {
+        this.aPreferenceValueWasChanged(new ArrayList<PreferenceChangeType>() {{
+            add(type);
+        }});
+    }
 
-        if (event.hasType(EventBusEvents.APreferenceValueWasChanged.Type.THEME_CHANGE)) {
+    void aPreferenceValueWasChanged(List<PreferenceChangeType> types) {
+
+        if (types.contains(PreferenceChangeType.THEME_CHANGE)) {
             ThemeUtils.setWindowsBackground(this);
+            AccessoryView accessoryView = (AccessoryView) findViewById(R.id.accessoryView);
+            accessoryView.updateTextColors();
         }
 
-        if (event.hasType(WRAP_CONTENT)) {
+        if (types.contains(PreferenceChangeType.WRAP_CONTENT)) {
             if (PreferenceHelper.getWrapContent(this)) {
                 horizontalScroll.removeView(mEditor);
                 verticalScroll.removeView(horizontalScroll);
@@ -958,41 +1088,30 @@ public abstract class MainActivity extends ActionBarActivity implements IHomeAct
                 verticalScroll.addView(horizontalScroll);
                 horizontalScroll.addView(mEditor);
             }
-        } else if (event.hasType(LINE_NUMERS)) {
+        } else if (types.contains(PreferenceChangeType.LINE_NUMERS)) {
             mEditor.disableTextChangedListener();
-            mEditor.replaceTextKeepCursor(null, true);
+            mEditor.replaceTextKeepCursor(null);
             mEditor.enableTextChangedListener();
-            if (PreferenceHelper.getLineNumbers(this)) {
-                mEditor.setPadding(EditTextPadding.getPaddingWithLineNumbers(this,
-                                PreferenceHelper.getFontSize(this)),
-                        EditTextPadding.getPaddingTop(this), 0, 0);
-            } else {
-                mEditor.setPadding(EditTextPadding.getPaddingWithoutLineNumbers(this)
-                        , EditTextPadding.getPaddingTop(this), 0, 0);
-            }
-        } else if (event.hasType(SYNTAX)) {
+            mEditor.updatePadding();
+        } else if (types.contains(PreferenceChangeType.SYNTAX)) {
             mEditor.disableTextChangedListener();
-            mEditor.replaceTextKeepCursor(null, true);
+            mEditor.replaceTextKeepCursor(mEditor.getText().toString());
             mEditor.enableTextChangedListener();
-        } else if (event.hasType(MONOSPACE)) {
+        } else if (types.contains(PreferenceChangeType.MONOSPACE)) {
             if (PreferenceHelper.getUseMonospace(this))
                 mEditor.setTypeface(Typeface.MONOSPACE);
             else
                 mEditor.setTypeface(Typeface.DEFAULT);
-        } else if (event.hasType(THEME_CHANGE)) {
+        } else if (types.contains(PreferenceChangeType.THEME_CHANGE)) {
             if (PreferenceHelper.getLightTheme(this)) {
                 mEditor.setTextColor(getResources().getColor(R.color.textColorInverted));
             } else {
                 mEditor.setTextColor(getResources().getColor(R.color.textColor));
             }
-        } else if (event.hasType(TEXT_SUGGESTIONS) || event.hasType(READ_ONLY)) {
+        } else if (types.contains(PreferenceChangeType.TEXT_SUGGESTIONS) || types.contains(PreferenceChangeType.READ_ONLY)) {
             if (PreferenceHelper.getReadOnly(this)) {
-                getWindow().setSoftInputMode(WindowManager.LayoutParams
-                        .SOFT_INPUT_STATE_ALWAYS_HIDDEN);
                 mEditor.setReadOnly(true);
             } else {
-                getWindow().setSoftInputMode(WindowManager.LayoutParams
-                        .SOFT_INPUT_STATE_UNSPECIFIED);
                 mEditor.setReadOnly(false);
                 if (PreferenceHelper.getSuggestionActive(this)) {
                     mEditor.setInputType(InputType.TYPE_CLASS_TEXT | InputType
@@ -1009,31 +1128,28 @@ public abstract class MainActivity extends ActionBarActivity implements IHomeAct
                 mEditor.setTypeface(Typeface.MONOSPACE);
             else
                 mEditor.setTypeface(Typeface.DEFAULT);
-        } else if (event.hasType(FONT_SIZE)) {
-            if (PreferenceHelper.getLineNumbers(this)) {
-                mEditor.setPadding(EditTextPadding.getPaddingWithLineNumbers(this,
-                                PreferenceHelper.getFontSize(this)),
-                        EditTextPadding.getPaddingTop(this), 0, 0);
-            } else {
-                mEditor.setPadding(EditTextPadding.getPaddingWithoutLineNumbers(this)
-                        , EditTextPadding.getPaddingTop(this), 0, 0);
-            }
+        } else if (types.contains(PreferenceChangeType.FONT_SIZE)) {
+            mEditor.updatePadding();
             mEditor.setTextSize(PreferenceHelper.getFontSize(this));
-        } else if (event.hasType(ENCODING)) {
+        } else if (types.contains(PreferenceChangeType.ACCESSORY_VIEW)) {
+            HorizontalScrollView parentAccessoryView = (HorizontalScrollView) findViewById(R.id.parent_accessory_view);
+            ViewUtils.setVisible(parentAccessoryView, PreferenceHelper.getUseAccessoryView(this));
+            mEditor.updatePadding();
+        } else if (types.contains(PreferenceChangeType.ENCODING)) {
             String oldEncoding, newEncoding;
             oldEncoding = currentEncoding;
             newEncoding = PreferenceHelper.getEncoding(this);
             try {
                 final byte[] oldText = mEditor.getText().toString().getBytes(oldEncoding);
                 mEditor.disableTextChangedListener();
-                mEditor.replaceTextKeepCursor(new String(oldText, newEncoding), true);
+                mEditor.replaceTextKeepCursor(new String(oldText, newEncoding));
                 mEditor.enableTextChangedListener();
                 currentEncoding = newEncoding;
             } catch (UnsupportedEncodingException ignored) {
                 try {
                     final byte[] oldText = mEditor.getText().toString().getBytes(oldEncoding);
                     mEditor.disableTextChangedListener();
-                    mEditor.replaceTextKeepCursor(new String(oldText, "UTF-8"), true);
+                    mEditor.replaceTextKeepCursor(new String(oldText, "UTF-16"));
                     mEditor.enableTextChangedListener();
                 } catch (UnsupportedEncodingException ignored2) {
                 }
@@ -1041,24 +1157,50 @@ public abstract class MainActivity extends ActionBarActivity implements IHomeAct
         }
     }
 
-    void onEvent(EventBusEvents.AFileIsSelected event) {
-        arrayAdapter.selectView(event.getPath());
+   void aFileWasSelected(GreatUri uri) {
+        arrayAdapter.selectPosition(uri);
     }
 
-    void onEvent(EventBusEvents.ClosedAFile event) {
-        arrayAdapter.selectView("");
+    void closedTheFile() {
+        arrayAdapter.selectPosition(new GreatUri(Uri.EMPTY, "", ""));
     }
     //endregion
 
     //region Calls from the layout
     public void OpenFile(View view) {
-        Intent subActivity = new Intent(MainActivity.this, SelectFileActivity.class);
-        subActivity.putExtra("action", SelectFileActivity.Actions.SelectFile);
-        AnimationUtils.startActivityWithScale(this, subActivity, true, SELECT_FILE_CODE, view);
+
+        if (Device.hasKitKatApi()  && PreferenceHelper.getUseStorageAccessFramework(this)) {
+            // ACTION_OPEN_DOCUMENT is the intent to choose a file via the system's file
+            // browser.
+            Intent intent = new Intent(Intent.ACTION_OPEN_DOCUMENT);
+
+            // Filter to only show results that can be "opened", such as a
+            // file (as opposed to a list of contacts or timezones)
+            intent.addCategory(Intent.CATEGORY_OPENABLE);
+
+            // Filter to show only images, using the image MIME data type.
+            // If one wanted to search for ogg vorbis files, the type would be "audio/ogg".
+            // To search for all documents available via installed storage providers,
+            // it would be "*/*".
+            intent.setType("*/*");
+
+            startActivityForResult(intent, READ_REQUEST_CODE);
+        } else {
+            Intent subActivity = new Intent(MainActivity.this, SelectFileActivity.class);
+            subActivity.putExtra("action", SelectFileActivity.Actions.SelectFile);
+            AnimationUtils.startActivityWithScale(this, subActivity, true, SELECT_FILE_CODE, view);
+        }
     }
 
     public void CreateFile(View view) {
-        onEvent(new EventBusEvents.NewFileToOpen("")); // do not send the event to others
+        if (Device.hasKitKatApi() && PreferenceHelper.getUseStorageAccessFramework(this)) {
+            Intent intent = new Intent(Intent.ACTION_CREATE_DOCUMENT);
+            intent.setType("*/*");
+            //intent.putExtra(Intent.EXTRA_TITLE, ".txt");
+            startActivityForResult(intent, CREATE_REQUEST_CODE);
+        } else {
+            newFileToOpen(new GreatUri(Uri.EMPTY, "", ""), "");
+        }
     }
 
     public void OpenInfo(View view) {
@@ -1077,7 +1219,7 @@ public abstract class MainActivity extends ActionBarActivity implements IHomeAct
         pageSystem.savePage(mEditor.getText().toString());
         pageSystem.nextPage();
         mEditor.disableTextChangedListener();
-        mEditor.replaceTextKeepCursor(pageSystem.getCurrentPageText(), false);
+        mEditor.replaceTextKeepCursor(pageSystem.getCurrentPageText());
         mEditor.enableTextChangedListener();
 
         verticalScroll.postDelayed(new Runnable() {
@@ -1099,7 +1241,7 @@ public abstract class MainActivity extends ActionBarActivity implements IHomeAct
         pageSystem.savePage(mEditor.getText().toString());
         pageSystem.prevPage();
         mEditor.disableTextChangedListener();
-        mEditor.replaceTextKeepCursor(pageSystem.getCurrentPageText(), false);
+        mEditor.replaceTextKeepCursor(pageSystem.getCurrentPageText());
         mEditor.enableTextChangedListener();
 
         verticalScroll.postDelayed(new Runnable() {
@@ -1137,7 +1279,6 @@ public abstract class MainActivity extends ActionBarActivity implements IHomeAct
     @Override
     public void onSearchDone(SearchResult searchResult) {
         MainActivity.searchResult = searchResult;
-        searchingText = true;
         invalidateOptionsMenu();
 
         final int line = LineUtils.getLineFromIndex(searchResult.foundIndex.getFirst
@@ -1165,7 +1306,7 @@ public abstract class MainActivity extends ActionBarActivity implements IHomeAct
     @Override
     public void onPageChanged(int page) {
         pageSystemButtons.updateVisibility(false);
-        searchingText = false;
+        searchResult = null;
         mEditor.clearHistory();
         invalidateOptionsMenu();
     }
@@ -1175,7 +1316,7 @@ public abstract class MainActivity extends ActionBarActivity implements IHomeAct
         pageSystemButtons.updateVisibility(Math.abs(t) > 10);
 
         if (!PreferenceHelper.getSyntaxHighlight(this) || (mEditor.hasSelection() &&
-                !searchingText) || updateHandler == null || colorRunnable_duringScroll == null)
+                searchResult == null) || updateHandler == null || colorRunnable_duringScroll == null)
             return;
 
         updateHandler.removeCallbacks(colorRunnable_duringEditing);
@@ -1189,7 +1330,7 @@ public abstract class MainActivity extends ActionBarActivity implements IHomeAct
             pageSystem.savePage(mEditor.getText().toString());
             pageSystem.goToPage(value);
             mEditor.disableTextChangedListener();
-            mEditor.replaceTextKeepCursor(pageSystem.getCurrentPageText(), true);
+            mEditor.replaceTextKeepCursor(pageSystem.getCurrentPageText());
             mEditor.enableTextChangedListener();
 
             verticalScroll.postDelayed(new Runnable() {
@@ -1216,46 +1357,111 @@ public abstract class MainActivity extends ActionBarActivity implements IHomeAct
     }
 
     @Override
-    public void userDoesntWantToSave(boolean openNewFile, String pathOfNewFile) {
-        Editor.canSaveFile = false;
+    public void userDoesntWantToSave(boolean openNewFile, GreatUri newUri) {
+        mEditor.fileSaved();
         if(openNewFile)
-            onEvent(new EventBusEvents.NewFileToOpen(new File(pathOfNewFile)));
+            newFileToOpen(newUri, "");
         else
-            onEvent(new EventBusEvents.CannotOpenAFile());
+            cannotOpenFile();
     }
 
     @Override
     public void CancelItem(int position, boolean andCloseOpenedFile) {
-        refreshList(files.get(position).getAbsolutePath(), false, true);
+        refreshList(greatUris.get(position), false, true);
         if (andCloseOpenedFile)
-            onEvent(new EventBusEvents.CannotOpenAFile());
+            cannotOpenFile();
     }
+
+    @Override
+    public void onButtonAccessoryViewClicked(String text) {
+        mEditor.getText().insert(mEditor.getSelectionStart(), text);
+    }
+
+    @Override
+    public void onEdittextDialogEnded(String result, String hint, EditTextDialog.Actions action) {
+
+        if (Device.hasKitKatApi() && TextUtils.isEmpty(greatUri.getFilePath())) {
+            Uri newUri = DocumentsContract.renameDocument(getContentResolver(), greatUri.getUri(), result);
+            // if everything is ok
+            if (newUri != null) {
+
+                // delete current
+                refreshList(greatUri, false, true);
+
+                greatUri.setUri(newUri);
+                greatUri.setFilePath(AccessStorageApi.getPath(this, newUri));
+                greatUri.setFileName(AccessStorageApi.getName(this, newUri));
+
+                new SaveFileTask(this, greatUri, pageSystem.getAllText(mEditor.getText().toString()), currentEncoding, new SaveFileTask.SaveFileInterface() {
+                    @Override
+                    public void fileSaved(Boolean success) {
+                        savedAFile(greatUri, true);
+                    }
+                }).execute();
+            }
+            else {
+                Toast.makeText(this, R.string.file_cannot_be_renamed, Toast.LENGTH_SHORT).show();
+            }
+        } else {
+            File newFile = new File(greatUri.getParentFolder(), result);
+            // if everything is ok
+            if (new File(greatUri.getFilePath()).renameTo(newFile)) {
+
+                // delete current
+                refreshList(greatUri, false, true);
+
+                greatUri.setUri(Uri.fromFile(newFile));
+                greatUri.setFilePath(newFile.getAbsolutePath());
+                greatUri.setFileName(newFile.getName());
+
+                new SaveFileTask(this, greatUri, pageSystem.getAllText(mEditor.getText().toString()), currentEncoding, new SaveFileTask.SaveFileInterface() {
+                    @Override
+                    public void fileSaved(Boolean success) {
+
+                        savedAFile(greatUri, true);
+                    }
+                }).execute();
+            }
+            else {
+                Toast.makeText(this, R.string.file_cannot_be_renamed, Toast.LENGTH_SHORT).show();
+            }
+        }
+
+
+        /*new SaveFileTask(this, greatUri, pageSystem.getAllText(mEditor.getText().toString()), currentEncoding, new SaveFileTask.SaveFileInterface() {
+            @Override
+            public void fileSaved(Boolean success) {
+                savedAFile(greatUri, true);
+            }
+        }).execute();*/
+    }
+
     //endregion
 
     public static class Editor extends EditText {
 
         //region VARIABLES
-        private static final TextPaint mPaintNumbers = new TextPaint();
+        private final TextPaint mPaintNumbers = new TextPaint();
         /**
          * The edit history.
          */
-        private final EditHistory mEditHistory;
+        private EditHistory mEditHistory;
         /**
          * The change listener.
          */
-        private final EditTextChangeListener
+        private EditTextChangeListener
                 mChangeListener;
         /**
          * Disconnect this undo/redo from the text
          * view.
          */
-        private static boolean enabledChangeListener;
-        private static int paddingTop;
-        private static int numbersWidth;
-        private static int lineHeight;
+        private boolean enabledChangeListener;
+        private int paddingTop;
+        private int numbersWidth;
+        private int lineHeight;
 
-        private static int lineCount, realLine, startingLine;
-        private static LineUtils lineUtils;
+        private int lineCount, realLine, startingLine;
+        private LineUtils lineUtils;
         /**
          * Is undo/redo being performed? This member
          * signals if an undo/redo operation is
@@ -1263,28 +1469,26 @@ public abstract class MainActivity extends ActionBarActivity implements IHomeAct
          * text during undo/redo are not recorded
          * because it would mess up the undo history.
          */
-        private static boolean mIsUndoOrRedo;
-        private static Matcher m;
-        private static boolean mShowUndo, mShowRedo;
-        private static boolean canSaveFile;
-        private static KeyListener keyListener;
-        private static int firstVisibleIndex, firstColoredIndex;
-        private static int deviceHeight;
-        private static int editorHeight;
-        private static boolean[] hasNewLineArray;
-        private static int[] realLines;
-        private static boolean wrapContent;
-        private static int lastLine;
-        private static int firstLine;
-        private static CharSequence textToHighlight;
-        private static int lastVisibleIndex;
-        private static int i;
+        private boolean mIsUndoOrRedo;
+        private Matcher m;
+        private boolean mShowUndo, mShowRedo;
+        private boolean canSaveFile;
+        private KeyListener keyListener;
+        private int firstVisibleIndex, firstColoredIndex, lastVisibleIndex;
+        private int deviceHeight;
+        private int editorHeight;
+        private boolean[] isGoodLineArray;
+        private int[] realLines;
+        private boolean wrapContent;
+        private CharSequence textToHighlight;
         //endregion
 
         //region CONSTRUCTOR
         public Editor(final Context context, AttributeSet attrs) {
             super(context, attrs);
+        }
 
+        public void setupEditor() {
             //setLayerType(View.LAYER_TYPE_NONE, null);
 
             mEditHistory = new EditHistory();
@@ -1305,14 +1509,8 @@ public abstract class MainActivity extends ActionBarActivity implements IHomeAct
             } else {
                 setTextColor(getResources().getColor(R.color.textColor));
             }
-            if (PreferenceHelper.getLineNumbers(getContext())) {
-                setPadding(EditTextPadding.getPaddingWithLineNumbers(getContext(),
-                                PreferenceHelper.getFontSize(getContext())),
-                        EditTextPadding.getPaddingTop(getContext()), 0, 0);
-            } else {
-                setPadding(EditTextPadding.getPaddingWithoutLineNumbers(getContext()),
-                        EditTextPadding.getPaddingTop(getContext()), 0, 0);
-            }
+            // update the padding of the editor
+            updatePadding();
 
             if (PreferenceHelper.getReadOnly(getContext())) {
                 setReadOnly(true);
@@ -1376,6 +1574,25 @@ public abstract class MainActivity extends ActionBarActivity implements IHomeAct
             }
         }
 
+        public void updatePadding() {
+            Context context = getContext();
+            if (PreferenceHelper.getLineNumbers(context)) {
+                setPadding(
+                        EditTextPadding.getPaddingWithLineNumbers(context, PreferenceHelper.getFontSize(context)),
+                        EditTextPadding.getPaddingTop(context),
+                        EditTextPadding.getPaddingTop(context),
+                        0);
+            } else {
+                setPadding(
+                        EditTextPadding.getPaddingWithoutLineNumbers(context),
+                        EditTextPadding.getPaddingTop(context),
+                        EditTextPadding.getPaddingTop(context),
+                        0);
+            }
+            // add a padding from bottom
+            verticalScroll.setPadding(0,0,0,EditTextPadding.getPaddingBottom(context));
+        }
+
         //region OVERRIDES
         @Override
         public void setTextSize(float size) {
@@ -1397,24 +1614,18 @@ public abstract class MainActivity extends ActionBarActivity implements IHomeAct
                 lineUtils.updateHasNewLineArray(pageSystem
                         .getStartingLine(), lineCount, getLayout(), getText().toString());
 
-                hasNewLineArray = lineUtils.getToCountLinesArray();
+                isGoodLineArray = lineUtils.getGoodLines();
                 realLines = lineUtils.getRealLines();
 
             }
 
-            editorHeight = getHeight();
-            firstLine = lineUtils.getFirstVisibleLine(verticalScroll, editorHeight, lineCount);
-            lastLine = lineUtils.getLastVisibleLine(verticalScroll, editorHeight, lineCount, deviceHeight);
-
             if (PreferenceHelper.getLineNumbers(getContext())) {
                 wrapContent = PreferenceHelper.getWrapContent(getContext());
-                i = firstLine;
 
-                while (i < lastLine) {
+                for (int i = 0; i < lineCount; i++) {
                     // if last line we count it anyway
                     if (!wrapContent
-                            || hasNewLineArray[i]
-                            || i == lastLine - 1) {
+                            || isGoodLineArray[i]) {
                         realLine = realLines[i];
 
                         canvas.drawText(String.valueOf(realLine),
@@ -1422,7 +1633,6 @@ public abstract class MainActivity extends ActionBarActivity implements IHomeAct
                                 paddingTop + lineHeight * (i + 1),
                                 mPaintNumbers);
                     }
-                    i++;
                 }
             }
 
@@ -1456,7 +1666,7 @@ public abstract class MainActivity extends ActionBarActivity implements IHomeAct
                             return onTextContextMenuItem(ID_REDO);
                         }
                     case KeyEvent.KEYCODE_S:
-                        ((MainActivity) getContext()).saveTheFile();
+                        ((MainActivity) getContext()).saveTheFile(false);
                         return true;
                     default:
                         return super.onKeyDown(keyCode, event);
@@ -1627,10 +1837,11 @@ public abstract class MainActivity extends ActionBarActivity implements IHomeAct
             canSaveFile = false;
         }
 
-        public void replaceTextKeepCursor(String textToUpdate, boolean mantainCursorPos) {
+        public void replaceTextKeepCursor(String textToUpdate) {
 
             int cursorPos;
             int cursorPosEnd;
+
             if (textToUpdate != null) {
                 cursorPos = 0;
                 cursorPosEnd = 0;
@@ -1638,24 +1849,34 @@ public abstract class MainActivity extends ActionBarActivity implements IHomeAct
                 cursorPos = getSelectionStart();
                 cursorPosEnd = getSelectionEnd();
             }
+
             disableTextChangedListener();
 
-            if (PreferenceHelper.getSyntaxHighlight(getContext()))
+            if (PreferenceHelper.getSyntaxHighlight(getContext())) {
                 setText(highlight(textToUpdate == null ? getEditableText() : Editable.Factory
                         .getInstance().newEditable(textToUpdate), textToUpdate != null));
-            else
-                setText(textToUpdate == null ? getText().toString() : textToUpdate);
+            }
+            else {
+                setText(textToUpdate == null ? getEditableText() : textToUpdate);
+            }
 
             enableTextChangedListener();
 
-            if (mantainCursorPos)
-                firstVisibleIndex = cursorPos;
+            int newCursorPos;
 
-            if (firstVisibleIndex > -1) {
+            boolean cursorOnScreen = cursorPos >= firstVisibleIndex && cursorPos <= lastVisibleIndex;
+
+            if (cursorOnScreen) { // if the cursor is on screen
+                newCursorPos = cursorPos; // we dont change its position
+            } else {
+                newCursorPos = firstVisibleIndex; // else we set it to the first visible pos
+            }
+
+            if (newCursorPos > -1 && newCursorPos <= length()) {
                 if (cursorPosEnd != cursorPos)
                     setSelection(cursorPos, cursorPosEnd);
                 else
-                    setSelection(firstVisibleIndex);
+                    setSelection(newCursorPos);
             }
         }
         //endregion
@@ -1667,7 +1888,7 @@ public abstract class MainActivity extends ActionBarActivity implements IHomeAct
             removeTextChangedListener(mChangeListener);
         }
 
-        public CharSequence highlight(Editable editable, boolean newText) {
+        public Editable highlight(Editable editable, boolean newText) {
             editable.clearSpans();
 
             if (editable.length() == 0) {
@@ -1677,10 +1898,8 @@ public abstract class MainActivity extends ActionBarActivity implements IHomeAct
             editorHeight = getHeight();
 
             if (!newText && editorHeight > 0) {
-                firstLine = lineUtils.getFirstVisibleLine(verticalScroll, editorHeight, lineCount);
-                lastLine = lineUtils.getLastVisibleLine(verticalScroll, editorHeight, lineCount, deviceHeight);
-                firstVisibleIndex = getLayout().getLineStart(firstLine);
-                lastVisibleIndex = getLayout().getLineStart(lastLine);
+                firstVisibleIndex = getLayout().getLineStart(lineUtils.getFirstVisibleLine(verticalScroll, editorHeight, lineCount));
+                lastVisibleIndex = getLayout().getLineEnd(lineUtils.getLastVisibleLine(verticalScroll, editorHeight, lineCount, deviceHeight)-1);
             } else {
                 firstVisibleIndex = 0;
                 lastVisibleIndex = CHARS_TO_COLOR;
@@ -1699,10 +1918,12 @@ public abstract class MainActivity extends ActionBarActivity implements IHomeAct
 
             textToHighlight = editable.subSequence(firstColoredIndex, lastVisibleIndex);
 
+            if (TextUtils.isEmpty(fileExtension))
+                fileExtension = "";
+
             if (fileExtension.contains("htm")
                     || fileExtension.contains("xml")) {
-                color(Patterns.HTML_OPEN_TAGS, editable, textToHighlight, firstColoredIndex);
-                color(Patterns.HTML_CLOSE_TAGS, editable, textToHighlight, firstColoredIndex);
+                color(Patterns.HTML_TAGS, editable, textToHighlight, firstColoredIndex);
                 color(Patterns.HTML_ATTRS, editable, textToHighlight, firstColoredIndex);
                 color(Patterns.GENERAL_STRINGS, editable, textToHighlight, firstColoredIndex);
                 color(Patterns.XML_COMMENTS, editable, textToHighlight, firstColoredIndex);
@@ -1768,8 +1989,7 @@ public abstract class MainActivity extends ActionBarActivity implements IHomeAct
                            CharSequence textToHighlight,
                            int start) {
             int color = 0;
-            if (pattern.equals(Patterns.HTML_OPEN_TAGS)
-                    || pattern.equals(Patterns.HTML_CLOSE_TAGS)
+            if (pattern.equals(Patterns.HTML_TAGS)
                     || pattern.equals(Patterns.GENERAL_KEYWORDS)
                     || pattern.equals(Patterns.SQL_KEYWORDS)
                     || pattern.equals(Patterns.PY_KEYWORDS)

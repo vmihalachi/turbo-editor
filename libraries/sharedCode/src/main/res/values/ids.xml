@@ -22,13 +22,17 @@
     <!-- menu item ids -->
     <item type="id" name="im_undo"/>
     <item type="id" name="im_redo"/>
+    <item type="id" name="im_rename"/>
     <item type="id" name="im_editor"/>
     <item type="id" name="im_remove"/>
     <item type="id" name="im_open"/>
     <item type="id" name="im_info"/>
     <item type="id" name="im_button"/>
     <item type="id" name="im_save"/>
+    <item type="id" name="im_save_normaly"/>
+    <item type="id" name="im_save_as"/>
     <item type="id" name="im_share"/>
+    <item type="id" name="im_view_markdown"/>
     <item type="id" name="im_editor_encoding"/>
     <item type="id" name="im_line_numbers"/>
     <item type="id" name="im_syntax_highlight"/>
@@ -46,6 +50,7 @@
     <item type="id" name="im_is_working_folder"/>
     <item type="id" name="im_set_as_working_folder"/>
     <item type="id" name="im_replace"/>
+    <item type="id" name="im_replace_all"/>
     <item type="id" name="im_next_page"/>
     <item type="id" name="im_prev_page"/>
     <item type="id" name="im_donate"/>
@@ -72,7 +77,6 @@
     <item type="id" name="switch_syntax"/>
     <item type="id" name="switch_wrap_content"/>
     <item type="id" name="switch_monospace"/>
-    <item type="id" name="switch_light_theme"/>
     <item type="id" name="switch_suggestions_active"/>
     <item type="id" name="switch_auto_save"/>
     <item type="id" name="switch_read_only"/>
@@ -80,8 +84,11 @@
     <item type="id" name="switch_ignore_backbutton"/>
     <item type="id" name="switch_page_system"/>
     <item type="id" name="switch_send_error_reports"/>
+    <item type="id" name="switch_accessory_view"/>
+    <item type="id" name="switch_storage_access_framework"/>
 
     <item type="id" name="drawer_button_go_pro"/>
+    <item type="id" name="drawer_button_theme"/>
     <item type="id" name="drawer_button_encoding"/>
     <item type="id" name="drawer_button_font_size"/>
     <item name="im_select_folder" type="id" />

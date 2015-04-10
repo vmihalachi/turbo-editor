@@ -20,6 +20,7 @@
 package sharedcode.turboeditor.activity;
 
 import android.content.Intent;
+import android.net.Uri;
 import android.os.AsyncTask;
 import android.os.Bundle;
 import android.support.v4.view.MenuItemCompat;
@@ -38,32 +39,28 @@ import android.widget.TextView;
 import android.widget.Toast;
 
 import com.faizmalkani.floatingactionbutton.FloatingActionButton;
+import com.spazedog.lib.rootfw4.RootFW;
 
 import org.apache.commons.io.FileUtils;
 import org.apache.commons.io.FilenameUtils;
-import org.sufficientlysecure.rootcommands.Shell;
-import org.sufficientlysecure.rootcommands.Toolbox;
 
 import java.io.File;
 import java.io.IOException;
 import java.text.SimpleDateFormat;
-import java.util.ArrayList;
-import java.util.Collections;
+import java.util.Arrays;
 import java.util.Comparator;
 import java.util.LinkedList;
-import java.util.concurrent.TimeoutException;
 
 import sharedcode.turboeditor.R;
 import sharedcode.turboeditor.adapter.AdapterDetailedList;
 import sharedcode.turboeditor.dialogfragment.EditTextDialog;
 import sharedcode.turboeditor.preferences.PreferenceHelper;
-import sharedcode.turboeditor.root.RootUtils;
 import sharedcode.turboeditor.util.AlphanumComparator;
 import sharedcode.turboeditor.util.Build;
 import sharedcode.turboeditor.util.ThemeUtils;
 
 public class SelectFileActivity extends ActionBarActivity implements SearchView.OnQueryTextListener, AdapterView.OnItemClickListener, EditTextDialog.EditDialogListener {
-    private String currentFolder = PreferenceHelper.SD_CARD_ROOT;
+    private String currentFolder;
     private ListView listView;
     private boolean wantAFile = true;
     private MenuItem mSearchViewMenuItem;
@@ -73,7 +70,7 @@ public class SelectFileActivity extends ActionBarActivity implements SearchView.
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
-
+        currentFolder = PreferenceHelper.defaultFolder(this);
 
         ThemeUtils.setTheme(this);
         super.onCreate(savedInstanceState);
@@ -84,8 +81,8 @@ public class SelectFileActivity extends ActionBarActivity implements SearchView.
 
         getSupportActionBar().setDisplayHomeAsUpEnabled(true);
 
-        final Actions action = (Actions) getIntent().getExtras().getSerializable("action");
-        wantAFile = action == Actions.SelectFile;
+        //final Actions action = (Actions) getIntent().getExtras().getSerializable("action");
+        wantAFile = true; //action == Actions.SelectFile;
 
         listView = (ListView) findViewById(android.R.id.list);
         listView.setOnItemClickListener(this);
@@ -129,8 +126,8 @@ public class SelectFileActivity extends ActionBarActivity implements SearchView.
         File file = new File(lastNavigatedPath);
 
         if (!file.exists()) {
-            PreferenceHelper.setWorkingFolder(this, PreferenceHelper.SD_CARD_ROOT);
-            file = new File(PreferenceHelper.SD_CARD_ROOT);
+            PreferenceHelper.setWorkingFolder(this, PreferenceHelper.defaultFolder(this));
+            file = new File(PreferenceHelper.defaultFolder(this));
         }
 
         new UpdateList().execute(file.getAbsolutePath());
@@ -163,13 +160,22 @@ public class SelectFileActivity extends ActionBarActivity implements SearchView.
         return false;
     }
 
-    void returnData(String path) {
-        final Intent returnIntent = new Intent();
-        returnIntent.putExtra("path", path);
-        setResult(RESULT_OK, returnIntent);
-        // finish the activity
-        finish();
+    /**
+     * Finish this Activity with a result code and URI of the selected file.
+     *
+     * @param file The file selected.
+     */
+    private void finishWithResult(File file) {
+        if (file != null) {
+            Uri uri = Uri.fromFile(file);
+            setResult(RESULT_OK, new Intent().setData(uri));
+            finish();
+        } else {
+            setResult(RESULT_CANCELED);
+            finish();
+        }
     }
+
 
 
     @Override
@@ -198,7 +204,7 @@ public class SelectFileActivity extends ActionBarActivity implements SearchView.
         final File selectedFile = new File(currentFolder, name);
 
         if (selectedFile.isFile() && wantAFile) {
-            returnData(selectedFile.getAbsolutePath());
+            finishWithResult(selectedFile);
         } else if (selectedFile.isDirectory()) {
             new UpdateList().execute(selectedFile.getAbsolutePath());
         }
@@ -250,7 +256,7 @@ public class SelectFileActivity extends ActionBarActivity implements SearchView.
             Toast.makeText(getBaseContext(), R.string.is_the_working_folder, Toast.LENGTH_SHORT).show();
             return true;
         } else if (i == R.id.im_select_folder) {
-            returnData(currentFolder);
+            finishWithResult(new File(currentFolder));
             return true;
         }
         return super.onOptionsItemSelected(item);
@@ -258,10 +264,15 @@ public class SelectFileActivity extends ActionBarActivity implements SearchView.
 
 
     @Override
-    public void onFinishEditDialog(final String inputText, final String hint, final EditTextDialog.Actions actions) {
+    public void onEdittextDialogEnded(final String inputText, final String hint, final EditTextDialog.Actions actions) {
         if (actions == EditTextDialog.Actions.NewFile && !TextUtils.isEmpty(inputText)) {
             File file = new File(currentFolder, inputText);
-            returnData(file.getAbsolutePath());
+            try {
+                file.createNewFile();
+                finishWithResult(file);
+            } catch (IOException e) {
+                Toast.makeText(SelectFileActivity.this, e.getMessage(), Toast.LENGTH_SHORT).show();
+            }
         } else if (actions == EditTextDialog.Actions.NewFolder && !TextUtils.isEmpty(inputText)) {
             File file = new File(currentFolder, inputText);
             file.mkdirs();
@@ -300,49 +311,59 @@ public class SelectFileActivity extends ActionBarActivity implements SearchView.
                     return null;
                 }
 
-                File tempFile = new File(path);
-                if (tempFile.isFile()) {
-                    tempFile = tempFile.getParentFile();
+                File tempFolder = new File(path);
+                if (tempFolder.isFile()) {
+                    tempFolder = tempFolder.getParentFile();
                 }
 
                 String[] unopenableExtensions = {"apk", "mp3", "mp4", "png", "jpg", "jpeg"};
 
                 final LinkedList<AdapterDetailedList.FileDetail> fileDetails = new LinkedList<>();
                 final LinkedList<AdapterDetailedList.FileDetail> folderDetails = new LinkedList<>();
-                final ArrayList<File> files;
-                currentFolder = tempFile.getAbsolutePath();
+                currentFolder = tempFolder.getAbsolutePath();
 
-                boolean isRoot = false;
-                if (!tempFile.canRead()) {
-                    try {
-                        Shell shell = null;
-                        shell = Shell.startRootShell();
-                        Toolbox tb = new Toolbox(shell);
-                        isRoot = tb.isRootAccessGiven();
-                    } catch (IOException | TimeoutException e) {
-                        e.printStackTrace();
-                        isRoot = false;
+                if (!tempFolder.canRead()) {
+                    if (RootFW.connect()) {
+                        com.spazedog.lib.rootfw4.utils.File folder = RootFW.getFile(currentFolder);
+                        com.spazedog.lib.rootfw4.utils.File.FileStat[] stats = folder.getDetailedList();
+
+                        if (stats != null) {
+                            for (com.spazedog.lib.rootfw4.utils.File.FileStat stat : stats) {
+                                if (stat.type().equals("d")) {
+                                    folderDetails.add(new AdapterDetailedList.FileDetail(stat.name(),
+                                            getString(R.string.folder),
+                                            ""));
+                                } else if (!FilenameUtils.isExtension(stat.name().toLowerCase(), unopenableExtensions)
+                                        && stat.size() <= Build.MAX_FILE_SIZE * FileUtils.ONE_KB) {
+                                    final long fileSize = stat.size();
+                                    //SimpleDateFormat format = new SimpleDateFormat("MMM dd, yyyy  hh:mm a");
+                                    //String date = format.format("");
+                                    fileDetails.add(new AdapterDetailedList.FileDetail(stat.name(),
+                                            FileUtils.byteCountToDisplaySize(fileSize), ""));
+                                }
+                            }
+                        }
                     }
-                }
+                } else {
+                    File[] files = tempFolder.listFiles();
 
-                files = RootUtils.getFileList(currentFolder, isRoot);
+                    Arrays.sort(files, getFileNameComparator());
 
-                Collections.sort(files, getFileNameComparator());
-
-                if (files != null) {
-                    for (final File f : files) {
-                        if (f.isDirectory()) {
-                            folderDetails.add(new AdapterDetailedList.FileDetail(f.getName(),
-                                    getString(R.string.folder),
-                                    ""));
-                        } else if (f.isFile()
-                                && !FilenameUtils.isExtension(f.getName().toLowerCase(), unopenableExtensions)
-                                && FileUtils.sizeOf(f) <= Build.MAX_FILE_SIZE * FileUtils.ONE_KB) {
-                            final long fileSize = f.length();
-                            SimpleDateFormat format = new SimpleDateFormat("MMM dd, yyyy  hh:mm a");
-                            String date = format.format(f.lastModified());
-                            fileDetails.add(new AdapterDetailedList.FileDetail(f.getName(),
-                                    FileUtils.byteCountToDisplaySize(fileSize), date));
+                    if (files != null) {
+                        for (final File f : files) {
+                            if (f.isDirectory()) {
+                                folderDetails.add(new AdapterDetailedList.FileDetail(f.getName(),
+                                        getString(R.string.folder),
+                                        ""));
+                            } else if (f.isFile()
+                                    && !FilenameUtils.isExtension(f.getName().toLowerCase(), unopenableExtensions)
+                                    && FileUtils.sizeOf(f) <= Build.MAX_FILE_SIZE * FileUtils.ONE_KB) {
+                                final long fileSize = f.length();
+                                SimpleDateFormat format = new SimpleDateFormat("MMM dd, yyyy  hh:mm a");
+                                String date = format.format(f.lastModified());
+                                fileDetails.add(new AdapterDetailedList.FileDetail(f.getName(),
+                                        FileUtils.byteCountToDisplaySize(fileSize), date));
+                            }
                         }
                     }
                 }

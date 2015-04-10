@@ -39,7 +39,6 @@ import org.apache.commons.lang3.builder.HashCodeBuilder;
 
 import sharedcode.turboeditor.R;
 import sharedcode.turboeditor.dialogfragment.AboutDialog;
-import sharedcode.turboeditor.iab.DonationFragment;
 
 /**
  * Helper class for showing fragment dialogs.
@@ -48,12 +47,7 @@ public class DialogHelper {
 
     public static final String TAG_FRAGMENT_ABOUT = "dialog_about";
     public static final String TAG_FRAGMENT_HELP = "dialog_help";
-    public static final String TAG_FRAGMENT_DONATION = "dialog_donate";
     public static final String TAG_FRAGMENT_FEEDBACK = "dialog_feedback";
-
-    public static void showDonateDialog(Activity activity) {
-        showDialog(activity, DonationFragment.class, TAG_FRAGMENT_DONATION);
-    }
 
     public static void showAboutDialog(Activity activity) {
         showDialog(activity, AboutDialog.class, TAG_FRAGMENT_ABOUT);

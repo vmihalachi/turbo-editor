@@ -64,6 +64,7 @@
     <string name="nome_app_turbo_editor">Turbo Editor</string>
     <string name="preferenze">Preferences</string>
     <string name="salva">Save</string>
+    <string name="save_as">Save as</string>
     <string name="menu_syntax_highlight">Syntax highlight</string>
     <string name="testo_indietro">Undo</string>
     <string name="testo_rifai">Redo</string>
@@ -72,4 +73,13 @@
     <string name="open_a_file">Open a file</string>
     <string name="no">No</string>
     <string name="new_file">New file</string>
+    <string name="delete_current_file">Delete current file</string>
+    <string name="replace_all">Replace all</string>
+    <string name="theme">Theme</string>
+    <string name="theme_dark">Dark theme</string>
+    <string name="theme_black">Black theme</string>
+    <string name="view_markdown_result">View markdown result</string>
+    <string name="accessory_view">Accessory view</string>
+    <string name="file_cannot_be_renamed">The file cannot be renamed</string>
+    <string name="use_storage_access_framework">Use the "Storage Access Framework"</string>
 </resources>

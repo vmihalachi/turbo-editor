@@ -20,7 +20,8 @@
 <resources>
 
     <style name="AppThemeBaseDark" parent="Theme.AppCompat.NoActionBar">
-
+        <item name="windowActionModeOverlay">true</item>
+        <item name="actionModeStyle">@style/LStyled.ActionMode</item>
         <!-- Dialog -->
         <item name="textAppearanceDialogTitle">@style/TextAppearance.Dialog.Title</item>
         <item name="textAppearanceDialogMessage">@style/TextAppearance.Dialog.Message</item>
@@ -40,7 +41,8 @@
     </style>
 
     <style name="AppThemeBaseLight" parent="Theme.AppCompat.Light.NoActionBar">
-
+        <item name="windowActionModeOverlay">true</item>
+        <item name="actionModeStyle">@style/LStyled.ActionMode</item>
         <!-- Dialog -->
         <item name="textAppearanceDialogTitle">@style/TextAppearance.Dialog.Title</item>
         <item name="textAppearanceDialogMessage">@style/TextAppearance.Dialog.Message</item>
@@ -61,6 +63,10 @@
 
     <style name="AppThemeEditorDark" parent="AppThemeBaseDark">
         <item name="android:windowBackground">@null</item>
+    </style>
+
+    <style name="LStyled.ActionMode" parent="@style/Widget.AppCompat.ActionMode">
+        <item name="background">@color/actionbar_background</item>
     </style>
 
     <style name="PreferenceDark" parent="android:Theme.Holo">

@@ -20,11 +20,7 @@
 package sharedcode.turboeditor.texteditor;
 
 import android.content.Context;
-import android.support.annotation.Nullable;
 
-import org.apache.commons.io.FileUtils;
-
-import java.io.File;
 import java.util.LinkedList;
 import java.util.List;
 
@@ -37,19 +33,13 @@ public class PageSystem {
     private int currentPage = 0;
     private PageSystemInterface pageSystemInterface;
 
-    public PageSystem(Context context, PageSystemInterface pageSystemInterface, String text, @Nullable File file) {
+    public PageSystem(Context context, PageSystemInterface pageSystemInterface, String text) {
 
-        final int charForPage = 15000;
-        final int MAX_KBs_WITHOUT_PAGE_SYSTEM = 50;
+        final int charForPage = 20000;
+        final int firstPageChars = 50000;
 
         this.pageSystemInterface = pageSystemInterface;
         pages = new LinkedList<>();
-
-        final boolean dimensionOverLimit;
-        if(file != null && file.exists() && file.isFile())
-            dimensionOverLimit = FileUtils.sizeOf(file) >= MAX_KBs_WITHOUT_PAGE_SYSTEM * FileUtils.ONE_KB;
-        else
-            dimensionOverLimit = false;
 
         int i = 0;
         int to;
@@ -57,9 +47,10 @@ public class PageSystem {
         final int textLength = text.length();
         boolean pageSystemEnabled = PreferenceHelper.getSplitText(context);
 
-        if (pageSystemEnabled && dimensionOverLimit) {
+        if (pageSystemEnabled) {
             while (i < textLength) {
-                to = i + charForPage;
+                // first page is longer
+                to = i + (i == 0 ? firstPageChars : charForPage);
                 nextIndexOfReturn = text.indexOf("\n", to);
                 if (nextIndexOfReturn > to) to = nextIndexOfReturn;
                 if (to > text.length()) to = text.length();

@@ -1,9 +1,0 @@
-<?xml version="1.0" encoding="utf-8"?>
-<merger version="3"><dataSet config="main"><source path="/Users/mac/AndroidStudioProjects/turbo-editor/libraries/FloatingActionButton/res"><file path="/Users/mac/AndroidStudioProjects/turbo-editor/libraries/FloatingActionButton/res/values/attrs.xml" qualifiers=""><declare-styleable name="FloatingActionButton">
-        <attr format="integer" name="drawable"/>
-        <attr format="color" name="colour"/>
-        <attr format="float" name="shadowRadius"/>
-        <attr format="float" name="shadowDx"/>
-        <attr format="float" name="shadowDy"/>
-        <attr format="integer" name="shadowColor"/>
-    </declare-styleable></file></source><source path="/Users/mac/AndroidStudioProjects/turbo-editor/libraries/FloatingActionButton/build/generated/res/rs/debug"/><source path="/Users/mac/AndroidStudioProjects/turbo-editor/libraries/FloatingActionButton/build/generated/res/generated/debug"/></dataSet><dataSet config="debug"><source path="/Users/mac/AndroidStudioProjects/turbo-editor/libraries/FloatingActionButton/src/debug/res"/></dataSet><mergedItems><configuration qualifiers=""><declare-styleable name="FloatingActionButton"><attr format="integer" name="drawable"/><attr format="color" name="colour"/><attr format="float" name="shadowRadius"/><attr format="float" name="shadowDx"/><attr format="float" name="shadowDy"/><attr format="integer" name="shadowColor"/></declare-styleable></configuration></mergedItems></merger>

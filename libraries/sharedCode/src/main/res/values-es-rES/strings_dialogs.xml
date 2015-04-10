@@ -22,13 +22,13 @@
   <string name="close">Cerrar</string>
   <string name="about_action">Acerca de</string>
   <string name="about_message"><![CDATA[
-        Turbo Editor is a free and <a href="http://github.com/vmihalachi/turbo-editor">open source</a> app.
-        Copyright 2013-2014 <a href="https://plus.google.com/+VladMihalachi">Vlad Mihalachi</a>. All Rights Reserved.<br/>
+        Turbo Editor es una aplicación gratis y de <a href="http://github.com/vmihalachi/turbo-editor">codigo abierto</a>.
+        Copyright 2013-2014 <a href="https://plus.google.com/+VladMihalachi">Vlad Mihalachi</a>. Todos los derechos reservados.<br/>
         <br/>
-        Many thanks to all who
-        <a href="http://crowdin.net/project/turbo-client">helped with translations</a> or
-        donated to me.<br/>
+        Muchas gracias a todos los que
+        <a href="http://crowdin.net/project/turbo-client">ayudaron con las traducciones</a> o
+        colaboraron con una donación.<br/>
         <br/>
-        If you want to send feedback here is the <a href="http://forum.xda-developers.com/android/apps-games/app-turbo-editor-text-editor-t2832016">XDA thread</a>
+        Si deseas comentar o sugerir algo aquí esta el <a href="http://forum.xda-developers.com/android/apps-games/app-turbo-editor-text-editor-t2832016">hilo XDA</a>
     ]]></string>
 </resources>

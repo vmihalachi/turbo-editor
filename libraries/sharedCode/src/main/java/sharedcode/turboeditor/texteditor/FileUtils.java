@@ -23,16 +23,15 @@ import org.mozilla.universalchardet.UniversalDetector;
 
 import java.io.File;
 import java.io.FileInputStream;
+import java.io.FileNotFoundException;
 import java.io.IOException;
 import java.io.InputStream;
 import java.nio.charset.Charset;
 
 public class FileUtils {
-    public static String getDetectedEncoding(File file) {
-        InputStream is = null;
+    public static String getDetectedEncoding(InputStream is) {
         String encoding = null;
         try {
-            is = new FileInputStream(file);
             UniversalDetector detector = new UniversalDetector(null);
             byte[] buf = new byte[4096];
             int nread;
@@ -54,5 +53,9 @@ public class FileUtils {
             }
         }
         return encoding;
+    }
+
+    public static String getDetectedEncoding(File file) throws FileNotFoundException {
+        return getDetectedEncoding(new FileInputStream(file));
     }
 }

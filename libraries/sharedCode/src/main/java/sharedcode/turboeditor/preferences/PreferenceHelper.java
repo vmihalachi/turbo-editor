@@ -24,9 +24,13 @@ import android.content.SharedPreferences;
 import android.os.Environment;
 import android.preference.PreferenceManager;
 
+import java.io.File;
+
+import sharedcode.turboeditor.util.Device;
+
 public final class PreferenceHelper {
 
-    public static final String SD_CARD_ROOT = Environment.getExternalStorageDirectory().getAbsolutePath();
+    //public static final String SD_CARD_ROOT = Environment.getExternalStorageDirectory().getAbsolutePath();
 
     private PreferenceHelper() {
     }
@@ -45,6 +49,14 @@ public final class PreferenceHelper {
         return getPrefs(context).getBoolean("use_monospace", false);
     }
 
+    public static boolean getUseAccessoryView(Context context) {
+        return getPrefs(context).getBoolean("accessory_view", true);
+    }
+
+    public static boolean getUseStorageAccessFramework(Context context) {
+        return getPrefs(context).getBoolean("storage_access_framework", false);
+    }
+
     public static boolean getLineNumbers(Context context) {
         return getPrefs(context).getBoolean("editor_line_numbers", true);
     }
@@ -57,8 +69,20 @@ public final class PreferenceHelper {
         return getPrefs(context).getBoolean("editor_wrap_content", true);
     }
 
+    public static int getTheme(Context context) {
+        return getPrefs(context).getInt("theme", 0);
+    }
+
+    public static boolean getDarkTheme(Context context) {
+        return getPrefs(context).getInt("theme", 0) == 0;
+    }
+
     public static boolean getLightTheme(Context context) {
-        return getPrefs(context).getBoolean("light_theme", false);
+        return getPrefs(context).getInt("theme", 0) == 1;
+    }
+
+    public static boolean getBlackTheme(Context context) {
+        return getPrefs(context).getInt("theme", 0) == 2;
     }
 
     public static boolean getSuggestionActive(Context context) {
@@ -74,19 +98,33 @@ public final class PreferenceHelper {
     }
 
     public static String getEncoding(Context context) {
-        return getPrefs(context).getString("editor_encoding", "UTF-8");
+        return getPrefs(context).getString("editor_encoding", "UTF-16");
     }
 
     public static int getFontSize(Context context) {
         return getPrefs(context).getInt("font_size", 16);
     }
 
+    public static String defaultFolder(Context context) {
+        String folder;
+        File externalFolder = context.getExternalFilesDir(null);
+
+        if (externalFolder != null && Device.isKitKatApi()) {
+            folder = externalFolder.getAbsolutePath();
+        } else {
+            folder = Environment.getExternalStorageDirectory().getAbsolutePath();
+        }
+        //folder = context.getExternalFilesDir(null).getAbsolutePath();
+        //folder = Environment.getExternalStorageDirectory().getAbsolutePath();
+        return folder;
+    }
+
     public static String getWorkingFolder(Context context) {
-        return getPrefs(context).getString("working_folder", SD_CARD_ROOT);
+        return getPrefs(context).getString("working_folder2", defaultFolder(context));
     }
 
     public static String[] getSavedPaths(Context context) {
-        return getPrefs(context).getString("savedPaths", "").split(",");
+        return getPrefs(context).getString("savedPaths2", "").split(",");
     }
 
     public static boolean getPageSystemButtonsPopupShown(Context context) {
@@ -118,6 +156,14 @@ public final class PreferenceHelper {
         getEditor(context).putBoolean("use_monospace", value).commit();
     }
 
+    public static void setUseAccessoryView(Context context, boolean value) {
+        getEditor(context).putBoolean("accessory_view", value).commit();
+    }
+
+    public static void setUseStorageAccessFramework(Context context, boolean value) {
+        getEditor(context).putBoolean("storage_access_framework", value).commit();
+    }
+
     public static void setLineNumbers(Context context, boolean value) {
         getEditor(context).putBoolean("editor_line_numbers", value).commit();
     }
@@ -139,11 +185,11 @@ public final class PreferenceHelper {
     }
 
     public static void setWorkingFolder(Context context, String value) {
-        getEditor(context).putString("working_folder", value).commit();
+        getEditor(context).putString("working_folder2", value).commit();
     }
 
     public static void setSavedPaths(Context context, StringBuilder stringBuilder) {
-        getEditor(context).putString("savedPaths", stringBuilder.toString()).commit();
+        getEditor(context).putString("savedPaths2", stringBuilder.toString()).commit();
     }
 
     public static void setPageSystemButtonsPopupShown(Context context, boolean value) {
@@ -158,8 +204,8 @@ public final class PreferenceHelper {
         getEditor(context).putBoolean("has_donated", value).commit();
     }
 
-    public static void setLightTheme(Context context, boolean value) {
-        getEditor(context).putBoolean("light_theme", value).commit();
+    public static void setTheme(Context context, int value) {
+        getEditor(context).putInt("theme", value).commit();
     }
 
     public static void setSuggestionsActive(Context context, boolean value) {
@@ -179,7 +225,7 @@ public final class PreferenceHelper {
     }
 
     public static void setSendErrorReport(Context context, boolean value) {
-        getEditor(context).putBoolean("ignore_back_button", value).commit();
+        getEditor(context).putBoolean("send_error_reports", value).commit();
     }
 
     public static void setEncoding(Context context, String value) {

@@ -19,16 +19,14 @@
   ~ along with this program.  If not, see <http://www.gnu.org/licenses/>.
   -->
 <resources>
-  <string name="close">Close</string>
-  <string name="about_action">About</string>
+  <string name="close">Đóng</string>
+  <string name="about_action">Thông tin</string>
   <string name="about_message"><![CDATA[
-        Turbo Editor is a free and <a href="http://github.com/vmihalachi/turbo-editor">open source</a> app.
-        Copyright 2013-2014 <a href="https://plus.google.com/+VladMihalachi">Vlad Mihalachi</a>. All Rights Reserved.<br/>
+        Turbo Editor là một ứng dụng miễn phí và <a href="http://github.com/vmihalachi/turbo-editor">mã nguồn mở</a>.
+        Bản quyền 2013-2014 <a href="https://plus.google.com/+VladMihalachi">Vlad Mihalachi</a>. Tất cả quyền được bảo lưu.<br/>
         <br/>
-        Many thanks to all who
-        <a href="http://crowdin.net/project/turbo-client">helped with translations</a> or
-        donated to me.<br/>
+        Đặc biệt cảm ơn: Nguyễn Trung Hậu, belvpro đã <a href="http://crowdin.net/project/turbo-client">giúp dịch</a> và những người đóng góp cho tôi.<br/>
         <br/>
-        If you want to send feedback here is the <a href="http://forum.xda-developers.com/android/apps-games/app-turbo-editor-text-editor-t2832016">XDA thread</a>
+        Bạn có thể gửi thông tin phản hồi ở <a href="http://forum.xda-developers.com/android/apps-games/app-turbo-editor-text-editor-t2832016"> chủ đề XDA</a>
     ]]></string>
 </resources>

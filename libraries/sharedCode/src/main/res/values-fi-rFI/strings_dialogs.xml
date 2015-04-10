@@ -22,12 +22,12 @@
   <string name="close">Sulje</string>
   <string name="about_action">Tietoja</string>
   <string name="about_message"><![CDATA[
-        Turbo Editor on ilmainen ja  <a href="http://github.com/vmihalachi/turbo-editor">avoimen lähdekoodin</a> sovellus.
+        Turbo Editor on ilmainen ja <a href="http://github.com/vmihalachi/turbo-editor">avoimen lähdekoodin</a> sovellus.
         Tekijänoikeudet 2013-2014 <a href="https://plus.google.com/+VladMihalachi">Vlad Mihalachi</a>. Kaikki oikeudet pidätetään.<br/>
         <br/>
         Suuret kiitokset kaikille, jotka
         <a href="http://crowdin.net/project/turbo-client">auttoivat käännöksien parissa</a> tai
-        lahjoittivat minulle</a>.<br/>
+        lahjoittivat minulle.<br/>
         <br/>
         Jos haluat lähettää palautetta, kerro se siitä <a href="http://forum.xda-developers.com/android/apps-games/app-turbo-editor-text-editor-t2832016">XDA-ketjussa</a>
     ]]></string>

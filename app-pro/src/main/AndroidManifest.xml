@@ -22,7 +22,6 @@
     android:installLocation="auto">
 
     <uses-permission android:name="android.permission.WRITE_EXTERNAL_STORAGE" />
-    <uses-permission android:name="android.permission.ACCESS_SUPERUSER" />
 
     <supports-screens
         android:anyDensity="true"
@@ -58,20 +57,58 @@
             </intent-filter>
             <intent-filter>
                 <action android:name="android.intent.action.VIEW" />
-                <action android:name="android.intent.action.EDIT" />
-                <action android:name="android.intent.action.PICK" />
 
                 <category android:name="android.intent.category.DEFAULT" />
                 <category android:name="android.intent.category.BROWSABLE" />
 
                 <data android:scheme="file" />
+                <data android:mimeType="*/*" />
+                <data android:host="*" />
+                <data android:pathPattern=".*\\.txt" />
+                <data android:pathPattern=".*\\.html" />
+                <data android:pathPattern=".*\\.xml" />
+                <data android:pathPattern=".*\\.css" />
+                <data android:pathPattern=".*\\.js" />
+                <data android:pathPattern=".*\\.md"/>
+                <data android:pathPattern=".*\\.markdown"/>
+                <data android:pathPattern=".*\\.php" />
+                <data android:pathPattern=".*\\.py" />
+                <data android:pathPattern=".*\\.script" />
+                <data android:pathPattern=".*\\.cs" />
+                <data android:pathPattern=".*\\.java" />
+                <data android:pathPattern=".*\\.rb" />
+                <data android:pathPattern=".*\\.aspx" />
+                <data android:pathPattern=".*\\.cshtml" />
+                <data android:pathPattern=".*\\.vbhtml" />
+                <data android:pathPattern=".*\\.go" />
+                <data android:pathPattern=".*\\.c" />
+                <data android:pathPattern=".*\\.h" />
+                <data android:pathPattern=".*\\.cc" />
+                <data android:pathPattern=".*\\.cpp" />
+                <data android:pathPattern=".*\\.hh" />
+                <data android:pathPattern=".*\\.hpp" />
+                <data android:pathPattern=".*\\.pl" />
+                <data android:pathPattern=".*\\.pm" />
+                <data android:pathPattern=".*\\.t" />
+                <data android:pathPattern=".*\\.pod" />
+                <data android:pathPattern=".*\\.m" />
+                <data android:pathPattern=".*\\.f" />
+                <data android:pathPattern=".*\\.for" />
+                <data android:pathPattern=".*\\.f90" />
+                <data android:pathPattern=".*\\.f95" />
+                <data android:pathPattern=".*\\.asp" />
+                <data android:pathPattern=".*\\.json" />
+                <data android:pathPattern=".*\\.wiki" />
+                <data android:pathPattern=".*\\.lua" />
+                <data android:pathPattern=".*\\.r" />
+                <data android:pathPattern=".*\\.key" />
+                <data android:pathPattern=".*\\.log" />
+            </intent-filter>
+            <intent-filter >
+                <action android:name="android.intent.action.VIEW" />
+                <category android:name="android.intent.category.DEFAULT" />
+                <data android:scheme="file" />
                 <data android:mimeType="text/*" />
-                <data android:pathPattern="*.txt" />
-                <data android:pathPattern="*.html" />
-                <data android:pathPattern="*.css" />
-                <data android:pathPattern="*.js" />
-                <data android:pathPattern="*.md"/>
-                <data android:pathPattern="*.php" />
             </intent-filter>
             <intent-filter>
                 <action android:name="android.intent.action.SEND" />
@@ -83,20 +120,21 @@
             android:name="sharedcode.turboeditor.activity.SelectFileActivity"
             android:configChanges="keyboardHidden|orientation|screenSize"
             android:label="@string/open_a_file"
+            android:exported="true"
             android:parentActivityName=".HomeActivity"
             android:theme="@style/AppThemeBaseLight">
             <meta-data
                 android:name="android.support.PARENT_ACTIVITY"
                 android:value=".HomeActivity" />
-        </activity>
 
-        <activity
-            android:name="sharedcode.turboeditor.preferences.ExtraSettingsActivity"
-            android:label="@string/extra_options"
-            android:parentActivityName=".HomeActivity">
-            <meta-data
-                android:name="android.support.PARENT_ACTIVITY"
-                android:value=".HomeActivity" />
+            <intent-filter>
+                <action android:name="android.intent.action.GET_CONTENT" />
+
+                <category android:name="android.intent.category.DEFAULT" />
+                <category android:name="android.intent.category.OPENABLE" />
+
+                <data android:mimeType="*/*" />
+            </intent-filter>
         </activity>
 
         <meta-data
@@ -114,6 +152,8 @@
         <meta-data
             android:name="com.sec.android.multiwindow.MINIMUM_SIZE_H"
             android:value="598.0dip" />
+
+        <activity android:name="sharedcode.turboeditor.activity.MarkdownActivity" />
 
     </application>
 

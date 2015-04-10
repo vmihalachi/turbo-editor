@@ -26,12 +26,12 @@ android {
         disable 'MissingTranslation', 'ExtraTranslation'
     }
 
-    compileSdkVersion 21
-    buildToolsVersion '21.1.2'
+    compileSdkVersion 22
+    buildToolsVersion '22.0.1'
 
     defaultConfig {
         minSdkVersion 11
-        targetSdkVersion 21
+        targetSdkVersion 22
         versionCode 1
         versionName "1.0"
     }
@@ -59,19 +59,16 @@ android {
 
 dependencies {
     compile fileTree(dir: 'libs', include: ['*.jar'])
-    compile project(':libraries:RootCommands')
     compile project(':libraries:FloatingActionButton')
-    //compile('de.greenrobot:eventbus:2.2.1') {
-    //    exclude module: 'support-v4'
-    // }
     //    compile 'com.googlecode.juniversalchardet:juniversalchardet:1.0.3'
-    compile 'org.apache.commons:commons-lang3:3.1'
+    compile 'org.apache.commons:commons-lang3:+'
     compile files('libs/juniversalchardet-1.0.3.jar')
-    compile('com.android.support:appcompat-v7:21.+') {
+    compile('com.android.support:appcompat-v7:22.+') {
         exclude group: 'com.android.support', module: 'support-v4'
     }
-    compile 'com.android.support:support-v4:21.+'
-    compile 'com.github.gabrielemariotti.changeloglib:library:1.5.1'
+    compile 'com.android.support:support-v4:22.+'
+    compile 'com.github.gabrielemariotti.changeloglib:library:+'
     compile 'commons-io:commons-io:2.4'
-    compile 'com.android.support:support-annotations:20.0.0'
+    compile 'com.android.support:support-annotations:+'
+    compile files('libs/markdownview-1.2.jar')
 }
