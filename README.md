@@ -37,6 +37,7 @@ You can contribute to this project in many ways:
 ### A special thanks to..
 * [Dumitru Grubii][contributor dumitru grubii] for the icon
 * All the translators
+* [Howard C. Shaw III][contributor howard] for the Word count feature
 * You?
 
 ------
@@ -56,5 +57,6 @@ See the [LICENSE][license] file that accompanies this distribution for the full 
 [developer site]: http://vmihalachi.com/
 [crowdin]: https://crowdin.net/project/turbo-client
 [contributor dumitru grubii]: https://twitter.com/DumitruGrubii
+[contributor howard]: https://plus.google.com/+HowardCShawIII
 [project issues]: https://github.com/vmihalachi/turbo-editor/issues
 [project wiki]: https://github.com/vmihalachi/turbo-editor/wiki
