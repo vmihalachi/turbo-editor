@@ -18,14 +18,14 @@ You can contribute to this project in many ways:
 
 ------
 
-###Donate
+### Donate
 [![Paypal](https://www.paypalobjects.com/en_US/i/btn/btn_donate_SM.gif)](https://www.paypal.com/cgi-bin/webscr?cmd=_s-xclick&hosted_button_id=26VWS2TSAMUJA) 
 
-[![Flattr this git repo](http://api.flattr.com/button/flattr-badge-large.png)](https://flattr.com/submit/auto?user_id=vmihalachi&url=https://github.com/vmihalachi/turbo-editor&title=Turbo Editor&language=java&tags=github&category=software)
+[![Flattr this git repo](http://api.flattr.com/button/flattr-badge-large.png)](https://flattr.com/submit/auto?user_id=vmihalachi&url=https://github.com/vmihalachi/turbo-editor&title=Turbo%20Editor&language=java&tags=github&category=software)
 
 ------
 
-###Images
+### Images
 ![](https://lh3.googleusercontent.com/-0GHukwGQPW4/VCUpEhKnZCI/AAAAAAAAAH4/cclI70K79_Q/w347-h520-no/PhoneCustom_7.png)![](https://lh3.googleusercontent.com/-OvazluFl_QQ/VCUo9DAje9I/AAAAAAAAAHQ/i7n1uCpU1hE/w347-h520-no/PhoneCustom_1.png)![](https://lh4.googleusercontent.com/-zh4CYdQPecg/VCUpD3QXpAI/AAAAAAAAAHw/ulL5-V0iJUw/w347-h520-no/PhoneCustom_6.png)![](https://lh4.googleusercontent.com/-LT3k4z9JHo8/VCUo_0jnZRI/AAAAAAAAAHg/Npk9UlkXIV8/w347-h520-no/PhoneCustom_4.png)![](https://lh5.googleusercontent.com/-hXvsf-WYvBs/VCUo9sYfR-I/AAAAAAAAAHY/TTfAgiV_7ko/w347-h520-no/PhoneCustom_3.png)![](https://lh6.googleusercontent.com/-Qib82pK6mZU/VCUpAgYmUdI/AAAAAAAAAHo/zoPVmwcatbQ/w347-h520-no/PhoneCustom_5.png)![](https://lh5.googleusercontent.com/-SERL7X-JHuc/VCax0QSlCGI/AAAAAAAAAJA/hu8dvbvJGBM/w375-h563-no/PhoneCustom_2.png)
 ------
 
