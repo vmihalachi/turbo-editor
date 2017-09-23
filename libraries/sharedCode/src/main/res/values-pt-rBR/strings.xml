@@ -73,13 +73,13 @@
   <string name="open_a_file">Abrir um arquivo</string>
   <string name="no">Não</string>
   <string name="new_file">Novo arquivo</string>
-  <string name="delete_current_file">Delete current file</string>
-  <string name="replace_all">Replace all</string>
-  <string name="theme">Theme</string>
-  <string name="theme_dark">Dark theme</string>
-  <string name="theme_black">Black theme</string>
+  <string name="delete_current_file">Excluir arquivo atual</string>
+  <string name="replace_all">Substituir tudo</string>
+  <string name="theme">Tema</string>
+  <string name="theme_dark">Tema Escuro</string>
+  <string name="theme_black">Tema Preto</string>
   <string name="view_markdown_result">View markdown result</string>
   <string name="accessory_view">Accessory view</string>
-  <string name="file_cannot_be_renamed">The file cannot be renamed</string>
+  <string name="file_cannot_be_renamed">O arquivo não pode ser renomeado</string>
   <string name="use_storage_access_framework">Use the \"Storage Access Framework\"</string>
 </resources>
