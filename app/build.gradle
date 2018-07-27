@@ -42,12 +42,12 @@ repositories {
 
 
 android {
-    compileSdkVersion 22
+    compileSdkVersion 24
     buildToolsVersion '27.0.3'
     defaultConfig {
         applicationId "com.maskyn.fileeditor"
         minSdkVersion 11
-        targetSdkVersion 22
+        targetSdkVersion 24
         versionCode 47
         versionName "1.19"
     }

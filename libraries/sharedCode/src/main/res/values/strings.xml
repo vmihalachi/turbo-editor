@@ -82,4 +82,5 @@
     <string name="accessory_view">Accessory view</string>
     <string name="file_cannot_be_renamed">The file cannot be renamed</string>
     <string name="use_storage_access_framework">Use the "Storage Access Framework"</string>
+    <string name="storage_required">Need storage access to read without Storage Access Framework</string>
 </resources>
