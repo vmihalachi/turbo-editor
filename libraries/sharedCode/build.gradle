@@ -26,12 +26,12 @@ android {
         disable 'MissingTranslation', 'ExtraTranslation'
     }
 
-    compileSdkVersion 24
+    compileSdkVersion 27
     buildToolsVersion '27.0.3'
 
     defaultConfig {
-        minSdkVersion 11
-        targetSdkVersion 24
+        minSdkVersion 14
+        targetSdkVersion 27
         versionCode 1
         versionName "1.0"
     }
@@ -66,7 +66,7 @@ dependencies {
     compile('com.android.support:appcompat-v7:22.+') {
         exclude group: 'com.android.support', module: 'support-v4'
     }
-    compile 'com.android.support:support-v4:24.+'
+    compile 'com.android.support:support-v4:27.+'
     compile 'com.github.gabrielemariotti.changeloglib:library:+'
     compile 'commons-io:commons-io:2.4'
     compile 'com.android.support:support-annotations:+'

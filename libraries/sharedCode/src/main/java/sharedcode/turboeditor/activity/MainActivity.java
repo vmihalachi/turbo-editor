@@ -80,6 +80,7 @@ import org.apache.commons.lang3.ArrayUtils;
 
 import java.io.BufferedReader;
 import java.io.File;
+import java.io.FileNotFoundException;
 import java.io.IOException;
 import java.io.InputStream;
 import java.io.InputStreamReader;
@@ -1427,7 +1428,12 @@ public abstract class MainActivity extends ActionBarActivity implements IHomeAct
     public void onEdittextDialogEnded(String result, String hint, EditTextDialog.Actions action) {
 
         if (Device.hasKitKatApi() && TextUtils.isEmpty(greatUri.getFilePath())) {
-            Uri newUri = DocumentsContract.renameDocument(getContentResolver(), greatUri.getUri(), result);
+            Uri newUri = null;
+            try {
+                DocumentsContract.renameDocument(getContentResolver(), greatUri.getUri(), result);
+            } catch (FileNotFoundException e) {
+                newUri = null;
+            }
             // if everything is ok
             if (newUri != null) {
 
