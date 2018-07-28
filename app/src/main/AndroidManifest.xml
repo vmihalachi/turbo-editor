@@ -76,6 +76,7 @@
                 <data android:pathPattern=".*\\.md"/>
                 <data android:pathPattern=".*\\.php" />
                 <data android:pathPattern=".*\\.py" />
+                <data android:pathPattern=".*\\.org" />
             </intent-filter>
             <intent-filter >
                 <action android:name="android.intent.action.VIEW" />
