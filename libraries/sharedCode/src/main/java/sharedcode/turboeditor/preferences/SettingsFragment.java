@@ -19,11 +19,16 @@
 
 package sharedcode.turboeditor.preferences;
 
+import android.Manifest;
 import android.app.Fragment;
 import android.content.Context;
 import android.content.Intent;
+import android.content.pm.PackageManager;
 import android.net.Uri;
+import android.os.Build;
 import android.os.Bundle;
+import android.support.v4.app.ActivityCompat;
+import android.support.v4.content.ContextCompat;
 import android.support.v7.widget.SwitchCompat;
 import android.view.LayoutInflater;
 import android.view.View;
@@ -237,7 +242,17 @@ public class SettingsFragment extends Fragment implements NumberPickerDialog.INu
         swStorageAccessFramework.setOnCheckedChangeListener(new CompoundButton.OnCheckedChangeListener() {
             @Override
             public void onCheckedChanged(CompoundButton buttonView, boolean isChecked) {
-                PreferenceHelper.setUseStorageAccessFramework(getActivity(), isChecked);
+                if (isChecked) {
+                    PreferenceHelper.setUseStorageAccessFramework(getActivity(), true);
+                    return;
+                }
+                if (ContextCompat.checkSelfPermission(getActivity(), Manifest.permission.WRITE_EXTERNAL_STORAGE)
+                        == PackageManager.PERMISSION_GRANTED) {
+                    PreferenceHelper.setUseStorageAccessFramework(getActivity(), false);
+                    return;
+                }
+                ActivityCompat.requestPermissions(getActivity(), new String[]{Manifest.permission.WRITE_EXTERNAL_STORAGE},
+                        MainActivity.REQUEST_WRITE_STORAGE_PERMISSION);
             }
         });
 

@@ -19,17 +19,21 @@
 
 package sharedcode.turboeditor.activity;
 
+import android.Manifest;
+import android.app.Fragment;
 import android.app.ProgressDialog;
 import android.content.ActivityNotFoundException;
 import android.content.Context;
 import android.content.Intent;
 import android.content.SharedPreferences;
+import android.content.pm.PackageManager;
 import android.content.res.Configuration;
 import android.graphics.Canvas;
 import android.graphics.Paint;
 import android.graphics.Typeface;
 import android.net.Uri;
 import android.os.AsyncTask;
+import android.os.Build;
 import android.os.Bundle;
 import android.os.Handler;
 import android.os.IBinder;
@@ -37,10 +41,12 @@ import android.preference.PreferenceManager;
 import android.provider.DocumentsContract;
 import android.support.annotation.NonNull;
 import android.support.annotation.Nullable;
+import android.support.v4.content.ContextCompat;
 import android.support.v4.view.MenuItemCompat;
 import android.support.v7.app.ActionBarActivity;
 import android.support.v7.app.ActionBarDrawerToggle;
 import android.support.v7.widget.ShareActionProvider;
+import android.support.v7.widget.SwitchCompat;
 import android.support.v7.widget.Toolbar;
 import android.text.Editable;
 import android.text.InputType;
@@ -74,6 +80,7 @@ import org.apache.commons.lang3.ArrayUtils;
 
 import java.io.BufferedReader;
 import java.io.File;
+import java.io.FileNotFoundException;
 import java.io.IOException;
 import java.io.InputStream;
 import java.io.InputStreamReader;
@@ -96,6 +103,7 @@ import sharedcode.turboeditor.dialogfragment.NumberPickerDialog;
 import sharedcode.turboeditor.dialogfragment.SaveFileDialog;
 import sharedcode.turboeditor.preferences.PreferenceChangeType;
 import sharedcode.turboeditor.preferences.PreferenceHelper;
+import sharedcode.turboeditor.preferences.SettingsFragment;
 import sharedcode.turboeditor.task.SaveFileTask;
 import sharedcode.turboeditor.texteditor.EditTextPadding;
 import sharedcode.turboeditor.texteditor.FileUtils;
@@ -138,6 +146,7 @@ public abstract class MainActivity extends ActionBarActivity implements IHomeAct
             ID_UNDO = R.id.im_undo,
             ID_REDO = R.id.im_redo,
             CHARS_TO_COLOR = 2500;
+    public static final int REQUEST_WRITE_STORAGE_PERMISSION = 130;
     private final Handler updateHandler = new Handler();
     private final Runnable colorRunnable_duringEditing =
             new Runnable() {
@@ -365,6 +374,30 @@ public abstract class MainActivity extends ActionBarActivity implements IHomeAct
             }
         }
     }
+
+    private void forceUseStorageAccessFramework() {
+        PreferenceHelper.setUseStorageAccessFramework(this, true);
+        final SwitchCompat swStorageAccessFramework = (SwitchCompat) findViewById(R.id.switch_storage_access_framework);
+        if (swStorageAccessFramework != null) {
+            swStorageAccessFramework.setChecked(true);
+        }
+    }
+
+    @Override
+    public void onRequestPermissionsResult(int requestCode, String[] permissions, int[] grantResults) {
+        switch (requestCode) {
+            case REQUEST_WRITE_STORAGE_PERMISSION:
+                if (grantResults.length == 0 || grantResults[0] != PackageManager.PERMISSION_GRANTED) {
+                    // Permission denied.
+                    Toast.makeText(this, R.string.storage_required, Toast.LENGTH_LONG).show();
+                    forceUseStorageAccessFramework();
+                } else {
+                    PreferenceHelper.setUseStorageAccessFramework(this, false);
+                }
+                break;
+        }
+    }
+
 
     @Override
     public void onItemClick(AdapterView<?> parent, View view, int position, long id) {
@@ -608,6 +641,20 @@ public abstract class MainActivity extends ActionBarActivity implements IHomeAct
         invalidateOptionsMenu();
     }
 
+    private boolean useStorageAccessFramework() {
+        if (!Device.hasKitKatApi())
+            return false;
+        boolean pref = PreferenceHelper.getUseStorageAccessFramework(this);
+        if (pref)
+            return true;
+        if (ContextCompat.checkSelfPermission(this, Manifest.permission.WRITE_EXTERNAL_STORAGE)
+                != PackageManager.PERMISSION_GRANTED) {
+            forceUseStorageAccessFramework();
+            return true;
+        }
+        return false;
+    }
+
     private void saveTheFile(boolean saveAs) {
         if (!saveAs && greatUri != null && greatUri.getUri() != null && greatUri.getUri() != Uri.EMPTY)
             new SaveFileTask(this, greatUri, pageSystem.getAllText(mEditor.getText()
@@ -618,7 +665,7 @@ public abstract class MainActivity extends ActionBarActivity implements IHomeAct
                 }
             }).execute();
         else {
-            if (Device.hasKitKatApi() && PreferenceHelper.getUseStorageAccessFramework(this)) {
+            if (useStorageAccessFramework()) {
                 Intent intent = new Intent(Intent.ACTION_CREATE_DOCUMENT);
                 intent.setType("*/*");
                 intent.putExtra(Intent.EXTRA_TITLE, greatUri.getFileName());
@@ -1169,7 +1216,7 @@ public abstract class MainActivity extends ActionBarActivity implements IHomeAct
     //region Calls from the layout
     public void OpenFile(View view) {
 
-        if (Device.hasKitKatApi()  && PreferenceHelper.getUseStorageAccessFramework(this)) {
+        if (useStorageAccessFramework()) {
             // ACTION_OPEN_DOCUMENT is the intent to choose a file via the system's file
             // browser.
             Intent intent = new Intent(Intent.ACTION_OPEN_DOCUMENT);
@@ -1193,7 +1240,7 @@ public abstract class MainActivity extends ActionBarActivity implements IHomeAct
     }
 
     public void CreateFile(View view) {
-        if (Device.hasKitKatApi() && PreferenceHelper.getUseStorageAccessFramework(this)) {
+        if (useStorageAccessFramework()) {
             Intent intent = new Intent(Intent.ACTION_CREATE_DOCUMENT);
             intent.setType("*/*");
             //intent.putExtra(Intent.EXTRA_TITLE, ".txt");
@@ -1381,7 +1428,12 @@ public abstract class MainActivity extends ActionBarActivity implements IHomeAct
     public void onEdittextDialogEnded(String result, String hint, EditTextDialog.Actions action) {
 
         if (Device.hasKitKatApi() && TextUtils.isEmpty(greatUri.getFilePath())) {
-            Uri newUri = DocumentsContract.renameDocument(getContentResolver(), greatUri.getUri(), result);
+            Uri newUri = null;
+            try {
+                DocumentsContract.renameDocument(getContentResolver(), greatUri.getUri(), result);
+            } catch (FileNotFoundException e) {
+                newUri = null;
+            }
             // if everything is ok
             if (newUri != null) {
 
