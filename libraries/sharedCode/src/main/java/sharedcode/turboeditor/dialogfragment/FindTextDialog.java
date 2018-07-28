@@ -193,7 +193,7 @@ public class FindTextDialog extends DialogFragment {
                     return;
                     // else we return positions and other things
                 else {
-                    SearchResult searchResult = new SearchResult(foundIndex, textToFind.length(), replaceCheck.isChecked(), textToFind.getText().toString(), textToReplace.getText().toString());
+                    SearchResult searchResult = new SearchResult(foundIndex, textToFind.length(), replaceCheck.isChecked(), textToFind.getText().toString(), textToReplace.getText().toString(), regexCheck.isChecked());
                     searchDialogInterface.onSearchDone(searchResult);
                 }
             } else {

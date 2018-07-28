@@ -559,7 +559,10 @@ public abstract class MainActivity extends ActionBarActivity implements IHomeAct
     // region OTHER THINGS
     void replaceText(boolean all) {
         if (all) {
-            mEditor.setText(pageSystem.getAllText(mEditor.getText().toString()).replaceAll(searchResult.whatToSearch, searchResult.textToReplace));
+            if (searchResult.isRegex)
+                mEditor.setText(pageSystem.getAllText(mEditor.getText().toString()).replaceAll(searchResult.whatToSearch, searchResult.textToReplace));
+            else
+                mEditor.setText(pageSystem.getAllText(mEditor.getText().toString()).replace(searchResult.whatToSearch, searchResult.textToReplace));
 
             searchResult = null;
             invalidateOptionsMenu();

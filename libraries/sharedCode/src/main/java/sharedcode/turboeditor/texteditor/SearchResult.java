@@ -29,14 +29,16 @@ public class SearchResult {
     public String textToReplace;
     public int index;
     public String whatToSearch;
+    public boolean isRegex;
 
 
-    public SearchResult(LinkedList<Integer> foundIndex, int textLength, boolean isReplace, String whatToSearch, String textToReplace) {
+    public SearchResult(LinkedList<Integer> foundIndex, int textLength, boolean isReplace, String whatToSearch, String textToReplace, boolean isRegex) {
         this.foundIndex = foundIndex;
         this.textLength = textLength;
         this.isReplace = isReplace;
         this.whatToSearch = whatToSearch;
         this.textToReplace = textToReplace;
+        this.isRegex = isRegex;
     }
 
     public void doneReplace() {
