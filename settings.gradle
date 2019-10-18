@@ -17,4 +17,7 @@
  * along with this program.  If not, see <http://www.gnu.org/licenses/>.
  */
 
-include ':app', ':libraries:FloatingActionButton', ':libraries:sharedCode', ':app-pro'
+include ':app', ':FloatingActionButton', ':sharedCode', ':app-pro'
+
+project(':FloatingActionButton').projectDir = new File("libraries/FloatingActionButton")
+project(':sharedCode').projectDir = new File("libraries/sharedCode")

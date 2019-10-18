@@ -21,18 +21,12 @@ import java.util.regex.Pattern
 
 buildscript {
     repositories {
+        google()
         mavenCentral()
-        maven { url 'https://maven.fabric.io/repo' }
     }
-
-    dependencies {
-        classpath 'io.fabric.tools:gradle:1.+'
-    }
-
 }
 
 apply plugin: 'com.android.application'
-apply plugin: 'io.fabric'
 
 repositories {
     mavenCentral()
@@ -43,7 +37,7 @@ repositories {
 
 android {
     compileSdkVersion 28
-    buildToolsVersion '27.0.3'
+    buildToolsVersion '28.0.3'
     defaultConfig {
         applicationId "com.maskyn.fileeditor"
         minSdkVersion 14
@@ -71,25 +65,23 @@ android {
 }
 
 dependencies {
-    compile fileTree(dir: 'libs', include: '*.jar')
-    compile project(':libraries:sharedCode')
-    //compile 'com.google.android.gms:play-services-ads:6.5.+'
-    compile('com.crashlytics.sdk.android:crashlytics:2.+@aar') {
-        transitive = true;
-    }
+    api fileTree(dir: 'libs', include: '*.jar')
+    implementation project(':sharedCode')
 }
 
-task incrementVersionCode << {
-    println(":incrementVersionCode - Incrementing Version Code...")
-    def buildGradleFile = file("build.gradle")
-    def patternVersionCode = Pattern.compile("versionCode (\\d+)")
-    def buildGradleFileText = buildGradleFile.getText()
-    def matcherVersionCode = patternVersionCode.matcher(buildGradleFileText)
-    matcherVersionCode.find()
-    def mVersionCode = Integer.parseInt(matcherVersionCode.group(1))
-    def mNextVersionCode = mVersionCode + 1
-    def manifestContent = matcherVersionCode.replaceAll("versionCode " + mNextVersionCode)
-    println(":incrementVersionCode - current versionCode=" + mVersionCode);
-    println(":incrementVersionCode - next versionCode=" + mNextVersionCode);
-    buildGradleFile.write(manifestContent)
+task incrementVersionCode {
+    doLast {
+        println(":incrementVersionCode - Incrementing Version Code...")
+        def buildGradleFile = file("build.gradle")
+        def patternVersionCode = Pattern.compile("versionCode (\\d+)")
+        def buildGradleFileText = buildGradleFile.getText()
+        def matcherVersionCode = patternVersionCode.matcher(buildGradleFileText)
+        matcherVersionCode.find()
+        def mVersionCode = Integer.parseInt(matcherVersionCode.group(1))
+        def mNextVersionCode = mVersionCode + 1
+        def manifestContent = matcherVersionCode.replaceAll("versionCode " + mNextVersionCode)
+        println(":incrementVersionCode - current versionCode=" + mVersionCode);
+        println(":incrementVersionCode - next versionCode=" + mNextVersionCode);
+        buildGradleFile.write(manifestContent)
+    }
 }
