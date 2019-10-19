@@ -34,8 +34,7 @@ import java.util.LinkedList;
 import sharedcode.turboeditor.R;
 import sharedcode.turboeditor.util.GreatUri;
 
-public class AdapterDrawer extends
-        ArrayAdapter<GreatUri> {
+public class AdapterDrawer extends ArrayAdapter<GreatUri> {
 
     private final Callbacks callbacks;
     // Layout Inflater
