@@ -23,7 +23,7 @@ import android.app.Activity;
 import android.os.Bundle;
 import android.view.Window;
 
-import us.feras.mdv.MarkdownView;
+import com.mukesh.MarkdownView;
 
 public class MarkdownActivity extends Activity {
     @Override
@@ -32,6 +32,6 @@ public class MarkdownActivity extends Activity {
 		requestWindowFeature(Window.FEATURE_NO_TITLE);
 		MarkdownView webView = new MarkdownView(this);
 		setContentView(webView);
-		webView.loadMarkdown(getIntent().getStringExtra("text"), "file:///android_asset/classic_theme_markdown.css");
+		webView.setMarkDownText(getIntent().getStringExtra("text"));
 	}
 }

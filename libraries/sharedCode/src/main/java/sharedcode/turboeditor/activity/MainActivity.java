@@ -20,7 +20,6 @@
 package sharedcode.turboeditor.activity;
 
 import android.Manifest;
-import android.app.Fragment;
 import android.app.ProgressDialog;
 import android.content.ActivityNotFoundException;
 import android.content.Context;
@@ -33,21 +32,21 @@ import android.graphics.Paint;
 import android.graphics.Typeface;
 import android.net.Uri;
 import android.os.AsyncTask;
-import android.os.Build;
 import android.os.Bundle;
 import android.os.Handler;
 import android.os.IBinder;
 import android.preference.PreferenceManager;
 import android.provider.DocumentsContract;
-import android.support.annotation.NonNull;
-import android.support.annotation.Nullable;
-import android.support.v4.content.ContextCompat;
-import android.support.v4.view.MenuItemCompat;
-import android.support.v7.app.ActionBarActivity;
-import android.support.v7.app.ActionBarDrawerToggle;
-import android.support.v7.widget.ShareActionProvider;
-import android.support.v7.widget.SwitchCompat;
-import android.support.v7.widget.Toolbar;
+import androidx.annotation.NonNull;
+import androidx.annotation.Nullable;
+import androidx.appcompat.app.AppCompatActivity;
+import androidx.core.content.ContextCompat;
+import androidx.core.view.GravityCompat;
+import androidx.core.view.MenuItemCompat;
+import androidx.appcompat.app.ActionBarDrawerToggle;
+import androidx.appcompat.widget.ShareActionProvider;
+import androidx.appcompat.widget.SwitchCompat;
+import androidx.appcompat.widget.Toolbar;
 import android.text.Editable;
 import android.text.InputType;
 import android.text.Selection;
@@ -76,7 +75,6 @@ import com.spazedog.lib.rootfw4.RootFW;
 import com.spazedog.lib.rootfw4.utils.io.FileReader;
 
 import org.apache.commons.io.FilenameUtils;
-import org.apache.commons.lang3.ArrayUtils;
 
 import java.io.BufferedReader;
 import java.io.File;
@@ -103,7 +101,6 @@ import sharedcode.turboeditor.dialogfragment.NumberPickerDialog;
 import sharedcode.turboeditor.dialogfragment.SaveFileDialog;
 import sharedcode.turboeditor.preferences.PreferenceChangeType;
 import sharedcode.turboeditor.preferences.PreferenceHelper;
-import sharedcode.turboeditor.preferences.SettingsFragment;
 import sharedcode.turboeditor.task.SaveFileTask;
 import sharedcode.turboeditor.texteditor.EditTextPadding;
 import sharedcode.turboeditor.texteditor.FileUtils;
@@ -127,7 +124,7 @@ import sharedcode.turboeditor.views.CustomDrawerLayout;
 import sharedcode.turboeditor.views.DialogHelper;
 import sharedcode.turboeditor.views.GoodScrollView;
 
-public abstract class MainActivity extends ActionBarActivity implements IHomeActivity, FindTextDialog
+public abstract class MainActivity extends AppCompatActivity implements IHomeActivity, FindTextDialog
         .SearchDialogInterface, GoodScrollView.ScrollInterface, PageSystem.PageSystemInterface,
         PageSystemButtons.PageButtonsInterface, NumberPickerDialog.INumberPickerDialog, SaveFileDialog.ISaveDialog,
         AdapterView.OnItemClickListener, AdapterDrawer.Callbacks, AccessoryView.IAccessoryView, EditTextDialog.EditDialogListener{
@@ -211,7 +208,7 @@ public abstract class MainActivity extends ActionBarActivity implements IHomeAct
         /* First Time we open this activity */
         if (savedInstanceState == null) {
             // Open
-            mDrawerLayout.openDrawer(Gravity.START);
+            mDrawerLayout.openDrawer(GravityCompat.START);
             // Set the default title
             getSupportActionBar().setTitle(getString(R.string.nome_app_turbo_editor));
         }
@@ -867,7 +864,7 @@ public abstract class MainActivity extends ActionBarActivity implements IHomeAct
         // File paths saved in preferences
         String[] savedPaths = PreferenceHelper.getSavedPaths(this);
         int first_index_of_array = savedPaths.length > max_recent_files ? savedPaths.length - max_recent_files : 0;
-        savedPaths = ArrayUtils.subarray(savedPaths, first_index_of_array, savedPaths.length);
+        savedPaths = Arrays.copyOfRange(savedPaths, first_index_of_array, savedPaths.length);
         // File names for the list
         greatUris.clear();
         // StringBuilder that will contain the file paths
@@ -900,7 +897,7 @@ public abstract class MainActivity extends ActionBarActivity implements IHomeAct
             //}
         }
         // if is not null, empty, we have to add something and we dont already have this uri
-        if(thisUri != null && !thisUri.getUri().equals(Uri.EMPTY) && add && !ArrayUtils.contains(savedPaths, thisUri.getUri().toString())) {
+        if(thisUri != null && !thisUri.getUri().equals(Uri.EMPTY) && add && !Arrays.asList(savedPaths).contains(thisUri.getUri().toString())) {
             sb.append(thisUri.getUri().toString()).append(",");
             greatUris.addFirst(thisUri);
         }
@@ -934,7 +931,7 @@ public abstract class MainActivity extends ActionBarActivity implements IHomeAct
             protected void onPreExecute() {
                 super.onPreExecute();
                 // Close the drawer
-                mDrawerLayout.closeDrawer(Gravity.START);
+                mDrawerLayout.closeDrawer(GravityCompat.START);
                 progressDialog = new ProgressDialog(MainActivity.this);
                 progressDialog.setMessage(getString(R.string.please_wait));
                 progressDialog.show();
@@ -982,7 +979,7 @@ public abstract class MainActivity extends ActionBarActivity implements IHomeAct
                     fileText = "";
                 }
 
-                while (mDrawerLayout.isDrawerOpen(Gravity.START)) {
+                while (mDrawerLayout.isDrawerOpen(GravityCompat.START)) {
                     try {
                         Thread.sleep(50);
                     } catch (InterruptedException e) {

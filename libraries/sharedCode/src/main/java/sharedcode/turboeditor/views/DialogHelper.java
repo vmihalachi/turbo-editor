@@ -34,8 +34,7 @@ import android.view.View;
 import android.view.ViewGroup;
 import android.widget.TextView;
 
-import org.apache.commons.lang3.builder.EqualsBuilder;
-import org.apache.commons.lang3.builder.HashCodeBuilder;
+import java.util.Objects;
 
 import sharedcode.turboeditor.R;
 import sharedcode.turboeditor.dialogfragment.AboutDialog;
@@ -109,42 +108,22 @@ public class DialogHelper {
             mContext = context;
         }
 
-        /**
-         * {@inheritDoc}
-         */
-        @Override
-        public int hashCode() {
-            return new HashCodeBuilder(201, 17)
-                    .append(mContext)
-                    .append(mIcon)
-                    .append(mTitleText)
-                    .append(mMessageText)
-                    .append(mViewRes)
-                    .append(mView)
-                    .toHashCode();
-        }
-
-        /**
-         * {@inheritDoc}
-         */
         @Override
         public boolean equals(Object o) {
-            if (o == null)
-                return false;
-            if (o == this)
-                return true;
-            if (!(o instanceof Builder))
-                return false;
-
+            if (this == o) return true;
+            if (o == null || getClass() != o.getClass()) return false;
             Builder builder = (Builder) o;
-            return new EqualsBuilder()
-                    .append(mContext, builder.mContext)
-                    .append(mIcon, builder.mIcon)
-                    .append(mTitleText, builder.mTitleText)
-                    .append(mMessageText, builder.mMessageText)
-                    .append(mViewRes, builder.mViewRes)
-                    .append(mView, builder.mView)
-                    .isEquals();
+            return mViewRes == builder.mViewRes &&
+                    Objects.equals(mContext, builder.mContext) &&
+                    Objects.equals(mIcon, builder.mIcon) &&
+                    Objects.equals(mTitleText, builder.mTitleText) &&
+                    Objects.equals(mMessageText, builder.mMessageText) &&
+                    Objects.equals(mView, builder.mView);
+        }
+
+        @Override
+        public int hashCode() {
+            return Objects.hash(mContext, mIcon, mTitleText, mMessageText, mView, mViewRes);
         }
 
         public Builder setIcon(Drawable icon) {

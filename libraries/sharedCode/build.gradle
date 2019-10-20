@@ -37,8 +37,8 @@ android {
     }
 
     compileOptions {
-        sourceCompatibility JavaVersion.VERSION_1_7
-        targetCompatibility JavaVersion.VERSION_1_7
+        sourceCompatibility JavaVersion.VERSION_1_8
+        targetCompatibility JavaVersion.VERSION_1_8
     }
     buildTypes {
         release {
@@ -58,16 +58,14 @@ android {
 }
 
 dependencies {
-    implementation project(':FloatingActionButton')
-    implementation  'org.apache.commons:commons-lang3:+'
-    compile('com.android.support:appcompat-v7:22.+') {
-        exclude group: 'com.android.support', module: 'support-v4'
-    }
-    implementation 'com.android.support:support-v4:27.+'
-    implementation 'com.github.gabrielemariotti.changeloglib:library:+'
-    implementation 'commons-io:commons-io:2.4'
-    implementation 'com.android.support:support-annotations:+'
+    api 'androidx.appcompat:appcompat:1.1.0'
+    implementation 'androidx.legacy:legacy-support-v4:1.0.0'
 
-    compile files('libs/markdownview-1.2.jar')
-    compile files('libs/juniversalchardet-1.0.3.jar')
+    implementation project(':FloatingActionButton')
+    implementation 'androidx.annotation:annotation:1.1.0'
+    implementation 'commons-io:commons-io:2.6'
+    implementation 'com.github.gabrielemariotti.changeloglib:changelog:2.1.0'
+    implementation 'com.github.albfernandez:juniversalchardet:2.3.0'
+
+    api 'com.github.mukeshsolanki:MarkdownView-Android:1.0.8'
 }

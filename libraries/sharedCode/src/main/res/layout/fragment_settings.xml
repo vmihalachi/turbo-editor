@@ -47,7 +47,7 @@
         android:background="?selectableItemBackground"
         android:textColor="@color/indigo"/>
 
-    <android.support.v7.widget.SwitchCompat
+    <androidx.appcompat.widget.SwitchCompat
             android:gravity="center_vertical"
             android:layout_width="match_parent"
             android:layout_height="56dp"
@@ -63,7 +63,7 @@
             android:textColor="@color/navigation_drawer_button_text_color_inverted"
             />
 
-    <android.support.v7.widget.SwitchCompat
+    <androidx.appcompat.widget.SwitchCompat
         android:gravity="center_vertical"
         android:layout_width="match_parent"
         android:layout_height="56dp"
@@ -78,7 +78,7 @@
         android:paddingRight="16dp"
         android:textColor="@color/navigation_drawer_button_text_color_inverted"/>
 
-    <android.support.v7.widget.SwitchCompat
+    <androidx.appcompat.widget.SwitchCompat
         android:gravity="center_vertical"
         android:layout_width="match_parent"
         android:layout_height="56dp"
@@ -93,7 +93,7 @@
         android:paddingRight="16dp"
         android:textColor="@color/navigation_drawer_button_text_color_inverted"/>
 
-    <android.support.v7.widget.SwitchCompat
+    <androidx.appcompat.widget.SwitchCompat
         android:gravity="center_vertical"
         android:layout_width="match_parent"
         android:layout_height="56dp"
@@ -108,7 +108,7 @@
         android:paddingRight="16dp"
         android:textColor="@color/navigation_drawer_button_text_color_inverted"/>
 
-    <android.support.v7.widget.SwitchCompat
+    <androidx.appcompat.widget.SwitchCompat
         android:gravity="center_vertical"
         android:layout_width="match_parent"
         android:layout_height="56dp"
@@ -176,7 +176,7 @@
             android:background="?selectableItemBackground"
             android:textColor="@color/navigation_drawer_button_text_color_inverted"/>
 
-        <android.support.v7.widget.SwitchCompat
+        <androidx.appcompat.widget.SwitchCompat
             android:gravity="center_vertical"
             android:layout_width="match_parent"
             android:layout_height="56dp"
@@ -190,7 +190,7 @@
             android:paddingRight="16dp"
             android:textColor="@color/navigation_drawer_button_text_color_inverted"/>
 
-        <android.support.v7.widget.SwitchCompat
+        <androidx.appcompat.widget.SwitchCompat
             android:gravity="center_vertical"
             android:layout_width="match_parent"
             android:layout_height="56dp"
@@ -204,7 +204,7 @@
             android:paddingRight="16dp"
             android:textColor="@color/navigation_drawer_button_text_color_inverted"/>
 
-        <android.support.v7.widget.SwitchCompat
+        <androidx.appcompat.widget.SwitchCompat
             android:gravity="center_vertical"
             android:layout_width="match_parent"
             android:layout_height="56dp"
@@ -218,7 +218,7 @@
             android:paddingRight="16dp"
             android:textColor="@color/navigation_drawer_button_text_color_inverted"/>
 
-        <android.support.v7.widget.SwitchCompat
+        <androidx.appcompat.widget.SwitchCompat
             android:gravity="center_vertical"
             android:layout_width="match_parent"
             android:layout_height="56dp"
@@ -247,7 +247,7 @@
             android:background="?selectableItemBackground"
             android:textColor="@color/navigation_drawer_button_text_color_inverted"/>
 
-        <android.support.v7.widget.SwitchCompat
+        <androidx.appcompat.widget.SwitchCompat
             android:gravity="center_vertical"
             android:layout_width="match_parent"
             android:layout_height="56dp"
@@ -261,7 +261,7 @@
             android:paddingRight="16dp"
             android:textColor="@color/navigation_drawer_button_text_color_inverted"/>
 
-        <android.support.v7.widget.SwitchCompat
+        <androidx.appcompat.widget.SwitchCompat
             android:gravity="center_vertical"
             android:layout_width="match_parent"
             android:layout_height="56dp"
@@ -275,7 +275,7 @@
             android:paddingRight="16dp"
             android:textColor="@color/navigation_drawer_button_text_color_inverted"/>
 
-        <android.support.v7.widget.SwitchCompat
+        <androidx.appcompat.widget.SwitchCompat
             android:gravity="center_vertical"
             android:layout_width="match_parent"
             android:layout_height="56dp"

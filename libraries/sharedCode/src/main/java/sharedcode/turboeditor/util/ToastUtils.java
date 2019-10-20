@@ -20,7 +20,7 @@
 package sharedcode.turboeditor.util;
 
 import android.content.Context;
-import android.support.annotation.NonNull;
+import androidx.annotation.NonNull;
 import android.widget.Toast;
 
 /**

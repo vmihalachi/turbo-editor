@@ -23,7 +23,7 @@ import android.app.AlertDialog;
 import android.app.Dialog;
 import android.app.DialogFragment;
 import android.os.Bundle;
-import android.support.v7.widget.SwitchCompat;
+import androidx.appcompat.widget.SwitchCompat;
 import android.view.View;
 import android.widget.AdapterView;
 import android.widget.ArrayAdapter;
@@ -42,8 +42,7 @@ public class EncodingDialog extends DialogFragment implements AdapterView.OnItem
             Constants.CHARSET_EUC_JP,
             Constants.CHARSET_EUC_KR,
             Constants.CHARSET_EUC_TW,
-            Constants.CHARSET_GB18030,
-            "GB2312",
+            Constants.CHARSET_HZ_GB_2312,
             Constants.CHARSET_IBM855,
             Constants.CHARSET_IBM866,
             Constants.CHARSET_ISO_2022_CN,
@@ -70,8 +69,7 @@ public class EncodingDialog extends DialogFragment implements AdapterView.OnItem
     private ListView list;
 
     public static EncodingDialog newInstance() {
-        final EncodingDialog f = new EncodingDialog();
-        return f;
+        return new EncodingDialog();
     }
 
     @Override
