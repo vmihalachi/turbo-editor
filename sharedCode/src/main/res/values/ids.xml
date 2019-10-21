@@ -1,0 +1,95 @@
+<?xml version="1.0" encoding="utf-8"?>
+
+<!--
+  ~ Copyright (C) 2014 Vlad Mihalachi
+  ~
+  ~ This file is part of Turbo Editor.
+  ~
+  ~ Turbo Editor is free software: you can redistribute it and/or modify
+  ~ it under the terms of the GNU General Public License as published by
+  ~ the Free Software Foundation, either version 3 of the License, or
+  ~ (at your option) any later version.
+  ~
+  ~ Turbo Editor is distributed in the hope that it will be useful,
+  ~ but WITHOUT ANY WARRANTY; without even the implied warranty of
+  ~ MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE. See the
+  ~ GNU General Public License for more details.
+  ~
+  ~ You should have received a copy of the GNU General Public License
+  ~ along with this program.  If not, see <http://www.gnu.org/licenses/>.
+  -->
+<resources>
+    <!-- menu item ids -->
+    <item type="id" name="im_undo"/>
+    <item type="id" name="im_redo"/>
+    <item type="id" name="im_rename"/>
+    <item type="id" name="im_editor"/>
+    <item type="id" name="im_remove"/>
+    <item type="id" name="im_open"/>
+    <item type="id" name="im_info"/>
+    <item type="id" name="im_button"/>
+    <item type="id" name="im_save"/>
+    <item type="id" name="im_save_normaly"/>
+    <item type="id" name="im_save_as"/>
+    <item type="id" name="im_share"/>
+    <item type="id" name="im_view_markdown"/>
+    <item type="id" name="im_editor_encoding"/>
+    <item type="id" name="im_line_numbers"/>
+    <item type="id" name="im_syntax_highlight"/>
+    <item type="id" name="im_use_monospace"/>
+    <item type="id" name="im_new_file"/>
+    <item type="id" name="im_new_folder"/>
+    <item type="id" name="im_text_size"/>
+    <item type="id" name="im_view_it_on_browser"/>
+    <item type="id" name="im_goto_line"/>
+    <item type="id" name="im_search"/>
+    <item type="id" name="im_print"/>
+    <item type="id" name="im_cancel"/>
+    <item type="id" name="im_next_item"/>
+    <item type="id" name="im_previous_item"/>
+    <item type="id" name="im_is_working_folder"/>
+    <item type="id" name="im_set_as_working_folder"/>
+    <item type="id" name="im_replace"/>
+    <item type="id" name="im_replace_all"/>
+    <item type="id" name="im_next_page"/>
+    <item type="id" name="im_prev_page"/>
+    <item type="id" name="im_donate"/>
+    <!-- layout item ids -->
+    <item type="id" name="drawer_layout"/>
+    <item type="id" name="editor"/>
+    <item type="id" name="vertical_scroll"/>
+    <item type="id" name="horizontal_scroll"/>
+    <item type="id" name="drawer_buttons"/>
+    <item type="id" name="drawer_files"/>
+    <item type="id" name="drawer_settings"/>
+    <item type="id" name="button_remove_from_list"/>
+
+    <item type="id" name="text_editor"/>
+    <item type="id" name="no_file_opened_messagge"/>
+
+    <item type="id" name="regex_check"/>
+    <item type="id" name="replace_check"/>
+    <item type="id" name="match_case_check"/>
+    <item type="id" name="text_to_find"/>
+    <item type="id" name="text_to_replace"/>
+    <!-- switch -->
+    <item type="id" name="switch_line_numbers"/>
+    <item type="id" name="switch_syntax"/>
+    <item type="id" name="switch_wrap_content"/>
+    <item type="id" name="switch_monospace"/>
+    <item type="id" name="switch_suggestions_active"/>
+    <item type="id" name="switch_auto_save"/>
+    <item type="id" name="switch_read_only"/>
+    <item type="id" name="drawer_button_extra_options"/>
+    <item type="id" name="switch_ignore_backbutton"/>
+    <item type="id" name="switch_page_system"/>
+    <item type="id" name="switch_send_error_reports"/>
+    <item type="id" name="switch_accessory_view"/>
+    <item type="id" name="switch_storage_access_framework"/>
+
+    <item type="id" name="drawer_button_go_pro"/>
+    <item type="id" name="drawer_button_theme"/>
+    <item type="id" name="drawer_button_encoding"/>
+    <item type="id" name="drawer_button_font_size"/>
+    <item name="im_select_folder" type="id" />
+</resources>

@@ -1,0 +1,216 @@
+<?xml version="1.0" encoding="utf-8"?>
+<!--
+  ~ Copyright (C) 2014 Vlad Mihalachi
+  ~
+  ~ This file is part of Turbo Editor.
+  ~
+  ~ Turbo Editor is free software: you can redistribute it and/or modify
+  ~ it under the terms of the GNU General Public License as published by
+  ~ the Free Software Foundation, either version 3 of the License, or
+  ~ (at your option) any later version.
+  ~
+  ~ Turbo Editor is distributed in the hope that it will be useful,
+  ~ but WITHOUT ANY WARRANTY; without even the implied warranty of
+  ~ MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE. See the
+  ~ GNU General Public License for more details.
+  ~
+  ~ You should have received a copy of the GNU General Public License
+  ~ along with this program.  If not, see <http://www.gnu.org/licenses/>.
+  -->
+
+<changelog bulletedList="true">
+
+    <changelogversion versionName="1.19" changeDate="Mar 22, 2015">
+        <changelogtext>Storage Access Framework is now by default false, go to the preferences to activate it!</changelogtext>
+        <changelogtext>Added some extensions as openable by the app</changelogtext>
+        <changelogtext>Important fixes on saving files</changelogtext>
+        <changelogtext>Updated the translations</changelogtext>
+    </changelogversion>
+
+
+    <changelogversion versionName="1.18.2" changeDate="Mar 22, 2015">
+        <changelogtext>Fixed some important issues, I am really sorry!</changelogtext>
+    </changelogversion>
+
+    <changelogversion versionName="1.18" changeDate="Mar 21, 2015">
+        <changelogtext>[b]Please read this![/b] The file selection starting from kitkat has changed, now you can open Google Drive files! [b]if you want to disable it[/b] go into the preferences and switch off the option.</changelogtext>
+        <changelogtext>[b]New![/b] Now you can rename files</changelogtext>
+        <changelogtext>Fixed a bug with the cursor</changelogtext>
+        <changelogtext>Now you can disable the accessory view</changelogtext>
+        <changelogtext>Updated translations</changelogtext>
+    </changelogversion>
+
+    <changelogversion versionName="1.17" changeDate="Mar 15, 2015">
+        <changelogtext>Added a markdown viewer!</changelogtext>
+        <changelogtext>Fixed a bug with Copy, Paste, Cut buttons</changelogtext>
+        <changelogtext>Updated translations</changelogtext>
+    </changelogversion>
+
+    <changelogversion versionName="1.16" changeDate="Mar 14, 2015">
+        <changelogtext>Added the Accessory View (now you can input more easily special symbols!)</changelogtext>
+        <changelogtext>Added a Black theme!</changelogtext>
+        <changelogtext>Added ISO-8859-2 encoding</changelogtext>
+        <changelogtext>Bug fixes</changelogtext>
+    </changelogversion>
+
+    <changelogversion versionName="1.15" changeDate="Mar 13, 2015">
+        <changelogtext>It is a "beta" release, feel free to send you feedback on github.com!</changelogtext>
+        <changelogtext>Added Save As! (and rename option)</changelogtext>
+        <changelogtext>Added Replace All!</changelogtext>
+        <changelogtext>Initial support to cloud files</changelogtext>
+        <changelogtext>The default encoding now is UTF-16</changelogtext>
+        <changelogtext>Removed donations items, if you want to donate please buy the pro version!</changelogtext>
+        <changelogtext>Minor bug fixes</changelogtext>
+    </changelogversion>
+
+    <changelogversion versionName="1.14" changeDate="Oct 30, 2014">
+        <changelogtext>Removed the ads because HAPPY NEW YEAR!!!</changelogtext>
+        <changelogtext>Minor bug fixes</changelogtext>
+    </changelogversion>
+
+    <changelogversion versionName="1.13.1" changeDate="Oct 30, 2014">
+        <changelogtext>Manly bug fixes</changelogtext>
+    </changelogversion>
+
+    <changelogversion versionName="1.13" changeDate="Oct 25, 2014">
+        <changelogtext>Turbo Editor is a free and open source app. Now you can show your appreciation and support development by donating :)</changelogtext>
+        <changelogtext>New visual changes to make the app more "Material"</changelogtext>
+        <changelogtext>New save dialog when you are about to close a file</changelogtext>
+        <changelogtext>Many enchantments and fixes</changelogtext>
+        <changelogtext>Have feedback? Please use xda or the email. Thanks!</changelogtext>
+    </changelogversion>
+
+    <changelogversion versionName="1.12" changeDate="Oct 9, 2014">
+        <changelogtext>Many enchantments and fixes</changelogtext>
+    </changelogversion>
+
+    <changelogversion versionName="1.11" changeDate="Sep 30, 2014">
+        <changelogtext>[b]New! [/b]Important improvements to the syntax highlight</changelogtext>
+        <changelogtext>[b]New! [/b]Donation option in the about screen. Help to make Turbo Editor a better software! :)</changelogtext>
+        <changelogtext>[b]New! [/b]Setting to disable the "page system"</changelogtext>
+        <changelogtext>[b]New! [/b]Setting to ignore the back button</changelogtext>
+        <changelogtext>Fixed an issue related to cut/copy/past buttons</changelogtext>
+        <changelogtext>Other enchantments and fixes</changelogtext>
+    </changelogversion>
+
+    <changelogversion versionName="1.10" changeDate="Sep 17, 2014">
+        <changelogtext>[b]New! [/b]Go To Line feature</changelogtext>
+        <changelogtext>Now the syntax highlight updates when scrolling</changelogtext>
+        <changelogtext>Other enchantments and fixs</changelogtext>
+    </changelogversion>
+
+    <changelogversion versionName="1.9" changeDate="Sep 12, 2014">
+        <changelogtext>[b]New! [/b]Create empty files with just one click</changelogtext>
+        <changelogtext>[b]New! [/b]Read only mode</changelogtext>
+        <changelogtext>[b]New! [/b]Autosave function, to save files when the app loses focus</changelogtext>
+        <changelogtext>[b]New! [/b]Share the text from other apps to Turbo Editor</changelogtext>
+        <changelogtext>[b]New! [/b]Style changes</changelogtext>
+        <changelogtext>Other enchantments and fixs</changelogtext>
+    </changelogversion>
+
+    <changelogversion versionName="1.8" changeDate="Sep 8, 2014">
+        <changelogtext>[b]New! [/b]Now you can open Very Big Files</changelogtext>
+        <changelogtext>[b]New! [/b]Better support for python and lua</changelogtext>
+        <changelogtext>Other enchantments and fixs</changelogtext>
+    </changelogversion>
+
+    <changelogversion versionName="1.7" changeDate="Sep 1, 2014">
+        <changelogtext>[b]New! [/b]Find and Replace function</changelogtext>
+        <changelogtext>[b]New! [/b]Find with Regular Expression</changelogtext>
+        <changelogtext>[b]New! [/b]Right to Left support</changelogtext>
+        <changelogtext>[b]New! [/b]About screen</changelogtext>
+        <changelogtext>If a file was modified the app now asks to save the changes</changelogtext>
+        <changelogtext>Fixed an issue with the undo function</changelogtext>
+        <changelogtext>New animations</changelogtext>
+        <changelogtext>Other enchantments</changelogtext>
+    </changelogversion>
+
+    <changelogversion versionName="1.6" changeDate="Aug 22, 2014">
+        <changelogtext>[b]New! [/b]Floating action button in the "Open a file" screen</changelogtext>
+        <changelogtext>[b]New! [/b]Set as working folder action in the "Open a file" screen</changelogtext>
+        <changelogtext>In the info/about screen added a link to the XDA thread</changelogtext>
+        <changelogtext>New menu icon for overflow</changelogtext>
+        <changelogtext>Updated the translations</changelogtext>
+        <changelogtext>Other enchantments</changelogtext>
+    </changelogversion>
+
+    <changelogversion versionName="1.5" changeDate="Aug 15, 2014">
+        <changelogtext>[b]New! [/b]Added root features!</changelogtext>
+        <changelogtext>[b]New! [/b]Open hidden files</changelogtext>
+        <changelogtext>[b]New! [/b]GB2312 encoding</changelogtext>
+        <changelogtext>Other enchantments</changelogtext>
+    </changelogversion>
+
+    <changelogversion versionName="1.4" changeDate="Aug 14, 2014">
+        <changelogtext>[b]New [/b] encoding dialog. There you can also enable/disable the auto encoding.</changelogtext>
+        <changelogtext>Added support to SQL and MATLAB</changelogtext>
+        <changelogtext>The font size dialog now shows the current font size</changelogtext>
+        <changelogtext>The background of the screens changes in relation to the selected theme</changelogtext>
+        <changelogtext>[b]Info[/b] The internet permission is used to show an Interstitial. The ad will be shown [b]at max once per day[/b].</changelogtext>
+    </changelogversion>
+
+    <changelogversion versionName="1.3" changeDate="Aug 11, 2014">
+        <changelogtext>[b]New![/b] Now you can search text inside the app!</changelogtext>
+    </changelogversion>
+
+    <changelogversion versionName="1.2.5" changeDate="Aug 9, 2014">
+        <changelogtext>Now you can share the file!</changelogtext>
+        <changelogtext>Fixed many issues related to the keyboards</changelogtext>
+        <changelogtext>Added an option to activate suggestions and swipe functionality</changelogtext>
+    </changelogversion>
+
+    <changelogversion versionName="1.2.4" changeDate="Aug 4, 2014">
+        <changelogtext>Fixed a Runtime Error, sorry :)</changelogtext>
+    </changelogversion>
+
+    <changelogversion versionName="1.2.3" changeDate="Aug 4, 2014">
+        <changelogtext>Save, Undo and Redo actions are visible only when needed</changelogtext>
+        <changelogtext>[b]new![/b] Save with CTRL + S</changelogtext>
+        <changelogtext>More left space on the line numbers and changed their color</changelogtext>
+        <changelogtext>PHP variables now are highlight correctly</changelogtext>
+        <changelogtext>JS syntax highlight fixes</changelogtext>
+        <changelogtext>Fixed a bug with numbers inserted by certain keyboards</changelogtext>
+        <changelogtext>Updated translations</changelogtext>
+    </changelogversion>
+
+    <changelogversion versionName="1.2" changeDate="Aug 2, 2014">
+        <changelogtext>[b]NOTE[/b] Syntax highlighting is updated when the cursor position changes</changelogtext>
+        <changelogtext>[b]SPECIAL NOTE[/b] If you like the app please rate it, but if you have some issue please tell me about them on the Google Plus Community, on the XDA thread or on Github :)</changelogtext>
+        <changelogtext>Now you can choose between light and dark theme</changelogtext>
+        <changelogtext>Fixed some issues with hard keyboards</changelogtext>
+        <changelogtext>Changed the size of line numbers to make them more readable</changelogtext>
+        <changelogtext>Increased file size limit</changelogtext>
+        <changelogtext>Optimized syntax color algorithm</changelogtext>
+        <changelogtext>Now you can create a new file without having to save it first</changelogtext>
+        <changelogtext>Bug fixes</changelogtext>
+    </changelogversion>
+
+    <changelogversion versionName="1.1" changeDate="July 30, 2014">
+        <changelogtext>Now you can both wrap the text and view the line numbers</changelogtext>
+        <changelogtext>Optimized the line numbers algorithm</changelogtext>
+        <changelogtext>Clicking the X in the navigation drawer also closes the file</changelogtext>
+        <changelogtext>Menu titles corrected</changelogtext>
+        <changelogtext>Now list updates if a new folder is added</changelogtext>
+        <changelogtext>Resized the navigation drawer so it's not fullscreen on smaller devices</changelogtext>
+        <changelogtext>Now you can open files up to 50 kb. Be careful, you may experience crashes if you open files that are too big.</changelogtext>
+        <changelogtext>Minor fixes</changelogtext>
+    </changelogversion>
+
+    <changelogversion versionName="1.0.3" changeDate="July 29, 2014">
+        <changelogtext>New Icons optimized for all the devices</changelogtext>
+        <changelogtext>Updated translations</changelogtext>
+        <changelogtext>Bug fixes</changelogtext>
+    </changelogversion>
+
+    <changelogversion versionName="1.0.2" changeDate="July 28, 2014">
+        <changelogtext>Bug fixes</changelogtext>
+    </changelogversion>
+
+    <changelogversion versionName="1.0.1" changeDate="July 28, 2014">
+        <changelogtext>Bug fixes</changelogtext>
+    </changelogversion>
+
+    <changelogversion versionName="1.0" changeDate="July 28, 2014">
+        <changelogtext>First Version</changelogtext>
+    </changelogversion>
+</changelog>

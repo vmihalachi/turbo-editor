@@ -1,0 +1,63 @@
+<?xml version="1.0" encoding="utf-8"?>
+<!--
+  ~ Copyright (C) 2014 Vlad Mihalachi
+  ~
+  ~ This file is part of Turbo Editor.
+  ~
+  ~ Turbo Editor is free software: you can redistribute it and/or modify
+  ~ it under the terms of the GNU General Public License as published by
+  ~ the Free Software Foundation, either version 3 of the License, or
+  ~ (at your option) any later version.
+  ~
+  ~ Turbo Editor is distributed in the hope that it will be useful,
+  ~ but WITHOUT ANY WARRANTY; without even the implied warranty of
+  ~ MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE. See the
+  ~ GNU General Public License for more details.
+  ~
+  ~ You should have received a copy of the GNU General Public License
+  ~ along with this program.  If not, see <http://www.gnu.org/licenses/>.
+  -->
+
+<menu xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto">
+    <!--<item
+        android:id="@+id/menu_search"
+        android:actionViewClass="android.widget.SearchView"
+        app:showAsAction="ifRoom"
+        android:actionLayout="@layout/my_search_view"
+        android:icon="@drawable/ic_action_search"
+        android:title="@string/search">
+    </item>-->
+    <item
+        android:id="@id/im_cancel"
+        app:showAsAction="always"
+        android:title="@android:string/cancel">
+    </item>
+
+    <item
+        android:id="@id/im_previous_item"
+        app:showAsAction="ifRoom"
+        android:title="@string/previous">
+    </item>
+    <item
+        android:id="@id/im_next_item"
+        app:showAsAction="always"
+        android:title="@string/next">
+    </item>
+    <item
+        android:id="@id/im_replace"
+        app:showAsAction="always"
+        android:title="@string/replace">
+    </item>
+    <item
+        android:id="@id/im_replace_all"
+        app:showAsAction="ifRoom"
+        android:title="@string/replace_all">
+    </item>
+    <!--<item
+        android:id="@id/im_cancel"
+        android:icon="@drawable/ic_action_close"
+        android:title="@app:tring/cancel"
+        app:showAsAction="always">
+    </item>-->
+</menu>
