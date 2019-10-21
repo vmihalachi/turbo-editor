@@ -19,7 +19,7 @@
 
 package com.maskyn.fileeditorpro;
 
-import sharedcode.turboeditor.activity.MainActivity;
+import shared.turboeditor.activity.MainActivity;
 
 public class HomeActivity extends MainActivity {
 

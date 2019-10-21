@@ -16,7 +16,7 @@
         <dex dex="/Users/mac/AndroidStudioProjects/turbo-editor/app/build/intermediates/pre-dexed/release/classes-b9df096b72afe96d2852cb43f54886655846b047.jar" />
     </item>
     <item
-        jar="/Users/mac/AndroidStudioProjects/turbo-editor/app/build/intermediates/exploded-aar/turbo-editor.libraries/sharedCode/unspecified/jars/classes.jar"
+        jar="/Users/mac/AndroidStudioProjects/turbo-editor/app/build/intermediates/exploded-aar/turbo-editor.libraries/shared/unspecified/jars/classes.jar"
         jumboMode="false"
         revision="22.0.1"
         sha1="0ede4b0ce58fc0fa7a27c7f08e5a1db501d7214a">
