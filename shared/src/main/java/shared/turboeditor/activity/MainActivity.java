@@ -1213,7 +1213,12 @@ public abstract class MainActivity extends AppCompatActivity implements IHomeAct
     //endregion
 
     public void OpenFolder(View view) {
+        if (useStorageAccessFramework()) {
 
+        } else {
+            Intent intent = SelectFileActivity.CreateSelectFileActivityIntnet(this, SelectFileActivity.Action.SelectFolder);
+            AnimationUtils.startActivityWithScale(this, intent, true, SELECT_FILE_CODE, view);
+        }
     }
 
     //region Calls from the layout
@@ -1236,9 +1241,8 @@ public abstract class MainActivity extends AppCompatActivity implements IHomeAct
 
             startActivityForResult(intent, READ_REQUEST_CODE);
         } else {
-            Intent subActivity = new Intent(MainActivity.this, SelectFileActivity.class);
-            subActivity.putExtra("action", SelectFileActivity.Actions.SelectFile);
-            AnimationUtils.startActivityWithScale(this, subActivity, true, SELECT_FILE_CODE, view);
+            Intent intent = SelectFileActivity.CreateSelectFileActivityIntnet(this, SelectFileActivity.Action.SelectFile);
+            AnimationUtils.startActivityWithScale(this, intent, true, SELECT_FILE_CODE, view);
         }
     }
 

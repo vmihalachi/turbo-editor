@@ -19,6 +19,7 @@
 
 package shared.turboeditor.activity;
 
+import android.content.Context;
 import android.content.Intent;
 import android.net.Uri;
 import android.os.AsyncTask;
@@ -40,7 +41,6 @@ import android.widget.PopupMenu;
 import android.widget.TextView;
 import android.widget.Toast;
 
-import com.google.android.material.floatingactionbutton.FloatingActionButton;
 import com.spazedog.lib.rootfw4.RootFW;
 
 import org.apache.commons.io.FileUtils;
@@ -62,6 +62,9 @@ import shared.turboeditor.util.Build;
 import shared.turboeditor.util.ThemeUtils;
 
 public class SelectFileActivity extends AppCompatActivity implements SearchView.OnQueryTextListener, AdapterView.OnItemClickListener, EditTextDialog.EditDialogListener {
+
+    private static final String ActionKey = "action";
+
     private String currentFolder;
     private ListView listView;
     private boolean wantAFile = true;
@@ -69,6 +72,11 @@ public class SelectFileActivity extends AppCompatActivity implements SearchView.
     private SearchView mSearchView;
     private Filter filter;
 
+    public static Intent CreateSelectFileActivityIntnet(Context context, Action action) {
+        Intent intent = new Intent(context, SelectFileActivity.class);
+        intent.putExtra(ActionKey, action.value);
+        return intent;
+    }
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -83,8 +91,8 @@ public class SelectFileActivity extends AppCompatActivity implements SearchView.
 
         getSupportActionBar().setDisplayHomeAsUpEnabled(true);
 
-        //final Actions action = (Actions) getIntent().getExtras().getSerializable("action");
-        wantAFile = true; //action == Actions.SelectFile;
+        final Action action = Action.getActionByValue(getIntent().getExtras().getInt(ActionKey));
+        wantAFile = action == Action.SelectFile;
 
         listView = findViewById(android.R.id.list);
         listView.setOnItemClickListener(this);
@@ -249,8 +257,24 @@ public class SelectFileActivity extends AppCompatActivity implements SearchView.
         }
     }
 
-    public enum Actions {
-        SelectFile, SelectFolder
+    public enum Action {
+        SelectFile(0), SelectFolder(1);
+
+        private final int value;
+
+        Action(int value) {
+            this.value = value;
+        }
+
+        public static Action getActionByValue(int value) {
+            for (Action action : Action.values()) {
+                if (action.value == value) {
+                    return action;
+                }
+            }
+
+            return null;
+        }
     }
 
     private void ShowAddFileOrFolderPopup(View anchor) {
