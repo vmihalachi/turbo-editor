@@ -92,4 +92,5 @@
     <item type="id" name="drawer_button_encoding"/>
     <item type="id" name="drawer_button_font_size"/>
     <item name="im_select_folder" type="id" />
+    <item name="im_add_file_or_folder" type="id" />
 </resources>

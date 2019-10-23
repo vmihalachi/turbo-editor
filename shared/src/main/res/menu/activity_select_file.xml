@@ -1,5 +1,4 @@
-<?xml version="1.0" encoding="utf-8"?>
-<!--
+<?xml version="1.0" encoding="utf-8"?><!--
   ~ Copyright (C) 2014 Vlad Mihalachi
   ~
   ~ This file is part of Turbo Editor.
@@ -22,26 +21,27 @@
     xmlns:app="http://schemas.android.com/apk/res-auto">
     <item
         android:id="@id/im_select_folder"
-        app:showAsAction="ifRoom"
-        android:title="@string/seleziona">
-    </item>
-<item
-    android:id="@id/im_set_as_working_folder"
-    app:showAsAction="ifRoom"
-    android:icon="@drawable/ic_action_bookmark_outline"
-    android:title="@string/set_as_working_folder">
-</item>
-<item
-    android:id="@id/im_is_working_folder"
-    app:showAsAction="ifRoom"
-    android:icon="@drawable/ic_action_bookmark"
-    android:title="@string/is_the_working_folder">
-</item>
-<item
-    android:id="@id/im_search"
-    app:actionViewClass="androidx.appcompat.widget.SearchView"
-    app:showAsAction="ifRoom|collapseActionView"
-    android:icon="@drawable/ic_action_search"
-    android:title="@string/find">
-</item>
+        android:title="@string/seleziona"
+        app:showAsAction="ifRoom" />
+    <item
+        android:id="@id/im_add_file_or_folder"
+        android:icon="@drawable/ic_add_file_or_folder"
+        android:title="@string/add_file_or_folder"
+        app:showAsAction="ifRoom" />
+    <item
+        android:id="@id/im_set_as_working_folder"
+        android:icon="@drawable/ic_action_bookmark_outline"
+        android:title="@string/set_as_working_folder"
+        app:showAsAction="ifRoom" />
+    <item
+        android:id="@id/im_is_working_folder"
+        android:icon="@drawable/ic_action_bookmark"
+        android:title="@string/is_the_working_folder"
+        app:showAsAction="ifRoom" />
+    <item
+        android:id="@id/im_search"
+        android:icon="@drawable/ic_action_search"
+        android:title="@string/find"
+        app:actionViewClass="androidx.appcompat.widget.SearchView"
+        app:showAsAction="ifRoom|collapseActionView" />
 </menu>

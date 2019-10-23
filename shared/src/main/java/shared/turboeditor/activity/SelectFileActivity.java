@@ -28,6 +28,7 @@ import androidx.appcompat.app.AppCompatActivity;
 import androidx.core.view.MenuItemCompat;
 import androidx.appcompat.widget.SearchView;
 import androidx.appcompat.widget.Toolbar;
+
 import android.text.TextUtils;
 import android.view.Menu;
 import android.view.MenuItem;
@@ -85,36 +86,9 @@ public class SelectFileActivity extends AppCompatActivity implements SearchView.
         //final Actions action = (Actions) getIntent().getExtras().getSerializable("action");
         wantAFile = true; //action == Actions.SelectFile;
 
-        listView = (ListView) findViewById(android.R.id.list);
+        listView = findViewById(android.R.id.list);
         listView.setOnItemClickListener(this);
         listView.setTextFilterEnabled(true);
-
-        FloatingActionButton mFab = findViewById(R.id.fabbutton);
-        mFab.setBackgroundColor(getResources().getColor(R.color.fab_light));
-        mFab.setImageDrawable(getResources().getDrawable(R.drawable.ic_fab_add));
-
-        mFab.setOnClickListener(v -> {
-            PopupMenu popup = new PopupMenu(SelectFileActivity.this, v);
-
-            popup.getMenuInflater().inflate(R.menu.popup_new_file, popup.getMenu());
-
-            popup.setOnMenuItemClickListener(item -> {
-                int i = item.getItemId();
-                if (i == R.id.im_new_file) {
-                    EditTextDialog.newInstance(EditTextDialog.Actions.NewFile).show(getFragmentManager().beginTransaction(), "dialog");
-                    return true;
-                } else if (i == R.id.im_new_folder) {
-                    EditTextDialog.newInstance(EditTextDialog.Actions.NewFolder).show(getFragmentManager().beginTransaction(), "dialog");
-                    return true;
-                } else {
-                    return false;
-                }
-            });
-
-            popup.show();
-        });
-
-//        mFab.listenTo(listView);
 
         String lastNavigatedPath = PreferenceHelper.getWorkingFolder(this);
 
@@ -170,7 +144,6 @@ public class SelectFileActivity extends AppCompatActivity implements SearchView.
             finish();
         }
     }
-
 
 
     @Override
@@ -243,6 +216,8 @@ public class SelectFileActivity extends AppCompatActivity implements SearchView.
         if (i == android.R.id.home) {
             finish();
             return true;
+        } else if (i == R.id.im_add_file_or_folder) {
+            ShowAddFileOrFolderPopup(findViewById(R.id.im_add_file_or_folder));
         } else if (i == R.id.im_set_as_working_folder) {
             PreferenceHelper.setWorkingFolder(SelectFileActivity.this, currentFolder);
             invalidateOptionsMenu();
@@ -256,7 +231,6 @@ public class SelectFileActivity extends AppCompatActivity implements SearchView.
         }
         return super.onOptionsItemSelected(item);
     }
-
 
     @Override
     public void onEdittextDialogEnded(final String inputText, final String hint, final EditTextDialog.Actions actions) {
@@ -277,6 +251,27 @@ public class SelectFileActivity extends AppCompatActivity implements SearchView.
 
     public enum Actions {
         SelectFile, SelectFolder
+    }
+
+    private void ShowAddFileOrFolderPopup(View anchor) {
+        PopupMenu popup = new PopupMenu(SelectFileActivity.this, anchor);
+
+        popup.getMenuInflater().inflate(R.menu.popup_new_file, popup.getMenu());
+
+        popup.setOnMenuItemClickListener(item -> {
+            int i = item.getItemId();
+            if (i == R.id.im_new_file) {
+                EditTextDialog.newInstance(EditTextDialog.Actions.NewFile).show(getFragmentManager().beginTransaction(), "dialog");
+                return true;
+            } else if (i == R.id.im_new_folder) {
+                EditTextDialog.newInstance(EditTextDialog.Actions.NewFolder).show(getFragmentManager().beginTransaction(), "dialog");
+                return true;
+            } else {
+                return false;
+            }
+        });
+
+        popup.show();
     }
 
     private class UpdateList extends AsyncTask<String, Void, LinkedList<AdapterDetailedList.FileDetail>> {

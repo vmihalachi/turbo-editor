@@ -38,6 +38,7 @@
     <string name="keyboard_suggestions_and_swipe">Keyboard suggestions and Swipe</string>
     <string name="enable_autoencoding">Auto-Encoding</string>
     <string name="set_as_working_folder">Set as the working folder</string>
+    <string name="add_file_or_folder">Add file or folder</string>
     <string name="is_the_working_folder">This is the working folder</string>
     <string name="save_changes">Do you want to save the changes to the file %s?</string>
     <string name="regular_expression">Regular Expression</string>

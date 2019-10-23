@@ -70,7 +70,6 @@ import android.widget.HorizontalScrollView;
 import android.widget.ListView;
 import android.widget.Toast;
 
-import com.google.android.material.floatingactionbutton.FloatingActionButton;
 import com.spazedog.lib.rootfw4.RootFW;
 import com.spazedog.lib.rootfw4.utils.io.FileReader;
 
