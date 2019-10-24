@@ -20,6 +20,8 @@
 
 
 apply plugin: 'com.android.library'
+apply plugin: 'kotlin-android-extensions'
+apply plugin: 'kotlin-android'
 
 android {
     lintOptions {
@@ -59,6 +61,8 @@ android {
 
 dependencies {
     api 'androidx.appcompat:appcompat:1.1.0'
+    api 'com.github.mukeshsolanki:MarkdownView-Android:1.0.8'
+
     implementation 'androidx.legacy:legacy-support-v4:1.0.0'
 
     implementation 'com.google.android.material:material:1.0.0'
@@ -67,5 +71,13 @@ dependencies {
     implementation 'com.github.gabrielemariotti.changeloglib:changelog:2.1.0'
     implementation 'com.github.albfernandez:juniversalchardet:2.3.0'
 
-    api 'com.github.mukeshsolanki:MarkdownView-Android:1.0.8'
+    implementation "androidx.core:core-ktx:1.1.0"
+    implementation "org.jetbrains.kotlin:kotlin-stdlib-jdk8:$kotlin_version"
+
+    implementation "androidx.lifecycle:lifecycle-extensions:$lifecycle_version"
+    implementation "androidx.lifecycle:lifecycle-common-java8:$lifecycle_version"
+}
+
+repositories {
+    mavenCentral()
 }

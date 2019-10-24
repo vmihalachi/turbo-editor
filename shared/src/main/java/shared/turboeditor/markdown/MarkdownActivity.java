@@ -17,7 +17,7 @@
  * along with this program.  If not, see <http://www.gnu.org/licenses/>.
  */
 
-package shared.turboeditor.activity;
+package shared.turboeditor.markdown;
 
 import android.app.Activity;
 import android.os.Bundle;

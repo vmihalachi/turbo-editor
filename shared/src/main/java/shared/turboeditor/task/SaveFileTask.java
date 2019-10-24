@@ -37,7 +37,7 @@ import java.io.IOException;
 import java.nio.charset.Charset;
 
 import shared.turboeditor.R;
-import shared.turboeditor.activity.MainActivity;
+import shared.turboeditor.home.MainActivity;
 import shared.turboeditor.util.Device;
 import shared.turboeditor.util.GreatUri;
 

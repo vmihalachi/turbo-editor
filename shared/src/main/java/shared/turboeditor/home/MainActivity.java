@@ -17,7 +17,7 @@
  * along with this program.  If not, see <http://www.gnu.org/licenses/>.
  */
 
-package shared.turboeditor.activity;
+package shared.turboeditor.home;
 
 import android.Manifest;
 import android.app.ProgressDialog;
@@ -90,6 +90,8 @@ import java.util.regex.Matcher;
 import java.util.regex.Pattern;
 
 import shared.turboeditor.R;
+import shared.turboeditor.markdown.MarkdownActivity;
+import shared.turboeditor.explorer.SelectFileActivity;
 import shared.turboeditor.adapter.AdapterDrawer;
 import shared.turboeditor.dialogfragment.ChangelogDialog;
 import shared.turboeditor.dialogfragment.EditTextDialog;
@@ -484,7 +486,7 @@ public abstract class MainActivity extends AppCompatActivity implements IHomeAct
         int i = item.getItemId();
         if (mDrawerToggle.onOptionsItemSelected(item)) {
             Toast.makeText(getBaseContext(), "drawer click", Toast.LENGTH_SHORT).show();
-            mDrawerLayout.closeDrawer(Gravity.END);
+            mDrawerLayout.closeDrawer(GravityCompat.END);
             return true;
         } else if (i == R.id.im_save_normaly) {
             saveTheFile(false);

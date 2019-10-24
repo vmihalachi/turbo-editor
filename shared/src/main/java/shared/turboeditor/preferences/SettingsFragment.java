@@ -36,7 +36,7 @@ import android.widget.CompoundButton;
 import android.widget.TextView;
 
 import shared.turboeditor.R;
-import shared.turboeditor.activity.MainActivity;
+import shared.turboeditor.home.MainActivity;
 import shared.turboeditor.dialogfragment.EncodingDialog;
 import shared.turboeditor.dialogfragment.NumberPickerDialog;
 import shared.turboeditor.dialogfragment.ThemeDialog;

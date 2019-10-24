@@ -21,7 +21,7 @@ package com.maskyn.fileeditor;
 
 import android.os.Bundle;
 
-import shared.turboeditor.activity.MainActivity;
+import shared.turboeditor.home.MainActivity;
 
 public class HomeActivity extends MainActivity {
 

@@ -20,6 +20,8 @@
 import java.util.regex.Pattern
 
 apply plugin: 'com.android.application'
+apply plugin: 'kotlin-android-extensions'
+apply plugin: 'kotlin-android'
 
 android {
     compileSdkVersion 29
@@ -54,6 +56,8 @@ android {
 
 dependencies {
     implementation project(':shared')
+    implementation "androidx.core:core-ktx:1.1.0"
+    implementation "org.jetbrains.kotlin:kotlin-stdlib-jdk8:$kotlin_version"
 }
 
 task incrementVersionCode {
@@ -71,4 +75,7 @@ task incrementVersionCode {
         println(":incrementVersionCode - next versionCode=" + mNextVersionCode);
         buildGradleFile.write(manifestContent)
     }
+}
+repositories {
+    mavenCentral()
 }

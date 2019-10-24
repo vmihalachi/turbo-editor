@@ -29,7 +29,7 @@ import android.os.Bundle;
 import android.view.View;
 
 import shared.turboeditor.R;
-import shared.turboeditor.activity.MainActivity;
+import shared.turboeditor.home.MainActivity;
 import shared.turboeditor.task.SaveFileTask;
 import shared.turboeditor.util.GreatUri;
 import shared.turboeditor.views.DialogHelper;

@@ -117,7 +117,7 @@
             </intent-filter>
         </activity>
         <activity
-            android:name="shared.turboeditor.activity.SelectFileActivity"
+            android:name="shared.turboeditor.explorer.SelectFileActivity"
             android:configChanges="keyboardHidden|orientation|screenSize"
             android:label="@string/open_a_file"
             android:exported="true"
@@ -153,7 +153,7 @@
             android:name="com.sec.android.multiwindow.MINIMUM_SIZE_H"
             android:value="598.0dip" />
 
-        <activity android:name="shared.turboeditor.activity.MarkdownActivity" />
+        <activity android:name="shared.turboeditor.markdown.MarkdownActivity" />
 
     </application>
 
