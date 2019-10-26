@@ -68,7 +68,7 @@
 
                     <view
                         android:id="@id/editor"
-                        class="shared.turboeditor.home.MainActivity$Editor"
+                        class="shared.turboeditor.home.Editor"
                         android:layout_width="match_parent"
                         android:layout_height="match_parent"
                         android:background="@null"
