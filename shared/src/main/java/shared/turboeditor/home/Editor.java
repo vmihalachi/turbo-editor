@@ -44,8 +44,6 @@ public class Editor extends AppCompatEditText {
     //region VARIABLES
     private final TextPaint mPaintNumbers = new TextPaint();
 
-    private MainViewModel viewModel;
-
     /**
      * The edit history.
      */
@@ -92,10 +90,8 @@ public class Editor extends AppCompatEditText {
         super(context, attrs);
     }
 
-    public void setupEditor(MainViewModel viewModel) {
+    public void setupEditor() {
         //setLayerType(View.LAYER_TYPE_NONE, null);
-
-        this.viewModel = viewModel;
 
         mEditHistory = new EditHistory();
         mChangeListener = new EditTextChangeListener();
@@ -519,9 +515,10 @@ public class Editor extends AppCompatEditText {
         if (TextUtils.isEmpty(MainActivity.fileExtension))
             MainActivity.fileExtension = "";
 
-        viewModel.setFileExtension(MainActivity.fileExtension);
+        HighlightDriver highlightDriver = new HighlightDriver(new AndroidHighlightColorProvider(),
+                MainActivity.fileExtension);
 
-        List<HighlightInfo> highlights = viewModel.highlightText(textToHighlight, firstColoredIndex);
+        List<HighlightInfo> highlights = highlightDriver.highlightText(textToHighlight, firstColoredIndex);
         for (HighlightInfo info : highlights) {
             editable.setSpan(
                     new ForegroundColorSpan(info.getColor()),

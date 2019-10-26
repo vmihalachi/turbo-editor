@@ -281,22 +281,17 @@ public abstract class MainActivity extends AppCompatActivity implements IHomeAct
             return false;
         } else {
             if (mEditor == null)
-                mEditor = (Editor) findViewById(R.id.editor);
+                mEditor = findViewById(R.id.editor);
 
             // this will happen on first key pressed on hard-keyboard only. Once myInputField
             // gets the focus again, it will automatically receive further key presses.
 
-            try {
-                if (fileOpened && mEditor != null && !mEditor.hasFocus()) {
-                    mEditor.requestFocus();
-                    mEditor.onKeyDown(keyCode, event);
-                    return true;
-                }
-            } catch (NullPointerException ex) {
-
+            if (fileOpened && mEditor != null && !mEditor.hasFocus()) {
+                mEditor.requestFocus();
+                mEditor.onKeyDown(keyCode, event);
+                return true;
             }
         }
-
 
         return false;
     }
@@ -752,7 +747,7 @@ public abstract class MainActivity extends AppCompatActivity implements IHomeAct
                 findViewById(R.id.fabPrev),
                 findViewById(R.id.fabNext));
 
-        mEditor.setupEditor(viewModel);
+        mEditor.setupEditor();
     }
 
     private void showTextEditor() {
