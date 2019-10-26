@@ -26,6 +26,19 @@ class GenerealHighlightDriverTest {
         assertEquals(0, highlights[0].start)
         assertEquals(6, highlights[0].end)
     }
+
+    @Test
+    fun testMultipleKeywords() {
+        val highlights = highlightDriver.highlightText("public void", 0)
+
+        assertEquals(2, highlights.size)
+        assertEquals(mockColorProvider.keywordColor, highlights[0].color)
+        assertEquals(mockColorProvider.keywordColor, highlights[1].color)
+        assertEquals(0, highlights[0].start)
+        assertEquals(6, highlights[0].end)
+        assertEquals(7, highlights[1].start)
+        assertEquals(11, highlights[1].end)
+    }
 }
 
 class MockColorProvider : HighlightColorProvider {
