@@ -17,7 +17,7 @@
  * along with this program.  If not, see <http://www.gnu.org/licenses/>.
  */
 
-package shared.turboeditor.texteditor;
+package shared.turboeditor.home.texteditor;
 
 import org.mozilla.universalchardet.UniversalDetector;
 

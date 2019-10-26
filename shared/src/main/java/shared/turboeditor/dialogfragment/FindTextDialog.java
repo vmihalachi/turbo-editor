@@ -37,7 +37,7 @@ import java.util.regex.Matcher;
 import java.util.regex.Pattern;
 
 import shared.turboeditor.R;
-import shared.turboeditor.texteditor.SearchResult;
+import shared.turboeditor.home.texteditor.SearchResult;
 import shared.turboeditor.views.DialogHelper;
 
 // ...

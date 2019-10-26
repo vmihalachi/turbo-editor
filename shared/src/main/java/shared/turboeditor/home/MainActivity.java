@@ -37,9 +37,11 @@ import android.os.Handler;
 import android.os.IBinder;
 import android.preference.PreferenceManager;
 import android.provider.DocumentsContract;
+
 import androidx.annotation.NonNull;
 import androidx.annotation.Nullable;
 import androidx.appcompat.app.AppCompatActivity;
+import androidx.appcompat.widget.AppCompatEditText;
 import androidx.core.content.ContextCompat;
 import androidx.core.view.GravityCompat;
 import androidx.core.view.MenuItemCompat;
@@ -47,6 +49,9 @@ import androidx.appcompat.app.ActionBarDrawerToggle;
 import androidx.appcompat.widget.ShareActionProvider;
 import androidx.appcompat.widget.SwitchCompat;
 import androidx.appcompat.widget.Toolbar;
+import androidx.lifecycle.Observer;
+import androidx.lifecycle.ViewModelProviders;
+
 import android.text.Editable;
 import android.text.InputType;
 import android.text.Selection;
@@ -103,13 +108,13 @@ import shared.turboeditor.dialogfragment.SaveFileDialog;
 import shared.turboeditor.preferences.PreferenceChangeType;
 import shared.turboeditor.preferences.PreferenceHelper;
 import shared.turboeditor.task.SaveFileTask;
-import shared.turboeditor.texteditor.EditTextPadding;
-import shared.turboeditor.texteditor.FileUtils;
-import shared.turboeditor.texteditor.LineUtils;
-import shared.turboeditor.texteditor.PageSystem;
-import shared.turboeditor.texteditor.PageSystemButtons;
-import shared.turboeditor.texteditor.Patterns;
-import shared.turboeditor.texteditor.SearchResult;
+import shared.turboeditor.home.texteditor.EditTextPadding;
+import shared.turboeditor.home.texteditor.FileUtils;
+import shared.turboeditor.home.texteditor.LineUtils;
+import shared.turboeditor.home.texteditor.PageSystem;
+import shared.turboeditor.home.texteditor.PageSystemButtons;
+import shared.turboeditor.home.texteditor.Patterns;
+import shared.turboeditor.home.texteditor.SearchResult;
 import shared.turboeditor.util.AccessStorageApi;
 import shared.turboeditor.util.AccessoryView;
 import shared.turboeditor.util.AnimationUtils;
@@ -128,7 +133,7 @@ import shared.turboeditor.views.GoodScrollView;
 public abstract class MainActivity extends AppCompatActivity implements IHomeActivity, FindTextDialog
         .SearchDialogInterface, GoodScrollView.ScrollInterface, PageSystem.PageSystemInterface,
         PageSystemButtons.PageButtonsInterface, NumberPickerDialog.INumberPickerDialog, SaveFileDialog.ISaveDialog,
-        AdapterView.OnItemClickListener, AdapterDrawer.Callbacks, AccessoryView.IAccessoryView, EditTextDialog.EditDialogListener{
+        AdapterView.OnItemClickListener, AdapterDrawer.Callbacks, AccessoryView.IAccessoryView, EditTextDialog.EditDialogListener {
 
     //region VARIABLES
     private static final int READ_REQUEST_CODE = 42,
@@ -163,14 +168,14 @@ public abstract class MainActivity extends AppCompatActivity implements IHomeAct
     private boolean fileOpened = false;
     private static String fileExtension = "";
     /*
-    * This class provides a handy way to tie together the functionality of
-    * {@link DrawerLayout} and the framework <code>ActionBar</code> to implement the recommended
-    * design for navigation drawers.
-    */
+     * This class provides a handy way to tie together the functionality of
+     * {@link DrawerLayout} and the framework <code>ActionBar</code> to implement the recommended
+     * design for navigation drawers.
+     */
     private ActionBarDrawerToggle mDrawerToggle;
     /*
-    * The Drawer Layout
-    */
+     * The Drawer Layout
+     */
     private CustomDrawerLayout mDrawerLayout;
     private static GoodScrollView verticalScroll;
     private static GreatUri greatUri = new GreatUri(Uri.EMPTY, "", "");
@@ -189,6 +194,8 @@ public abstract class MainActivity extends AppCompatActivity implements IHomeAct
     private LinkedList<GreatUri> greatUris;
     //endregion
 
+    private MainViewModel viewModel;
+
     //region Activity facts
 
     @Override
@@ -199,6 +206,10 @@ public abstract class MainActivity extends AppCompatActivity implements IHomeAct
         super.onCreate(savedInstanceState);
         // setup the layout
         setContentView(R.layout.activity_home);
+
+        MainViewModelFactory factory = new MainViewModelFactory(new AndroidHighlightColorProvider());
+        viewModel = ViewModelProviders.of(this, factory).get(MainViewModel.class);
+
         toolbar = (Toolbar) findViewById(R.id.my_awesome_toolbar);
         setSupportActionBar(toolbar);
         // setup the navigation drawer
@@ -303,10 +314,10 @@ public abstract class MainActivity extends AppCompatActivity implements IHomeAct
             if (PreferenceHelper.getIgnoreBackButton(this))
                 return;
 
-            if (mDrawerLayout.isDrawerOpen(Gravity.START) && fileOpened) {
-                mDrawerLayout.closeDrawer(Gravity.START);
-            } else if (mDrawerLayout.isDrawerOpen(Gravity.END) && fileOpened) {
-                mDrawerLayout.closeDrawer(Gravity.END);
+            if (mDrawerLayout.isDrawerOpen(GravityCompat.START) && fileOpened) {
+                mDrawerLayout.closeDrawer(GravityCompat.START);
+            } else if (mDrawerLayout.isDrawerOpen(GravityCompat.END) && fileOpened) {
+                mDrawerLayout.closeDrawer(GravityCompat.END);
             } else if (fileOpened && mEditor.canSaveFile()) {
                 new SaveFileDialog(greatUri, pageSystem.getAllText(mEditor
                         .getText().toString()), currentEncoding).show(getFragmentManager(),
@@ -321,8 +332,8 @@ public abstract class MainActivity extends AppCompatActivity implements IHomeAct
 
                 closedTheFile();
 
-                mDrawerLayout.openDrawer(Gravity.START);
-                mDrawerLayout.closeDrawer(Gravity.END);
+                mDrawerLayout.openDrawer(GravityCompat.START);
+                mDrawerLayout.closeDrawer(GravityCompat.END);
             } else {
                 showInterstitial();
                 super.onBackPressed();
@@ -347,7 +358,7 @@ public abstract class MainActivity extends AppCompatActivity implements IHomeAct
                 final Uri data = intent.getData();
                 final GreatUri newUri = new GreatUri(data, AccessStorageApi.getPath(this, data), AccessStorageApi.getName(this, data));
 
-               // grantUriPermission(getPackageName(), data, Intent.FLAG_GRANT_READ_URI_PERMISSION);
+                // grantUriPermission(getPackageName(), data, Intent.FLAG_GRANT_READ_URI_PERMISSION);
                 final int takeFlags = intent.getFlags()
                         & (Intent.FLAG_GRANT_READ_URI_PERMISSION
                         | Intent.FLAG_GRANT_WRITE_URI_PERMISSION);
@@ -491,7 +502,7 @@ public abstract class MainActivity extends AppCompatActivity implements IHomeAct
         } else if (i == R.id.im_save_normaly) {
             saveTheFile(false);
 
-        }  else if (i == R.id.im_save_as) {
+        } else if (i == R.id.im_save_as) {
             saveTheFile(true);
 
         } else if (i == R.id.im_rename) {
@@ -754,7 +765,7 @@ public abstract class MainActivity extends AppCompatActivity implements IHomeAct
                 findViewById(R.id.fabPrev),
                 findViewById(R.id.fabNext));
 
-        mEditor.setupEditor();
+        mEditor.setupEditor(viewModel);
     }
 
     private void showTextEditor() {
@@ -802,8 +813,8 @@ public abstract class MainActivity extends AppCompatActivity implements IHomeAct
                 || Intent.ACTION_PICK.equals(action)
                 && type != null) {
             // Post event
-           //newFileToOpen(new File(intent
-           //        .getData().getPath()), "");
+            //newFileToOpen(new File(intent
+            //        .getData().getPath()), "");
             Uri uri = intent.getData();
             GreatUri newUri = new GreatUri(uri, AccessStorageApi.getPath(this, uri), AccessStorageApi.getName(this, uri));
             newFileToOpen(newUri, "");
@@ -853,13 +864,13 @@ public abstract class MainActivity extends AppCompatActivity implements IHomeAct
         updateHandler.postDelayed(colorRunnable_duringEditing, SYNTAX_DELAY_MILLIS_LONG);
     }
 
-    private void refreshList(){
+    private void refreshList() {
         refreshList(null, false, false);
     }
 
     private void refreshList(@Nullable GreatUri thisUri, boolean add, boolean delete) {
         int max_recent_files = 15;
-        if(add)
+        if (add)
             max_recent_files--;
 
         // File paths saved in preferences
@@ -872,7 +883,7 @@ public abstract class MainActivity extends AppCompatActivity implements IHomeAct
         StringBuilder sb = new StringBuilder();
 
         // for cycle to convert paths to names
-        for(int i = 0; i < savedPaths.length; i++){
+        for (int i = 0; i < savedPaths.length; i++) {
             Uri particularUri = Uri.parse(savedPaths[i]);
             String name = AccessStorageApi.getName(this, particularUri);
             // Check that the file exist
@@ -898,7 +909,7 @@ public abstract class MainActivity extends AppCompatActivity implements IHomeAct
             //}
         }
         // if is not null, empty, we have to add something and we dont already have this uri
-        if(thisUri != null && !thisUri.getUri().equals(Uri.EMPTY) && add && !Arrays.asList(savedPaths).contains(thisUri.getUri().toString())) {
+        if (thisUri != null && !thisUri.getUri().equals(Uri.EMPTY) && add && !Arrays.asList(savedPaths).contains(thisUri.getUri().toString())) {
             sb.append(thisUri.getUri().toString()).append(",");
             greatUris.addFirst(thisUri);
         }
@@ -964,7 +975,7 @@ public abstract class MainActivity extends AppCompatActivity implements IHomeAct
                             isRootRequired = !newUri.isReadable();
                             // if we cannot read the file, root permission required
                             if (isRootRequired) {
-                               readUri(newUri.getUri(), filePath, true);
+                                readUri(newUri.getUri(), filePath, true);
                             }
                             // if we can read the file associated with the uri
                             else {
@@ -1019,13 +1030,13 @@ public abstract class MainActivity extends AppCompatActivity implements IHomeAct
                     }
 
                     InputStream inputStream = getContentResolver().openInputStream(uri);
-                    if(inputStream != null) {
+                    if (inputStream != null) {
                         buffer = new BufferedReader(new InputStreamReader(inputStream, encoding));
                     }
                 }
 
                 if (buffer != null) {
-                    while((line = buffer.readLine()) != null) {
+                    while ((line = buffer.readLine()) != null) {
                         stringBuilder.append(line);
                         stringBuilder.append("\n");
                     }
@@ -1059,7 +1070,7 @@ public abstract class MainActivity extends AppCompatActivity implements IHomeAct
                     else
                         getSupportActionBar().setTitle(fileName);
 
-                    if(greatUri != null) {
+                    if (greatUri != null) {
                         refreshList(greatUri, true, false);
                     }
                 }
@@ -1205,7 +1216,7 @@ public abstract class MainActivity extends AppCompatActivity implements IHomeAct
         }
     }
 
-   void aFileWasSelected(GreatUri uri) {
+    void aFileWasSelected(GreatUri uri) {
         arrayAdapter.selectPosition(uri);
     }
 
@@ -1415,7 +1426,7 @@ public abstract class MainActivity extends AppCompatActivity implements IHomeAct
     @Override
     public void userDoesntWantToSave(boolean openNewFile, GreatUri newUri) {
         mEditor.fileSaved();
-        if(openNewFile)
+        if (openNewFile)
             newFileToOpen(newUri, "");
         else
             cannotOpenFile();
@@ -1459,8 +1470,7 @@ public abstract class MainActivity extends AppCompatActivity implements IHomeAct
                         savedAFile(greatUri, true);
                     }
                 }).execute();
-            }
-            else {
+            } else {
                 Toast.makeText(this, R.string.file_cannot_be_renamed, Toast.LENGTH_SHORT).show();
             }
         } else {
@@ -1482,8 +1492,7 @@ public abstract class MainActivity extends AppCompatActivity implements IHomeAct
                         savedAFile(greatUri, true);
                     }
                 }).execute();
-            }
-            else {
+            } else {
                 Toast.makeText(this, R.string.file_cannot_be_renamed, Toast.LENGTH_SHORT).show();
             }
         }
@@ -1499,10 +1508,13 @@ public abstract class MainActivity extends AppCompatActivity implements IHomeAct
 
     //endregion
 
-    public static class Editor extends EditText {
+    public static class Editor extends AppCompatEditText {
 
         //region VARIABLES
         private final TextPaint mPaintNumbers = new TextPaint();
+
+        private MainViewModel viewModel;
+
         /**
          * The edit history.
          */
@@ -1549,8 +1561,10 @@ public abstract class MainActivity extends AppCompatActivity implements IHomeAct
             super(context, attrs);
         }
 
-        public void setupEditor() {
+        public void setupEditor(MainViewModel viewModel) {
             //setLayerType(View.LAYER_TYPE_NONE, null);
+
+            this.viewModel = viewModel;
 
             mEditHistory = new EditHistory();
             mChangeListener = new EditTextChangeListener();
@@ -1651,7 +1665,7 @@ public abstract class MainActivity extends AppCompatActivity implements IHomeAct
                         0);
             }
             // add a padding from bottom
-            verticalScroll.setPadding(0,0,0,EditTextPadding.getPaddingBottom(context));
+            verticalScroll.setPadding(0, 0, 0, EditTextPadding.getPaddingBottom(context));
         }
 
         //region OVERRIDES
@@ -1916,8 +1930,7 @@ public abstract class MainActivity extends AppCompatActivity implements IHomeAct
             if (PreferenceHelper.getSyntaxHighlight(getContext())) {
                 setText(highlight(textToUpdate == null ? getEditableText() : Editable.Factory
                         .getInstance().newEditable(textToUpdate), textToUpdate != null));
-            }
-            else {
+            } else {
                 setText(textToUpdate == null ? getEditableText() : textToUpdate);
             }
 
@@ -1960,7 +1973,7 @@ public abstract class MainActivity extends AppCompatActivity implements IHomeAct
 
             if (!newText && editorHeight > 0) {
                 firstVisibleIndex = getLayout().getLineStart(lineUtils.getFirstVisibleLine(verticalScroll, editorHeight, lineCount));
-                lastVisibleIndex = getLayout().getLineEnd(lineUtils.getLastVisibleLine(verticalScroll, editorHeight, lineCount, deviceHeight)-1);
+                lastVisibleIndex = getLayout().getLineEnd(lineUtils.getLastVisibleLine(verticalScroll, editorHeight, lineCount, deviceHeight) - 1);
             } else {
                 firstVisibleIndex = 0;
                 lastVisibleIndex = CHARS_TO_COLOR;
@@ -1976,59 +1989,20 @@ public abstract class MainActivity extends AppCompatActivity implements IHomeAct
             if (firstColoredIndex > lastVisibleIndex)
                 firstColoredIndex = lastVisibleIndex;
 
-
             textToHighlight = editable.subSequence(firstColoredIndex, lastVisibleIndex);
 
             if (TextUtils.isEmpty(fileExtension))
                 fileExtension = "";
 
-            if (fileExtension.contains("htm")
-                    || fileExtension.contains("xml")) {
-                color(Patterns.HTML_TAGS, editable, textToHighlight, firstColoredIndex);
-                color(Patterns.HTML_ATTRS, editable, textToHighlight, firstColoredIndex);
-                color(Patterns.GENERAL_STRINGS, editable, textToHighlight, firstColoredIndex);
-                color(Patterns.XML_COMMENTS, editable, textToHighlight, firstColoredIndex);
-            } else if (fileExtension.equals("css")) {
-                //color(CSS_STYLE_NAME, editable);
-                color(Patterns.CSS_ATTRS, editable, textToHighlight, firstColoredIndex);
-                color(Patterns.CSS_ATTR_VALUE, editable, textToHighlight, firstColoredIndex);
-                color(Patterns.SYMBOLS, editable, textToHighlight, firstColoredIndex);
-                color(Patterns.GENERAL_COMMENTS, editable, textToHighlight, firstColoredIndex);
-            } else if (Arrays.asList(MimeTypes.MIME_CODE).contains(fileExtension)) {
-                switch (fileExtension) {
-                    case "lua":
-                        color(Patterns.LUA_KEYWORDS, editable, textToHighlight, firstColoredIndex);
-                        break;
-                    case "py":
-                        color(Patterns.PY_KEYWORDS, editable, textToHighlight, firstColoredIndex);
-                        break;
-                    default:
-                        color(Patterns.GENERAL_KEYWORDS, editable, textToHighlight, firstColoredIndex);
-                        break;
-                }
-                color(Patterns.NUMBERS_OR_SYMBOLS, editable, textToHighlight, firstColoredIndex);
-                color(Patterns.GENERAL_STRINGS, editable, textToHighlight, firstColoredIndex);
-                color(Patterns.GENERAL_COMMENTS, editable, textToHighlight, firstColoredIndex);
-                if (fileExtension.equals("php"))
-                    color(Patterns.PHP_VARIABLES, editable, textToHighlight, firstColoredIndex);
-            } else if (Arrays.asList(MimeTypes.MIME_SQL).contains(fileExtension)) {
-                color(Patterns.SYMBOLS, editable, textToHighlight, firstColoredIndex);
-                color(Patterns.GENERAL_STRINGS, editable, textToHighlight, firstColoredIndex);
-                color(Patterns.SQL_KEYWORDS, editable, textToHighlight, firstColoredIndex);
-            } else {
-                if (!(Arrays.asList(MimeTypes.MIME_MARKDOWN).contains(fileExtension)))
-                    color(Patterns.GENERAL_KEYWORDS, editable, textToHighlight, firstColoredIndex);
-                color(Patterns.NUMBERS_OR_SYMBOLS, editable, textToHighlight, firstColoredIndex);
-                color(Patterns.GENERAL_STRINGS, editable, textToHighlight, firstColoredIndex);
-                if (fileExtension.equals("prop") || fileExtension.contains("conf") ||
-                        (Arrays.asList(MimeTypes.MIME_MARKDOWN).contains(fileExtension)))
-                    color(Patterns.GENERAL_COMMENTS_NO_SLASH, editable, textToHighlight,
-                            firstColoredIndex);
-                else
-                    color(Patterns.GENERAL_COMMENTS, editable, textToHighlight, firstColoredIndex);
+            viewModel.setFileExtension(fileExtension);
 
-                if ((Arrays.asList(MimeTypes.MIME_MARKDOWN).contains(fileExtension)))
-                    color(Patterns.LINK, editable, textToHighlight, firstColoredIndex);
+            List<HighlightInfo> highlights = viewModel.highlightText(textToHighlight, firstColoredIndex);
+            for (HighlightInfo info : highlights) {
+                editable.setSpan(
+                        new ForegroundColorSpan(info.getColor()),
+                        info.getStart(),
+                        info.getEnd(),
+                        Spannable.SPAN_EXCLUSIVE_EXCLUSIVE);
             }
 
             return editable;
@@ -2056,7 +2030,7 @@ public abstract class MainActivity extends AppCompatActivity implements IHomeAct
                     || pattern.equals(Patterns.PY_KEYWORDS)
                     || pattern.equals(Patterns.LUA_KEYWORDS)
 
-                    ) {
+            ) {
                 color = getResources().getColor(R.color.syntax_keyword);
             } else if (pattern.equals(Patterns.HTML_ATTRS)
                     || pattern.equals(Patterns.CSS_ATTRS)
