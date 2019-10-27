@@ -34,12 +34,16 @@ class MainViewModel(
 
         openFileSink.postValue(OpenFileStartState)
         viewModelScope.launch {
-            val result = openFileManager.openFile(newUri, newFileText ?: "")
-            when (result) {
-                is Success -> openFileSink.postValue(FileLoadedState(
-                        fileName = result.fileName!!,
-                        fileText = result.fileText!!
-                ))
+            when (val result = openFileManager.openFile(newUri, newFileText ?: "")) {
+                is Success -> {
+                    openFileSink.postValue(FileLoadedState(
+                            fileName = result.fileName!!,
+                            fileText = result.fileText!!
+                    ))
+
+                    greatUri = newUri
+                    currentEncoding = result.encoding
+                }
                 Failure -> openFileSink.postValue(LoadFailedState)
             }
         }
