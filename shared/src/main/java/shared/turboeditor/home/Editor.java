@@ -204,10 +204,10 @@ public class Editor extends AppCompatEditText {
     @Override
     public void onDraw(@NonNull final Canvas canvas) {
 
-        if (lineCount != getLineCount() || startingLine != MainActivity.pageSystem.getStartingLine()) {
-            startingLine = MainActivity.pageSystem.getStartingLine();
+        if (lineCount != getLineCount() || startingLine != MainActivity.Companion.getPageSystem().getStartingLine()) {
+            startingLine = MainActivity.Companion.getPageSystem().getStartingLine();
             lineCount = getLineCount();
-            lineUtils.updateHasNewLineArray(MainActivity.pageSystem
+            lineUtils.updateHasNewLineArray(MainActivity.Companion.getPageSystem()
                     .getStartingLine(), lineCount, getLayout(), getText().toString());
 
             isGoodLineArray = lineUtils.getGoodLines();
@@ -493,8 +493,8 @@ public class Editor extends AppCompatEditText {
         editorHeight = getHeight();
 
         if (!newText && editorHeight > 0) {
-            firstVisibleIndex = getLayout().getLineStart(lineUtils.getFirstVisibleLine(MainActivity.verticalScroll, editorHeight, lineCount));
-            lastVisibleIndex = getLayout().getLineEnd(lineUtils.getLastVisibleLine(MainActivity.verticalScroll, editorHeight, lineCount, deviceHeight) - 1);
+            firstVisibleIndex = getLayout().getLineStart(LineUtils.Companion.getFirstVisibleLine(MainActivity.verticalScroll, editorHeight, lineCount));
+            lastVisibleIndex = getLayout().getLineEnd(LineUtils.Companion.getLastVisibleLine(MainActivity.verticalScroll, editorHeight, lineCount, deviceHeight) - 1);
         } else {
             firstVisibleIndex = 0;
             lastVisibleIndex = CHARS_TO_COLOR;
@@ -512,11 +512,11 @@ public class Editor extends AppCompatEditText {
 
         textToHighlight = editable.subSequence(firstColoredIndex, lastVisibleIndex);
 
-        if (TextUtils.isEmpty(MainActivity.fileExtension))
-            MainActivity.fileExtension = "";
+        if (TextUtils.isEmpty(MainActivity.Companion.getFileExtension()))
+            MainActivity.Companion.setFileExtension("");
 
         HighlightDriver highlightDriver = new HighlightDriver(new AndroidHighlightColorProvider(),
-                MainActivity.fileExtension);
+                MainActivity.Companion.getFileExtension());
 
         List<HighlightInfo> highlights = highlightDriver.highlightText(textToHighlight, firstColoredIndex);
         for (HighlightInfo info : highlights) {

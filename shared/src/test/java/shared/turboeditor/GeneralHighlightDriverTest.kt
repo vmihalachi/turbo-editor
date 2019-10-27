@@ -6,7 +6,7 @@ import org.junit.Test
 import shared.turboeditor.home.HighlightColorProvider
 import shared.turboeditor.home.HighlightDriver
 
-class GenerealHighlightDriverTest {
+class GeneralHighlightDriverTest {
 
     private lateinit var mockColorProvider: HighlightColorProvider
     private lateinit var highlightDriver: HighlightDriver

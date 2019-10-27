@@ -82,7 +82,7 @@ public class SaveFileTask extends AsyncTask<Void, Void, Void> {
                writeUri(uri.getUri(), newContent, encoding);
             } else {
                 isRootNeeded = !uri.isWritable();
-                if (isRootNeeded == false) {
+                if (!isRootNeeded) {
                     if (Device.hasKitKatApi())
                         writeUri(uri.getUri(), newContent, encoding);
                     else {
@@ -107,7 +107,6 @@ public class SaveFileTask extends AsyncTask<Void, Void, Void> {
                 }
 
             }
-
 
             if (isRootNeeded) {
                 if (resultRoot != null && resultRoot.wasSuccessful()) {
