@@ -56,17 +56,17 @@ class SaveFileManager(private val activity: Activity) : ISaveFileManager {
 
             return if (isRootNeeded) {
                 if (resultRoot != null && resultRoot.wasSuccessful()!!) {
-                    Result.Success
+                    Success()
                 } else if (resultRoot != null) {
                     //                    message = negativeMessage + " command number: " + resultRoot.commandNumber + " result code: " + resultRoot.resultCode + " error lines: " + resultRoot.string
-                    Result.Failure
+                    Failure
                 } else
-                    Result.Failure
+                    Failure
             } else
-                Result.Success
+                Success()
         } catch (e: Exception) {
             e.printStackTrace()
-            return Result.Failure
+            return Failure
         }
     }
 

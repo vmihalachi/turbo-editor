@@ -59,10 +59,10 @@ class OpenFileManager(private val activity: Activity) : IOpenFileManager {
                 }// if the uri has a path
             }
 
-            return Result.Success
+            return Success(fileText = fileText, fileName = fileName, fileExtension = fileExtension, encoding = encoding)
         } catch (e: Exception) {
             fileText = ""
-            return Result.Failure
+            return Failure
         }
     }
 

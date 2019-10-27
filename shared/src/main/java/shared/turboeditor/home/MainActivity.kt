@@ -20,23 +20,18 @@
 package shared.turboeditor.home
 
 import android.Manifest
-import android.annotation.SuppressLint
 import android.app.Activity
 import android.app.ProgressDialog
 import android.content.ActivityNotFoundException
 import android.content.Context
 import android.content.Intent
-import android.content.SharedPreferences
 import android.content.pm.PackageManager
 import android.content.res.Configuration
-import android.graphics.Canvas
-import android.graphics.Paint
 import android.graphics.Typeface
 import android.net.Uri
 import android.os.AsyncTask
 import android.os.Bundle
 import android.os.Handler
-import android.os.IBinder
 import android.preference.PreferenceManager
 import android.provider.DocumentsContract
 import androidx.appcompat.app.AppCompatActivity
@@ -61,10 +56,9 @@ import android.widget.AdapterView
 import android.widget.HorizontalScrollView
 import android.widget.ListView
 import android.widget.Toast
-import com.google.android.material.floatingactionbutton.FloatingActionButton
+import androidx.lifecycle.Observer
 
 import com.spazedog.lib.rootfw4.RootFW
-import com.spazedog.lib.rootfw4.utils.io.FileReader
 
 import org.apache.commons.io.FilenameUtils
 
@@ -72,7 +66,6 @@ import java.io.BufferedReader
 import java.io.File
 import java.io.FileNotFoundException
 import java.io.IOException
-import java.io.InputStream
 import java.io.InputStreamReader
 import java.io.UnsupportedEncodingException
 import java.util.ArrayList
@@ -136,6 +129,8 @@ abstract class MainActivity : AppCompatActivity(), IHomeActivity, FindTextDialog
     private var pageSystemButtons: PageSystemButtons? = null
     private var toolbar: Toolbar? = null
 
+    internal lateinit var progressDialog: ProgressDialog
+
     /*
     Navigation Drawer
      */
@@ -179,8 +174,38 @@ abstract class MainActivity : AppCompatActivity(), IHomeActivity, FindTextDialog
         parseIntent(intent)
         // show a dialog with the changelog
         showChangeLog()
-    }
 
+        viewModel?.openFileLiveData?.observe(this, Observer { item ->
+            when (item) {
+                OpenFileStartState -> {
+                    mDrawerLayout!!.closeDrawer(GravityCompat.START)
+                    progressDialog = ProgressDialog(this@MainActivity)
+                    progressDialog.setMessage(getString(R.string.please_wait))
+                    progressDialog.show()
+                }
+
+                is FileLoadedState -> {
+                    progressDialog.hide()
+
+                    pageSystem = PageSystem(this@MainActivity, this@MainActivity, item.fileText)
+                    //                    viewModel.currentEncoding = encoding; TODO
+
+                    aFileWasSelected(viewModel!!.greatUri)
+
+                    showTextEditor()
+
+                    if (item.fileName.isEmpty())
+                        supportActionBar!!.setTitle(R.string.new_file)
+                    else
+                        supportActionBar!!.title = item.fileName
+
+                    if (viewModel!!.greatUri != null) {
+                        refreshList(viewModel!!.greatUri, add = true, delete = false)
+                    }
+                }
+            }
+        })
+    }
 
     override fun onPostCreate(savedInstanceState: Bundle?) {
         super.onPostCreate(savedInstanceState)
@@ -830,149 +855,7 @@ abstract class MainActivity : AppCompatActivity(), IHomeActivity, FindTextDialog
             return
         }
 
-        object : AsyncTask<Void, Void, Void>() {
-
-            internal var message: String? = ""
-            internal var fileText: String? = ""
-            internal var fileName: String? = ""
-            internal var encoding = "UTF-16"
-            internal var isRootRequired = false
-
-            internal lateinit var progressDialog: ProgressDialog
-
-            override fun onPreExecute() {
-                super.onPreExecute()
-                // Close the drawer
-                mDrawerLayout!!.closeDrawer(GravityCompat.START)
-                progressDialog = ProgressDialog(this@MainActivity)
-                progressDialog.setMessage(getString(R.string.please_wait))
-                progressDialog.show()
-
-            }
-
-            override fun doInBackground(vararg params: Void): Void? {
-                try {
-                    // if no new uri
-                    if (newUri?.uri == null || newUri.uri === Uri.EMPTY) {
-                        fileExtension = "txt"
-                        fileText = newFileText
-                    } else {
-                        val filePath = newUri.filePath
-
-                        // if the uri has no path
-                        if (TextUtils.isEmpty(filePath)) {
-                            fileName = newUri.fileName
-                            fileExtension = FilenameUtils.getExtension(fileName).toLowerCase()
-
-                            readUri(newUri.uri, filePath, false)
-                        } else {
-                            fileName = FilenameUtils.getName(filePath)
-                            fileExtension = FilenameUtils.getExtension(fileName).toLowerCase()
-
-                            isRootRequired = !newUri.isReadable
-                            // if we cannot read the file, root permission required
-                            if (isRootRequired) {
-                                readUri(newUri.uri, filePath, true)
-                            } else {
-                                readUri(newUri.uri, filePath, false)
-                            }// if we can read the file associated with the uri
-                        }// if the uri has a path
-
-                    }
-
-                    //                    greatUri = newUri; TODO
-                } catch (e: Exception) {
-                    message = e.message
-                    fileText = ""
-                }
-
-                while (mDrawerLayout!!.isDrawerOpen(GravityCompat.START)) {
-                    try {
-                        Thread.sleep(50)
-                    } catch (e: InterruptedException) {
-                        e.printStackTrace()
-                    }
-
-                }
-                return null
-            }
-
-            @Throws(IOException::class)
-            private fun readUri(uri: Uri?, path: String?, asRoot: Boolean) {
-                var buffer: BufferedReader? = null
-                val stringBuilder = StringBuilder()
-                var line: String?
-
-                if (asRoot) {
-
-                    encoding = "UTF-8"
-
-                    // Connect the shared connection
-                    if (RootFW.connect()!!) {
-                        val reader = RootFW.getFileReader(path)
-                        buffer = BufferedReader(reader)
-                    }
-                } else {
-
-                    val autoencoding = PreferenceHelper.getAutoEncoding(this@MainActivity)
-                    if (autoencoding) {
-                        encoding = FileUtils.getDetectedEncoding(contentResolver.openInputStream(uri!!)!!)
-                        if (encoding.isEmpty()) {
-                            encoding = PreferenceHelper.getEncoding(this@MainActivity)
-                        }
-                    } else {
-                        encoding = PreferenceHelper.getEncoding(this@MainActivity)
-                    }
-
-                    val inputStream = contentResolver.openInputStream(uri!!)
-                    if (inputStream != null) {
-                        buffer = BufferedReader(InputStreamReader(inputStream, encoding))
-                    }
-                }
-
-                if (buffer != null) {
-                    line = buffer.readLine()
-                    while (line != null) {
-                        stringBuilder.append(line)
-                        stringBuilder.append("\n")
-                        line = buffer.readLine()
-                    }
-                    buffer.close()
-                    fileText = stringBuilder.toString()
-                }
-
-                if (isRootRequired)
-                    RootFW.disconnect()
-            }
-
-            override fun onPostExecute(result: Void?) {
-                super.onPostExecute(result)
-                progressDialog.hide()
-
-                if (!TextUtils.isEmpty(message)) {
-                    Toast.makeText(this@MainActivity, message, Toast.LENGTH_LONG).show()
-                    cannotOpenFile()
-                } else {
-
-                    pageSystem = PageSystem(this@MainActivity, this@MainActivity, fileText!!)
-                    //                    viewModel.currentEncoding = encoding; TODO
-
-                    aFileWasSelected(viewModel!!.greatUri)
-
-                    showTextEditor()
-
-                    if (fileName!!.isEmpty())
-                        supportActionBar!!.setTitle(R.string.new_file)
-                    else
-                        supportActionBar!!.setTitle(fileName)
-
-                    if (viewModel!!.greatUri != null) {
-                        refreshList(viewModel!!.greatUri, true, false)
-                    }
-                }
-
-            }
-        }.execute()
+        viewModel?.openFile(newUri, newFileText)
     }
 
     fun savedAFile(uri: GreatUri?, updateList: Boolean) {
