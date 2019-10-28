@@ -612,8 +612,8 @@ abstract class MainActivity : AppCompatActivity(), IHomeActivity, FindTextDialog
 
     fun saveTheFile(saveAs: Boolean) {
         if (!saveAs && viewModel!!.greatUri != null && viewModel!!.greatUri!!.uri != null && viewModel!!.greatUri!!.uri !== Uri.EMPTY)
-            SaveFileTask(this, viewModel!!.greatUri, pageSystem!!.getAllText(mEditor!!.text!!
-                    .toString()), viewModel!!.currentEncoding) { success -> savedAFile(viewModel!!.greatUri, true) }.execute()
+            viewModel?.saveFile(viewModel!!.greatUri!!, pageSystem!!.getAllText(mEditor!!.text!!
+                    .toString()), viewModel!!.currentEncoding!!)
         else {
             if (useStorageAccessFramework()) {
                 val intent = Intent(Intent.ACTION_CREATE_DOCUMENT)
@@ -1229,7 +1229,7 @@ abstract class MainActivity : AppCompatActivity(), IHomeActivity, FindTextDialog
                 viewModel!!.greatUri!!.filePath = AccessStorageApi.getPath(this, newUri)
                 viewModel!!.greatUri!!.fileName = AccessStorageApi.getName(this, newUri)
 
-                SaveFileTask(this, viewModel!!.greatUri, pageSystem!!.getAllText(mEditor!!.text!!.toString()), viewModel!!.currentEncoding) { success -> savedAFile(viewModel!!.greatUri, true) }.execute()
+                viewModel?.saveFile(viewModel!!.greatUri!!, pageSystem!!.getAllText(mEditor!!.text!!.toString()), viewModel!!.currentEncoding!!)
             } else {
                 Toast.makeText(this, R.string.file_cannot_be_renamed, Toast.LENGTH_SHORT).show()
             }
@@ -1245,7 +1245,7 @@ abstract class MainActivity : AppCompatActivity(), IHomeActivity, FindTextDialog
                 viewModel!!.greatUri!!.filePath = newFile.absolutePath
                 viewModel!!.greatUri!!.fileName = newFile.name
 
-                SaveFileTask(this, viewModel!!.greatUri, pageSystem!!.getAllText(mEditor!!.text!!.toString()), viewModel!!.currentEncoding) { success -> savedAFile(viewModel!!.greatUri, true) }.execute()
+                viewModel?.saveFile(viewModel!!.greatUri!!, pageSystem!!.getAllText(mEditor!!.text!!.toString()), viewModel!!.currentEncoding!!)
             } else {
                 Toast.makeText(this, R.string.file_cannot_be_renamed, Toast.LENGTH_SHORT).show()
             }

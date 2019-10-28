@@ -95,12 +95,9 @@ class NewFileDetailsDialog(
                         }
 
                         val newUri = GreatUri(Uri.fromFile(file), file.absolutePath, file.name)
-
-                        SaveFileTask(activity as MainActivity?, newUri, fileText, fileEncoding, SaveFileTask.SaveFileInterface {
-                            if (activity != null) {
-                                (activity as MainActivity).savedAFile(newUri, true)
-                            }
-                        }).execute()
+                        if (activity != null) {
+                            (activity as MainActivity).startSavingFile(newUri, fileText, fileEncoding)
+                        }
                     }
                 }
                 .setNegativeButton(android.R.string.cancel
