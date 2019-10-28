@@ -17,8 +17,11 @@ class MainViewModel(
         private val saveFileManager: ISaveFileManager) : ViewModel() {
 
     private var openFileSink = MutableLiveData<OpenFileState>()
+    private var saveFileSink = MutableLiveData<SaveFileState>()
 
     var openFileLiveData: LiveData<OpenFileState> = openFileSink
+
+    var saveFileLiveData: LiveData<SaveFileState> = saveFileSink
 
     var greatUri: GreatUri? = GreatUri(Uri.EMPTY, "", "")
         private set
@@ -28,15 +31,15 @@ class MainViewModel(
 
     fun openFile(newUri: GreatUri?, newFileText: String?) {
         if (newUri == null) {
-            openFileSink.postValue(EmptyUriState)
+            openFileSink.postValue(OpenFileState.EmptyUriState)
             return
         }
 
-        openFileSink.postValue(OpenFileStartState)
+        openFileSink.postValue(OpenFileState.OpenFileStartState)
         viewModelScope.launch {
             when (val result = openFileManager.openFile(newUri, newFileText ?: "")) {
                 is Success -> {
-                    openFileSink.postValue(FileLoadedState(
+                    openFileSink.postValue(OpenFileState.FileLoadedState(
                             fileName = result.fileName!!,
                             fileText = result.fileText!!
                     ))
@@ -44,21 +47,33 @@ class MainViewModel(
                     greatUri = newUri
                     currentEncoding = result.encoding
                 }
-                Failure -> openFileSink.postValue(LoadFailedState)
+                Failure -> openFileSink.postValue(OpenFileState.LoadFailedState)
             }
         }
     }
 
-    fun saveFile() {
-
+    fun saveFile(uri: GreatUri, text: String, encoding: String) {
+        viewModelScope.launch {
+            when (saveFileManager.saveFile(uri, text, encoding)) {
+                is Success -> saveFileSink.postValue(SaveFileState.Success(uri.fileName ?: ""))
+                Failure -> saveFileSink.postValue(SaveFileState.Failed)
+            }
+        }
     }
 }
 
-sealed class OpenFileState
-object EmptyUriState : OpenFileState()
-object OpenFileStartState : OpenFileState()
-data class FileLoadedState(
-        val fileName: String,
-        val fileText: String
-) : OpenFileState()
-object LoadFailedState : OpenFileState()
+sealed class OpenFileState {
+    object EmptyUriState : OpenFileState()
+    object OpenFileStartState : OpenFileState()
+    data class FileLoadedState(
+            val fileName: String,
+            val fileText: String
+    ) : OpenFileState()
+
+    object LoadFailedState : OpenFileState()
+}
+
+sealed class SaveFileState {
+    data class Success(val fileName: String) : SaveFileState()
+    object Failed : SaveFileState()
+}

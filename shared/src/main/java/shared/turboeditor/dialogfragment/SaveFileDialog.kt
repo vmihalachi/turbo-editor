@@ -21,8 +21,10 @@ package shared.turboeditor.dialogfragment
 
 import android.app.AlertDialog
 import android.app.Dialog
+import android.content.Context
 import android.net.Uri
 import android.os.Bundle
+import androidx.core.content.res.ResourcesCompat
 import androidx.fragment.app.DialogFragment
 
 import shared.turboeditor.R
@@ -40,10 +42,24 @@ class SaveFileDialog : DialogFragment() {
     private var openNewFileAfter: Boolean by FragmentArgumentDelegate()
     private var newUri: GreatUri by FragmentArgumentDelegate()
 
+    private var saveDialogCallback: ISaveDialog? = null
+
+    override fun onAttach(context: Context) {
+        super.onAttach(context)
+
+        saveDialogCallback = context as ISaveDialog
+    }
+
+    override fun onDetach() {
+        super.onDetach()
+
+        saveDialogCallback = null
+    }
+
     override fun onCreateDialog(savedInstanceState: Bundle?): Dialog {
 
         val view = DialogHelper.Builder(activity)
-                .setIcon(resources.getDrawable(R.drawable.ic_action_save))
+                .setIcon(ResourcesCompat.getDrawable(resources, R.drawable.ic_action_save, activity?.theme))
                 .setTitle(R.string.salva)
                 .setMessage(String.format(getString(R.string.save_changes), uri.fileName))
                 .createCommonView()
@@ -53,27 +69,16 @@ class SaveFileDialog : DialogFragment() {
                 .setPositiveButton(R.string.salva
                 ) { _, _ ->
                     if (uri.fileName?.isEmpty() == true) {
-                        val dialogFrag = NewFileDetailsDialog(uri, text,
-                                encoding)
-                        dialogFrag.show(fragmentManager!!,
-                                "dialog")
+                        val dialogFrag = NewFileDetailsDialog(uri, text, encoding)
+                        dialogFrag.show(fragmentManager!!, "dialog")
                     } else {
-                        SaveFileTask(activity as MainActivity, uri, text,
-                                encoding) { success ->
-                            if (activity != null) {
-                                (activity as MainActivity).savedAFile(uri, true)
-                            }
-                        }.execute()
+                        saveDialogCallback?.startSavingFile(uri, text, encoding)
                     }
                 }
                 .setNeutralButton(android.R.string.cancel, null)
                 .setNegativeButton(R.string.no
                 ) { _, _ ->
-                    var target: ISaveDialog? = targetFragment as ISaveDialog
-                    if (target == null) {
-                        target = activity as ISaveDialog
-                    }
-                    target.userDoesntWantToSave(
+                    saveDialogCallback?.userDoesNotWantToSave(
                             openNewFileAfter, newUri
                     )
                 }
@@ -81,7 +86,9 @@ class SaveFileDialog : DialogFragment() {
     }
 
     interface ISaveDialog {
-        fun userDoesntWantToSave(openNewFile: Boolean, newUri: GreatUri)
+        fun userDoesNotWantToSave(openNewFile: Boolean, newUri: GreatUri)
+
+        fun startSavingFile(uri: GreatUri, text: String, encoding: String)
     }
 
     companion object {

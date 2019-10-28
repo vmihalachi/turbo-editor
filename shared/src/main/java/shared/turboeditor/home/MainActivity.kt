@@ -29,7 +29,6 @@ import android.content.pm.PackageManager
 import android.content.res.Configuration
 import android.graphics.Typeface
 import android.net.Uri
-import android.os.AsyncTask
 import android.os.Bundle
 import android.os.Handler
 import android.preference.PreferenceManager
@@ -46,7 +45,6 @@ import androidx.lifecycle.ViewModelProviders
 
 import android.text.InputType
 import android.text.TextUtils
-import android.view.Gravity
 import android.view.KeyEvent
 import android.view.Menu
 import android.view.MenuItem
@@ -57,16 +55,12 @@ import android.widget.HorizontalScrollView
 import android.widget.ListView
 import android.widget.Toast
 import androidx.lifecycle.Observer
-
-import com.spazedog.lib.rootfw4.RootFW
+import kotlinx.android.synthetic.main.demo_changelog_fragment_dialogstandard.*
 
 import org.apache.commons.io.FilenameUtils
 
-import java.io.BufferedReader
 import java.io.File
 import java.io.FileNotFoundException
-import java.io.IOException
-import java.io.InputStreamReader
 import java.io.UnsupportedEncodingException
 import java.util.ArrayList
 import java.util.Arrays
@@ -88,7 +82,6 @@ import shared.turboeditor.dialogfragment.SaveFileDialog
 import shared.turboeditor.preferences.PreferenceChangeType
 import shared.turboeditor.preferences.PreferenceHelper
 import shared.turboeditor.task.SaveFileTask
-import shared.turboeditor.home.texteditor.FileUtils
 import shared.turboeditor.home.texteditor.LineUtils
 import shared.turboeditor.home.texteditor.PageSystem
 import shared.turboeditor.home.texteditor.PageSystemButtons
@@ -177,14 +170,14 @@ abstract class MainActivity : AppCompatActivity(), IHomeActivity, FindTextDialog
 
         viewModel?.openFileLiveData?.observe(this, Observer { item ->
             when (item) {
-                OpenFileStartState -> {
+                OpenFileState.OpenFileStartState -> {
                     mDrawerLayout!!.closeDrawer(GravityCompat.START)
                     progressDialog = ProgressDialog(this@MainActivity)
                     progressDialog.setMessage(getString(R.string.please_wait))
                     progressDialog.show()
                 }
 
-                is FileLoadedState -> {
+                is OpenFileState.FileLoadedState -> {
                     progressDialog.hide()
 
                     pageSystem = PageSystem(this@MainActivity, this@MainActivity, item.fileText)
@@ -203,6 +196,16 @@ abstract class MainActivity : AppCompatActivity(), IHomeActivity, FindTextDialog
                         refreshList(viewModel!!.greatUri, add = true, delete = false)
                     }
                 }
+            }
+        })
+
+        viewModel?.saveFileLiveData?.observe(this, Observer { item ->
+            when (item) {
+                is SaveFileState.Success -> {
+                    Toast.makeText(this, String.format(getString(R.string.file_saved_with_success), item.fileName), Toast.LENGTH_SHORT).show()
+                    savedAFile(viewModel?.greatUri, true)
+                }
+                SaveFileState.Failed -> Toast.makeText(this, getString(R.string.err_occured), Toast.LENGTH_SHORT).show()
             }
         })
     }
@@ -1184,12 +1187,16 @@ abstract class MainActivity : AppCompatActivity(), IHomeActivity, FindTextDialog
 
     }
 
-    override fun userDoesntWantToSave(openNewFile: Boolean, newUri: GreatUri) {
+    override fun userDoesNotWantToSave(openNewFile: Boolean, newUri: GreatUri) {
         mEditor!!.fileSaved()
         if (openNewFile)
             newFileToOpen(newUri, "")
         else
             cannotOpenFile()
+    }
+
+    override fun startSavingFile(uri: GreatUri, text: String, encoding: String) {
+        viewModel?.saveFile(uri, text, encoding)
     }
 
     override fun CancelItem(position: Int, andCloseOpenedFile: Boolean) {
