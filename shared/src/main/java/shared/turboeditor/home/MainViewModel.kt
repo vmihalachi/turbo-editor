@@ -60,6 +60,15 @@ class MainViewModel(
             }
         }
     }
+
+    fun saveFileAndOpen(uri: GreatUri, text: String, encoding: String) {
+        viewModelScope.launch {
+            when (saveFileManager.saveFile(uri, text, encoding)) {
+                is Success -> saveFileSink.postValue(SaveFileState.SuccessAndOpen(uri.fileName ?: ""))
+                Failure -> saveFileSink.postValue(SaveFileState.Failed)
+            }
+        }
+    }
 }
 
 sealed class OpenFileState {
@@ -75,5 +84,6 @@ sealed class OpenFileState {
 
 sealed class SaveFileState {
     data class Success(val fileName: String) : SaveFileState()
+    data class SuccessAndOpen(val fileName: String) : SaveFileState()
     object Failed : SaveFileState()
 }

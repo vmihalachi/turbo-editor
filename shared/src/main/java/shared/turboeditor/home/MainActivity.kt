@@ -81,7 +81,6 @@ import shared.turboeditor.dialogfragment.NumberPickerDialog
 import shared.turboeditor.dialogfragment.SaveFileDialog
 import shared.turboeditor.preferences.PreferenceChangeType
 import shared.turboeditor.preferences.PreferenceHelper
-import shared.turboeditor.task.SaveFileTask
 import shared.turboeditor.home.texteditor.LineUtils
 import shared.turboeditor.home.texteditor.PageSystem
 import shared.turboeditor.home.texteditor.PageSystemButtons
@@ -204,6 +203,10 @@ abstract class MainActivity : AppCompatActivity(), IHomeActivity, FindTextDialog
                 is SaveFileState.Success -> {
                     Toast.makeText(this, String.format(getString(R.string.file_saved_with_success), item.fileName), Toast.LENGTH_SHORT).show()
                     savedAFile(viewModel?.greatUri, true)
+                }
+                is SaveFileState.SuccessAndOpen -> {
+                    savedAFile(viewModel?.greatUri, false)
+                    newFileToOpen(viewModel?.greatUri, "")
                 }
                 SaveFileState.Failed -> Toast.makeText(this, getString(R.string.err_occured), Toast.LENGTH_SHORT).show()
             }
@@ -334,11 +337,7 @@ abstract class MainActivity : AppCompatActivity(), IHomeActivity, FindTextDialog
                 }
 
                 if (requestCode == SAVE_AS_REQUEST_CODE) {
-
-                    SaveFileTask(this, newUri, pageSystem!!.getAllText(mEditor!!.text!!.toString()), viewModel!!.currentEncoding) { success ->
-                        savedAFile(viewModel!!.greatUri, false)
-                        newFileToOpen(newUri, "")
-                    }.execute()
+                    viewModel?.saveFileAndOpen(newUri, pageSystem!!.getAllText(mEditor!!.text!!.toString()), viewModel!!.currentEncoding!!)
                 }
             }
         }

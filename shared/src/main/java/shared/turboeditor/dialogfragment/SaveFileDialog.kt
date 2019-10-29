@@ -28,8 +28,6 @@ import androidx.core.content.res.ResourcesCompat
 import androidx.fragment.app.DialogFragment
 
 import shared.turboeditor.R
-import shared.turboeditor.home.MainActivity
-import shared.turboeditor.task.SaveFileTask
 import shared.turboeditor.util.FragmentArgumentDelegate
 import shared.turboeditor.util.GreatUri
 import shared.turboeditor.views.DialogHelper
