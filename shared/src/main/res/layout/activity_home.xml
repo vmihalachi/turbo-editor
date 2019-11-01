@@ -193,20 +193,20 @@
                 android:textColor="@color/navigation_drawer_button_text_color_inverted"
                 android:textSize="12sp" />
 
-            <TextView
-                android:layout_width="match_parent"
-                android:layout_height="54dp"
-                android:background="?selectableItemBackground"
-                android:clickable="true"
-                android:gravity="center_vertical"
-                android:onClick="OpenFolder"
-                android:paddingStart="20dp"
-                android:paddingLeft="20dp"
-                android:paddingEnd="20dp"
-                android:paddingRight="20dp"
-                android:text="@string/open_a_folder"
-                android:textColor="@color/navigation_drawer_button_text_color_inverted"
-                android:textSize="12sp" />
+<!--            <TextView-->
+<!--                android:layout_width="match_parent"-->
+<!--                android:layout_height="54dp"-->
+<!--                android:background="?selectableItemBackground"-->
+<!--                android:clickable="true"-->
+<!--                android:gravity="center_vertical"-->
+<!--                android:onClick="OpenFolder"-->
+<!--                android:paddingStart="20dp"-->
+<!--                android:paddingLeft="20dp"-->
+<!--                android:paddingEnd="20dp"-->
+<!--                android:paddingRight="20dp"-->
+<!--                android:text="@string/open_a_folder"-->
+<!--                android:textColor="@color/navigation_drawer_button_text_color_inverted"-->
+<!--                android:textSize="12sp" />-->
 
             <TextView
                 android:layout_width="match_parent"
