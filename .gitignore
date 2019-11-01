@@ -61,3 +61,7 @@ ehthumbs.db
 Thumbs.db
 *~
 #*#
+
+# Signing
+turbo-editor.jks
+keystore.properties

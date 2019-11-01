@@ -51,6 +51,19 @@ android {
         sourceCompatibility 1.8
         targetCompatibility 1.8
     }
+    signingConfigs {
+        release {
+            Properties localProps = new Properties()
+            localProps.load(new FileInputStream(file('../local.properties')))
+            Properties keyProps = new Properties()
+            assert localProps['keystore.props.file']
+            keyProps.load(new FileInputStream(file(localProps['keystore.props.file'])))
+            storeFile file(keyProps["storeFile"])
+            keyAlias keyProps["alias"]
+            storePassword keyProps["storePass"]
+            keyPassword keyProps["pass"]
+        }
+    }
     buildTypes {
         release {
             minifyEnabled false
