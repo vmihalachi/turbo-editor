@@ -1,0 +1,43 @@
+<!--
+  ~ Copyright (C) 2014 Vlad Mihalachi
+  ~
+  ~ This file is part of Turbo Editor.
+  ~
+  ~ Turbo Editor is free software: you can redistribute it and/or modify
+  ~ it under the terms of the GNU General Public License as published by
+  ~ the Free Software Foundation, either version 3 of the License, or
+  ~ (at your option) any later version.
+  ~
+  ~ Turbo Editor is distributed in the hope that it will be useful,
+  ~ but WITHOUT ANY WARRANTY; without even the implied warranty of
+  ~ MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE. See the
+  ~ GNU General Public License for more details.
+  ~
+  ~ You should have received a copy of the GNU General Public License
+  ~ along with this program.  If not, see <http://www.gnu.org/licenses/>.
+  -->
+
+<resources>
+    <!-- Default screen margins, per the Android Design guidelines. -->
+    <dimen name="activity_horizontal_margin">16dp</dimen>
+    <dimen name="activity_vertical_margin">16dp</dimen>
+    <dimen name="list_horizontal_margin">0dp</dimen>
+
+    <!-- Per the design guidelines, navigation drawers should be between 240dp and 320dp:
+         https://developer.android.com/design/patterns/navigation-drawer.html -->
+    <dimen name="navigation_drawer_width">300dp</dimen>
+    <dimen name="dialog_edittext_margin">10dp</dimen>
+    <dimen name="dialog_button_padding">10dp</dimen>
+    <dimen name="line_dimension">1dp</dimen>
+    <dimen name="item_drawer_list_padding">16dp</dimen>
+    <dimen name="item_drawer_list_height">72dp</dimen>
+    <dimen name="icon_dimension">50dp</dimen>
+    <dimen name="icon_padding">10dp</dimen>
+    <dimen name="item_file_list_height">72dp</dimen>
+    <dimen name="minimum_padding">2dp</dimen>
+    <dimen name="text_size_mega_title">25sp</dimen>
+    <dimen name="text_size_title">16sp</dimen>
+    <dimen name="text_size_subtitle">14sp</dimen>
+
+    <dimen name="action_bar_height">56dp</dimen>
+</resources>

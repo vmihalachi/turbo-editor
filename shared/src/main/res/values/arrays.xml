@@ -1,0 +1,61 @@
+<?xml version="1.0" encoding="utf-8"?>
+<!--
+  ~ Copyright (C) 2014 Vlad Mihalachi
+  ~
+  ~ This file is part of Turbo Editor.
+  ~
+  ~ Turbo Editor is free software: you can redistribute it and/or modify
+  ~ it under the terms of the GNU General Public License as published by
+  ~ the Free Software Foundation, either version 3 of the License, or
+  ~ (at your option) any later version.
+  ~
+  ~ Turbo Editor is distributed in the hope that it will be useful,
+  ~ but WITHOUT ANY WARRANTY; without even the implied warranty of
+  ~ MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE. See the
+  ~ GNU General Public License for more details.
+  ~
+  ~ You should have received a copy of the GNU General Public License
+  ~ along with this program.  If not, see <http://www.gnu.org/licenses/>.
+  -->
+
+<resources>
+    <string-array name="open_source_libs">
+        <item>ChangeLog Library</item>
+        <item>EventBus</item>
+        <item>commons-io</item>
+        <item>RootCommands</item>
+        <item>Floating Action Button</item>
+    </string-array>
+
+    <string-array name="encodings">
+        <item>ISO-2022-JP</item>
+        <item>ISO-2022-CN</item>
+        <item>ISO-2022-KR</item>
+        <item>ISO-8859-5</item>
+        <item>ISO-8859-7</item>
+        <item>ISO-8859-8</item>
+        <item>BIG5</item>
+        <item>GB18030</item>
+        <item>EUC-JP</item>
+        <item>EUC-KR</item>
+        <item>EUC-TW</item>
+        <item>SHIFT_JIS</item>
+        <item>IBM855</item>
+        <item>IBM866</item>
+        <item>KOI8-R</item>
+        <item>MACCYRILLIC</item>
+        <item>WINDOWS-1251</item>
+        <item>WINDOWS-1252</item>
+        <item>WINDOWS-1253</item>
+        <item>WINDOWS-1255</item>
+        <item>UTF-8</item>
+        <item>UTF-16BE</item>
+        <item>UTF-16LE</item>
+        <item>UTF-32BE</item>
+        <item>UTF-32LE</item>
+        <item>GB2312</item>
+        <item>HZ-GB-2312</item>
+        <item>X-ISO-10646-UCS-4-3412</item>
+        <item>X-ISO-10646-UCS-4-2143</item>
+    </string-array>
+</resources>

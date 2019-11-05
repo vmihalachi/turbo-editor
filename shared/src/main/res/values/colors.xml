@@ -1,0 +1,69 @@
+<?xml version="1.0" encoding="utf-8"?>
+<!--
+  ~ Copyright (C) 2014 Vlad Mihalachi
+  ~
+  ~ This file is part of Turbo Editor.
+  ~
+  ~ Turbo Editor is free software: you can redistribute it and/or modify
+  ~ it under the terms of the GNU General Public License as published by
+  ~ the Free Software Foundation, either version 3 of the License, or
+  ~ (at your option) any later version.
+  ~
+  ~ Turbo Editor is distributed in the hope that it will be useful,
+  ~ but WITHOUT ANY WARRANTY; without even the implied warranty of
+  ~ MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE. See the
+  ~ GNU General Public License for more details.
+  ~
+  ~ You should have received a copy of the GNU General Public License
+  ~ along with this program.  If not, see <http://www.gnu.org/licenses/>.
+  -->
+
+<resources>
+
+
+
+    <color name="window_background">#212121</color> <!--ffffff-->
+    <color name="window_background_light">#ffffff</color> <!--ffffff-->
+    <color name="textColor">#ffffffff</color> <!-- ff191919 -->
+    <color name="textColorInverted">#ff212121</color> <!-- ff191919 -->
+    <color name="divider">#e5e5e5</color> <!-- ff191919 -->
+    <color name="divider_inverted">#ff2a2a2a</color> <!-- ff191919 -->
+    <!-- action bar background color -->
+    <color name="actionbar_background">#212121</color>  <!-- 5677fc-->
+    <!-- navigation drawer background color -->
+    <color name="navigation_drawer_background">#ffffff</color>
+    <color name="navigation_drawer_background_inverted">#212121</color>
+    <color name="navigation_drawer_button">#f7f7f7</color>
+    <color name="navigation_drawer_button_inverted">#212121</color>
+    <color name="navigation_drawer_button_text_color">#666666</color>
+    <color name="navigation_drawer_button_text_color_inverted">#ffffffff</color>
+
+    <color name="fab_light">#ffffff</color>
+    <color name="fab_dark">#f7f7f7</color>
+    <!-- colors used as file icons -->
+    <color name="file_folder">#ffbb33</color>
+    <color name="file_code">#00a569</color>
+    <color name="file_html">#00a569</color>
+    <color name="file_text">#717171</color>
+    <color name="file_archive">#aa66cc</color>
+    <color name="file_media_music">#ff4444</color>
+    <color name="file_media_picture">#33b5e5</color>
+    <color name="file_media_video">#ff00607d</color>
+
+    <color name="syntax_number">#ffff6600</color>
+    <color name="syntax_keyword">#ff2f6f9f</color>
+    <color name="syntax_attr">#ff4f9fcf</color>
+    <color name="syntax_attr_value">#ffd44950</color>
+    <color name="syntax_string">#ffd44950</color>
+    <color name="syntax_variable">#ff009688</color>
+    <color name="syntax_comment">#ff999999</color>
+
+    <color name="item_selected">#40969696</color>
+    <color name="gradient_start">#50000000</color>
+    <color name="gradient_light_start">#30000000</color>
+
+    <color name="donation_normal">#b6cc45</color>
+    <color name="donation_purchased">#DFED47</color>
+
+    <color name="indigo">#607d8b</color>
+</resources>

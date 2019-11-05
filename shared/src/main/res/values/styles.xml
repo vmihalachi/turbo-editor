@@ -1,0 +1,93 @@
+<!--
+  ~ Copyright (C) 2014 Vlad Mihalachi
+  ~
+  ~ This file is part of Turbo Editor.
+  ~
+  ~ Turbo Editor is free software: you can redistribute it and/or modify
+  ~ it under the terms of the GNU General Public License as published by
+  ~ the Free Software Foundation, either version 3 of the License, or
+  ~ (at your option) any later version.
+  ~
+  ~ Turbo Editor is distributed in the hope that it will be useful,
+  ~ but WITHOUT ANY WARRANTY; without even the implied warranty of
+  ~ MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE. See the
+  ~ GNU General Public License for more details.
+  ~
+  ~ You should have received a copy of the GNU General Public License
+  ~ along with this program.  If not, see <http://www.gnu.org/licenses/>.
+  -->
+
+<resources>
+
+    <style name="AppThemeBaseDark" parent="Theme.AppCompat.NoActionBar">
+        <item name="windowActionModeOverlay">true</item>
+        <item name="actionModeStyle">@style/LStyled.ActionMode</item>
+        <!-- Dialog -->
+        <item name="textAppearanceDialogTitle">@style/TextAppearance.Dialog.Title</item>
+        <item name="textAppearanceDialogMessage">@style/TextAppearance.Dialog.Message</item>
+        <item name="textAppearanceDialogInfo">@style/TextAppearance.Dialog.Info</item>
+
+        <item name="android:windowBackground">@color/window_background</item>
+
+        <!-- colorPrimary is used for the default action bar background -->
+        <item name="colorPrimary">@color/actionbar_background</item>
+
+        <!-- colorPrimaryDark is used for the status bar -->
+        <item name="colorPrimaryDark">@color/actionbar_background</item>
+
+        <!-- colorAccent is used as the default value for colorControlActivated
+             which is used to tint widgets -->
+        <item name="colorAccent">@color/accent_material_dark</item>
+    </style>
+
+    <style name="AppThemeBaseLight" parent="Theme.AppCompat.Light.NoActionBar">
+        <item name="windowActionModeOverlay">true</item>
+        <item name="actionModeStyle">@style/LStyled.ActionMode</item>
+        <!-- Dialog -->
+        <item name="textAppearanceDialogTitle">@style/TextAppearance.Dialog.Title</item>
+        <item name="textAppearanceDialogMessage">@style/TextAppearance.Dialog.Message</item>
+        <item name="textAppearanceDialogInfo">@style/TextAppearance.Dialog.Info</item>
+
+        <item name="android:windowBackground">@color/window_background_light</item>
+
+        <!-- colorPrimary is used for the default action bar background -->
+        <item name="colorPrimary">@color/actionbar_background</item>
+
+        <!-- colorPrimaryDark is used for the status bar -->
+        <item name="colorPrimaryDark">@color/actionbar_background</item>
+
+        <!-- colorAccent is used as the default value for colorControlActivated
+             which is used to tint widgets -->
+        <item name="colorAccent">@color/accent_material_dark</item>
+    </style>
+
+    <style name="AppThemeEditorDark" parent="AppThemeBaseDark">
+        <item name="android:windowBackground">@null</item>
+    </style>
+
+    <style name="LStyled.ActionMode" parent="@style/Widget.AppCompat.ActionMode">
+        <item name="background">@color/actionbar_background</item>
+    </style>
+
+    <style name="PreferenceDark" parent="android:Theme.Holo">
+    </style>
+
+    <style name="PreferenceLight" parent="android:Theme.Holo.Light">
+    </style>
+
+    <style name="TextAppearance.Dialog.Title" parent="android:TextAppearance.Holo.Large">
+        <item name="android:fontFamily">sans-serif-condensed</item>
+        <item name="android:textSize">24sp</item>
+    </style>
+
+    <style name="TextAppearance.Dialog.Message" parent="android:TextAppearance.Holo.Small">
+        <item name="android:lineSpacingMultiplier">1.2</item>
+        <item name="android:fontFamily">sans-serif-light</item>
+        <item name="android:textSize">16sp</item>
+    </style>
+
+    <style name="TextAppearance.Dialog.Info" parent="android:TextAppearance.Holo.Small">
+        <item name="android:fontFamily">sans-serif-condensed</item>
+    </style>
+
+</resources>

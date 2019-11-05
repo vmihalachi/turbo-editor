@@ -1,0 +1,69 @@
+<!--
+  ~ Copyright (C) 2014 Vlad Mihalachi
+  ~
+  ~ This file is part of Turbo Editor.
+  ~
+  ~ Turbo Editor is free software: you can redistribute it and/or modify
+  ~ it under the terms of the GNU General Public License as published by
+  ~ the Free Software Foundation, either version 3 of the License, or
+  ~ (at your option) any later version.
+  ~
+  ~ Turbo Editor is distributed in the hope that it will be useful,
+  ~ but WITHOUT ANY WARRANTY; without even the implied warranty of
+  ~ MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE. See the
+  ~ GNU General Public License for more details.
+  ~
+  ~ You should have received a copy of the GNU General Public License
+  ~ along with this program.  If not, see <http://www.gnu.org/licenses/>.
+  -->
+
+<PreferenceScreen xmlns:android="http://schemas.android.com/apk/res/android">
+
+    <CheckBoxPreference
+        android:key="light_theme"
+        android:title="@string/light_theme"
+        android:defaultValue="false" />
+
+    <CheckBoxPreference
+        android:key="suggestion_active"
+        android:title="@string/keyboard_suggestions_and_swipe"
+        android:defaultValue="false" />
+
+    <CheckBoxPreference
+        android:key="auto_save"
+        android:title="@string/auto_save"
+        android:defaultValue="false" />
+
+    <CheckBoxPreference
+        android:key="autoencoding"
+        android:title="@string/enable_autoencoding"
+        android:defaultValue="true" />
+
+    <!-- NOTE: Hide buttons to simplify the UI. Users can touch outside the dialog to
+         dismiss it. -->
+    <!-- NOTE: ListPreference's summary should be set to its value by the activity code. -->
+    <ListPreference
+        android:key="editor_encoding"
+        android:title="@string/codifica"
+        android:defaultValue="UTF-8"
+        android:entries="@array/encodings"
+        android:entryValues="@array/encodings"
+        android:negativeButtonText="@null"
+        android:positiveButtonText="@null" />
+
+    <CheckBoxPreference
+        android:key="ignore_back_button"
+        android:title="@string/ignore_back_button"
+        android:defaultValue="false"/>
+
+    <CheckBoxPreference
+        android:key="page_system_active"
+        android:title="@string/split_text_if_too_long"
+        android:defaultValue="true"/>
+
+    <CheckBoxPreference
+        android:key="send_error_reports"
+        android:title="@string/send_error_reports"
+        android:defaultValue="true" />
+
+</PreferenceScreen>

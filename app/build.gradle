@@ -21,18 +21,14 @@ import java.util.regex.Pattern
 
 buildscript {
     repositories {
+        google()
         mavenCentral()
-        maven { url 'https://maven.fabric.io/repo' }
     }
-
-    dependencies {
-        classpath 'io.fabric.tools:gradle:1.+'
-    }
-
 }
 
 apply plugin: 'com.android.application'
-apply plugin: 'io.fabric'
+apply plugin: 'kotlin-android-extensions'
+apply plugin: 'kotlin-android'
 
 repositories {
     mavenCentral()
@@ -42,18 +38,31 @@ repositories {
 
 
 android {
-    compileSdkVersion 27
-    buildToolsVersion '27.0.3'
+    compileSdkVersion 29
+    buildToolsVersion '29.0.2'
     defaultConfig {
         applicationId "com.maskyn.fileeditor"
-        minSdkVersion 14
-        targetSdkVersion 27
+        minSdkVersion 21
+        targetSdkVersion 29
         versionCode 47
         versionName "1.19"
     }
     compileOptions {
         sourceCompatibility 1.8
         targetCompatibility 1.8
+    }
+    signingConfigs {
+        release {
+            Properties localProps = new Properties()
+            localProps.load(new FileInputStream(file('../local.properties')))
+            Properties keyProps = new Properties()
+            assert localProps['keystore.props.file']
+            keyProps.load(new FileInputStream(file(localProps['keystore.props.file'])))
+            storeFile file(keyProps["storeFile"])
+            keyAlias keyProps["alias"]
+            storePassword keyProps["storePass"]
+            keyPassword keyProps["pass"]
+        }
     }
     buildTypes {
         release {
@@ -71,25 +80,24 @@ android {
 }
 
 dependencies {
-    compile fileTree(dir: 'libs', include: '*.jar')
-    compile project(':libraries:sharedCode')
-    //compile 'com.google.android.gms:play-services-ads:6.5.+'
-    compile('com.crashlytics.sdk.android:crashlytics:2.+@aar') {
-        transitive = true;
-    }
+    implementation project(':shared')
+    implementation "androidx.core:core-ktx:1.1.0"
+    implementation "org.jetbrains.kotlin:kotlin-stdlib-jdk8:$kotlin_version"
 }
 
-task incrementVersionCode << {
-    println(":incrementVersionCode - Incrementing Version Code...")
-    def buildGradleFile = file("build.gradle")
-    def patternVersionCode = Pattern.compile("versionCode (\\d+)")
-    def buildGradleFileText = buildGradleFile.getText()
-    def matcherVersionCode = patternVersionCode.matcher(buildGradleFileText)
-    matcherVersionCode.find()
-    def mVersionCode = Integer.parseInt(matcherVersionCode.group(1))
-    def mNextVersionCode = mVersionCode + 1
-    def manifestContent = matcherVersionCode.replaceAll("versionCode " + mNextVersionCode)
-    println(":incrementVersionCode - current versionCode=" + mVersionCode);
-    println(":incrementVersionCode - next versionCode=" + mNextVersionCode);
-    buildGradleFile.write(manifestContent)
+task incrementVersionCode {
+    doLast {
+        println(":incrementVersionCode - Incrementing Version Code...")
+        def buildGradleFile = file("build.gradle")
+        def patternVersionCode = Pattern.compile("versionCode (\\d+)")
+        def buildGradleFileText = buildGradleFile.getText()
+        def matcherVersionCode = patternVersionCode.matcher(buildGradleFileText)
+        matcherVersionCode.find()
+        def mVersionCode = Integer.parseInt(matcherVersionCode.group(1))
+        def mNextVersionCode = mVersionCode + 1
+        def manifestContent = matcherVersionCode.replaceAll("versionCode " + mNextVersionCode)
+        println(":incrementVersionCode - current versionCode=" + mVersionCode);
+        println(":incrementVersionCode - next versionCode=" + mNextVersionCode);
+        buildGradleFile.write(manifestContent)
+    }
 }
