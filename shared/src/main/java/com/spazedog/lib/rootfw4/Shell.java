@@ -661,7 +661,7 @@ public class Shell {
 	 * @param command
 	 *     The command to convert into multiple attempts
 	 */
-	public Attempts createAttempts(String command) {
+	public static Attempts createAttempts(String command) {
 		if (command != null) {
 			return new Attempts(command);
 		}
