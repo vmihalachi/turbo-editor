@@ -41,8 +41,6 @@ import android.widget.PopupMenu;
 import android.widget.TextView;
 import android.widget.Toast;
 
-import com.spazedog.lib.rootfw4.RootFW;
-
 import org.apache.commons.io.FileUtils;
 import org.apache.commons.io.FilenameUtils;
 
@@ -337,27 +335,7 @@ public class SelectFileActivity extends AppCompatActivity implements SearchView.
                 currentFolder = tempFolder.getAbsolutePath();
 
                 if (!tempFolder.canRead()) {
-                    if (RootFW.connect()) {
-                        com.spazedog.lib.rootfw4.utils.File folder = RootFW.getFile(currentFolder);
-                        com.spazedog.lib.rootfw4.utils.File.FileStat[] stats = folder.getDetailedList();
-
-                        if (stats != null) {
-                            for (com.spazedog.lib.rootfw4.utils.File.FileStat stat : stats) {
-                                if (stat.type().equals("d")) {
-                                    folderDetails.add(new AdapterDetailedList.FileDetail(stat.name(),
-                                            getString(R.string.folder),
-                                            ""));
-                                } else if (!FilenameUtils.isExtension(stat.name().toLowerCase(), unopenableExtensions)
-                                        && stat.size() <= Build.MAX_FILE_SIZE * FileUtils.ONE_KB) {
-                                    final long fileSize = stat.size();
-                                    //SimpleDateFormat format = new SimpleDateFormat("MMM dd, yyyy  hh:mm a");
-                                    //String date = format.format("");
-                                    fileDetails.add(new AdapterDetailedList.FileDetail(stat.name(),
-                                            FileUtils.byteCountToDisplaySize(fileSize), ""));
-                                }
-                            }
-                        }
-                    }
+                    throw new RuntimeException("cannot read temp folder");
                 } else {
                     File[] files = tempFolder.listFiles();
 

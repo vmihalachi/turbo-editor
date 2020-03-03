@@ -3,7 +3,6 @@ package com.manichord.viperedit.files
 import android.app.Activity
 import android.net.Uri
 import android.text.TextUtils
-import com.spazedog.lib.rootfw4.RootFW
 import org.apache.commons.io.FilenameUtils
 import com.manichord.viperedit.home.texteditor.FileUtils
 import com.manichord.viperedit.preferences.PreferenceHelper
@@ -14,19 +13,14 @@ import java.io.InputStreamReader
 import java.util.*
 
 interface IOpenFileManager {
-
     suspend fun openFile(newUri: GreatUri, newFileText: String): Result
 }
 
 class OpenFileManager(private val activity: Activity) : IOpenFileManager {
 
     private lateinit var fileText: String
-
     private lateinit var fileName: String
-
     private lateinit var encoding: String
-
-    private var isRootRequired: Boolean = false
 
     override suspend fun openFile(newUri: GreatUri, newFileText: String): Result {
         try {
@@ -43,22 +37,13 @@ class OpenFileManager(private val activity: Activity) : IOpenFileManager {
                 if (TextUtils.isEmpty(filePath)) {
                     fileName = newUri.fileName!!
                     fileExtension = FilenameUtils.getExtension(fileName).toLowerCase(Locale.getDefault())
-
                     readUri(newUri.uri!!, filePath, false)
                 } else {
                     fileName = FilenameUtils.getName(filePath)
                     fileExtension = FilenameUtils.getExtension(fileName).toLowerCase(Locale.getDefault())
-
-                    isRootRequired = !newUri.isReadable
-                    // if we cannot read the file, root permission required
-                    if (isRootRequired) {
-                        readUri(newUri.uri!!, filePath, true)
-                    } else {
-                        readUri(newUri.uri!!, filePath, false)
-                    }// if we can read the file associated with the uri
+                    readUri(newUri.uri!!, filePath, false)
                 }// if the uri has a path
             }
-
             return Success(fileText = fileText, fileName = fileName, fileExtension = fileExtension, encoding = encoding)
         } catch (e: Exception) {
             fileText = ""
@@ -72,31 +57,19 @@ class OpenFileManager(private val activity: Activity) : IOpenFileManager {
         val stringBuilder = StringBuilder()
         var line: String?
 
-        if (asRoot) {
-
-            encoding = "UTF-8"
-
-            // Connect the shared connection
-            if (RootFW.connect()!!) {
-                val reader = RootFW.getFileReader(path)
-                buffer = BufferedReader(reader)
-            }
-        } else {
-
-            val autoencoding = PreferenceHelper.getAutoEncoding(activity)
-            if (autoencoding) {
-                encoding = FileUtils.getDetectedEncoding(activity.contentResolver.openInputStream(uri)!!)
-                if (encoding.isEmpty()) {
-                    encoding = PreferenceHelper.getEncoding(activity)
-                }
-            } else {
+        val autoencoding = PreferenceHelper.getAutoEncoding(activity)
+        if (autoencoding) {
+            encoding = FileUtils.getDetectedEncoding(activity.contentResolver.openInputStream(uri)!!)
+            if (encoding.isEmpty()) {
                 encoding = PreferenceHelper.getEncoding(activity)
             }
+        } else {
+            encoding = PreferenceHelper.getEncoding(activity)
+        }
 
-            val inputStream = activity.contentResolver.openInputStream(uri)
-            if (inputStream != null) {
-                buffer = BufferedReader(InputStreamReader(inputStream, encoding))
-            }
+        val inputStream = activity.contentResolver.openInputStream(uri)
+        if (inputStream != null) {
+            buffer = BufferedReader(InputStreamReader(inputStream, encoding))
         }
 
         if (buffer != null) {
@@ -109,8 +82,5 @@ class OpenFileManager(private val activity: Activity) : IOpenFileManager {
             buffer.close()
             fileText = stringBuilder.toString()
         }
-
-        if (isRootRequired)
-            RootFW.disconnect()
     }
 }
