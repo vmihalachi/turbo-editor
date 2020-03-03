@@ -24,11 +24,15 @@ import android.view.ViewConfiguration;
 
 import java.lang.reflect.Field;
 
+import io.sentry.Sentry;
+import io.sentry.android.AndroidSentryClientFactory;
+
 public class MyApp extends Application {
 
     @Override
     public void onCreate() {
         super.onCreate();
+        Sentry.init(new AndroidSentryClientFactory(this));
         // force to sow the overflow menu icon
         try {
             ViewConfiguration config = ViewConfiguration.get(this);
