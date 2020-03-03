@@ -3,7 +3,7 @@
 Because every [Viper has a Turbo](https://en.battlestarwikiclone.org/wiki/Viper_(TOS))*.
 
 
-Simple, powerful text editor for Android licensed under the GPLv3 license.
+Simple, powerful text and code editor for Android.
 
 ### Download
 [![Play Store](https://developer.android.com/images/brand/en_generic_rgb_wo_60.png)](http://play.google.com/store/apps/details?id=com.manichord.viperedit) 
@@ -17,4 +17,4 @@ Simple, powerful text editor for Android licensed under the GPLv3 license.
 ### License
 Viper Edit is made available under the terms of the [GPLv3](license).
 
-See the [LICENSE][license] file that accompanies this distribution for the full text of the license.
+See the [LICENSE](LICENSE) file that accompanies this distribution for the full text of the license.
