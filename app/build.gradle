@@ -27,8 +27,8 @@ buildscript {
 }
 
 apply plugin: 'com.android.application'
-apply plugin: 'kotlin-android-extensions'
 apply plugin: 'kotlin-android'
+apply plugin: 'kotlin-android-extensions'
 
 repositories {
     mavenCentral()
@@ -56,7 +56,7 @@ android {
             Properties localProps = new Properties()
             localProps.load(new FileInputStream(file('../local.properties')))
             Properties keyProps = new Properties()
-            assert localProps['keystore.props.file']
+            //assert localProps['keystore.props.file']
             keyProps.load(new FileInputStream(file(localProps['keystore.props.file'])))
             storeFile file(keyProps["storeFile"])
             keyAlias keyProps["alias"]

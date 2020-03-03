@@ -50,6 +50,7 @@ local.properties
 .idea/scopes/scope_settings.xml
 .idea/vcs.xml
 *.iml
+.idea/caches
 
 # OS-specific files
 .DS_Store
