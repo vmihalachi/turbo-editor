@@ -41,10 +41,10 @@
         android:hardwareAccelerated="true"
         android:largeHeap="true"
         android:supportsRtl="true"
-        android:name="shared.turboeditor.application.MyApp"
+        android:name=".application.MyApp"
         >
         <activity
-            android:name="com.maskyn.fileeditor.HomeActivity"
+            android:name=".HomeActivity"
             android:configChanges="fontScale|keyboard|keyboardHidden|locale|mnc|mcc|navigation|orientation|screenLayout|screenSize|smallestScreenSize|uiMode|touchscreen"
             android:launchMode="singleTop"
             android:windowSoftInputMode="stateUnspecified|adjustResize"
@@ -98,14 +98,14 @@
             </intent-filter>
         </activity>
         <activity
-            android:name="shared.turboeditor.explorer.SelectFileActivity"
+            android:name="com.manichord.viperedit.explorer.SelectFileActivity"
             android:configChanges="keyboardHidden|orientation|screenSize"
             android:label="@string/open_a_file"
-            android:parentActivityName="com.maskyn.fileeditor.HomeActivity"
+            android:parentActivityName=".HomeActivity"
             android:theme="@style/AppThemeBaseLight">
         <meta-data
             android:name="android.support.PARENT_ACTIVITY"
-            android:value="com.maskyn.fileeditor.HomeActivity" />
+            android:value=".HomeActivity" />
         </activity>
         <meta-data
             android:name="com.sec.android.support.multiwindow"
@@ -123,7 +123,7 @@
             android:name="com.sec.android.multiwindow.MINIMUM_SIZE_H"
             android:value="598.0dip" />
 
-        <activity android:name="shared.turboeditor.markdown.MarkdownActivity" />
+        <activity android:name="com.manichord.viperedit.markdown.MarkdownActivity" />
     </application>
 
 </manifest>

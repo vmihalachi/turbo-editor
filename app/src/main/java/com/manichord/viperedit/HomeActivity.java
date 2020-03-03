@@ -17,4 +17,16 @@
  * along with this program.  If not, see <http://www.gnu.org/licenses/>.
  */
 
-include ':app'
+package com.manichord.viperedit;
+
+import android.os.Bundle;
+
+import com.manichord.viperedit.home.MainActivity;
+
+
+public class HomeActivity extends MainActivity {
+    @Override
+    protected void onCreate(Bundle savedInstanceState) {
+        super.onCreate(savedInstanceState);
+    }
+}
