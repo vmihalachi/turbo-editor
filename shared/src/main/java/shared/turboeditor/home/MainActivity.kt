@@ -55,7 +55,6 @@ import android.widget.HorizontalScrollView
 import android.widget.ListView
 import android.widget.Toast
 import androidx.lifecycle.Observer
-import kotlinx.android.synthetic.main.demo_changelog_fragment_dialogstandard.*
 
 import org.apache.commons.io.FilenameUtils
 
@@ -91,7 +90,6 @@ import shared.turboeditor.util.AnimationUtils
 import shared.turboeditor.util.AppInfoHelper
 import shared.turboeditor.util.Device
 import shared.turboeditor.util.GreatUri
-import shared.turboeditor.util.IHomeActivity
 import shared.turboeditor.util.MimeTypes
 import shared.turboeditor.util.ProCheckUtils
 import shared.turboeditor.util.ThemeUtils
@@ -101,7 +99,7 @@ import shared.turboeditor.views.DialogHelper
 import shared.turboeditor.views.GoodScrollView
 import java.nio.charset.Charset
 
-abstract class MainActivity : AppCompatActivity(), IHomeActivity, FindTextDialog.SearchDialogInterface, GoodScrollView.ScrollInterface, PageSystem.PageSystemInterface, PageSystemButtons.PageButtonsInterface, NumberPickerDialog.INumberPickerDialog, SaveFileDialog.ISaveDialog, AdapterView.OnItemClickListener, AdapterDrawer.Callbacks, AccessoryView.IAccessoryView, EditTextDialog.EditDialogListener {
+abstract class MainActivity : AppCompatActivity(), FindTextDialog.SearchDialogInterface, GoodScrollView.ScrollInterface, PageSystem.PageSystemInterface, PageSystemButtons.PageButtonsInterface, NumberPickerDialog.INumberPickerDialog, SaveFileDialog.ISaveDialog, AdapterView.OnItemClickListener, AdapterDrawer.Callbacks, AccessoryView.IAccessoryView, EditTextDialog.EditDialogListener {
     private val updateHandler = Handler()
     private val colorRunnable_duringEditing = Runnable { mEditor!!.replaceTextKeepCursor(null) }
     private val colorRunnable_duringScroll = Runnable { mEditor!!.replaceTextKeepCursor(null) }
@@ -303,7 +301,6 @@ abstract class MainActivity : AppCompatActivity(), IHomeActivity, FindTextDialog
                 mDrawerLayout!!.openDrawer(GravityCompat.START)
                 mDrawerLayout!!.closeDrawer(GravityCompat.END)
             } else {
-                showInterstitial()
                 super.onBackPressed()
             }
         } catch (e: Exception) {

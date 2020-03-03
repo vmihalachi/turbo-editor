@@ -43,11 +43,6 @@
         android:supportsRtl="true"
         android:name="shared.turboeditor.application.MyApp"
         >
-
-        <!-- android:alwaysRetainTaskState="true" -->
-
-        <!--<meta-data android:name="com.google.android.gms.version"
-            android:value="@integer/google_play_services_version"/>-->
         <activity
             android:name="com.maskyn.fileeditor.HomeActivity"
             android:configChanges="fontScale|keyboard|keyboardHidden|locale|mnc|mcc|navigation|orientation|screenLayout|screenSize|smallestScreenSize|uiMode|touchscreen"
@@ -60,6 +55,18 @@
                 <category android:name="android.intent.category.LAUNCHER" />
                 <category android:name="android.intent.category.MULTIWINDOW_LAUNCHER" />
             </intent-filter>
+            <intent-filter>
+                <action android:name="android.intent.action.EDIT" />
+                <category android:name="android.intent.category.DEFAULT" />
+                <category android:name="android.intent.category.BROWSABLE" />
+
+                <data android:mimeType="text/plain" />
+                <data android:mimeType="text/markdown" />
+                <data android:mimeType="application/javascript" />
+                <data android:mimeType="application/json" />
+                <data android:host="*" />
+            </intent-filter>
+
             <intent-filter>
                 <action android:name="android.intent.action.VIEW" />
 
@@ -117,9 +124,6 @@
             android:value="598.0dip" />
 
         <activity android:name="shared.turboeditor.markdown.MarkdownActivity" />
-        <!--<activity android:name="com.google.android.gms.ads.AdActivity"
-            android:configChanges="keyboard|keyboardHidden|orientation|screenLayout|uiMode|screenSize|smallestScreenSize"/>-->
-        <meta-data android:name="com.crashlytics.ApiKey" android:value="672ab7531ce1e2e83c2ec6d84e8e94f2fa692c2a"/>
     </application>
 
 </manifest>
